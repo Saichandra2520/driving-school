@@ -1,0 +1,115 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function profile() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isOwner() {
+      return signedIn() && profile().role == 'owner';
+    }
+
+    function isStaffForBranch(branchId) {
+      return signedIn() && profile().role == 'staff' && profile().branchId == branchId;
+    }
+
+    function canAccessBranch(branchId) {
+      return isOwner() || isStaffForBranch(branchId);
+    }
+
+    match /users/{userId} {
+      allow read: if signedIn() && (
+        request.auth.uid == userId
+        || isOwner()
+        || (
+          profile().role == 'staff'
+          && resource.data.role == 'staff'
+          && resource.data.branchId == profile().branchId
+        )
+      );
+      allow create, update: if isOwner();
+      allow delete: if isOwner();
+    }
+
+    match /branches/{branchId} {
+      allow read: if isOwner() || isStaffForBranch(branchId);
+      allow write: if isOwner();
+    }
+
+    match /students/{studentId} {
+      allow read, delete: if canAccessBranch(resource.data.branchId);
+      allow create: if canAccessBranch(request.resource.data.branchId);
+      allow update: if canAccessBranch(resource.data.branchId)
+        && canAccessBranch(request.resource.data.branchId);
+    }
+
+    match /fees/{feeId} {
+      allow read, delete: if isOwner()
+        || canAccessBranch(resource.data.branchId)
+        || canAccessBranch(get(/databases/$(database)/documents/students/$(resource.data.studentId)).data.branchId);
+      allow create: if isOwner()
+        || canAccessBranch(request.resource.data.branchId)
+        || canAccessBranch(get(/databases/$(database)/documents/students/$(request.resource.data.studentId)).data.branchId);
+      allow update: if isOwner()
+        || (
+          canAccessBranch(resource.data.branchId)
+          && canAccessBranch(request.resource.data.branchId)
+        )
+        || (
+          canAccessBranch(get(/databases/$(database)/documents/students/$(resource.data.studentId)).data.branchId)
+          && canAccessBranch(get(/databases/$(database)/documents/students/$(request.resource.data.studentId)).data.branchId)
+        );
+    }
+
+    match /payments/{paymentId} {
+      allow read, delete: if canAccessBranch(resource.data.branchId);
+      allow create: if canAccessBranch(request.resource.data.branchId);
+      allow update: if canAccessBranch(resource.data.branchId)
+        && canAccessBranch(request.resource.data.branchId);
+    }
+
+    match /expenses/{expenseId} {
+      allow read, delete: if canAccessBranch(resource.data.branchId);
+      allow create: if canAccessBranch(request.resource.data.branchId);
+      allow update: if canAccessBranch(resource.data.branchId)
+        && canAccessBranch(request.resource.data.branchId);
+    }
+
+    match /courseExtensions/{extensionId} {
+      allow read, delete: if canAccessBranch(resource.data.branchId);
+      allow create: if canAccessBranch(request.resource.data.branchId);
+      allow update: if canAccessBranch(resource.data.branchId)
+        && canAccessBranch(request.resource.data.branchId);
+    }
+
+    match /sessions/{sessionId} {
+      allow read, delete: if canAccessBranch(resource.data.branchId);
+      allow create: if canAccessBranch(request.resource.data.branchId);
+      allow update: if canAccessBranch(resource.data.branchId)
+        && canAccessBranch(request.resource.data.branchId);
+    }
+
+    match /drivingTests/{testId} {
+      allow read, delete: if canAccessBranch(resource.data.branchId);
+      allow create: if canAccessBranch(request.resource.data.branchId);
+      allow update: if canAccessBranch(resource.data.branchId)
+        && canAccessBranch(request.resource.data.branchId);
+    }
+
+    match /classTypes/{classTypesId} {
+      allow read, delete: if canAccessBranch(resource.data.branchId);
+      allow create: if canAccessBranch(request.resource.data.branchId);
+      allow update: if canAccessBranch(resource.data.branchId)
+        && canAccessBranch(request.resource.data.branchId);
+    }
+
+    match /counters/{counterId} {
+      allow read, write: if signedIn();
+    }
+  }
+}
