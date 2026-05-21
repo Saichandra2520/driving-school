@@ -10,11 +10,7 @@ import { settingsService } from '@/services/settingsService';
 import { useAuthStore } from '@/store/authStore';
 import { getFriendlyErrorMessage } from '@/utils/errors';
 
-type AccountPageProps = {
-  forceChange?: boolean;
-};
-
-export function AccountPage({ forceChange = false }: AccountPageProps): JSX.Element {
+export function AccountPage(): JSX.Element {
   const user = useAuthStore((state) => state.user);
   const profile = useAuthStore((state) => state.profile);
   const restoreSession = useAuthStore((state) => state.restoreSession);
@@ -83,9 +79,6 @@ export function AccountPage({ forceChange = false }: AccountPageProps): JSX.Elem
     <section className="mx-auto max-w-xl space-y-5">
       <PageHeader title="Account" description={user?.email ?? 'Manage your profile and password.'} />
 
-      {forceChange ? (
-        <Alert variant="warning">Please change your temporary password before continuing.</Alert>
-      ) : null}
       {message ? <Alert variant="success">{message}</Alert> : null}
       {errorMessage ? <Alert variant="destructive">{errorMessage}</Alert> : null}
 

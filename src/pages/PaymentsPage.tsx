@@ -21,6 +21,7 @@ import { feeService } from '@/services/feeService';
 import { studentService } from '@/services/studentService';
 import { useAppStore } from '@/store/app-store';
 import { useAuthStore } from '@/store/authStore';
+import { useSyncStore } from '@/store/syncStore';
 import type { DashboardFilters, Fee, RecentPayment, StudentWithFee } from '@/types';
 import { getFriendlyErrorMessage } from '@/utils/errors';
 import { formatCourseType, formatCurrency, formatDate, formatPhoneNumber } from '@/utils/formatters';
@@ -29,6 +30,7 @@ const today = new Date().toISOString().slice(0, 10);
 
 export function PaymentsPage(): JSX.Element {
   const profile = useAuthStore((state) => state.profile);
+  const isOnline = useSyncStore((state) => state.isOnline);
   const selectedBranchId = useAppStore((state) => state.branchId);
   const [search, setSearch] = useState('');
   const [students, setStudents] = useState<StudentWithFee[]>([]);
@@ -55,28 +57,43 @@ export function PaymentsPage(): JSX.Element {
   }, [profile, selectedBranchId]);
 
   const loadData = useCallback(async (): Promise<void> => {
-    setIsLoading(true);
     setErrorMessage('');
     try {
-      const [studentRows, payments] = await Promise.all([
-        studentService.getStudents({ branchId: activeBranchId, search }),
-        dashboardFilters ? dashboardService.getRecentPayments(dashboardFilters) : Promise.resolve([])
-      ]);
-      setStudents(studentRows.filter((student) => student.status === 'ongoing' && student.balance > 0));
+      const payments = dashboardFilters ? await dashboardService.getRecentPayments(dashboardFilters) : [];
       setRecentPayments(payments);
     } catch (error) {
       console.error('Failed to load payments:', error);
       setErrorMessage(getFriendlyErrorMessage(error, 'Unable to load payments. Please check your connection and try again.'));
-      setStudents([]);
       setRecentPayments([]);
-    } finally {
-      setIsLoading(false);
     }
-  }, [activeBranchId, dashboardFilters, search]);
+  }, [dashboardFilters]);
 
   useEffect(() => {
     void loadData();
   }, [loadData]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    setErrorMessage('');
+
+    const unsubscribe = studentService.subscribeStudents(
+      { branchId: activeBranchId, search },
+      (studentRows) => {
+        setStudents(
+          studentRows.filter((student) => (student.status === 'ongoing' || student.status === 'extended') && student.balance > 0)
+        );
+        setIsLoading(false);
+      },
+      (error) => {
+        console.error('Failed to load payment students:', error);
+        setErrorMessage(getFriendlyErrorMessage(error, 'Unable to load payments. Please check your connection and try again.'));
+        setStudents([]);
+        setIsLoading(false);
+      }
+    );
+
+    return unsubscribe;
+  }, [activeBranchId, search]);
 
   const handleSelectStudent = (student: StudentWithFee): void => {
     setSelectedStudent(student);
@@ -95,6 +112,7 @@ export function PaymentsPage(): JSX.Element {
     setReceiptStudent(null);
 
     const parsedAmount = Number(amount);
+    if (!isOnline) return setErrorMessage('Internet is required to record payments and generate receipt numbers.');
     if (!selectedStudent) return setErrorMessage('Select a student first.');
     if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) return setErrorMessage('Amount must be greater than 0.');
     if (parsedAmount > selectedStudent.balance) return setErrorMessage('Amount cannot exceed balance.');
@@ -130,6 +148,7 @@ export function PaymentsPage(): JSX.Element {
 
       {message ? <Alert variant="success">{message}</Alert> : null}
       {errorMessage ? <Alert variant="destructive">{errorMessage}</Alert> : null}
+      {!isOnline ? <Alert variant="warning">Payments need internet because receipt numbers are generated online.</Alert> : null}
 
       <div className="grid gap-5 xl:grid-cols-[minmax(320px,420px)_1fr]">
         <Card className="shadow-sm">
@@ -223,15 +242,15 @@ export function PaymentsPage(): JSX.Element {
                 <FilterBar className="md:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="payment-amount">Amount *</Label>
-                    <Input id="payment-amount" type="number" min="1" value={amount} onChange={(event) => setAmount(event.target.value)} disabled={!selectedStudent || isSaving} />
+                    <Input id="payment-amount" type="number" min="1" value={amount} onChange={(event) => setAmount(event.target.value)} disabled={!selectedStudent || isSaving || !isOnline} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="payment-date">Payment Date *</Label>
-                    <Input id="payment-date" type="date" value={paymentDate} onChange={(event) => setPaymentDate(event.target.value)} disabled={!selectedStudent || isSaving} />
+                    <Input id="payment-date" type="date" value={paymentDate} onChange={(event) => setPaymentDate(event.target.value)} disabled={!selectedStudent || isSaving || !isOnline} />
                   </div>
                   <div className="space-y-2 md:col-span-2">
                     <Label htmlFor="payment-notes">Notes <span className="text-muted-foreground">(optional)</span></Label>
-                    <Textarea id="payment-notes" value={notes} onChange={(event) => setNotes(event.target.value)} disabled={!selectedStudent || isSaving} />
+                    <Textarea id="payment-notes" value={notes} onChange={(event) => setNotes(event.target.value)} disabled={!selectedStudent || isSaving || !isOnline} />
                   </div>
                 </FilterBar>
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -250,7 +269,7 @@ export function PaymentsPage(): JSX.Element {
                       </p>
                     )}
                   </div>
-                  <Button type="submit" disabled={!selectedStudent || isSaving}>
+                  <Button type="submit" disabled={!selectedStudent || isSaving || !isOnline}>
                     <Save className="mr-2 h-4 w-4" aria-hidden="true" />
                     {isSaving ? 'Saving...' : 'Save Payment'}
                   </Button>

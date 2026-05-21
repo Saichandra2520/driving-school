@@ -45,7 +45,7 @@ function getLabel(status: StatusBadgeProps['status']): string {
   if (status === 'not_started') return 'Not Started';
   if (status === 'in_progress') return 'In Progress';
   if (status === 'completed') return 'Completed';
-  if (status === 'thirty_days_completed') return '30 Days Completed';
+  if (status === 'thirty_days_completed') return 'Training Completed';
   if (status === 'near_completion') return 'Near Completion';
   if (status === 'failed') return 'Failed';
   return formatExpenseCategory(status as ExpenseCategory);

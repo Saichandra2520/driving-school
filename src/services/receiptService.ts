@@ -68,7 +68,8 @@ export const receiptService = {
         courseType: student.courseType,
         learningLicenceNo: student.learningLicenceNo,
         drivingLicenceNo: student.drivingLicenceNo,
-        enrollmentDate: student.enrollmentDate
+        enrollmentDate: student.enrollmentDate,
+        courseStartDate: student.courseStartDate ?? student.enrollmentDate
       },
       branch: {
         id: branch.id,

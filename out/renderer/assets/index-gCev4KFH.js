@@ -137853,7 +137853,7 @@ const styles = StyleSheet.create({
     color: "#333"
   }
 });
-function Field({ label, value: value2 }) {
+function Field$1({ label, value: value2 }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles.row, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles.label, children: label }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles.value, children: value2 })
@@ -137868,31 +137868,31 @@ function PaymentReceiptPdf({ data: data2 }) {
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles.section, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles.sectionTitle, children: "Receipt Details" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Receipt No", value: data2.receiptNo }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Payment Date", value: formatDate(data2.paymentDate) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Generated Date", value: formatDate(data2.generatedAt.slice(0, 10)) })
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Receipt No", value: data2.receiptNo }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Payment Date", value: formatDate(data2.paymentDate) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Generated Date", value: formatDate(data2.generatedAt.slice(0, 10)) })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles.twoColumn, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(View, { style: styles.column, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles.section, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles.sectionTitle, children: "Student Details" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Student Name", value: data2.student.fullName }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Phone", value: data2.student.phone }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Course Type", value: formatCourseType(data2.student.courseType) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Enrollment Date", value: formatDate(data2.student.enrollmentDate) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Learning Licence No", value: data2.student.learningLicenceNo || "-" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Driving Licence No", value: data2.student.drivingLicenceNo || "-" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Student Name", value: data2.student.fullName }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Phone", value: data2.student.phone }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Course Type", value: formatCourseType(data2.student.courseType) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Enrollment Date", value: formatDate(data2.student.enrollmentDate) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Learning Licence No", value: data2.student.learningLicenceNo || "-" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Driving Licence No", value: data2.student.drivingLicenceNo || "-" })
       ] }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles.column, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles.section, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles.sectionTitle, children: "Payment Details" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Amount Paid", value: formatCurrency(data2.amount) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Notes", value: data2.notes || "-" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Amount Paid", value: formatCurrency(data2.amount) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Notes", value: data2.notes || "-" })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles.section, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles.sectionTitle, children: "Fee Summary" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Total Fee", value: formatCurrency(data2.fee.totalAmount) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Total Paid", value: formatCurrency(data2.fee.paidAmount) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Balance", value: formatCurrency(data2.fee.balance) })
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Total Fee", value: formatCurrency(data2.fee.totalAmount) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Total Paid", value: formatCurrency(data2.fee.paidAmount) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Balance", value: formatCurrency(data2.fee.balance) })
         ] })
       ] })
     ] }),
@@ -142868,135 +142868,46 @@ function StudentForm({ defaultBranchId, student, onCancel, onSaved }) {
       setIsSaving(false);
     }
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "max-h-[72vh] space-y-5 overflow-y-auto pr-1", onSubmit: handleSubmit, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(FormSection, { title: "Basic Details", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "full-name", children: "Full Name *" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "full-name", value: fullName, onChange: (event) => setFullName(event.target.value) })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "phone", children: "Phone *" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "phone", value: phone, onChange: (event) => setPhone(event.target.value) })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "branch", children: "Branch *" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          Select$1,
-          {
-            id: "branch",
-            value: branchId,
-            onChange: (event) => setBranchId(event.target.value),
-            disabled: isStaff,
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: "Select branch" }),
-              branches.map((branch) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: branch.id, children: branch.name }, branch.id))
-            ]
-          }
-        )
-      ] })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(FormSection, { title: "Course Details", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "course-type", children: "Course Type *" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          Select$1,
-          {
-            id: "course-type",
-            value: courseType,
-            onChange: (event) => setCourseType(event.target.value),
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "2W", children: "2W" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "4W", children: "4W" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "both", children: "Both" })
-            ]
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "enrollment-date", children: "Enrollment Date *" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          Input,
-          {
-            id: "enrollment-date",
-            type: "date",
-            value: enrollmentDate,
-            onChange: (event) => setEnrollmentDate(event.target.value)
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "status", children: "Status *" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(Select$1, { id: "status", value: status, onChange: (event) => setStatus(event.target.value), children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "ongoing", children: "Ongoing" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "passed", children: "Passed" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "extended", children: "Extended" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "dropped", children: "Dropped" })
-        ] })
-      ] })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(FormSection, { title: "Licence Details", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(Label, { htmlFor: "learning-licence", children: [
-          "Learning Licence No ",
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-muted-foreground", children: "(optional)" })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          Input,
-          {
-            id: "learning-licence",
-            value: learningLicenceNo,
-            onChange: (event) => setLearningLicenceNo(event.target.value)
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(Label, { htmlFor: "driving-licence", children: [
-          "Driving Licence No ",
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-muted-foreground", children: "(optional)" })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          Input,
-          {
-            id: "driving-licence",
-            value: drivingLicenceNo,
-            onChange: (event) => setDrivingLicenceNo(event.target.value)
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(Label, { htmlFor: "dl-issue-date", children: [
-          "DL Issue Date ",
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-muted-foreground", children: "(optional)" })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          Input,
-          {
-            id: "dl-issue-date",
-            type: "date",
-            value: dlIssueDate ?? "",
-            onChange: (event) => setDlIssueDate(event.target.value)
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(Label, { htmlFor: "dl-expiry-date", children: [
-          "DL Expiry Date ",
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-muted-foreground", children: "(optional)" })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          Input,
-          {
-            id: "dl-expiry-date",
-            type: "date",
-            value: dlExpiryDate ?? "",
-            onChange: (event) => setDlExpiryDate(event.target.value)
-          }
-        )
-      ] })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(FormSection, { title: "Fee Details", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "total-fee", children: "Total Fee *" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "space-y-5", onSubmit: handleSubmit, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(FormSection, { title: "Admission Details", className: "sm:grid-cols-2 lg:grid-cols-3", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Full Name *", htmlFor: "full-name", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "full-name", value: fullName, onChange: (event) => setFullName(event.target.value) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Phone *", htmlFor: "phone", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "phone", value: phone, onChange: (event) => setPhone(event.target.value) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Branch *", htmlFor: "branch", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        Select$1,
+        {
+          id: "branch",
+          value: branchId,
+          onChange: (event) => setBranchId(event.target.value),
+          disabled: isStaff,
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: "Select branch" }),
+            branches.map((branch) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: branch.id, children: branch.name }, branch.id))
+          ]
+        }
+      ) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Course Type *", htmlFor: "course-type", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        Select$1,
+        {
+          id: "course-type",
+          value: courseType,
+          onChange: (event) => setCourseType(event.target.value),
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "2W", children: "2W" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "4W", children: "4W" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "both", children: "Both" })
+          ]
+        }
+      ) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Enrollment Date *", htmlFor: "enrollment-date", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Input,
+        {
+          id: "enrollment-date",
+          type: "date",
+          value: enrollmentDate,
+          onChange: (event) => setEnrollmentDate(event.target.value)
+        }
+      ) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Total Fee *", htmlFor: "total-fee", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         Input,
         {
           id: "total-fee",
@@ -143005,20 +142916,71 @@ function StudentForm({ defaultBranchId, student, onCancel, onSaved }) {
           value: totalAmount,
           onChange: (event) => setTotalAmount(event.target.value)
         }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted-foreground", children: "Enter the full course fee before installments." })
-    ] }) }),
+      ) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(FormSection, { title: "Licence Details", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Learning Licence No", htmlFor: "learning-licence", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Input,
+        {
+          id: "learning-licence",
+          value: learningLicenceNo,
+          onChange: (event) => setLearningLicenceNo(event.target.value)
+        }
+      ) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Driving Licence No", htmlFor: "driving-licence", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Input,
+        {
+          id: "driving-licence",
+          value: drivingLicenceNo,
+          onChange: (event) => setDrivingLicenceNo(event.target.value)
+        }
+      ) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "DL Issue Date", htmlFor: "dl-issue-date", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Input,
+        {
+          id: "dl-issue-date",
+          type: "date",
+          value: dlIssueDate ?? "",
+          onChange: (event) => setDlIssueDate(event.target.value)
+        }
+      ) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "DL Expiry Date", htmlFor: "dl-expiry-date", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Input,
+        {
+          id: "dl-expiry-date",
+          type: "date",
+          value: dlExpiryDate ?? "",
+          onChange: (event) => setDlExpiryDate(event.target.value)
+        }
+      ) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(FormSection, { title: "Status", className: "sm:grid-cols-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Student Status *", htmlFor: "status", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Select$1, { id: "status", value: status, onChange: (event) => setStatus(event.target.value), children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "ongoing", children: "Ongoing" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "passed", children: "Passed" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "extended", children: "Extended" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "dropped", children: "Dropped" })
+    ] }) }) }),
     errorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: errorMessage }) : null,
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-end gap-2", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sticky bottom-0 -mx-6 -mb-6 flex justify-end gap-2 border-t bg-white px-6 py-4", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", variant: "outline", onClick: onCancel, children: "Cancel" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "submit", disabled: isSaving, children: isSaving ? "Saving..." : "Save Student" })
     ] })
   ] });
 }
-function FormSection({ title: title2, children }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "rounded-md border p-4", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "mb-4 text-sm font-semibold", children: title2 }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid gap-4 sm:grid-cols-2", children })
+function FormSection({
+  title: title2,
+  className,
+  children
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "rounded-md border bg-white p-4", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "mb-4 text-sm font-semibold text-main-text", children: title2 }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `grid gap-4 ${className ?? "sm:grid-cols-2"}`, children })
+  ] });
+}
+function Field({ label, htmlFor, children }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor, children: label }),
+    children
   ] });
 }
 function StudentsPage() {
@@ -143193,7 +143155,7 @@ function StudentsPage() {
       ] }) })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(Dialog, { open: modalState !== null, onOpenChange: (open) => !open && closeModal(), children: [
-      modalState?.type === "add" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogContent, { onClose: closeModal, children: [
+      modalState?.type === "add" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogContent, { className: "max-w-4xl", onClose: closeModal, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogHeader, { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(DialogTitle, { children: "Add Student" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(DialogDescription, { children: "Enter admission, licence, and fee details." })
@@ -143207,7 +143169,7 @@ function StudentsPage() {
           }
         )
       ] }) : null,
-      modalState?.type === "edit" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogContent, { onClose: closeModal, children: [
+      modalState?.type === "edit" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogContent, { className: "max-w-4xl", onClose: closeModal, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogHeader, { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(DialogTitle, { children: "Edit Student" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(DialogDescription, { children: "Update admission, licence, status, or fee details." })

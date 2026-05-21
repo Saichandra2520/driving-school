@@ -45,6 +45,7 @@ export interface Student {
   fullName: string;
   phone: string;
   enrollmentDate: string;
+  courseStartDate?: string | null;
   courseType: CourseType;
   learningLicenceNo?: string;
   drivingLicenceNo?: string;
@@ -57,6 +58,7 @@ export interface Student {
   baseSessionCount?: number;
   baseDurationDays?: number;
   completedAt?: string | null;
+  searchTokens?: string[];
 }
 
 export interface Installment {
@@ -184,16 +186,6 @@ export interface ClassTypes {
   classes: string[];
 }
 
-export type Payment = {
-  id: string;
-  studentId: string;
-  branchId: string;
-  amount: number;
-  paymentDate: string;
-  notes: string | null;
-  createdAt: string;
-};
-
 export type CourseExtension = {
   id: string;
   studentId: string;
@@ -235,6 +227,7 @@ export type StudentWithFee = Student & {
   balance: number;
   expiryDate: string;
   daysRemaining: number;
+  courseStartDate: string;
   fee: Fee | null;
   trainingEntitlement?: TrainingEntitlement;
   extensions?: CourseExtension[];
@@ -244,12 +237,12 @@ export type CreateStudentPayload = {
   fullName: string;
   phone: string;
   enrollmentDate: string;
+  courseStartDate?: string | null;
   courseType: CourseType;
   learningLicenceNo?: string;
   drivingLicenceNo?: string;
   dlIssueDate?: string | null;
   dlExpiryDate?: string | null;
-  status: StudentStatus;
   branchId: string;
   totalAmount: number;
 };
@@ -258,12 +251,12 @@ export type UpdateStudentPayload = {
   fullName?: string;
   phone?: string;
   enrollmentDate?: string;
+  courseStartDate?: string | null;
   courseType?: CourseType;
   learningLicenceNo?: string;
   drivingLicenceNo?: string;
   dlIssueDate?: string | null;
   dlExpiryDate?: string | null;
-  status?: StudentStatus;
   branchId?: string;
   totalAmount?: number;
 };
@@ -407,6 +400,7 @@ export type StudentNearExpiry = {
   phone: string;
   courseType: CourseType;
   enrollmentDate: string;
+  courseStartDate: string;
   expiryDate: string;
   daysRemaining: number;
   status: StudentStatus;
@@ -432,6 +426,7 @@ export interface ThirtyDayAlertStudent {
   branchName?: string;
   courseType: CourseType;
   enrollmentDate: string;
+  courseStartDate: string;
   completionDate: string;
   daysRemaining: number;
   alertType: 'near_completion' | 'completed';
@@ -546,6 +541,7 @@ export interface StudentReportRow {
   phone: string;
   courseType: CourseType;
   enrollmentDate: string;
+  courseStartDate: string;
   completionDate: string;
   status: StudentStatus;
   learningLicenceNo?: string;
@@ -575,6 +571,7 @@ export interface ReceiptData {
     learningLicenceNo?: string;
     drivingLicenceNo?: string;
     enrollmentDate: string;
+    courseStartDate?: string | null;
   };
   branch: {
     id: string;

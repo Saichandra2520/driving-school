@@ -1,13 +1,16 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { BarChart3, Bell, ClipboardCheck, CreditCard, LayoutDashboard, LogOut, ReceiptText, Settings, UserCircle, Users } from 'lucide-react';
 import { AlertPanel } from '@/components/alerts/AlertPanel';
+import { CachedDataNotice } from '@/components/common/CachedDataNotice';
+import { SyncStatusBadge } from '@/components/common/SyncStatusBadge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { settingsService } from '@/services/settingsService';
 import { useAlertStore } from '@/store/alertStore';
 import { useAppStore } from '@/store/app-store';
 import { useAuthStore } from '@/store/authStore';
+import { useSyncStore } from '@/store/syncStore';
 import type { AlertFilters, Branch } from '@/types';
 import { cn } from '@/utils/cn';
 
@@ -38,6 +41,7 @@ export function MainLayout(): JSX.Element {
   const fetchAlerts = useAlertStore((state) => state.fetchAlerts);
   const setHasShownLoginPopup = useAlertStore((state) => state.setHasShownLoginPopup);
   const clearAlerts = useAlertStore((state) => state.clearAlerts);
+  const setOnlineStatus = useSyncStore((state) => state.setOnlineStatus);
   const [branches, setBranches] = useState<Branch[]>([]);
   const [alertsOpen, setAlertsOpen] = useState(false);
   const [importantDialogOpen, setImportantDialogOpen] = useState(false);
@@ -56,25 +60,20 @@ export function MainLayout(): JSX.Element {
   }, [branchId, profile]);
   const urgentAlerts = alerts.filter((alert) => alert.severity === 'danger');
 
-  const loadBranches = useCallback(async (): Promise<void> => {
-    try {
-      if (profile?.role === 'staff') {
-        if (!profile.branchId) {
-          setBranches([]);
-          return;
-        }
+  useEffect(() => {
+    setOnlineStatus(navigator.onLine);
 
-        const branch = await settingsService.getBranchById(profile.branchId);
-        setBranches(branch ? [branch] : []);
-        return;
-      }
+    const handleOnline = (): void => setOnlineStatus(true);
+    const handleOffline = (): void => setOnlineStatus(false);
 
-      const data = await settingsService.getBranches();
-      setBranches([...data].sort((a, b) => a.name.localeCompare(b.name)));
-    } catch (error) {
-      console.error('Failed to load branches:', error);
-    }
-  }, [profile]);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, [setOnlineStatus]);
 
   useEffect(() => {
     if (!profile) {
@@ -89,13 +88,22 @@ export function MainLayout(): JSX.Element {
   }, [profile, setBranchId]);
 
   useEffect(() => {
-    void loadBranches();
-    window.addEventListener('branches-changed', loadBranches);
+    const unsubscribe = settingsService.subscribeBranches(
+      (data) => {
+        const scopedBranches =
+          profile?.role === 'staff' && profile.branchId
+            ? data.filter((branch) => branch.id === profile.branchId)
+            : data;
+        setBranches([...scopedBranches].sort((a, b) => a.name.localeCompare(b.name)));
+      },
+      (error) => {
+        console.error('Failed to load branches:', error);
+        setBranches([]);
+      }
+    );
 
-    return () => {
-      window.removeEventListener('branches-changed', loadBranches);
-    };
-  }, [loadBranches]);
+    return unsubscribe;
+  }, [profile?.branchId, profile?.role]);
 
   useEffect(() => {
     if (alertFilters) {
@@ -190,6 +198,7 @@ export function MainLayout(): JSX.Element {
           </div>
 
           <div className="flex items-center gap-3">
+            <SyncStatusBadge />
             {isOwner ? (
               <select
                 className="h-9 rounded-md border border-input bg-surface px-3 text-sm shadow-sm focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20"
@@ -254,6 +263,7 @@ export function MainLayout(): JSX.Element {
         </header>
 
         <main className="flex-1 p-6">
+          <CachedDataNotice />
           <Outlet />
         </main>
       </div>

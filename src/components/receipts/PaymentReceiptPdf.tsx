@@ -103,6 +103,7 @@ export function PaymentReceiptPdf({ data }: PaymentReceiptPdfProps): JSX.Element
               <Field label="Phone" value={data.student.phone} />
               <Field label="Course Type" value={formatCourseType(data.student.courseType)} />
               <Field label="Enrollment Date" value={formatDate(data.student.enrollmentDate)} />
+              <Field label="Course Start Date" value={formatDate(data.student.courseStartDate || data.student.enrollmentDate)} />
               <Field label="Learning Licence No" value={data.student.learningLicenceNo || '-'} />
               <Field label="Driving Licence No" value={data.student.drivingLicenceNo || '-'} />
             </View>

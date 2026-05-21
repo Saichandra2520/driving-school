@@ -13,7 +13,6 @@ import { DashboardPage } from '@/pages/DashboardPage';
 import { LoginPage } from '@/pages/LoginPage';
 import { ExpensesPage } from '@/pages/ExpensesPage';
 import { PaymentsPage } from '@/pages/PaymentsPage';
-import { PlaceholderPage } from '@/pages/PlaceholderPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { StudentsPage } from '@/pages/StudentsPage';
 import { ReportsPage } from '@/pages/ReportsPage';
@@ -48,8 +47,6 @@ function App(): JSX.Element {
     return <PageLoader label="Loading app..." />;
   }
 
-  const mustChangePassword = false;
-
   return (
     <ErrorBoundary>
       <HashRouter>
@@ -58,12 +55,6 @@ function App(): JSX.Element {
             <>
               <Route path="/login" element={<LoginPage />} />
               <Route path="*" element={<Navigate to="/login" replace />} />
-            </>
-          ) : mustChangePassword ? (
-            <>
-              <Route path="/account/change-password" element={<AccountPage forceChange />} />
-              <Route path="/account" element={<Navigate to="/account/change-password" replace />} />
-              <Route path="*" element={<Navigate to="/account/change-password" replace />} />
             </>
           ) : (
             <>

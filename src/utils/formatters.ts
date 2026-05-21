@@ -67,8 +67,8 @@ export function formatPhoneNumber(phone?: string | null): string {
 
 export function formatAlertType(type: AlertType): string {
   const labels: Record<AlertType, string> = {
-    thirty_days_completed: '30 Days Completed',
-    near_completion: 'Near 30-Day Completion',
+    thirty_days_completed: 'Training Period Completed',
+    near_completion: 'Near Training Completion',
     pending_fee: 'Pending Fee',
     licence_expiry: 'Licence Expiry',
     driving_test_pending: 'Driving Test Pending'

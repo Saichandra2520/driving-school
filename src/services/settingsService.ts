@@ -1,7 +1,7 @@
 import { addDoc, deleteDoc, doc, getCountFromServer, orderBy, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { collection } from 'firebase/firestore';
 import { db } from '@/services/firebase';
-import { collections, createdAt, getCollection, getDocument } from '@/services/firestoreUtils';
+import { collections, createdAt, getCollection, getDocument, subscribeCollection } from '@/services/firestoreUtils';
 import type {
   Branch,
   CreateBranchPayload,
@@ -30,6 +30,16 @@ async function attachBranch<T extends { branchId: string; branch?: Branch | null
 export const settingsService = {
   async getBranches(): Promise<Branch[]> {
     return getCollection<Branch>(collections.branches, [orderBy('createdAt', 'desc')]);
+  },
+
+  subscribeBranches(onNext: (branches: Branch[]) => void, onError?: (error: Error) => void): () => void {
+    return subscribeCollection<Branch>(
+      collections.branches,
+      [orderBy('createdAt', 'desc')],
+      ({ rows }) => onNext(rows),
+      onError,
+      'branches:createdAt-desc'
+    );
   },
 
   async getBranchById(branchId: string): Promise<Branch | null> {

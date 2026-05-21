@@ -1,8 +1,9 @@
 import { where } from 'firebase/firestore';
 import { authService } from '@/services/authService';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
-import { calculateStudentExpiryDate, getDaysRemaining, isPastDate, isWithinNextDays } from '@/utils/dateUtils';
+import { calculateStudentExpiryDate, getCourseStartDate, isPastDate, isWithinNextDays } from '@/utils/dateUtils';
 import { formatCurrency } from '@/utils/formatters';
+import { deriveStudentStatus } from '@/utils/studentStatus';
 import type { AlertFilters, AppAlert, Branch, DrivingTest, Fee, Student } from '@/types';
 
 type AlertData = {
@@ -60,7 +61,12 @@ async function getAlertData(filters: AlertFilters): Promise<AlertData> {
     getCollection<DrivingTest>(collections.drivingTests, [...(branchId ? [where('branchId', '==', branchId)] : [])])
   ]);
 
-  return { branches, students, fees, drivingTests };
+  return {
+    branches,
+    students: students.map((student) => ({ ...student, status: deriveStudentStatus(student) })),
+    fees,
+    drivingTests
+  };
 }
 
 function baseAlert(student: Student, branches: Map<string, string>): Pick<AppAlert, 'studentId' | 'studentName' | 'phone' | 'branchId' | 'branchName' | 'actionLabel'> {
@@ -78,16 +84,20 @@ function hasPassedDrivingTest(tests: DrivingTest[]): boolean {
   return tests.some((test) => test.attempts?.some((attempt) => attempt.result === 'pass'));
 }
 
+function isActiveTrainingStudent(student: Student): boolean {
+  return student.status === 'ongoing' || student.status === 'extended';
+}
+
 export const alertService = {
   async getThirtyDayCompletedAlerts(filters: AlertFilters): Promise<AppAlert[]> {
     const { branches, students } = await getAlertData(filters);
     const branchesById = branchNameMap(branches);
 
     return students
-      .filter((student) => student.status === 'ongoing')
+      .filter(isActiveTrainingStudent)
       .map((student) => ({
         student,
-        completionDate: calculateStudentExpiryDate(student.enrollmentDate, student.durationDays ?? 30)
+        completionDate: calculateStudentExpiryDate(getCourseStartDate(student), student.durationDays ?? 30)
       }))
       .filter(({ completionDate }) => isPastDate(completionDate))
       .map(({ student, completionDate }) => ({
@@ -95,7 +105,7 @@ export const alertService = {
         type: 'thirty_days_completed',
         severity: 'danger',
         ...baseAlert(student, branchesById),
-        message: `30 days completed for ${student.fullName}.`,
+        message: `Training period completed for ${student.fullName}.`,
         createdFromDate: completionDate
       }));
   },
@@ -105,10 +115,10 @@ export const alertService = {
     const branchesById = branchNameMap(branches);
 
     return students
-      .filter((student) => student.status === 'ongoing')
+      .filter(isActiveTrainingStudent)
       .map((student) => ({
         student,
-        completionDate: calculateStudentExpiryDate(student.enrollmentDate, student.durationDays ?? 30)
+        completionDate: calculateStudentExpiryDate(getCourseStartDate(student), student.durationDays ?? 30)
       }))
       .filter(({ completionDate }) => isWithinNextDays(completionDate, 5))
       .map(({ student, completionDate }) => ({
@@ -116,7 +126,7 @@ export const alertService = {
         type: 'near_completion',
         severity: 'warning',
         ...baseAlert(student, branchesById),
-        message: `${student.fullName}'s 30-day training period is ending soon.`,
+        message: `${student.fullName}'s training period is ending soon.`,
         createdFromDate: completionDate
       }));
   },
@@ -170,10 +180,10 @@ export const alertService = {
     });
 
     return students
-      .filter((student) => student.status === 'ongoing')
+      .filter(isActiveTrainingStudent)
       .map((student) => ({
         student,
-        completionDate: calculateStudentExpiryDate(student.enrollmentDate, student.durationDays ?? 30)
+        completionDate: calculateStudentExpiryDate(getCourseStartDate(student), student.durationDays ?? 30)
       }))
       .filter(({ student, completionDate }) => isPastDate(completionDate) && !hasPassedDrivingTest(testsByStudent.get(student.id) ?? []))
       .map(({ student, completionDate }) => ({

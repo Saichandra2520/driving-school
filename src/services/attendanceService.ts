@@ -1,12 +1,14 @@
 import { where } from 'firebase/firestore';
 import { authService } from '@/services/authService';
-import { courseExtensionService } from '@/services/courseExtensionService';
-import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
+import { calculateTrainingEntitlement, courseExtensionService } from '@/services/courseExtensionService';
+import { collections, getCollection, getDocument, subscribeCollection } from '@/services/firestoreUtils';
 import { getLastCompletedSession, getNextEmptySlot, sessionService } from '@/services/sessionService';
+import { deriveStudentStatus } from '@/utils/studentStatus';
 import type {
   AttendanceFilters,
   AttendanceRow,
   Branch,
+  CourseExtension,
   MarkAttendancePayload,
   Student,
   TrainingCourseType,
@@ -86,6 +88,7 @@ export const attendanceService = {
     const rows: AttendanceRow[] = [];
 
     const students = studentsRaw
+      .map((student) => ({ ...student, status: deriveStudentStatus(student) }))
       .filter((student) => student.status === 'ongoing' || student.status === 'extended')
       .filter((student) => matchesSearch(student, filters.search))
       .sort((a, b) => a.fullName.localeCompare(b.fullName));
@@ -127,6 +130,142 @@ export const attendanceService = {
     }
 
     return rows;
+  },
+
+  subscribeAttendanceRows(
+    filters: AttendanceFilters,
+    onNext: (rows: AttendanceRow[]) => void,
+    onError?: (error: Error) => void
+  ): () => void {
+    let isActive = true;
+    let cleanup = (): void => undefined;
+    let latestBranches: Branch[] = [];
+    let latestStudents: Student[] = [];
+    let latestSessions: TrainingSession[] = [];
+    let latestExtensions: CourseExtension[] = [];
+    let branchesLoaded = false;
+    let studentsLoaded = false;
+    let sessionsLoaded = false;
+    let extensionsLoaded = false;
+
+    const emit = async (): Promise<void> => {
+      if (!isActive) return;
+      if (!branchesLoaded || !studentsLoaded || !sessionsLoaded || !extensionsLoaded) return;
+
+      const branchNames = new Map(latestBranches.map((branch) => [branch.id, branch.name]));
+      const sessionsByStudentAndCourse = new Map(
+        latestSessions.map((session) => [`${session.studentId}-${session.courseType}`, session])
+      );
+      const extensionsByStudent = new Map<string, CourseExtension[]>();
+      latestExtensions.forEach((extension) => {
+        extensionsByStudent.set(extension.studentId, [...(extensionsByStudent.get(extension.studentId) ?? []), extension]);
+      });
+      const courseFilter = filters.courseType && filters.courseType !== 'all' ? filters.courseType : null;
+      const students = latestStudents
+        .map((student) => ({ ...student, status: deriveStudentStatus(student) }))
+        .filter((student) => student.status === 'ongoing' || student.status === 'extended')
+        .filter((student) => matchesSearch(student, filters.search))
+        .sort((a, b) => a.fullName.localeCompare(b.fullName));
+      const rows: AttendanceRow[] = [];
+
+      for (const student of students) {
+        const courses = courseParts[student.courseType].filter((courseType) => !courseFilter || courseType === courseFilter);
+
+        for (const courseType of courses) {
+          const entitlement = calculateTrainingEntitlement(student, extensionsByStudent.get(student.id) ?? [], courseType);
+          const sessionKey = `${student.id}-${courseType}`;
+          const session =
+            sessionsByStudentAndCourse.get(sessionKey) ??
+            (await sessionService.createEmptySessionCard(student.id, student.branchId, courseType, entitlement.allowedSessions));
+          const sessionWithCapacity =
+            session.slots.length < entitlement.allowedSessions
+              ? await sessionService.ensureSessionCapacity(session.id, entitlement.allowedSessions)
+              : session;
+          const completedSessions = completedCount(sessionWithCapacity);
+          const nextSlot = getNextEmptySlot(sessionWithCapacity.slots);
+          const lastSlot = getLastCompletedSession(sessionWithCapacity.slots);
+
+          rows.push({
+            studentId: student.id,
+            studentName: student.fullName,
+            phone: student.phone,
+            branchId: student.branchId,
+            branchName: branchNames.get(student.branchId),
+            courseType,
+            sessionId: sessionWithCapacity.id,
+            completedSessions,
+            allowedSessions: entitlement.allowedSessions,
+            remainingSessions: Math.max(entitlement.allowedSessions - completedSessions, 0),
+            nextSessionNo: nextSlot?.slotNo ?? null,
+            lastClassType: lastSlot?.classType || undefined,
+            lastSessionDate: lastSlot?.date ?? undefined,
+            isCompleted: completedSessions >= entitlement.allowedSessions || !nextSlot
+          });
+        }
+      }
+
+      if (isActive) onNext(rows);
+    };
+
+    void getEffectiveBranchId(filters).then((branchId) => {
+      if (!isActive) return;
+
+      const branchScoped = branchId ? [where('branchId', '==', branchId)] : [];
+      const queryKey = `branch=${branchId ?? 'all'}`;
+      const unsubscribers = [
+        subscribeCollection<Branch>(
+          collections.branches,
+          [],
+          ({ rows }) => {
+            branchesLoaded = true;
+            latestBranches = branchId ? rows.filter((branch) => branch.id === branchId) : rows;
+            void emit();
+          },
+          onError,
+          'branches:all'
+        ),
+        subscribeCollection<Student>(
+          collections.students,
+          branchScoped,
+          ({ rows }) => {
+            studentsLoaded = true;
+            latestStudents = rows;
+            void emit();
+          },
+          onError,
+          `students:attendance:${queryKey}`
+        ),
+        subscribeCollection<TrainingSession>(
+          collections.sessions,
+          branchScoped,
+          ({ rows }) => {
+            sessionsLoaded = true;
+            latestSessions = rows;
+            void emit();
+          },
+          onError,
+          `sessions:attendance:${branchId ?? 'all'}`
+        ),
+        subscribeCollection<CourseExtension>(
+          collections.courseExtensions,
+          branchScoped,
+          ({ rows }) => {
+            extensionsLoaded = true;
+            latestExtensions = rows;
+            void emit();
+          },
+          onError,
+          `extensions:attendance:${branchId ?? 'all'}`
+        )
+      ];
+
+      cleanup = (): void => unsubscribers.forEach((unsubscribe) => unsubscribe());
+    });
+
+    return () => {
+      isActive = false;
+      cleanup();
+    };
   },
 
   async markAttendance(sessionId: string, payload: MarkAttendancePayload, allowedSessions?: number): Promise<void> {

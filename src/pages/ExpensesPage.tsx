@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Plus } from 'lucide-react';
 import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { EmptyState } from '@/components/common/EmptyState';
@@ -19,7 +19,7 @@ import { expenseService } from '@/services/expenseService';
 import { useAppStore } from '@/store/app-store';
 import { useAuthStore } from '@/store/authStore';
 import type { Expense, ExpenseCategory, ExpenseFilters, ExpenseSummary } from '@/types';
-import { formatCurrency, formatDate, formatExpenseCategory } from '@/utils/formatters';
+import { formatCurrency, formatDate } from '@/utils/formatters';
 
 type CategoryFilter = 'all' | ExpenseCategory;
 type ModalState = { type: 'add' } | { type: 'edit'; expense: Expense } | null;
@@ -80,35 +80,51 @@ export function ExpensesPage(): JSX.Element {
     );
   }, [expenses, search]);
 
-  const loadExpenses = useCallback(async (): Promise<void> => {
+  useEffect(() => {
     setIsLoading(true);
     setErrorMessage('');
 
-    try {
-      const [rows, nextSummary] = await Promise.all([
-        expenseService.getExpenses(filters),
-        expenseService.getExpenseSummary(filters)
-      ]);
-      setExpenses(rows);
-      setSummary(nextSummary);
-    } catch {
-      setErrorMessage('Unable to load expenses. Please check your connection and try again.');
-      setExpenses([]);
-      setSummary(emptySummary);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [filters]);
+    const unsubscribe = expenseService.subscribeExpenses(
+      filters,
+      (rows) => {
+        const nextSummary = rows.reduce(
+          (current, expense) => {
+            const amount = Number(expense.amount ?? 0);
+            current.totalExpenses += amount;
+            if (expense.category === 'fuel') current.fuelTotal += amount;
+            if (expense.category === 'maintenance') current.maintenanceTotal += amount;
+            if (expense.category === 'salary') current.salaryTotal += amount;
+            if (expense.category === 'electricity') current.electricityTotal += amount;
+            if (expense.category === 'room_rent') current.roomRentTotal += amount;
+            if (expense.category === 'learning_challan') current.learningChallanTotal += amount;
+            if (expense.category === 'driving_test_challan') current.drivingTestChallanTotal += amount;
+            if (expense.category === 'other') current.otherTotal += amount;
+            current.challanTotal = current.learningChallanTotal + current.drivingTestChallanTotal;
+            current.rentElectricityTotal = current.roomRentTotal + current.electricityTotal;
+            return current;
+          },
+          { ...emptySummary }
+        );
 
-  useEffect(() => {
-    void loadExpenses();
-  }, [loadExpenses]);
+        setExpenses(rows);
+        setSummary(nextSummary);
+        setIsLoading(false);
+      },
+      () => {
+        setErrorMessage('Unable to load expenses. Please check your connection and try again.');
+        setExpenses([]);
+        setSummary(emptySummary);
+        setIsLoading(false);
+      }
+    );
+
+    return unsubscribe;
+  }, [filters]);
 
   const handleSaved = async (successMessage: string): Promise<void> => {
     setModalState(null);
     setMessage(successMessage);
     setErrorMessage('');
-    await loadExpenses();
   };
 
   const handleDelete = async (): Promise<void> => {
@@ -121,7 +137,6 @@ export function ExpensesPage(): JSX.Element {
       await expenseService.deleteExpense(deleteTarget.id);
       setDeleteTarget(null);
       setMessage('Expense deleted successfully.');
-      await loadExpenses();
     } catch {
       setDeleteTarget(null);
       setErrorMessage('Unable to delete expense.');

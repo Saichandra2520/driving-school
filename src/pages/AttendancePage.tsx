@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { CheckCircle2, ChevronDown, RefreshCw } from 'lucide-react';
+import { CheckCircle2, ChevronDown, PlusCircle, RefreshCw } from 'lucide-react';
 import { EmptyState } from '@/components/common/EmptyState';
 import { FilterBar } from '@/components/common/FilterBar';
 import { PageHeader } from '@/components/common/PageHeader';
@@ -13,10 +13,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
+import { AddExtensionModal } from '@/components/students/AddExtensionModal';
 import { attendanceService } from '@/services/attendanceService';
 import { sessionService } from '@/services/sessionService';
 import { useAppStore } from '@/store/app-store';
 import { useAuthStore } from '@/store/authStore';
+import { useReferenceDataStore } from '@/store/referenceDataStore';
 import type { AttendanceFilters, AttendanceRow, MarkAttendancePayload, TrainingCourseType } from '@/types';
 import { getFriendlyErrorMessage } from '@/utils/errors';
 import { formatDate, formatPhoneNumber } from '@/utils/formatters';
@@ -40,10 +42,12 @@ export function AttendancePage(): JSX.Element {
   const [courseType, setCourseType] = useState<CourseFilter>('all');
   const [search, setSearch] = useState('');
   const [rows, setRows] = useState<AttendanceRow[]>([]);
-  const [classTypes, setClassTypes] = useState<Record<string, string[]>>({});
+  const classTypes = useReferenceDataStore((state) => state.classTypes);
+  const setClassTypes = useReferenceDataStore((state) => state.setClassTypes);
   const [forms, setForms] = useState<Record<string, RowFormState>>({});
   const [savingRows, setSavingRows] = useState<Record<string, boolean>>({});
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
+  const [extensionTarget, setExtensionTarget] = useState<AttendanceRow | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -79,8 +83,38 @@ export function AttendancePage(): JSX.Element {
   }, [filters]);
 
   useEffect(() => {
-    void loadAttendance();
-  }, [loadAttendance]);
+    if (!filters) return;
+
+    setIsLoading(true);
+    setErrorMessage('');
+
+    const unsubscribe = attendanceService.subscribeAttendanceRows(
+      filters,
+      (data) => {
+        setRows(data);
+        setIsLoading(false);
+      },
+      (error) => {
+        console.error('Failed to load attendance:', error);
+        setErrorMessage(getFriendlyErrorMessage(error, 'Unable to load attendance. Please check your connection and try again.'));
+        setRows([]);
+        setIsLoading(false);
+      }
+    );
+
+    return unsubscribe;
+  }, [filters]);
+
+  useEffect(() => {
+    if (!message && !errorMessage) return;
+
+    const timeoutId = window.setTimeout(() => {
+      setMessage('');
+      setErrorMessage('');
+    }, 4000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [errorMessage, message]);
 
   useEffect(() => {
     let isMounted = true;
@@ -100,10 +134,7 @@ export function AttendancePage(): JSX.Element {
 
       if (!isMounted) return;
 
-      setClassTypes((current) => ({
-        ...current,
-        ...Object.fromEntries(entries)
-      }));
+      entries.forEach(([key, values]) => setClassTypes(key, values));
     };
 
     void loadClassTypes();
@@ -111,7 +142,7 @@ export function AttendancePage(): JSX.Element {
     return () => {
       isMounted = false;
     };
-  }, [classTypes, rows]);
+  }, [classTypes, rows, setClassTypes]);
 
   useEffect(() => {
     setForms((current) => {
@@ -194,6 +225,13 @@ export function AttendancePage(): JSX.Element {
     }
   };
 
+  const handleExtensionSaved = async (nextMessage: string): Promise<void> => {
+    setExtensionTarget(null);
+    setMessage(nextMessage);
+    setErrorMessage('');
+    await loadAttendance();
+  };
+
   const hasActiveFilters = courseType !== 'all' || Boolean(search.trim());
 
   return (
@@ -265,6 +303,7 @@ export function AttendancePage(): JSX.Element {
                     onToggle={() => toggleRow(rowKey)}
                     onUpdateForm={updateForm}
                     onMarkPresent={() => void handleMarkPresent(row)}
+                    onExtend={() => setExtensionTarget(row)}
                   />
                 );
               })}
@@ -272,6 +311,22 @@ export function AttendancePage(): JSX.Element {
           )}
         </CardContent>
       </Card>
+
+      <AddExtensionModal
+        open={extensionTarget !== null}
+        student={
+          extensionTarget
+            ? {
+                id: extensionTarget.studentId,
+                branchId: extensionTarget.branchId,
+                courseType: extensionTarget.courseType
+              }
+            : null
+        }
+        defaultCourseType={extensionTarget?.courseType}
+        onClose={() => setExtensionTarget(null)}
+        onSaved={(nextMessage) => void handleExtensionSaved(nextMessage)}
+      />
     </section>
   );
 }
@@ -285,7 +340,8 @@ function AttendanceChecklistItem({
   isExpanded,
   onToggle,
   onUpdateForm,
-  onMarkPresent
+  onMarkPresent,
+  onExtend
 }: {
   row: AttendanceRow;
   rowKeyValue: string;
@@ -296,6 +352,7 @@ function AttendanceChecklistItem({
   onToggle: () => void;
   onUpdateForm: (rowKey: string, patch: Partial<RowFormState>) => void;
   onMarkPresent: () => void;
+  onExtend: () => void;
 }): JSX.Element {
   const progressPercent = Math.min(100, Math.round((row.completedSessions / row.allowedSessions) * 100));
   const lastClass = row.lastClassType ? `${row.lastClassType}${row.lastSessionDate ? ` · ${formatDate(row.lastSessionDate)}` : ''}` : '-';
@@ -304,7 +361,7 @@ function AttendanceChecklistItem({
     <div className="overflow-hidden rounded-lg border bg-surface shadow-sm transition-colors hover:border-primary/30">
       <button
         type="button"
-        className="grid w-full gap-3 px-4 py-3 text-left transition-colors hover:bg-blue-50/50 lg:grid-cols-[minmax(240px,1.4fr)_140px_150px_170px_40px]"
+        className="grid w-full gap-3 px-4 py-3 text-left transition-colors hover:bg-blue-50/50 lg:grid-cols-[minmax(240px,1.4fr)_140px_150px_170px_120px_40px]"
         onClick={onToggle}
         aria-expanded={isExpanded}
       >
@@ -334,6 +391,23 @@ function AttendanceChecklistItem({
         <div className="min-w-0">
           <p className="text-xs text-muted-foreground">Last Class</p>
           <p className="mt-1 truncate font-medium text-main-text">{lastClass}</p>
+        </div>
+
+        <div className="flex items-center lg:justify-end">
+          {row.isCompleted ? (
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={(event) => {
+                event.stopPropagation();
+                onExtend();
+              }}
+            >
+              <PlusCircle className="mr-2 h-4 w-4" aria-hidden="true" />
+              Extend
+            </Button>
+          ) : null}
         </div>
 
         <div className="flex items-center justify-end">
@@ -418,6 +492,12 @@ function AttendanceChecklistItem({
                 <CheckCircle2 className="mr-2 h-4 w-4" aria-hidden="true" />
                 {row.isCompleted ? 'Completed' : isSaving ? 'Saving...' : 'Mark Present'}
               </Button>
+              {row.isCompleted ? (
+                <Button type="button" variant="secondary" onClick={onExtend}>
+                  <PlusCircle className="mr-2 h-4 w-4" aria-hidden="true" />
+                  Add Extension
+                </Button>
+              ) : null}
             </div>
           </div>
         </div>

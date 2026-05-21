@@ -11,7 +11,6 @@ import type {
   Branch,
   CourseType,
   CreateStudentPayload,
-  StudentStatus,
   StudentWithFee,
   UpdateStudentPayload
 } from '@/types';
@@ -34,11 +33,13 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
   const [branchId, setBranchId] = useState(student?.branchId ?? defaultBranchId ?? profile?.branchId ?? '');
   const [courseType, setCourseType] = useState<CourseType>(student?.courseType ?? '4W');
   const [enrollmentDate, setEnrollmentDate] = useState(student?.enrollmentDate ?? today);
+  const [courseStartDate, setCourseStartDate] = useState(
+    student?.courseStartDate && student.courseStartDate !== student.enrollmentDate ? student.courseStartDate : ''
+  );
   const [learningLicenceNo, setLearningLicenceNo] = useState(student?.learningLicenceNo ?? '');
   const [drivingLicenceNo, setDrivingLicenceNo] = useState(student?.drivingLicenceNo ?? '');
   const [dlIssueDate, setDlIssueDate] = useState(student?.dlIssueDate ?? '');
   const [dlExpiryDate, setDlExpiryDate] = useState(student?.dlExpiryDate ?? '');
-  const [status, setStatus] = useState<StudentStatus>(student?.status ?? 'ongoing');
   const [totalAmount, setTotalAmount] = useState(String(student?.totalAmount ?? ''));
   const [errorMessage, setErrorMessage] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -83,7 +84,7 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
     if (!branchId) return 'Branch is required.';
     if (!courseType) return 'Course type is required.';
     if (!enrollmentDate) return 'Enrollment date is required.';
-    if (!status) return 'Status is required.';
+    if (courseStartDate && courseStartDate < enrollmentDate) return 'Course start date cannot be before enrollment date.';
     if (!Number.isFinite(parsedTotal) || parsedTotal <= 0) return 'Total fee must be greater than 0.';
     if (dlIssueDate && dlExpiryDate && dlExpiryDate < dlIssueDate) {
       return 'Driving licence expiry date cannot be before issue date.';
@@ -109,12 +110,12 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
         fullName,
         phone,
         enrollmentDate,
+        courseStartDate: courseStartDate || null,
         courseType,
         learningLicenceNo,
         drivingLicenceNo,
         dlIssueDate: dlIssueDate || null,
         dlExpiryDate: dlExpiryDate || null,
-        status,
         branchId,
         totalAmount: Number(totalAmount)
       };
@@ -134,20 +135,17 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
   };
 
   return (
-    <form className="max-h-[72vh] space-y-5 overflow-y-auto pr-1" onSubmit={handleSubmit}>
-      <FormSection title="Basic Details">
-        <div className="space-y-2">
-          <Label htmlFor="full-name">Full Name *</Label>
+    <form className="space-y-5" onSubmit={handleSubmit}>
+      <FormSection title="Admission Details" className="sm:grid-cols-2 lg:grid-cols-3">
+        <Field label="Full Name *" htmlFor="full-name">
           <Input id="full-name" value={fullName} onChange={(event) => setFullName(event.target.value)} />
-        </div>
+        </Field>
 
-        <div className="space-y-2">
-          <Label htmlFor="phone">Phone *</Label>
+        <Field label="Phone *" htmlFor="phone">
           <Input id="phone" value={phone} onChange={(event) => setPhone(event.target.value)} />
-        </div>
+        </Field>
 
-        <div className="space-y-2">
-          <Label htmlFor="branch">Branch *</Label>
+        <Field label="Branch *" htmlFor="branch">
           <Select
             id="branch"
             value={branchId}
@@ -161,12 +159,9 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
               </option>
             ))}
           </Select>
-        </div>
-      </FormSection>
+        </Field>
 
-      <FormSection title="Course Details">
-        <div className="space-y-2">
-          <Label htmlFor="course-type">Course Type *</Label>
+        <Field label="Course Type *" htmlFor="course-type">
           <Select
             id="course-type"
             value={courseType}
@@ -176,72 +171,30 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
             <option value="4W">4W</option>
             <option value="both">Both</option>
           </Select>
-        </div>
+        </Field>
 
-        <div className="space-y-2">
-          <Label htmlFor="enrollment-date">Enrollment Date *</Label>
+        <Field label="Enrollment Date *" htmlFor="enrollment-date">
           <Input
             id="enrollment-date"
             type="date"
             value={enrollmentDate}
-            onChange={(event) => setEnrollmentDate(event.target.value)}
+            onChange={(event) => {
+              const nextDate = event.target.value;
+              setEnrollmentDate(nextDate);
+            }}
           />
-        </div>
+        </Field>
 
-        <div className="space-y-2">
-          <Label htmlFor="status">Status *</Label>
-          <Select id="status" value={status} onChange={(event) => setStatus(event.target.value as StudentStatus)}>
-            <option value="ongoing">Ongoing</option>
-            <option value="passed">Passed</option>
-            <option value="extended">Extended</option>
-            <option value="dropped">Dropped</option>
-          </Select>
-        </div>
-      </FormSection>
-
-      <FormSection title="Licence Details">
-        <div className="space-y-2">
-          <Label htmlFor="learning-licence">Learning Licence No <span className="text-muted-foreground">(optional)</span></Label>
+        <Field label="Course Start Date" htmlFor="course-start-date">
           <Input
-            id="learning-licence"
-            value={learningLicenceNo}
-            onChange={(event) => setLearningLicenceNo(event.target.value)}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="driving-licence">Driving Licence No <span className="text-muted-foreground">(optional)</span></Label>
-          <Input
-            id="driving-licence"
-            value={drivingLicenceNo}
-            onChange={(event) => setDrivingLicenceNo(event.target.value)}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="dl-issue-date">DL Issue Date <span className="text-muted-foreground">(optional)</span></Label>
-          <Input
-            id="dl-issue-date"
+            id="course-start-date"
             type="date"
-            value={dlIssueDate ?? ''}
-            onChange={(event) => setDlIssueDate(event.target.value)}
+            value={courseStartDate}
+            onChange={(event) => setCourseStartDate(event.target.value)}
           />
-        </div>
+        </Field>
 
-        <div className="space-y-2">
-          <Label htmlFor="dl-expiry-date">DL Expiry Date <span className="text-muted-foreground">(optional)</span></Label>
-          <Input
-            id="dl-expiry-date"
-            type="date"
-            value={dlExpiryDate ?? ''}
-            onChange={(event) => setDlExpiryDate(event.target.value)}
-          />
-        </div>
-      </FormSection>
-
-      <FormSection title="Fee Details">
-        <div className="space-y-2">
-          <Label htmlFor="total-fee">Total Fee *</Label>
+        <Field label="Total Fee *" htmlFor="total-fee">
           <Input
             id="total-fee"
             type="number"
@@ -249,13 +202,48 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
             value={totalAmount}
             onChange={(event) => setTotalAmount(event.target.value)}
           />
-          <p className="text-xs text-muted-foreground">Enter the full course fee before installments.</p>
-        </div>
+        </Field>
+      </FormSection>
+
+      <FormSection title="Licence Details">
+        <Field label="Learning Licence No" htmlFor="learning-licence">
+          <Input
+            id="learning-licence"
+            value={learningLicenceNo}
+            onChange={(event) => setLearningLicenceNo(event.target.value)}
+          />
+        </Field>
+
+        <Field label="Driving Licence No" htmlFor="driving-licence">
+          <Input
+            id="driving-licence"
+            value={drivingLicenceNo}
+            onChange={(event) => setDrivingLicenceNo(event.target.value)}
+          />
+        </Field>
+
+        <Field label="DL Issue Date" htmlFor="dl-issue-date">
+          <Input
+            id="dl-issue-date"
+            type="date"
+            value={dlIssueDate ?? ''}
+            onChange={(event) => setDlIssueDate(event.target.value)}
+          />
+        </Field>
+
+        <Field label="DL Expiry Date" htmlFor="dl-expiry-date">
+          <Input
+            id="dl-expiry-date"
+            type="date"
+            value={dlExpiryDate ?? ''}
+            onChange={(event) => setDlExpiryDate(event.target.value)}
+          />
+        </Field>
       </FormSection>
 
       {errorMessage ? <Alert variant="destructive">{errorMessage}</Alert> : null}
 
-      <div className="flex justify-end gap-2">
+      <div className="sticky bottom-0 -mx-6 -mb-6 flex justify-end gap-2 border-t bg-white px-6 py-4">
         <Button type="button" variant="outline" onClick={onCancel}>
           Cancel
         </Button>
@@ -267,11 +255,28 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
   );
 }
 
-function FormSection({ title, children }: { title: string; children: React.ReactNode }): JSX.Element {
+function FormSection({
+  title,
+  className,
+  children
+}: {
+  title: string;
+  className?: string;
+  children: React.ReactNode;
+}): JSX.Element {
   return (
-    <section className="rounded-md border p-4">
-      <h3 className="mb-4 text-sm font-semibold">{title}</h3>
-      <div className="grid gap-4 sm:grid-cols-2">{children}</div>
+    <section className="rounded-md border bg-white p-4">
+      <h3 className="mb-4 text-sm font-semibold text-main-text">{title}</h3>
+      <div className={`grid gap-4 ${className ?? 'sm:grid-cols-2'}`}>{children}</div>
     </section>
+  );
+}
+
+function Field({ label, htmlFor, children }: { label: string; htmlFor: string; children: React.ReactNode }): JSX.Element {
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={htmlFor}>{label}</Label>
+      {children}
+    </div>
   );
 }

@@ -1,12 +1,14 @@
 import { where } from 'firebase/firestore';
 import { authService } from '@/services/authService';
-import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
+import { collections, getCollection, getDocument, subscribeCollection } from '@/services/firestoreUtils';
 import {
   calculateStudentExpiryDate,
+  getCourseStartDate,
   getDaysRemaining,
   isPastDate,
   isWithinNextDays
 } from '@/utils/dateUtils';
+import { deriveStudentStatus } from '@/utils/studentStatus';
 import type {
   Branch,
   DashboardFilters,
@@ -24,6 +26,14 @@ import type {
 type StudentFeeRow = Student & {
   branchName?: string;
   fee: Fee | null;
+};
+
+export type DashboardData = {
+  summary: DashboardSummary;
+  pendingFees: PendingFeeStudent[];
+  thirtyDayAlerts: ThirtyDayAlertStudent[];
+  recentPayments: RecentPayment[];
+  recentExpenses: RecentExpense[];
 };
 
 async function getEffectiveBranchId(filters: DashboardFilters): Promise<string | null> {
@@ -81,7 +91,9 @@ async function getVisibleData(branchId: string | null): Promise<{
   const feesByStudent = new Map(feesRaw.map((fee) => [fee.studentId, normalizeFee(fee)]));
   const students = studentsRaw.map((student) => ({
     ...student,
+    status: deriveStudentStatus(student),
     durationDays: student.durationDays ?? 30,
+    courseStartDate: getCourseStartDate(student),
     branchName: branchNames.get(student.branchId),
     fee: feesByStudent.get(student.id) ?? null
   }));
@@ -113,31 +125,59 @@ function expenseTotal(expenses: Expense[], categories: ExpenseCategory[]): numbe
   );
 }
 
-export const dashboardService = {
-  async getDashboardSummary(filters: DashboardFilters): Promise<DashboardSummary> {
-    const branchId = await getEffectiveBranchId(filters);
-    const { students, fees, expenses } = await getVisibleData(branchId);
-    const today = new Date().toISOString().slice(0, 10);
-    const totalFeeCollected = fees.reduce((total, fee) => total + Number(fee.paidAmount ?? 0), 0);
-    const todayCollections = fees.reduce(
-      (total, fee) =>
-        total + fee.installments.reduce((feeTotal, installment) => feeTotal + (installment.date === today ? Number(installment.amount ?? 0) : 0), 0),
-      0
-    );
-    const pendingFeeBalance = fees.reduce((total, fee) => total + Number(fee.balance ?? 0), 0);
-    const totalExpenses = expenses.reduce((total, expense) => total + Number(expense.amount ?? 0), 0);
-    const todayExpenses = expenses.reduce(
-      (total, expense) => total + ((expense.date ?? expense.expenseDate) === today ? Number(expense.amount ?? 0) : 0),
-      0
-    );
-    const fuelTotal = expenseTotal(expenses, ['fuel']);
-    const maintenanceTotal = expenseTotal(expenses, ['maintenance']);
-    const salaryTotal = expenseTotal(expenses, ['salary']);
-    const rentElectricityTotal = expenseTotal(expenses, ['room_rent', 'electricity']);
-    const challanTotal = expenseTotal(expenses, ['learning_challan', 'driving_test_challan']);
-    const otherTotal = expenseTotal(expenses, ['other']);
+function buildVisibleData(
+  branchId: string | null,
+  branchesRaw: Branch[],
+  studentsRaw: Student[],
+  feesRaw: Fee[],
+  expensesRaw: Expense[]
+): {
+  branches: Branch[];
+  students: StudentFeeRow[];
+  fees: Fee[];
+  expenses: Expense[];
+} {
+  const branches = branchId ? branchesRaw.filter((branch) => branch.id === branchId) : branchesRaw;
+  const branchNames = getBranchNameMap(branches);
+  const fees = feesRaw.map(normalizeFee);
+  const feesByStudent = new Map(fees.map((fee) => [fee.studentId, fee]));
+  const students = studentsRaw.map((student) => ({
+    ...student,
+    status: deriveStudentStatus(student),
+    durationDays: student.durationDays ?? 30,
+    courseStartDate: getCourseStartDate(student),
+    branchName: branchNames.get(student.branchId),
+    fee: feesByStudent.get(student.id) ?? null
+  }));
 
-    return {
+  return { branches, students, fees, expenses: expensesRaw };
+}
+
+function computeDashboardData(data: {
+  branches: Branch[];
+  students: StudentFeeRow[];
+  fees: Fee[];
+  expenses: Expense[];
+}): DashboardData {
+  const { branches, students, fees, expenses } = data;
+  const today = new Date().toISOString().slice(0, 10);
+  const branchNames = getBranchNameMap(branches);
+  const totalFeeCollected = fees.reduce((total, fee) => total + Number(fee.paidAmount ?? 0), 0);
+  const todayCollections = fees.reduce(
+    (total, fee) =>
+      total + fee.installments.reduce((feeTotal, installment) => feeTotal + (installment.date === today ? Number(installment.amount ?? 0) : 0), 0),
+    0
+  );
+  const pendingFeeBalance = fees.reduce((total, fee) => total + Number(fee.balance ?? 0), 0);
+  const totalExpenses = expenses.reduce((total, expense) => total + Number(expense.amount ?? 0), 0);
+  const todayExpenses = expenses.reduce(
+    (total, expense) => total + ((expense.date ?? expense.expenseDate) === today ? Number(expense.amount ?? 0) : 0),
+    0
+  );
+  const studentsById = new Map(students.map((student) => [student.id, student]));
+
+  return {
+    summary: {
       totalStudents: students.length,
       ongoingStudents: students.filter((student) => student.status === 'ongoing' || student.status === 'extended').length,
       passedStudents: students.filter((student) => student.status === 'passed').length,
@@ -147,21 +187,15 @@ export const dashboardService = {
       pendingFeeBalance,
       totalExpenses,
       todayExpenses,
-      fuelTotal,
-      maintenanceTotal,
-      salaryTotal,
-      rentElectricityTotal,
-      challanTotal,
-      otherTotal,
+      fuelTotal: expenseTotal(expenses, ['fuel']),
+      maintenanceTotal: expenseTotal(expenses, ['maintenance']),
+      salaryTotal: expenseTotal(expenses, ['salary']),
+      rentElectricityTotal: expenseTotal(expenses, ['room_rent', 'electricity']),
+      challanTotal: expenseTotal(expenses, ['learning_challan', 'driving_test_challan']),
+      otherTotal: expenseTotal(expenses, ['other']),
       netAmount: totalFeeCollected - totalExpenses
-    };
-  },
-
-  async getPendingFeeStudents(filters: DashboardFilters): Promise<PendingFeeStudent[]> {
-    const branchId = await getEffectiveBranchId(filters);
-    const { students } = await getVisibleData(branchId);
-
-    return students
+    },
+    pendingFees: students
       .map((student) => ({
         studentId: student.id,
         fullName: student.fullName,
@@ -175,17 +209,12 @@ export const dashboardService = {
       }))
       .filter((student) => student.balance > 0)
       .sort((a, b) => b.balance - a.balance)
-      .slice(0, 10);
-  },
-
-  async getThirtyDayAlerts(filters: DashboardFilters): Promise<ThirtyDayAlertStudent[]> {
-    const branchId = await getEffectiveBranchId(filters);
-    const { students } = await getVisibleData(branchId);
-
-    return students
-      .filter((student) => student.status === 'ongoing')
+      .slice(0, 10),
+    thirtyDayAlerts: students
+      .filter((student) => student.status === 'ongoing' || student.status === 'extended')
       .map((student) => {
-        const completionDate = calculateStudentExpiryDate(student.enrollmentDate, student.durationDays ?? 30);
+        const courseStartDate = getCourseStartDate(student);
+        const completionDate = calculateStudentExpiryDate(courseStartDate, student.durationDays ?? 30);
         const daysRemaining = getDaysRemaining(completionDate);
         return {
           studentId: student.id,
@@ -195,22 +224,15 @@ export const dashboardService = {
           branchName: student.branchName,
           courseType: student.courseType,
           enrollmentDate: student.enrollmentDate,
+          courseStartDate,
           completionDate,
           daysRemaining,
           alertType: isPastDate(completionDate) ? 'completed' : 'near_completion'
         } satisfies ThirtyDayAlertStudent;
       })
       .filter((student) => student.alertType === 'completed' || isWithinNextDays(student.completionDate, 5))
-      .sort((a, b) => a.daysRemaining - b.daysRemaining);
-  },
-
-  async getRecentPayments(filters: DashboardFilters): Promise<RecentPayment[]> {
-    const branchId = await getEffectiveBranchId(filters);
-    const { branches, students, fees } = await getVisibleData(branchId);
-    const branchNames = getBranchNameMap(branches);
-    const studentsById = new Map(students.map((student) => [student.id, student]));
-
-    return fees
+      .sort((a, b) => a.daysRemaining - b.daysRemaining),
+    recentPayments: fees
       .flatMap((fee) => {
         const student = studentsById.get(fee.studentId);
         if (!student) return [];
@@ -226,15 +248,8 @@ export const dashboardService = {
         }));
       })
       .sort((a, b) => b.date.localeCompare(a.date))
-      .slice(0, 5);
-  },
-
-  async getRecentExpenses(filters: DashboardFilters): Promise<RecentExpense[]> {
-    const branchId = await getEffectiveBranchId(filters);
-    const { branches, expenses } = await getVisibleData(branchId);
-    const branchNames = getBranchNameMap(branches);
-
-    return expenses
+      .slice(0, 5),
+    recentExpenses: expenses
       .map((expense) => ({
         id: expense.id,
         branchId: expense.branchId,
@@ -245,6 +260,115 @@ export const dashboardService = {
         notes: expense.notes
       }))
       .sort((a, b) => b.date.localeCompare(a.date))
-      .slice(0, 5);
+      .slice(0, 5)
+  };
+}
+
+export const dashboardService = {
+  async getDashboardSummary(filters: DashboardFilters): Promise<DashboardSummary> {
+    const branchId = await getEffectiveBranchId(filters);
+    return computeDashboardData(await getVisibleData(branchId)).summary;
+  },
+
+  async getPendingFeeStudents(filters: DashboardFilters): Promise<PendingFeeStudent[]> {
+    const branchId = await getEffectiveBranchId(filters);
+    return computeDashboardData(await getVisibleData(branchId)).pendingFees;
+  },
+
+  async getThirtyDayAlerts(filters: DashboardFilters): Promise<ThirtyDayAlertStudent[]> {
+    const branchId = await getEffectiveBranchId(filters);
+    return computeDashboardData(await getVisibleData(branchId)).thirtyDayAlerts;
+  },
+
+  async getRecentPayments(filters: DashboardFilters): Promise<RecentPayment[]> {
+    const branchId = await getEffectiveBranchId(filters);
+    return computeDashboardData(await getVisibleData(branchId)).recentPayments;
+  },
+
+  async getRecentExpenses(filters: DashboardFilters): Promise<RecentExpense[]> {
+    const branchId = await getEffectiveBranchId(filters);
+    return computeDashboardData(await getVisibleData(branchId)).recentExpenses;
+  },
+
+  subscribeDashboardData(
+    filters: DashboardFilters,
+    onNext: (data: DashboardData) => void,
+    onError?: (error: Error) => void
+  ): () => void {
+    let isActive = true;
+    let cleanup = (): void => undefined;
+    let latestBranches: Branch[] = [];
+    let latestStudents: Student[] = [];
+    let latestFees: Fee[] = [];
+    let latestExpenses: Expense[] = [];
+    let branchesLoaded = false;
+    let studentsLoaded = false;
+    let feesLoaded = false;
+    let expensesLoaded = false;
+
+    const emit = (branchId: string | null): void => {
+      if (!isActive || !branchesLoaded || !studentsLoaded || !feesLoaded || !expensesLoaded) return;
+      onNext(computeDashboardData(buildVisibleData(branchId, latestBranches, latestStudents, latestFees, latestExpenses)));
+    };
+
+    void getEffectiveBranchId(filters).then((branchId) => {
+      if (!isActive) return;
+
+      const branchScoped = branchId ? [where('branchId', '==', branchId)] : [];
+      const scopeKey = `branch=${branchId ?? 'all'}`;
+      const unsubscribers = [
+        subscribeCollection<Branch>(
+          collections.branches,
+          [],
+          ({ rows }) => {
+            branchesLoaded = true;
+            latestBranches = rows;
+            emit(branchId);
+          },
+          onError,
+          'branches:all'
+        ),
+        subscribeCollection<Student>(
+          collections.students,
+          branchScoped,
+          ({ rows }) => {
+            studentsLoaded = true;
+            latestStudents = rows;
+            emit(branchId);
+          },
+          onError,
+          `students:dashboard:${scopeKey}`
+        ),
+        subscribeCollection<Fee>(
+          collections.fees,
+          branchScoped,
+          ({ rows }) => {
+            feesLoaded = true;
+            latestFees = rows;
+            emit(branchId);
+          },
+          onError,
+          `fees:dashboard:${scopeKey}`
+        ),
+        subscribeCollection<Expense>(
+          collections.expenses,
+          branchScoped,
+          ({ rows }) => {
+            expensesLoaded = true;
+            latestExpenses = rows;
+            emit(branchId);
+          },
+          onError,
+          `expenses:dashboard:${scopeKey}`
+        )
+      ];
+
+      cleanup = (): void => unsubscribers.forEach((unsubscribe) => unsubscribe());
+    });
+
+    return () => {
+      isActive = false;
+      cleanup();
+    };
   }
 };

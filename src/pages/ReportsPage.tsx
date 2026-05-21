@@ -105,21 +105,12 @@ export function ReportsPage(): JSX.Element {
   useEffect(() => {
     if (profile?.role !== 'owner') return;
 
-    let isMounted = true;
-    const loadBranches = async (): Promise<void> => {
-      try {
-        const data = await settingsService.getBranches();
-        if (isMounted) setBranches([...data].sort((a, b) => a.name.localeCompare(b.name)));
-      } catch {
-        if (isMounted) setErrorMessage('Unable to load report. Please check your connection and try again.');
-      }
-    };
+    const unsubscribe = settingsService.subscribeBranches(
+      (data) => setBranches([...data].sort((a, b) => a.name.localeCompare(b.name))),
+      () => setErrorMessage('Unable to load report. Please check your connection and try again.')
+    );
 
-    void loadBranches();
-
-    return () => {
-      isMounted = false;
-    };
+    return unsubscribe;
   }, [profile?.role]);
 
   useEffect(() => {
@@ -516,7 +507,7 @@ function StudentReportView({
           { label: 'Ongoing Students', value: String(report.ongoingCount) },
           { label: 'Passed Students', value: String(report.passedCount) },
           { label: 'Dropped Students', value: String(report.droppedCount) },
-          { label: '30 Days Completed', value: String(report.thirtyDaysCompletedCount) },
+          { label: 'Training Completed', value: String(report.thirtyDaysCompletedCount) },
           { label: 'Both Course Students', value: String(report.bothCourseStudentsCount) }
         ]}
       />
@@ -537,7 +528,8 @@ function StudentReportView({
                     <TableHead>Phone</TableHead>
                     <TableHead>Course</TableHead>
                     <TableHead>Enrollment Date</TableHead>
-                    <TableHead>30-Day Completion Date</TableHead>
+                    <TableHead>Course Start Date</TableHead>
+                    <TableHead>Completion Date</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Learning Licence No</TableHead>
                     <TableHead>Driving Licence No</TableHead>
@@ -551,6 +543,7 @@ function StudentReportView({
                       <TableCell>{row.phone}</TableCell>
                       <TableCell>{formatCourseType(row.courseType)}</TableCell>
                       <TableCell>{formatDate(row.enrollmentDate)}</TableCell>
+                      <TableCell>{formatDate(row.courseStartDate)}</TableCell>
                       <TableCell>{formatDate(row.completionDate)}</TableCell>
                       <TableCell>
                         <Badge variant={row.status === 'ongoing' ? 'success' : row.status === 'passed' ? 'secondary' : 'muted'}>

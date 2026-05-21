@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { StatusBadge } from '@/components/common/StatusBadge';
 import { DrivingTestCard } from '@/components/drivingTests/DrivingTestCard';
@@ -7,20 +7,16 @@ import { EditInstallmentModal } from '@/components/fees/EditInstallmentModal';
 import { DownloadReceiptButton } from '@/components/receipts/DownloadReceiptButton';
 import { WhatsAppReceiptButton } from '@/components/receipts/WhatsAppReceiptButton';
 import { TrainingCard } from '@/components/sessions/TrainingCard';
+import { AddExtensionModal } from '@/components/students/AddExtensionModal';
 import { Alert } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Textarea } from '@/components/ui/textarea';
 import { courseExtensionService } from '@/services/courseExtensionService';
 import { feeService } from '@/services/feeService';
-import type { CourseExtension, CourseType, Fee, Installment, StudentWithFee, TrainingEntitlement } from '@/types';
+import type { CourseExtension, Fee, Installment, StudentWithFee, TrainingEntitlement } from '@/types';
 import { formatCourseType, formatCurrency, formatDate } from '@/utils/formatters';
 
 type StudentDetailsProps = {
@@ -43,7 +39,7 @@ export function StudentDetails({ student, onFeeChanged, onStudentChanged }: Stud
   const [extensionModalOpen, setExtensionModalOpen] = useState(false);
   const hasTwoWheeler = student.courseType === '2W' || student.courseType === 'both';
   const hasFourWheeler = student.courseType === '4W' || student.courseType === 'both';
-  const isThirtyDaysCompleted = student.status === 'ongoing' && student.daysRemaining < 0;
+  const isThirtyDaysCompleted = (student.status === 'ongoing' || student.status === 'extended') && student.daysRemaining < 0;
 
   const loadExtensions = async (): Promise<void> => {
     try {
@@ -143,6 +139,7 @@ export function StudentDetails({ student, onFeeChanged, onStudentChanged }: Stud
             </Section>
             <Section title="Timeline">
               <Info label="Enrollment Date" value={formatDate(student.enrollmentDate)} />
+              <Info label="Course Start Date" value={formatDate(student.courseStartDate)} />
               <Info label="Base Completion Date" value={formatDate(student.expiryDate)} />
               <Info label="Base Days Remaining" value={student.daysRemaining >= 0 ? String(student.daysRemaining) : 'Completed'} />
               <Info label="Allowed Sessions" value={String(entitlement?.allowedSessions ?? student.baseSessionCount ?? 30)} />
@@ -189,8 +186,8 @@ export function StudentDetails({ student, onFeeChanged, onStudentChanged }: Stud
 
         {activeTab === 'driving-test' ? (
           <TabsContent>
-            {hasTwoWheeler ? <DrivingTestCard studentId={student.id} branchId={student.branchId} courseType="2W" onStudentPassed={onStudentChanged} /> : null}
-            {hasFourWheeler ? <DrivingTestCard studentId={student.id} branchId={student.branchId} courseType="4W" onStudentPassed={onStudentChanged} /> : null}
+            {hasTwoWheeler ? <DrivingTestCard studentId={student.id} branchId={student.branchId} courseType="2W" /> : null}
+            {hasFourWheeler ? <DrivingTestCard studentId={student.id} branchId={student.branchId} courseType="4W" /> : null}
           </TabsContent>
         ) : null}
 
@@ -232,11 +229,15 @@ export function StudentDetails({ student, onFeeChanged, onStudentChanged }: Stud
         open={extensionModalOpen}
         student={student}
         onClose={() => setExtensionModalOpen(false)}
-        onSaved={() => {
+        onSaved={(nextMessage) => {
           setExtensionModalOpen(false);
-          setMessage('Course extension added successfully.');
+          setMessage(nextMessage);
           setErrorMessage('');
           void loadExtensions();
+          void feeService.getFeeByStudentId(student.id).then((nextFee) => {
+            if (nextFee) setFee(nextFee);
+          });
+          onFeeChanged?.();
           onStudentChanged?.();
         }}
       />
@@ -301,139 +302,6 @@ function ExtensionsTab({
         )}
       </CardContent>
     </Card>
-  );
-}
-
-function AddExtensionModal({
-  open,
-  student,
-  onClose,
-  onSaved
-}: {
-  open: boolean;
-  student: StudentWithFee;
-  onClose: () => void;
-  onSaved: () => void;
-}): JSX.Element {
-  const [courseType, setCourseType] = useState<CourseType>(student.courseType);
-  const [extraSessions, setExtraSessions] = useState('1');
-  const [extraDays, setExtraDays] = useState('0');
-  const [amount, setAmount] = useState('');
-  const [paymentDate, setPaymentDate] = useState(new Date().toISOString().slice(0, 10));
-  const [notes, setNotes] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isSaving, setIsSaving] = useState(false);
-
-  useEffect(() => {
-    if (!open) return;
-    setCourseType(student.courseType);
-    setExtraSessions('1');
-    setExtraDays('0');
-    setAmount('');
-    setPaymentDate(new Date().toISOString().slice(0, 10));
-    setNotes('');
-    setErrorMessage('');
-  }, [open, student.courseType]);
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
-    event.preventDefault();
-    setErrorMessage('');
-
-    const parsedSessions = Number(extraSessions);
-    const parsedDays = Number(extraDays);
-    const parsedAmount = Number(amount || 0);
-
-    if (!Number.isFinite(parsedSessions) || parsedSessions < 0) {
-      setErrorMessage('Extra sessions cannot be negative.');
-      return;
-    }
-    if (!Number.isFinite(parsedDays) || parsedDays < 0) {
-      setErrorMessage('Extra days cannot be negative.');
-      return;
-    }
-    if (parsedSessions <= 0 && parsedDays <= 0) {
-      setErrorMessage('Add at least one extra session or extra day.');
-      return;
-    }
-    if (!Number.isFinite(parsedAmount) || parsedAmount < 0) {
-      setErrorMessage('Amount cannot be negative.');
-      return;
-    }
-
-    setIsSaving(true);
-    try {
-      await courseExtensionService.createExtension({
-        studentId: student.id,
-        branchId: student.branchId,
-        courseType,
-        extraSessions: parsedSessions,
-        extraDays: parsedDays,
-        amount: parsedAmount,
-        paymentDate,
-        notes
-      });
-      onSaved();
-    } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : 'Unable to add course extension.');
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  return (
-    <Dialog open={open} onOpenChange={(nextOpen) => !nextOpen && onClose()}>
-      {open ? (
-        <DialogContent onClose={onClose}>
-          <DialogHeader>
-            <DialogTitle>Add Course Extension</DialogTitle>
-            <DialogDescription>Record extra paid sessions or extra days after the original course.</DialogDescription>
-          </DialogHeader>
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="extension-course">Course</Label>
-                <Select id="extension-course" value={courseType} onChange={(event) => setCourseType(event.target.value as CourseType)}>
-                  <option value="2W">2W</option>
-                  <option value="4W">4W</option>
-                  <option value="both">Both</option>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="extension-payment-date">Payment Date</Label>
-                <Input id="extension-payment-date" type="date" value={paymentDate} onChange={(event) => setPaymentDate(event.target.value)} />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="extension-sessions">Extra Sessions</Label>
-                <Input id="extension-sessions" type="number" min="0" value={extraSessions} onChange={(event) => setExtraSessions(event.target.value)} />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="extension-days">Extra Days</Label>
-                <Input id="extension-days" type="number" min="0" value={extraDays} onChange={(event) => setExtraDays(event.target.value)} />
-              </div>
-              <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="extension-amount">Amount Paid</Label>
-                <Input id="extension-amount" type="number" min="0" value={amount} onChange={(event) => setAmount(event.target.value)} />
-              </div>
-              <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="extension-notes">Notes</Label>
-                <Textarea id="extension-notes" value={notes} onChange={(event) => setNotes(event.target.value)} />
-              </div>
-            </div>
-
-            {errorMessage ? <Alert variant="destructive">{errorMessage}</Alert> : null}
-
-            <div className="flex justify-end gap-2">
-              <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
-              </Button>
-              <Button type="submit" disabled={isSaving}>
-                {isSaving ? 'Saving...' : 'Add Extension'}
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-      ) : null}
-    </Dialog>
   );
 }
 

@@ -1,9 +1,10 @@
 import { where } from 'firebase/firestore';
 import { authService } from '@/services/authService';
 import { collections, getCollection } from '@/services/firestoreUtils';
-import { calculateStudentExpiryDate } from '@/utils/dateUtils';
+import { calculateStudentExpiryDate, getCourseStartDate } from '@/utils/dateUtils';
 import { arrayToCsv, downloadCsvFile } from '@/utils/csv';
 import { formatCourseType, formatExpenseCategory, formatStudentStatus } from '@/utils/formatters';
+import { deriveStudentStatus } from '@/utils/studentStatus';
 import type {
   BackupScope,
   Branch,
@@ -122,7 +123,8 @@ export const exportService = {
       { header: 'Phone', accessor: 'phone' },
       { header: 'Course', accessor: (row) => formatCourseType(row.courseType) },
       { header: 'Enrollment Date', accessor: 'enrollmentDate' },
-      { header: '30-Day Completion Date', accessor: 'completionDate' },
+      { header: 'Course Start Date', accessor: 'courseStartDate' },
+      { header: 'Completion Date', accessor: 'completionDate' },
       { header: 'Status', accessor: (row) => formatStudentStatus(row.status) },
       { header: 'Learning Licence No', accessor: (row) => row.learningLicenceNo ?? '' },
       { header: 'Driving Licence No', accessor: (row) => row.drivingLicenceNo ?? '' }
@@ -144,7 +146,8 @@ export const exportService = {
     const feesByStudent = new Map(feesRaw.map((fee) => [fee.studentId, normalizeFee(fee)]));
     const rows = students.map((student) => {
       const fee = feesByStudent.get(student.id);
-      const completionDate = calculateStudentExpiryDate(student.enrollmentDate, student.durationDays ?? 30);
+      const courseStartDate = getCourseStartDate(student);
+      const completionDate = calculateStudentExpiryDate(courseStartDate, student.durationDays ?? 30);
 
       return {
         branch: branchName(branches, student.branchId),
@@ -152,8 +155,9 @@ export const exportService = {
         phone: student.phone,
         course: formatCourseType(student.courseType),
         enrollmentDate: student.enrollmentDate,
+        courseStartDate,
         completionDate,
-        status: formatStudentStatus(student.status),
+        status: formatStudentStatus(deriveStudentStatus(student)),
         learningLicenceNo: student.learningLicenceNo ?? '',
         drivingLicenceNo: student.drivingLicenceNo ?? '',
         dlIssueDate: student.dlIssueDate ?? '',
@@ -170,7 +174,8 @@ export const exportService = {
       { header: 'Phone', accessor: 'phone' },
       { header: 'Course', accessor: 'course' },
       { header: 'Enrollment Date', accessor: 'enrollmentDate' },
-      { header: '30-Day Completion Date', accessor: 'completionDate' },
+      { header: 'Course Start Date', accessor: 'courseStartDate' },
+      { header: 'Completion Date', accessor: 'completionDate' },
       { header: 'Status', accessor: 'status' },
       { header: 'Learning Licence No', accessor: 'learningLicenceNo' },
       { header: 'Driving Licence No', accessor: 'drivingLicenceNo' },

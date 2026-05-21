@@ -742,9 +742,6 @@ video {
 .max-h-\[70vh\] {
   max-height: 70vh;
 }
-.max-h-\[72vh\] {
-  max-height: 72vh;
-}
 .max-h-\[88vh\] {
   max-height: 88vh;
 }
@@ -822,6 +819,9 @@ video {
 }
 .max-w-3xl {
   max-width: 48rem;
+}
+.max-w-4xl {
+  max-width: 56rem;
 }
 .max-w-\[220px\] {
   max-width: 220px;

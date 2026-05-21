@@ -11,7 +11,6 @@ import {
 import { authService } from '@/services/authService';
 import { db } from '@/services/firebase';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
-import { studentService } from '@/services/studentService';
 import type {
   CourseType,
   DrivingTest,
@@ -188,14 +187,9 @@ export const drivingTestService = {
     if (!allRequiredCoursesPassed) return null;
 
     if (student.courseType === 'both') {
-      return 'This student has passed both 2W and 4W tests. Mark student as Passed?';
+      return 'This student has passed both 2W and 4W tests. Add the driving licence number in the student profile to mark the course as Passed.';
     }
 
-    return `This student has passed ${student.courseType} test. Mark student as Passed?`;
-  },
-
-  async markStudentPassed(studentId: string): Promise<void> {
-    await assertCanAccessStudent(studentId);
-    await studentService.updateStudentStatus(studentId, 'passed');
+    return `This student has passed the ${student.courseType} test. Add the driving licence number in the student profile to mark the course as Passed.`;
   }
 };

@@ -3,6 +3,7 @@ import { authService } from '@/services/authService';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
 import { db } from '@/services/firebase';
 import { receiptNumberService } from '@/services/receiptNumberService';
+import { useSyncStore } from '@/store/syncStore';
 import type {
   AddInstallmentPayload,
   Fee,
@@ -18,6 +19,12 @@ function normalizedInstallments(fee: Fee): Installment[] {
 function assertValidAmount(amount: number): void {
   if (!Number.isFinite(amount) || amount <= 0) {
     throw new Error('Amount must be greater than 0.');
+  }
+}
+
+function assertOnlineForReceipt(): void {
+  if (!useSyncStore.getState().isOnline) {
+    throw new Error('Internet is required to record payments and generate receipt numbers.');
   }
 }
 
@@ -76,6 +83,7 @@ export const feeService = {
   },
 
   async addInstallment(studentId: string, payload: AddInstallmentPayload): Promise<Fee> {
+    assertOnlineForReceipt();
     assertValidAmount(payload.amount);
     if (!payload.date) throw new Error('Payment date is required.');
 
@@ -126,6 +134,7 @@ export const feeService = {
     receiptNo: string,
     payload: UpdateInstallmentPayload
   ): Promise<Fee> {
+    assertOnlineForReceipt();
     assertValidAmount(payload.amount);
     if (!payload.date) throw new Error('Payment date is required.');
 
@@ -174,6 +183,7 @@ export const feeService = {
   },
 
   async deleteInstallment(studentId: string, receiptNo: string): Promise<Fee> {
+    assertOnlineForReceipt();
     await assertCanManageStudent(studentId);
     const feeId = await getFeeReferenceByStudentId(studentId);
 

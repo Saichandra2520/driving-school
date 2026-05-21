@@ -1,11 +1,16 @@
-import { addDoc, collection, doc, serverTimestamp, updateDoc, where } from 'firebase/firestore';
+import { addDoc, collection, doc, runTransaction, serverTimestamp, updateDoc, where } from 'firebase/firestore';
 import { authService } from '@/services/authService';
 import { db } from '@/services/firebase';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
+import { recalculateFee } from '@/services/feeService';
+import { receiptNumberService } from '@/services/receiptNumberService';
+import { useSyncStore } from '@/store/syncStore';
 import type {
   CourseExtension,
   CourseType,
   CreateCourseExtensionPayload,
+  Fee,
+  Installment,
   Student,
   TrainingCourseType,
   TrainingEntitlement
@@ -46,6 +51,11 @@ async function assertCanManageStudent(studentId: string): Promise<Student> {
   }
 
   return student;
+}
+
+async function getFeeByStudentId(studentId: string): Promise<Fee | null> {
+  const fees = await getCollection<Fee>(collections.fees, [where('studentId', '==', studentId)]);
+  return fees[0] ?? null;
 }
 
 export function calculateTrainingEntitlement(
@@ -101,7 +111,10 @@ export const courseExtensionService = {
     return courseExtensionService.getEntitlementForStudent(student, courseType);
   },
 
-  async createExtension(payload: CreateCourseExtensionPayload): Promise<CourseExtension> {
+  async createExtension(payload: CreateCourseExtensionPayload): Promise<{
+    extension: CourseExtension;
+    receiptNo: string | null;
+  }> {
     assertPositiveNumber(payload.extraSessions, 'Extra sessions');
     assertPositiveNumber(payload.extraDays, 'Extra days');
     assertPositiveNumber(payload.amount, 'Amount');
@@ -110,12 +123,16 @@ export const courseExtensionService = {
     if (payload.extraSessions <= 0 && payload.extraDays <= 0) {
       throw new Error('Add at least one extra session or extra day.');
     }
+    if (payload.amount > 0 && !useSyncStore.getState().isOnline) {
+      throw new Error('Internet is required to add paid extensions and generate receipt numbers.');
+    }
 
     const student = await assertCanManageStudent(payload.studentId);
     if (student.branchId !== payload.branchId) {
       throw new Error('Extension branch must match the student branch.');
     }
 
+    const receiptNo = payload.amount > 0 ? await receiptNumberService.getNextReceiptNumber() : null;
     const docRef = await addDoc(collection(db, collections.courseExtensions), {
       studentId: payload.studentId,
       branchId: payload.branchId,
@@ -130,9 +147,43 @@ export const courseExtensionService = {
 
     const created = await getDocument<CourseExtension>(collections.courseExtensions, docRef.id);
     if (!created) throw new Error('Extension was created but could not be loaded.');
+
+    if (payload.amount > 0 && receiptNo) {
+      const fee = await getFeeByStudentId(payload.studentId);
+      if (!fee) throw new Error('Extension was created but fee details could not be loaded.');
+
+      await runTransaction(db, async (transaction) => {
+        const feeRef = doc(db, collections.fees, fee.id);
+        const feeSnapshot = await transaction.get(feeRef);
+        if (!feeSnapshot.exists()) throw new Error('Extension was created but fee details could not be loaded.');
+
+        const currentFee = recalculateFee({
+          id: feeSnapshot.id,
+          ...(feeSnapshot.data() as Omit<Fee, 'id'>)
+        } as Fee);
+        const installment: Installment = {
+          receiptNo,
+          amount: payload.amount,
+          date: payload.paymentDate,
+          notes: payload.notes?.trim() || `Course extension - ${payload.courseType}`,
+          createdAt: new Date().toISOString()
+        };
+        const nextInstallments = [...currentFee.installments, installment];
+        const totalAmount = Number(currentFee.totalAmount) + payload.amount;
+        const paidAmount = nextInstallments.reduce((total, item) => total + Number(item.amount), 0);
+
+        transaction.update(feeRef, {
+          totalAmount,
+          installments: nextInstallments,
+          paidAmount,
+          balance: totalAmount - paidAmount
+        });
+      });
+    }
+
     if (student.status !== 'dropped') {
       await updateDoc(doc(db, collections.students, student.id), { status: 'extended' });
     }
-    return created;
+    return { extension: created, receiptNo };
   }
 };

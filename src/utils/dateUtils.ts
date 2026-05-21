@@ -11,8 +11,12 @@ export function getDaysRemaining(expiryDate: string): number {
   return Math.ceil((expiry.getTime() - today.getTime()) / 86400000);
 }
 
-export function calculateStudentExpiryDate(enrollmentDate: string, durationDays = 30): string {
-  return addDays(enrollmentDate, durationDays);
+export function calculateStudentExpiryDate(startDate: string, durationDays = 30): string {
+  return addDays(startDate, durationDays);
+}
+
+export function getCourseStartDate<T extends { enrollmentDate: string; courseStartDate?: string | null }>(student: T): string {
+  return student.courseStartDate || student.enrollmentDate;
 }
 
 export function isStudentExpired(enrollmentDate: string, durationDays = 30): boolean {

@@ -1,7 +1,8 @@
 import { where } from 'firebase/firestore';
 import { authService } from '@/services/authService';
 import { collections, getCollection } from '@/services/firestoreUtils';
-import { calculateStudentExpiryDate, isDateInMonthYear, isPastDate } from '@/utils/dateUtils';
+import { calculateStudentExpiryDate, getCourseStartDate, isDateInMonthYear, isPastDate } from '@/utils/dateUtils';
+import { deriveStudentStatus } from '@/utils/studentStatus';
 import type {
   Branch,
   Expense,
@@ -69,7 +70,7 @@ async function getBaseData(branchId?: string): Promise<{
 
   return {
     branches,
-    students,
+    students: students.map((student) => ({ ...student, status: deriveStudentStatus(student) })),
     fees: feesRaw.map(normalizeFee)
   };
 }
@@ -167,7 +168,10 @@ export const reportService = {
     ]);
     const branchesById = nameMap(branches, (branch) => branch.name);
     const staffById = nameMap(staffProfiles, (profile) => profile.fullName);
-    const studentsById = nameMap(students, (student) => student.fullName);
+    const studentsById = nameMap(
+      students.map((student) => ({ ...student, status: deriveStudentStatus(student) })),
+      (student) => student.fullName
+    );
 
     const rows: ExpenseReportRow[] = expensesRaw
       .map((expense) => ({ ...expense, date: expense.date ?? expense.expenseDate }))
@@ -207,33 +211,39 @@ export const reportService = {
       getCollection<Student>(collections.students, [...(branchId ? [where('branchId', '==', branchId)] : [])])
     ]);
     const branchesById = nameMap(branches, (branch) => branch.name);
+    const derivedStudents = students.map((student) => ({ ...student, status: deriveStudentStatus(student) }));
 
-    const rows: StudentReportRow[] = students
+    const rows: StudentReportRow[] = derivedStudents
       .filter((student) => isDateInMonthYear(student.enrollmentDate, filters.month, filters.year))
       .sort((a, b) => b.enrollmentDate.localeCompare(a.enrollmentDate))
-      .map((student) => ({
-        studentId: student.id,
-        branchId: student.branchId,
-        branchName: branchesById.get(student.branchId),
-        fullName: student.fullName,
-        phone: student.phone,
-        courseType: student.courseType,
-        enrollmentDate: student.enrollmentDate,
-        completionDate: calculateStudentExpiryDate(student.enrollmentDate, student.durationDays ?? 30),
-        status: student.status,
-        learningLicenceNo: student.learningLicenceNo,
-        drivingLicenceNo: student.drivingLicenceNo
-      }));
+      .map((student) => {
+        const courseStartDate = getCourseStartDate(student);
+
+        return {
+          studentId: student.id,
+          branchId: student.branchId,
+          branchName: branchesById.get(student.branchId),
+          fullName: student.fullName,
+          phone: student.phone,
+          courseType: student.courseType,
+          enrollmentDate: student.enrollmentDate,
+          courseStartDate,
+          completionDate: calculateStudentExpiryDate(courseStartDate, student.durationDays ?? 30),
+          status: student.status,
+          learningLicenceNo: student.learningLicenceNo,
+          drivingLicenceNo: student.drivingLicenceNo
+        };
+      });
 
     return {
       newAdmissionsCount: rows.length,
-      ongoingCount: students.filter((student) => student.status === 'ongoing').length,
-      passedCount: students.filter((student) => student.status === 'passed').length,
-      droppedCount: students.filter((student) => student.status === 'dropped').length,
-      thirtyDaysCompletedCount: students.filter(
+      ongoingCount: derivedStudents.filter((student) => student.status === 'ongoing' || student.status === 'extended').length,
+      passedCount: derivedStudents.filter((student) => student.status === 'passed').length,
+      droppedCount: derivedStudents.filter((student) => student.status === 'dropped').length,
+      thirtyDaysCompletedCount: derivedStudents.filter(
         (student) =>
-          student.status === 'ongoing' &&
-          isPastDate(calculateStudentExpiryDate(student.enrollmentDate, student.durationDays ?? 30))
+          (student.status === 'ongoing' || student.status === 'extended') &&
+          isPastDate(calculateStudentExpiryDate(getCourseStartDate(student), student.durationDays ?? 30))
       ).length,
       bothCourseStudentsCount: students.filter((student) => student.courseType === 'both').length,
       rows

@@ -3,9 +3,32 @@ import { cn } from '@/utils/cn';
 
 type AlertProps = React.HTMLAttributes<HTMLDivElement> & {
   variant?: 'default' | 'destructive' | 'success' | 'warning';
+  autoDismiss?: boolean;
+  autoDismissMs?: number;
 };
 
-function Alert({ className, variant = 'default', ...props }: AlertProps): JSX.Element {
+function Alert({
+  autoDismiss,
+  autoDismissMs = 4000,
+  children,
+  className,
+  variant = 'default',
+  ...props
+}: AlertProps): JSX.Element | null {
+  const [isVisible, setIsVisible] = React.useState(true);
+  const shouldAutoDismiss = autoDismiss ?? (variant === 'success' || variant === 'destructive');
+
+  React.useEffect(() => {
+    setIsVisible(true);
+
+    if (!shouldAutoDismiss) return;
+
+    const timeoutId = window.setTimeout(() => setIsVisible(false), autoDismissMs);
+    return () => window.clearTimeout(timeoutId);
+  }, [autoDismissMs, children, shouldAutoDismiss, variant]);
+
+  if (!isVisible) return null;
+
   return (
     <div
       className={cn(
@@ -17,7 +40,9 @@ function Alert({ className, variant = 'default', ...props }: AlertProps): JSX.El
         className
       )}
       {...props}
-    />
+    >
+      {children}
+    </div>
   );
 }
 

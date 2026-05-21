@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { DrivingTestAttemptModal } from '@/components/drivingTests/DrivingTestAttemptModal';
 import { Alert } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
@@ -20,7 +19,6 @@ type DrivingTestCardProps = {
   studentId: string;
   branchId: string;
   courseType: DrivingTestCourseType;
-  onStudentPassed?: () => void;
 };
 
 const attemptLabels: Record<number, string> = {
@@ -58,8 +56,7 @@ function resultVariant(result: DrivingTestResult): 'muted' | 'success' | 'warnin
 export function DrivingTestCard({
   studentId,
   branchId,
-  courseType,
-  onStudentPassed
+  courseType
 }: DrivingTestCardProps): JSX.Element {
   const [drivingTest, setDrivingTest] = useState<DrivingTest | null>(null);
   const [editAttempt, setEditAttempt] = useState<DrivingTestAttempt | null>(null);
@@ -67,7 +64,6 @@ export function DrivingTestCard({
   const [message, setMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [isMarkingPassed, setIsMarkingPassed] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -114,22 +110,6 @@ export function DrivingTestCard({
     }
   };
 
-  const markStudentPassed = async (): Promise<void> => {
-    setIsMarkingPassed(true);
-    setErrorMessage('');
-
-    try {
-      await drivingTestService.markStudentPassed(studentId);
-      setMessage('Student marked as passed.');
-      setPassSuggestion(null);
-      onStudentPassed?.();
-    } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : 'Unable to mark student as passed.');
-    } finally {
-      setIsMarkingPassed(false);
-    }
-  };
-
   return (
     <Card>
       <CardHeader className="flex flex-col gap-3 space-y-0 sm:flex-row sm:items-center sm:justify-between">
@@ -138,6 +118,7 @@ export function DrivingTestCard({
       </CardHeader>
       <CardContent className="space-y-4">
         {message ? <Alert variant="success">{message}</Alert> : null}
+        {passSuggestion ? <Alert>{passSuggestion}</Alert> : null}
         {errorMessage ? <Alert variant="destructive">{errorMessage}</Alert> : null}
 
         {isLoading ? (
@@ -190,14 +171,6 @@ export function DrivingTestCard({
         />
       ) : null}
 
-      <ConfirmDialog
-        open={passSuggestion !== null}
-        title="Mark Student Passed"
-        description={passSuggestion ?? ''}
-        confirmLabel={isMarkingPassed ? 'Updating...' : 'Mark Passed'}
-        onCancel={() => setPassSuggestion(null)}
-        onConfirm={() => void markStudentPassed()}
-      />
     </Card>
   );
 }

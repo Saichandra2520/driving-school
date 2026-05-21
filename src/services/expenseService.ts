@@ -1,7 +1,7 @@
-import { addDoc, collection, deleteDoc, doc, orderBy, serverTimestamp, updateDoc, where } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, orderBy, serverTimestamp, updateDoc, where, type QueryConstraint } from 'firebase/firestore';
 import { authService } from '@/services/authService';
 import { db } from '@/services/firebase';
-import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
+import { collections, getCollection, getDocument, subscribeCollection } from '@/services/firestoreUtils';
 import type {
   Branch,
   CreateExpensePayload,
@@ -115,6 +115,113 @@ export const expenseService = {
     });
 
     return Promise.all(filtered.map(attachNames));
+  },
+
+  subscribeExpenses(
+    filters: ExpenseFilters = {},
+    onNext: (expenses: Expense[]) => void,
+    onError?: (error: Error) => void
+  ): () => void {
+    let isActive = true;
+    let cleanup = (): void => undefined;
+    let latestExpenses: Expense[] = [];
+    let latestBranches: Branch[] = [];
+    let latestStaff: StaffProfile[] = [];
+    let latestStudents: Student[] = [];
+    let expensesLoaded = false;
+    let branchesLoaded = false;
+    let staffLoaded = false;
+    let studentsLoaded = false;
+
+    const emit = (): void => {
+      if (!isActive) return;
+      if (!expensesLoaded || !branchesLoaded || !staffLoaded || !studentsLoaded) return;
+
+      const branchesById = new Map(latestBranches.map((branch) => [branch.id, branch]));
+      const staffById = new Map(latestStaff.map((staff) => [staff.id, staff]));
+      const studentsById = new Map(latestStudents.map((student) => [student.id, student]));
+      const rows = latestExpenses
+        .map(normalizeExpense)
+        .filter((expense) => {
+          if (filters.fromDate && expense.date < filters.fromDate) return false;
+          if (filters.toDate && expense.date > filters.toDate) return false;
+          return true;
+        })
+        .map((expense) => ({
+          ...expense,
+          branch: branchesById.get(expense.branchId) ?? null,
+          staffName: expense.staffId ? staffById.get(expense.staffId)?.fullName ?? '' : '',
+          studentName: expense.studentId ? studentsById.get(expense.studentId)?.fullName ?? '' : ''
+        }));
+
+      onNext(rows);
+    };
+
+    void getEffectiveBranchId(filters.branchId).then((effectiveBranchId) => {
+      if (!isActive) return;
+
+      const expenseConstraints: QueryConstraint[] = [
+        ...(effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : []),
+        ...(filters.category && filters.category !== 'all' ? [where('category', '==', filters.category)] : []),
+        orderBy('date', 'desc'),
+        orderBy('createdAt', 'desc')
+      ];
+      const branchScoped = effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : [];
+      const queryKey = `branch=${effectiveBranchId ?? 'all'}|category=${filters.category ?? 'all'}`;
+      const unsubscribers = [
+        subscribeCollection<Expense>(
+          collections.expenses,
+          expenseConstraints,
+          ({ rows }) => {
+            expensesLoaded = true;
+            latestExpenses = rows;
+            emit();
+          },
+          onError,
+          `expenses:${queryKey}`
+        ),
+        subscribeCollection<Branch>(
+          collections.branches,
+          [],
+          ({ rows }) => {
+            branchesLoaded = true;
+            latestBranches = effectiveBranchId ? rows.filter((branch) => branch.id === effectiveBranchId) : rows;
+            emit();
+          },
+          onError,
+          'branches:all'
+        ),
+        subscribeCollection<StaffProfile>(
+          collections.users,
+          [where('role', '==', 'staff'), ...branchScoped],
+          ({ rows }) => {
+            staffLoaded = true;
+            latestStaff = rows;
+            emit();
+          },
+          onError,
+          `staff:${effectiveBranchId ?? 'all'}`
+        ),
+        subscribeCollection<Student>(
+          collections.students,
+          branchScoped,
+          ({ rows }) => {
+            studentsLoaded = true;
+            latestStudents = rows;
+            emit();
+          },
+          onError,
+          `students:expense-names:${effectiveBranchId ?? 'all'}`
+        )
+      ];
+
+      cleanup = (): void => unsubscribers.forEach((unsubscribe) => unsubscribe());
+    });
+
+    return () => {
+      isActive = false;
+      cleanup();
+    };
   },
 
   async createExpense(payload: CreateExpensePayload): Promise<void> {

@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { feeService } from '@/services/feeService';
+import { useSyncStore } from '@/store/syncStore';
 import type { Fee, Installment, StudentWithFee } from '@/types';
 
 type EditInstallmentModalProps = {
@@ -22,6 +23,7 @@ export function EditInstallmentModal({
   onClose,
   onSaved
 }: EditInstallmentModalProps): JSX.Element {
+  const isOnline = useSyncStore((state) => state.isOnline);
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState('');
   const [notes, setNotes] = useState('');
@@ -42,6 +44,10 @@ export function EditInstallmentModal({
 
     const parsedAmount = Number(amount);
     if (!installment) return;
+    if (!isOnline) {
+      setErrorMessage('Internet is required to update payments and receipt records.');
+      return;
+    }
     if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
       setErrorMessage('Amount must be greater than 0.');
       return;
@@ -75,6 +81,7 @@ export function EditInstallmentModal({
             <DialogDescription>Receipt number: {installment?.receiptNo ?? '-'}</DialogDescription>
           </DialogHeader>
           <form className="space-y-4" onSubmit={handleSubmit}>
+            {!isOnline ? <Alert variant="warning">Payment receipt records can only be changed while online.</Alert> : null}
             <div className="space-y-2">
               <Label htmlFor="edit-installment-amount">Amount</Label>
               <Input
@@ -83,6 +90,7 @@ export function EditInstallmentModal({
                 min="1"
                 value={amount}
                 onChange={(event) => setAmount(event.target.value)}
+                disabled={!isOnline}
               />
             </div>
             <div className="space-y-2">
@@ -92,6 +100,7 @@ export function EditInstallmentModal({
                 type="date"
                 value={date}
                 onChange={(event) => setDate(event.target.value)}
+                disabled={!isOnline}
               />
             </div>
             <div className="space-y-2">
@@ -100,6 +109,7 @@ export function EditInstallmentModal({
                 id="edit-installment-notes"
                 value={notes}
                 onChange={(event) => setNotes(event.target.value)}
+                disabled={!isOnline}
               />
             </div>
             {errorMessage ? <Alert variant="destructive">{errorMessage}</Alert> : null}
@@ -107,7 +117,7 @@ export function EditInstallmentModal({
               <Button type="button" variant="outline" onClick={onClose}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSaving || !installment}>
+              <Button type="submit" disabled={isSaving || !installment || !isOnline}>
                 {isSaving ? 'Saving...' : 'Save Changes'}
               </Button>
             </div>

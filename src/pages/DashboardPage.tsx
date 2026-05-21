@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { dashboardService } from '@/services/dashboardService';
+import { dashboardService, type DashboardData } from '@/services/dashboardService';
 import { studentService } from '@/services/studentService';
 import { useAlertStore } from '@/store/alertStore';
 import { useAppStore } from '@/store/app-store';
@@ -21,7 +21,6 @@ import { useAuthStore } from '@/store/authStore';
 import type {
   AlertFilters,
   DashboardFilters,
-  DashboardSummary,
   PendingFeeStudent,
   RecentExpense,
   RecentPayment,
@@ -36,15 +35,7 @@ import {
 } from '@/utils/formatters';
 import { getFriendlyErrorMessage } from '@/utils/errors';
 
-type DashboardData = {
-  summary: DashboardSummary;
-  pendingFees: PendingFeeStudent[];
-  thirtyDayAlerts: ThirtyDayAlertStudent[];
-  recentPayments: RecentPayment[];
-  recentExpenses: RecentExpense[];
-};
-
-const emptySummary: DashboardSummary = {
+const emptySummary = {
   totalStudents: 0,
   ongoingStudents: 0,
   passedStudents: 0,
@@ -132,8 +123,31 @@ export function DashboardPage(): JSX.Element {
   }, [alertFilters, fetchAlerts, filters]);
 
   useEffect(() => {
-    void loadDashboard();
-  }, [loadDashboard]);
+    if (!filters) return;
+
+    setIsLoading(true);
+    setErrorMessage('');
+
+    const unsubscribe = dashboardService.subscribeDashboardData(
+      filters,
+      (data) => {
+        setDashboard(data);
+        setIsLoading(false);
+      },
+      (error) => {
+        console.error('Failed to load dashboard:', error);
+        setErrorMessage(getFriendlyErrorMessage(error, 'Unable to load dashboard. Please check your connection and try again.'));
+        setDashboard(emptyDashboard);
+        setIsLoading(false);
+      }
+    );
+
+    if (alertFilters) {
+      void fetchAlerts(alertFilters);
+    }
+
+    return unsubscribe;
+  }, [alertFilters, fetchAlerts, filters]);
 
   const handleViewStudent = async (studentId: string): Promise<void> => {
     setIsStudentLoading(true);
@@ -200,7 +214,7 @@ export function DashboardPage(): JSX.Element {
             <StatCard label="Pending Fees" value={formatCurrency(summary.pendingFeeBalance)} tone={summary.pendingFeeBalance > 0 ? 'danger' : 'good'} />
             <StatCard label="Today's Collections" value={formatCurrency(summary.todayCollections)} helper="Payments dated today" tone="good" />
             <StatCard label="Today's Expenses" value={formatCurrency(summary.todayExpenses)} helper="Expenses dated today" tone="danger" />
-            <StatCard label="30-Day Alerts" value={String(alertCounts.completed)} tone={alertCounts.completed > 0 ? 'warning' : 'default'} />
+            <StatCard label="Training Alerts" value={String(alertCounts.completed)} tone={alertCounts.completed > 0 ? 'warning' : 'default'} />
             <StatCard label="Net Amount" value={formatCurrency(summary.netAmount)} tone={summary.netAmount >= 0 ? 'good' : 'danger'} />
           </div>
 
@@ -376,7 +390,7 @@ function ThirtyDayAlertsTable({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">30-Day Training Alerts</CardTitle>
+        <CardTitle className="text-lg">Training Completion Alerts</CardTitle>
       </CardHeader>
       <CardContent>
         {students.length === 0 ? (
@@ -390,7 +404,7 @@ function ThirtyDayAlertsTable({
                   <TableHead>Phone</TableHead>
                   <TableHead>Branch</TableHead>
                   <TableHead>Course</TableHead>
-                  <TableHead>Enrollment Date</TableHead>
+                  <TableHead>Course Start Date</TableHead>
                   <TableHead>Completion Date</TableHead>
                   <TableHead>Days Left / Overdue</TableHead>
                   <TableHead>Status</TableHead>
@@ -404,12 +418,12 @@ function ThirtyDayAlertsTable({
                     <TableCell>{student.phone}</TableCell>
                     <TableCell>{student.branchName ?? '-'}</TableCell>
                     <TableCell>{formatCourseType(student.courseType)}</TableCell>
-                    <TableCell>{formatDate(student.enrollmentDate)}</TableCell>
+                    <TableCell>{formatDate(student.courseStartDate)}</TableCell>
                     <TableCell>{formatDate(student.completionDate)}</TableCell>
                     <TableCell>{formatDays(student.daysRemaining)}</TableCell>
                     <TableCell>
                       <Badge variant={student.alertType === 'completed' ? 'warning' : 'secondary'}>
-                        {student.alertType === 'completed' ? '30 Days Completed' : 'Near Completion'}
+                        {student.alertType === 'completed' ? 'Training Completed' : 'Near Completion'}
                       </Badge>
                     </TableCell>
                     <TableCell>
