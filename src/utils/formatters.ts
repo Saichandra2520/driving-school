@@ -1,4 +1,5 @@
 import type { AlertSeverity, AlertType, CourseType, ExpenseCategory, StudentStatus } from '@/types';
+import { COURSE_LABELS } from '@/constants/courses';
 
 export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('en-IN', {
@@ -19,13 +20,7 @@ export function formatDate(date: string): string {
 }
 
 export function formatCourseType(courseType: CourseType): string {
-  const labels: Record<CourseType, string> = {
-    '2W': '2W',
-    '4W': '4W',
-    both: 'Both'
-  };
-
-  return labels[courseType];
+  return COURSE_LABELS[courseType];
 }
 
 export function formatStatus(status: StudentStatus | 'expired'): string {

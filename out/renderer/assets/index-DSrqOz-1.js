@@ -58,10 +58,10 @@ var react_production_min = {};
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var l$4 = Symbol.for("react.element"), n$2 = Symbol.for("react.portal"), p$4 = Symbol.for("react.fragment"), q$2 = Symbol.for("react.strict_mode"), r$5 = Symbol.for("react.profiler"), t$2 = Symbol.for("react.provider"), u$3 = Symbol.for("react.context"), v$5 = Symbol.for("react.forward_ref"), w = Symbol.for("react.suspense"), x$2 = Symbol.for("react.memo"), y$2 = Symbol.for("react.lazy"), z$1 = Symbol.iterator;
+var l$4 = Symbol.for("react.element"), n$2 = Symbol.for("react.portal"), p$4 = Symbol.for("react.fragment"), q$2 = Symbol.for("react.strict_mode"), r$5 = Symbol.for("react.profiler"), t$2 = Symbol.for("react.provider"), u$3 = Symbol.for("react.context"), v$5 = Symbol.for("react.forward_ref"), w = Symbol.for("react.suspense"), x$2 = Symbol.for("react.memo"), y$2 = Symbol.for("react.lazy"), z$2 = Symbol.iterator;
 function A$1(a2) {
   if (null === a2 || "object" !== typeof a2) return null;
-  a2 = z$1 && a2[z$1] || a2["@@iterator"];
+  a2 = z$2 && a2[z$2] || a2["@@iterator"];
   return "function" === typeof a2 ? a2 : null;
 }
 var B$2 = { isMounted: function() {
@@ -87,20 +87,20 @@ E$1.prototype.forceUpdate = function(a2) {
 function F$1() {
 }
 F$1.prototype = E$1.prototype;
-function G$2(a2, b2, e2) {
+function G$3(a2, b2, e2) {
   this.props = a2;
   this.context = b2;
   this.refs = D$2;
   this.updater = e2 || B$2;
 }
-var H$1 = G$2.prototype = new F$1();
-H$1.constructor = G$2;
-C$2(H$1, E$1.prototype);
-H$1.isPureReactComponent = true;
-var I$1 = Array.isArray, J = Object.prototype.hasOwnProperty, K$1 = { current: null }, L$1 = { key: true, ref: true, __self: true, __source: true };
+var H$2 = G$3.prototype = new F$1();
+H$2.constructor = G$3;
+C$2(H$2, E$1.prototype);
+H$2.isPureReactComponent = true;
+var I$1 = Array.isArray, J$1 = Object.prototype.hasOwnProperty, K$2 = { current: null }, L$2 = { key: true, ref: true, __self: true, __source: true };
 function M$2(a2, b2, e2) {
   var d2, c2 = {}, k2 = null, h = null;
-  if (null != b2) for (d2 in void 0 !== b2.ref && (h = b2.ref), void 0 !== b2.key && (k2 = "" + b2.key), b2) J.call(b2, d2) && !L$1.hasOwnProperty(d2) && (c2[d2] = b2[d2]);
+  if (null != b2) for (d2 in void 0 !== b2.ref && (h = b2.ref), void 0 !== b2.key && (k2 = "" + b2.key), b2) J$1.call(b2, d2) && !L$2.hasOwnProperty(d2) && (c2[d2] = b2[d2]);
   var g = arguments.length - 2;
   if (1 === g) c2.children = e2;
   else if (1 < g) {
@@ -108,7 +108,7 @@ function M$2(a2, b2, e2) {
     c2.children = f2;
   }
   if (a2 && a2.defaultProps) for (d2 in g = a2.defaultProps, g) void 0 === c2[d2] && (c2[d2] = g[d2]);
-  return { $$typeof: l$4, type: a2, key: k2, ref: h, props: c2, _owner: K$1.current };
+  return { $$typeof: l$4, type: a2, key: k2, ref: h, props: c2, _owner: K$2.current };
 }
 function N$2(a2, b2) {
   return { $$typeof: l$4, type: a2.type, key: b2, ref: a2.ref, props: a2.props, _owner: a2._owner };
@@ -123,7 +123,7 @@ function escape(a2) {
   });
 }
 var P$1 = /\/+/g;
-function Q$1(a2, b2) {
+function Q$2(a2, b2) {
   return "object" === typeof a2 && null !== a2 && null != a2.key ? escape("" + a2.key) : b2.toString(36);
 }
 function R$2(a2, b2, e2, d2, c2) {
@@ -143,17 +143,17 @@ function R$2(a2, b2, e2, d2, c2) {
           h = true;
       }
   }
-  if (h) return h = a2, c2 = c2(h), a2 = "" === d2 ? "." + Q$1(h, 0) : d2, I$1(c2) ? (e2 = "", null != a2 && (e2 = a2.replace(P$1, "$&/") + "/"), R$2(c2, b2, e2, "", function(a3) {
+  if (h) return h = a2, c2 = c2(h), a2 = "" === d2 ? "." + Q$2(h, 0) : d2, I$1(c2) ? (e2 = "", null != a2 && (e2 = a2.replace(P$1, "$&/") + "/"), R$2(c2, b2, e2, "", function(a3) {
     return a3;
   })) : null != c2 && (O$2(c2) && (c2 = N$2(c2, e2 + (!c2.key || h && h.key === c2.key ? "" : ("" + c2.key).replace(P$1, "$&/") + "/") + a2)), b2.push(c2)), 1;
   h = 0;
   d2 = "" === d2 ? "." : d2 + ":";
   if (I$1(a2)) for (var g = 0; g < a2.length; g++) {
     k2 = a2[g];
-    var f2 = d2 + Q$1(k2, g);
+    var f2 = d2 + Q$2(k2, g);
     h += R$2(k2, b2, e2, f2, c2);
   }
-  else if (f2 = A$1(a2), "function" === typeof f2) for (a2 = f2.call(a2), g = 0; !(k2 = a2.next()).done; ) k2 = k2.value, f2 = d2 + Q$1(k2, g++), h += R$2(k2, b2, e2, f2, c2);
+  else if (f2 = A$1(a2), "function" === typeof f2) for (a2 = f2.call(a2), g = 0; !(k2 = a2.next()).done; ) k2 = k2.value, f2 = d2 + Q$2(k2, g++), h += R$2(k2, b2, e2, f2, c2);
   else if ("object" === k2) throw b2 = String(a2), Error("Objects are not valid as a React child (found: " + ("[object Object]" === b2 ? "object with keys {" + Object.keys(a2).join(", ") + "}" : b2) + "). If you meant to render a collection of children, use an array instead.");
   return h;
 }
@@ -179,8 +179,8 @@ function T$1(a2) {
   if (1 === a2._status) return a2._result.default;
   throw a2._result;
 }
-var U$2 = { current: null }, V$1 = { transition: null }, W$1 = { ReactCurrentDispatcher: U$2, ReactCurrentBatchConfig: V$1, ReactCurrentOwner: K$1 };
-function X$2() {
+var U$2 = { current: null }, V$1 = { transition: null }, W$2 = { ReactCurrentDispatcher: U$2, ReactCurrentBatchConfig: V$1, ReactCurrentOwner: K$2 };
+function X$3() {
   throw Error("act(...) is not supported in production builds of React.");
 }
 react_production_min.Children = { map: S$4, forEach: function(a2, b2, e2) {
@@ -204,19 +204,19 @@ react_production_min.Children = { map: S$4, forEach: function(a2, b2, e2) {
 react_production_min.Component = E$1;
 react_production_min.Fragment = p$4;
 react_production_min.Profiler = r$5;
-react_production_min.PureComponent = G$2;
+react_production_min.PureComponent = G$3;
 react_production_min.StrictMode = q$2;
 react_production_min.Suspense = w;
-react_production_min.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = W$1;
-react_production_min.act = X$2;
+react_production_min.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = W$2;
+react_production_min.act = X$3;
 react_production_min.cloneElement = function(a2, b2, e2) {
   if (null === a2 || void 0 === a2) throw Error("React.cloneElement(...): The argument must be a React element, but you passed " + a2 + ".");
   var d2 = C$2({}, a2.props), c2 = a2.key, k2 = a2.ref, h = a2._owner;
   if (null != b2) {
-    void 0 !== b2.ref && (k2 = b2.ref, h = K$1.current);
+    void 0 !== b2.ref && (k2 = b2.ref, h = K$2.current);
     void 0 !== b2.key && (c2 = "" + b2.key);
     if (a2.type && a2.type.defaultProps) var g = a2.type.defaultProps;
-    for (f2 in b2) J.call(b2, f2) && !L$1.hasOwnProperty(f2) && (d2[f2] = void 0 === b2[f2] && void 0 !== g ? g[f2] : b2[f2]);
+    for (f2 in b2) J$1.call(b2, f2) && !L$2.hasOwnProperty(f2) && (d2[f2] = void 0 === b2[f2] && void 0 !== g ? g[f2] : b2[f2]);
   }
   var f2 = arguments.length - 2;
   if (1 === f2) d2.children = e2;
@@ -260,7 +260,7 @@ react_production_min.startTransition = function(a2) {
     V$1.transition = b2;
   }
 };
-react_production_min.unstable_act = X$2;
+react_production_min.unstable_act = X$3;
 react_production_min.useCallback = function(a2, b2) {
   return U$2.current.useCallback(a2, b2);
 };
@@ -324,7 +324,7 @@ const React$1 = /* @__PURE__ */ _mergeNamespaces({
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var f$3 = reactExports, k$2 = Symbol.for("react.element"), l$3 = Symbol.for("react.fragment"), m$3 = Object.prototype.hasOwnProperty, n$1 = f$3.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner, p$3 = { key: true, ref: true, __self: true, __source: true };
+var f$3 = reactExports, k$3 = Symbol.for("react.element"), l$3 = Symbol.for("react.fragment"), m$3 = Object.prototype.hasOwnProperty, n$1 = f$3.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner, p$3 = { key: true, ref: true, __self: true, __source: true };
 function q$1(c2, a2, g) {
   var b2, d2 = {}, e2 = null, h = null;
   void 0 !== g && (e2 = "" + g);
@@ -332,7 +332,7 @@ function q$1(c2, a2, g) {
   void 0 !== a2.ref && (h = a2.ref);
   for (b2 in a2) m$3.call(a2, b2) && !p$3.hasOwnProperty(b2) && (d2[b2] = a2[b2]);
   if (c2 && c2.defaultProps) for (b2 in a2 = c2.defaultProps, a2) void 0 === d2[b2] && (d2[b2] = a2[b2]);
-  return { $$typeof: k$2, type: c2, key: e2, ref: h, props: d2, _owner: n$1.current };
+  return { $$typeof: k$3, type: c2, key: e2, ref: h, props: d2, _owner: n$1.current };
 }
 reactJsxRuntime_production_min.Fragment = l$3;
 reactJsxRuntime_production_min.jsx = q$1;
@@ -659,34 +659,34 @@ function v$4(a2, b2, c2, d2, e2, f2, g) {
   this.sanitizeURL = f2;
   this.removeEmptyString = g;
 }
-var z = {};
+var z$1 = {};
 "children dangerouslySetInnerHTML defaultValue defaultChecked innerHTML suppressContentEditableWarning suppressHydrationWarning style".split(" ").forEach(function(a2) {
-  z[a2] = new v$4(a2, 0, false, a2, null, false, false);
+  z$1[a2] = new v$4(a2, 0, false, a2, null, false, false);
 });
 [["acceptCharset", "accept-charset"], ["className", "class"], ["htmlFor", "for"], ["httpEquiv", "http-equiv"]].forEach(function(a2) {
   var b2 = a2[0];
-  z[b2] = new v$4(b2, 1, false, a2[1], null, false, false);
+  z$1[b2] = new v$4(b2, 1, false, a2[1], null, false, false);
 });
 ["contentEditable", "draggable", "spellCheck", "value"].forEach(function(a2) {
-  z[a2] = new v$4(a2, 2, false, a2.toLowerCase(), null, false, false);
+  z$1[a2] = new v$4(a2, 2, false, a2.toLowerCase(), null, false, false);
 });
 ["autoReverse", "externalResourcesRequired", "focusable", "preserveAlpha"].forEach(function(a2) {
-  z[a2] = new v$4(a2, 2, false, a2, null, false, false);
+  z$1[a2] = new v$4(a2, 2, false, a2, null, false, false);
 });
 "allowFullScreen async autoFocus autoPlay controls default defer disabled disablePictureInPicture disableRemotePlayback formNoValidate hidden loop noModule noValidate open playsInline readOnly required reversed scoped seamless itemScope".split(" ").forEach(function(a2) {
-  z[a2] = new v$4(a2, 3, false, a2.toLowerCase(), null, false, false);
+  z$1[a2] = new v$4(a2, 3, false, a2.toLowerCase(), null, false, false);
 });
 ["checked", "multiple", "muted", "selected"].forEach(function(a2) {
-  z[a2] = new v$4(a2, 3, true, a2, null, false, false);
+  z$1[a2] = new v$4(a2, 3, true, a2, null, false, false);
 });
 ["capture", "download"].forEach(function(a2) {
-  z[a2] = new v$4(a2, 4, false, a2, null, false, false);
+  z$1[a2] = new v$4(a2, 4, false, a2, null, false, false);
 });
 ["cols", "rows", "size", "span"].forEach(function(a2) {
-  z[a2] = new v$4(a2, 6, false, a2, null, false, false);
+  z$1[a2] = new v$4(a2, 6, false, a2, null, false, false);
 });
 ["rowSpan", "start"].forEach(function(a2) {
-  z[a2] = new v$4(a2, 5, false, a2.toLowerCase(), null, false, false);
+  z$1[a2] = new v$4(a2, 5, false, a2.toLowerCase(), null, false, false);
 });
 var ra = /[\-:]([a-z])/g;
 function sa(a2) {
@@ -697,25 +697,25 @@ function sa(a2) {
     ra,
     sa
   );
-  z[b2] = new v$4(b2, 1, false, a2, null, false, false);
+  z$1[b2] = new v$4(b2, 1, false, a2, null, false, false);
 });
 "xlink:actuate xlink:arcrole xlink:role xlink:show xlink:title xlink:type".split(" ").forEach(function(a2) {
   var b2 = a2.replace(ra, sa);
-  z[b2] = new v$4(b2, 1, false, a2, "http://www.w3.org/1999/xlink", false, false);
+  z$1[b2] = new v$4(b2, 1, false, a2, "http://www.w3.org/1999/xlink", false, false);
 });
 ["xml:base", "xml:lang", "xml:space"].forEach(function(a2) {
   var b2 = a2.replace(ra, sa);
-  z[b2] = new v$4(b2, 1, false, a2, "http://www.w3.org/XML/1998/namespace", false, false);
+  z$1[b2] = new v$4(b2, 1, false, a2, "http://www.w3.org/XML/1998/namespace", false, false);
 });
 ["tabIndex", "crossOrigin"].forEach(function(a2) {
-  z[a2] = new v$4(a2, 1, false, a2.toLowerCase(), null, false, false);
+  z$1[a2] = new v$4(a2, 1, false, a2.toLowerCase(), null, false, false);
 });
-z.xlinkHref = new v$4("xlinkHref", 1, false, "xlink:href", "http://www.w3.org/1999/xlink", true, false);
+z$1.xlinkHref = new v$4("xlinkHref", 1, false, "xlink:href", "http://www.w3.org/1999/xlink", true, false);
 ["src", "href", "action", "formAction"].forEach(function(a2) {
-  z[a2] = new v$4(a2, 1, false, a2.toLowerCase(), null, true, true);
+  z$1[a2] = new v$4(a2, 1, false, a2.toLowerCase(), null, true, true);
 });
 function ta(a2, b2, c2, d2) {
-  var e2 = z.hasOwnProperty(b2) ? z[b2] : null;
+  var e2 = z$1.hasOwnProperty(b2) ? z$1[b2] : null;
   if (null !== e2 ? 0 !== e2.type : d2 || !(2 < b2.length) || "o" !== b2[0] && "O" !== b2[0] || "n" !== b2[1] && "N" !== b2[1]) qa(b2, c2, e2, d2) && (c2 = null), d2 || null === e2 ? oa(b2) && (null === c2 ? a2.removeAttribute(b2) : a2.setAttribute(b2, "" + c2)) : e2.mustUseProperty ? a2[e2.propertyName] = null === c2 ? 3 === e2.type ? false : "" : c2 : (b2 = e2.attributeName, d2 = e2.attributeNamespace, null === c2 ? a2.removeAttribute(b2) : (e2 = e2.type, c2 = 3 === e2 || 4 === e2 && true === c2 ? "" : "" + c2, d2 ? a2.setAttributeNS(d2, b2, c2) : a2.setAttribute(b2, c2)));
 }
 var ua = aa.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED, va = Symbol.for("react.element"), wa = Symbol.for("react.portal"), ya = Symbol.for("react.fragment"), za = Symbol.for("react.strict_mode"), Aa = Symbol.for("react.profiler"), Ba = Symbol.for("react.provider"), Ca = Symbol.for("react.context"), Da = Symbol.for("react.forward_ref"), Ea = Symbol.for("react.suspense"), Fa = Symbol.for("react.suspense_list"), Ga = Symbol.for("react.memo"), Ha = Symbol.for("react.lazy");
@@ -1972,10 +1972,10 @@ var Qd = A({}, ud, { key: function(a2) {
   },
   deltaZ: 0,
   deltaMode: 0
-}), Zd = rd(Yd), $d = [9, 13, 27, 32], ae = ia && "CompositionEvent" in window, be = null;
-ia && "documentMode" in document && (be = document.documentMode);
-var ce = ia && "TextEvent" in window && !be, de = ia && (!ae || be && 8 < be && 11 >= be), ee = String.fromCharCode(32), fe = false;
-function ge(a2, b2) {
+}), Zd = rd(Yd), $d = [9, 13, 27, 32], ae$1 = ia && "CompositionEvent" in window, be$1 = null;
+ia && "documentMode" in document && (be$1 = document.documentMode);
+var ce$1 = ia && "TextEvent" in window && !be$1, de$1 = ia && (!ae$1 || be$1 && 8 < be$1 && 11 >= be$1), ee$1 = String.fromCharCode(32), fe$1 = false;
+function ge$1(a2, b2) {
   switch (a2) {
     case "keyup":
       return -1 !== $d.indexOf(b2.keyCode);
@@ -1989,27 +1989,27 @@ function ge(a2, b2) {
       return false;
   }
 }
-function he(a2) {
+function he$1(a2) {
   a2 = a2.detail;
   return "object" === typeof a2 && "data" in a2 ? a2.data : null;
 }
-var ie = false;
-function je(a2, b2) {
+var ie$1 = false;
+function je$1(a2, b2) {
   switch (a2) {
     case "compositionend":
-      return he(b2);
+      return he$1(b2);
     case "keypress":
       if (32 !== b2.which) return null;
-      fe = true;
-      return ee;
+      fe$1 = true;
+      return ee$1;
     case "textInput":
-      return a2 = b2.data, a2 === ee && fe ? null : a2;
+      return a2 = b2.data, a2 === ee$1 && fe$1 ? null : a2;
     default:
       return null;
   }
 }
-function ke(a2, b2) {
-  if (ie) return "compositionend" === a2 || !ae && ge(a2, b2) ? (a2 = nd(), md = ld = kd = null, ie = false, a2) : null;
+function ke$1(a2, b2) {
+  if (ie$1) return "compositionend" === a2 || !ae$1 && ge$1(a2, b2) ? (a2 = nd(), md = ld = kd = null, ie$1 = false, a2) : null;
   switch (a2) {
     case "paste":
       return null;
@@ -2020,89 +2020,89 @@ function ke(a2, b2) {
       }
       return null;
     case "compositionend":
-      return de && "ko" !== b2.locale ? null : b2.data;
+      return de$1 && "ko" !== b2.locale ? null : b2.data;
     default:
       return null;
   }
 }
-var le = { color: true, date: true, datetime: true, "datetime-local": true, email: true, month: true, number: true, password: true, range: true, search: true, tel: true, text: true, time: true, url: true, week: true };
-function me(a2) {
+var le$1 = { color: true, date: true, datetime: true, "datetime-local": true, email: true, month: true, number: true, password: true, range: true, search: true, tel: true, text: true, time: true, url: true, week: true };
+function me$1(a2) {
   var b2 = a2 && a2.nodeName && a2.nodeName.toLowerCase();
-  return "input" === b2 ? !!le[a2.type] : "textarea" === b2 ? true : false;
+  return "input" === b2 ? !!le$1[a2.type] : "textarea" === b2 ? true : false;
 }
-function ne(a2, b2, c2, d2) {
+function ne$1(a2, b2, c2, d2) {
   Eb(d2);
-  b2 = oe(b2, "onChange");
+  b2 = oe$1(b2, "onChange");
   0 < b2.length && (c2 = new td$1("onChange", "change", null, c2, d2), a2.push({ event: c2, listeners: b2 }));
 }
-var pe = null, qe = null;
-function re(a2) {
-  se(a2, 0);
+var pe$1 = null, qe$1 = null;
+function re$1(a2) {
+  se$1(a2, 0);
 }
-function te(a2) {
-  var b2 = ue(a2);
+function te$1(a2) {
+  var b2 = ue$1(a2);
   if (Wa(b2)) return a2;
 }
-function ve(a2, b2) {
+function ve$1(a2, b2) {
   if ("change" === a2) return b2;
 }
-var we = false;
+var we$1 = false;
 if (ia) {
-  var xe;
+  var xe$1;
   if (ia) {
-    var ye = "oninput" in document;
-    if (!ye) {
-      var ze = document.createElement("div");
-      ze.setAttribute("oninput", "return;");
-      ye = "function" === typeof ze.oninput;
+    var ye$1 = "oninput" in document;
+    if (!ye$1) {
+      var ze$1 = document.createElement("div");
+      ze$1.setAttribute("oninput", "return;");
+      ye$1 = "function" === typeof ze$1.oninput;
     }
-    xe = ye;
-  } else xe = false;
-  we = xe && (!document.documentMode || 9 < document.documentMode);
+    xe$1 = ye$1;
+  } else xe$1 = false;
+  we$1 = xe$1 && (!document.documentMode || 9 < document.documentMode);
 }
-function Ae() {
-  pe && (pe.detachEvent("onpropertychange", Be), qe = pe = null);
+function Ae$1() {
+  pe$1 && (pe$1.detachEvent("onpropertychange", Be$1), qe$1 = pe$1 = null);
 }
-function Be(a2) {
-  if ("value" === a2.propertyName && te(qe)) {
+function Be$1(a2) {
+  if ("value" === a2.propertyName && te$1(qe$1)) {
     var b2 = [];
-    ne(b2, qe, a2, xb(a2));
-    Jb(re, b2);
+    ne$1(b2, qe$1, a2, xb(a2));
+    Jb(re$1, b2);
   }
 }
-function Ce(a2, b2, c2) {
-  "focusin" === a2 ? (Ae(), pe = b2, qe = c2, pe.attachEvent("onpropertychange", Be)) : "focusout" === a2 && Ae();
+function Ce$1(a2, b2, c2) {
+  "focusin" === a2 ? (Ae$1(), pe$1 = b2, qe$1 = c2, pe$1.attachEvent("onpropertychange", Be$1)) : "focusout" === a2 && Ae$1();
 }
-function De(a2) {
-  if ("selectionchange" === a2 || "keyup" === a2 || "keydown" === a2) return te(qe);
+function De$1(a2) {
+  if ("selectionchange" === a2 || "keyup" === a2 || "keydown" === a2) return te$1(qe$1);
 }
-function Ee(a2, b2) {
-  if ("click" === a2) return te(b2);
+function Ee$1(a2, b2) {
+  if ("click" === a2) return te$1(b2);
 }
-function Fe(a2, b2) {
-  if ("input" === a2 || "change" === a2) return te(b2);
+function Fe$1(a2, b2) {
+  if ("input" === a2 || "change" === a2) return te$1(b2);
 }
-function Ge(a2, b2) {
+function Ge$1(a2, b2) {
   return a2 === b2 && (0 !== a2 || 1 / a2 === 1 / b2) || a2 !== a2 && b2 !== b2;
 }
-var He = "function" === typeof Object.is ? Object.is : Ge;
-function Ie(a2, b2) {
-  if (He(a2, b2)) return true;
+var He$1 = "function" === typeof Object.is ? Object.is : Ge$1;
+function Ie$1(a2, b2) {
+  if (He$1(a2, b2)) return true;
   if ("object" !== typeof a2 || null === a2 || "object" !== typeof b2 || null === b2) return false;
   var c2 = Object.keys(a2), d2 = Object.keys(b2);
   if (c2.length !== d2.length) return false;
   for (d2 = 0; d2 < c2.length; d2++) {
     var e2 = c2[d2];
-    if (!ja.call(b2, e2) || !He(a2[e2], b2[e2])) return false;
+    if (!ja.call(b2, e2) || !He$1(a2[e2], b2[e2])) return false;
   }
   return true;
 }
-function Je(a2) {
+function Je$1(a2) {
   for (; a2 && a2.firstChild; ) a2 = a2.firstChild;
   return a2;
 }
-function Ke(a2, b2) {
-  var c2 = Je(a2);
+function Ke$1(a2, b2) {
+  var c2 = Je$1(a2);
   a2 = 0;
   for (var d2; c2; ) {
     if (3 === c2.nodeType) {
@@ -2120,13 +2120,13 @@ function Ke(a2, b2) {
       }
       c2 = void 0;
     }
-    c2 = Je(c2);
+    c2 = Je$1(c2);
   }
 }
-function Le(a2, b2) {
-  return a2 && b2 ? a2 === b2 ? true : a2 && 3 === a2.nodeType ? false : b2 && 3 === b2.nodeType ? Le(a2, b2.parentNode) : "contains" in a2 ? a2.contains(b2) : a2.compareDocumentPosition ? !!(a2.compareDocumentPosition(b2) & 16) : false : false;
+function Le$1(a2, b2) {
+  return a2 && b2 ? a2 === b2 ? true : a2 && 3 === a2.nodeType ? false : b2 && 3 === b2.nodeType ? Le$1(a2, b2.parentNode) : "contains" in a2 ? a2.contains(b2) : a2.compareDocumentPosition ? !!(a2.compareDocumentPosition(b2) & 16) : false : false;
 }
-function Me() {
+function Me$1() {
   for (var a2 = window, b2 = Xa(); b2 instanceof a2.HTMLIFrameElement; ) {
     try {
       var c2 = "string" === typeof b2.contentWindow.location.href;
@@ -2139,22 +2139,22 @@ function Me() {
   }
   return b2;
 }
-function Ne(a2) {
+function Ne$1(a2) {
   var b2 = a2 && a2.nodeName && a2.nodeName.toLowerCase();
   return b2 && ("input" === b2 && ("text" === a2.type || "search" === a2.type || "tel" === a2.type || "url" === a2.type || "password" === a2.type) || "textarea" === b2 || "true" === a2.contentEditable);
 }
-function Oe(a2) {
-  var b2 = Me(), c2 = a2.focusedElem, d2 = a2.selectionRange;
-  if (b2 !== c2 && c2 && c2.ownerDocument && Le(c2.ownerDocument.documentElement, c2)) {
-    if (null !== d2 && Ne(c2)) {
+function Oe$1(a2) {
+  var b2 = Me$1(), c2 = a2.focusedElem, d2 = a2.selectionRange;
+  if (b2 !== c2 && c2 && c2.ownerDocument && Le$1(c2.ownerDocument.documentElement, c2)) {
+    if (null !== d2 && Ne$1(c2)) {
       if (b2 = d2.start, a2 = d2.end, void 0 === a2 && (a2 = b2), "selectionStart" in c2) c2.selectionStart = b2, c2.selectionEnd = Math.min(a2, c2.value.length);
       else if (a2 = (b2 = c2.ownerDocument || document) && b2.defaultView || window, a2.getSelection) {
         a2 = a2.getSelection();
         var e2 = c2.textContent.length, f2 = Math.min(d2.start, e2);
         d2 = void 0 === d2.end ? f2 : Math.min(d2.end, e2);
         !a2.extend && f2 > d2 && (e2 = d2, d2 = f2, f2 = e2);
-        e2 = Ke(c2, f2);
-        var g = Ke(
+        e2 = Ke$1(c2, f2);
+        var g = Ke$1(
           c2,
           d2
         );
@@ -2167,28 +2167,28 @@ function Oe(a2) {
     for (c2 = 0; c2 < b2.length; c2++) a2 = b2[c2], a2.element.scrollLeft = a2.left, a2.element.scrollTop = a2.top;
   }
 }
-var Pe = ia && "documentMode" in document && 11 >= document.documentMode, Qe = null, Re = null, Se = null, Te = false;
-function Ue(a2, b2, c2) {
+var Pe$1 = ia && "documentMode" in document && 11 >= document.documentMode, Qe$1 = null, Re$1 = null, Se$1 = null, Te$1 = false;
+function Ue$1(a2, b2, c2) {
   var d2 = c2.window === c2 ? c2.document : 9 === c2.nodeType ? c2 : c2.ownerDocument;
-  Te || null == Qe || Qe !== Xa(d2) || (d2 = Qe, "selectionStart" in d2 && Ne(d2) ? d2 = { start: d2.selectionStart, end: d2.selectionEnd } : (d2 = (d2.ownerDocument && d2.ownerDocument.defaultView || window).getSelection(), d2 = { anchorNode: d2.anchorNode, anchorOffset: d2.anchorOffset, focusNode: d2.focusNode, focusOffset: d2.focusOffset }), Se && Ie(Se, d2) || (Se = d2, d2 = oe(Re, "onSelect"), 0 < d2.length && (b2 = new td$1("onSelect", "select", null, b2, c2), a2.push({ event: b2, listeners: d2 }), b2.target = Qe)));
+  Te$1 || null == Qe$1 || Qe$1 !== Xa(d2) || (d2 = Qe$1, "selectionStart" in d2 && Ne$1(d2) ? d2 = { start: d2.selectionStart, end: d2.selectionEnd } : (d2 = (d2.ownerDocument && d2.ownerDocument.defaultView || window).getSelection(), d2 = { anchorNode: d2.anchorNode, anchorOffset: d2.anchorOffset, focusNode: d2.focusNode, focusOffset: d2.focusOffset }), Se$1 && Ie$1(Se$1, d2) || (Se$1 = d2, d2 = oe$1(Re$1, "onSelect"), 0 < d2.length && (b2 = new td$1("onSelect", "select", null, b2, c2), a2.push({ event: b2, listeners: d2 }), b2.target = Qe$1)));
 }
-function Ve(a2, b2) {
+function Ve$1(a2, b2) {
   var c2 = {};
   c2[a2.toLowerCase()] = b2.toLowerCase();
   c2["Webkit" + a2] = "webkit" + b2;
   c2["Moz" + a2] = "moz" + b2;
   return c2;
 }
-var We = { animationend: Ve("Animation", "AnimationEnd"), animationiteration: Ve("Animation", "AnimationIteration"), animationstart: Ve("Animation", "AnimationStart"), transitionend: Ve("Transition", "TransitionEnd") }, Xe = {}, Ye$1 = {};
-ia && (Ye$1 = document.createElement("div").style, "AnimationEvent" in window || (delete We.animationend.animation, delete We.animationiteration.animation, delete We.animationstart.animation), "TransitionEvent" in window || delete We.transitionend.transition);
-function Ze(a2) {
-  if (Xe[a2]) return Xe[a2];
-  if (!We[a2]) return a2;
-  var b2 = We[a2], c2;
-  for (c2 in b2) if (b2.hasOwnProperty(c2) && c2 in Ye$1) return Xe[a2] = b2[c2];
+var We$1 = { animationend: Ve$1("Animation", "AnimationEnd"), animationiteration: Ve$1("Animation", "AnimationIteration"), animationstart: Ve$1("Animation", "AnimationStart"), transitionend: Ve$1("Transition", "TransitionEnd") }, Xe$1 = {}, Ye$1 = {};
+ia && (Ye$1 = document.createElement("div").style, "AnimationEvent" in window || (delete We$1.animationend.animation, delete We$1.animationiteration.animation, delete We$1.animationstart.animation), "TransitionEvent" in window || delete We$1.transitionend.transition);
+function Ze$1(a2) {
+  if (Xe$1[a2]) return Xe$1[a2];
+  if (!We$1[a2]) return a2;
+  var b2 = We$1[a2], c2;
+  for (c2 in b2) if (b2.hasOwnProperty(c2) && c2 in Ye$1) return Xe$1[a2] = b2[c2];
   return a2;
 }
-var $e = Ze("animationend"), af = Ze("animationiteration"), bf = Ze("animationstart"), cf = Ze("transitionend"), df = /* @__PURE__ */ new Map(), ef = "abort auxClick cancel canPlay canPlayThrough click close contextMenu copy cut drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop durationChange emptied encrypted ended error gotPointerCapture input invalid keyDown keyPress keyUp load loadedData loadedMetadata loadStart lostPointerCapture mouseDown mouseMove mouseOut mouseOver mouseUp paste pause play playing pointerCancel pointerDown pointerMove pointerOut pointerOver pointerUp progress rateChange reset resize seeked seeking stalled submit suspend timeUpdate touchCancel touchEnd touchStart volumeChange scroll toggle touchMove waiting wheel".split(" ");
+var $e$1 = Ze$1("animationend"), af = Ze$1("animationiteration"), bf = Ze$1("animationstart"), cf = Ze$1("transitionend"), df = /* @__PURE__ */ new Map(), ef = "abort auxClick cancel canPlay canPlayThrough click close contextMenu copy cut drag dragEnd dragEnter dragExit dragLeave dragOver dragStart drop durationChange emptied encrypted ended error gotPointerCapture input invalid keyDown keyPress keyUp load loadedData loadedMetadata loadStart lostPointerCapture mouseDown mouseMove mouseOut mouseOver mouseUp paste pause play playing pointerCancel pointerDown pointerMove pointerOut pointerOver pointerUp progress rateChange reset resize seeked seeking stalled submit suspend timeUpdate touchCancel touchEnd touchStart volumeChange scroll toggle touchMove waiting wheel".split(" ");
 function ff(a2, b2) {
   df.set(a2, b2);
   fa(b2, [a2]);
@@ -2197,7 +2197,7 @@ for (var gf = 0; gf < ef.length; gf++) {
   var hf = ef[gf], jf = hf.toLowerCase(), kf = hf[0].toUpperCase() + hf.slice(1);
   ff(jf, "on" + kf);
 }
-ff($e, "onAnimationEnd");
+ff($e$1, "onAnimationEnd");
 ff(af, "onAnimationIteration");
 ff(bf, "onAnimationStart");
 ff("dblclick", "onDoubleClick");
@@ -2221,7 +2221,7 @@ function nf(a2, b2, c2) {
   Ub(d2, b2, void 0, a2);
   a2.currentTarget = null;
 }
-function se(a2, b2) {
+function se$1(a2, b2) {
   b2 = 0 !== (b2 & 4);
   for (var c2 = 0; c2 < a2.length; c2++) {
     var d2 = a2[c2], e2 = d2.event;
@@ -2367,7 +2367,7 @@ function hd(a2, b2, c2, d2, e2) {
           case "touchstart":
             k3 = Vd;
             break;
-          case $e:
+          case $e$1:
           case af:
           case bf:
             k3 = Hd;
@@ -2424,8 +2424,8 @@ function hd(a2, b2, c2, d2, e2) {
             x = "onMouseEnter";
             w2 = "mouse";
             if ("pointerout" === a2 || "pointerover" === a2) t2 = Td, F2 = "onPointerLeave", x = "onPointerEnter", w2 = "pointer";
-            J2 = null == k3 ? h2 : ue(k3);
-            u2 = null == n3 ? h2 : ue(n3);
+            J2 = null == k3 ? h2 : ue$1(k3);
+            u2 = null == n3 ? h2 : ue$1(n3);
             h2 = new t2(F2, w2 + "leave", k3, c2, e3);
             h2.target = J2;
             h2.relatedTarget = u2;
@@ -2455,47 +2455,47 @@ function hd(a2, b2, c2, d2, e2) {
         }
       }
       a: {
-        h2 = d3 ? ue(d3) : window;
+        h2 = d3 ? ue$1(d3) : window;
         k3 = h2.nodeName && h2.nodeName.toLowerCase();
-        if ("select" === k3 || "input" === k3 && "file" === h2.type) var na = ve;
-        else if (me(h2)) if (we) na = Fe;
+        if ("select" === k3 || "input" === k3 && "file" === h2.type) var na = ve$1;
+        else if (me$1(h2)) if (we$1) na = Fe$1;
         else {
-          na = De;
-          var xa = Ce;
+          na = De$1;
+          var xa = Ce$1;
         }
-        else (k3 = h2.nodeName) && "input" === k3.toLowerCase() && ("checkbox" === h2.type || "radio" === h2.type) && (na = Ee);
+        else (k3 = h2.nodeName) && "input" === k3.toLowerCase() && ("checkbox" === h2.type || "radio" === h2.type) && (na = Ee$1);
         if (na && (na = na(a2, d3))) {
-          ne(g2, na, c2, e3);
+          ne$1(g2, na, c2, e3);
           break a;
         }
         xa && xa(a2, h2, d3);
         "focusout" === a2 && (xa = h2._wrapperState) && xa.controlled && "number" === h2.type && cb(h2, "number", h2.value);
       }
-      xa = d3 ? ue(d3) : window;
+      xa = d3 ? ue$1(d3) : window;
       switch (a2) {
         case "focusin":
-          if (me(xa) || "true" === xa.contentEditable) Qe = xa, Re = d3, Se = null;
+          if (me$1(xa) || "true" === xa.contentEditable) Qe$1 = xa, Re$1 = d3, Se$1 = null;
           break;
         case "focusout":
-          Se = Re = Qe = null;
+          Se$1 = Re$1 = Qe$1 = null;
           break;
         case "mousedown":
-          Te = true;
+          Te$1 = true;
           break;
         case "contextmenu":
         case "mouseup":
         case "dragend":
-          Te = false;
-          Ue(g2, c2, e3);
+          Te$1 = false;
+          Ue$1(g2, c2, e3);
           break;
         case "selectionchange":
-          if (Pe) break;
+          if (Pe$1) break;
         case "keydown":
         case "keyup":
-          Ue(g2, c2, e3);
+          Ue$1(g2, c2, e3);
       }
       var $a;
-      if (ae) b: {
+      if (ae$1) b: {
         switch (a2) {
           case "compositionstart":
             var ba = "onCompositionStart";
@@ -2509,17 +2509,17 @@ function hd(a2, b2, c2, d2, e2) {
         }
         ba = void 0;
       }
-      else ie ? ge(a2, c2) && (ba = "onCompositionEnd") : "keydown" === a2 && 229 === c2.keyCode && (ba = "onCompositionStart");
-      ba && (de && "ko" !== c2.locale && (ie || "onCompositionStart" !== ba ? "onCompositionEnd" === ba && ie && ($a = nd()) : (kd = e3, ld = "value" in kd ? kd.value : kd.textContent, ie = true)), xa = oe(d3, ba), 0 < xa.length && (ba = new Ld(ba, a2, null, c2, e3), g2.push({ event: ba, listeners: xa }), $a ? ba.data = $a : ($a = he(c2), null !== $a && (ba.data = $a))));
-      if ($a = ce ? je(a2, c2) : ke(a2, c2)) d3 = oe(d3, "onBeforeInput"), 0 < d3.length && (e3 = new Ld("onBeforeInput", "beforeinput", null, c2, e3), g2.push({ event: e3, listeners: d3 }), e3.data = $a);
+      else ie$1 ? ge$1(a2, c2) && (ba = "onCompositionEnd") : "keydown" === a2 && 229 === c2.keyCode && (ba = "onCompositionStart");
+      ba && (de$1 && "ko" !== c2.locale && (ie$1 || "onCompositionStart" !== ba ? "onCompositionEnd" === ba && ie$1 && ($a = nd()) : (kd = e3, ld = "value" in kd ? kd.value : kd.textContent, ie$1 = true)), xa = oe$1(d3, ba), 0 < xa.length && (ba = new Ld(ba, a2, null, c2, e3), g2.push({ event: ba, listeners: xa }), $a ? ba.data = $a : ($a = he$1(c2), null !== $a && (ba.data = $a))));
+      if ($a = ce$1 ? je$1(a2, c2) : ke$1(a2, c2)) d3 = oe$1(d3, "onBeforeInput"), 0 < d3.length && (e3 = new Ld("onBeforeInput", "beforeinput", null, c2, e3), g2.push({ event: e3, listeners: d3 }), e3.data = $a);
     }
-    se(g2, b2);
+    se$1(g2, b2);
   });
 }
 function tf(a2, b2, c2) {
   return { instance: a2, listener: b2, currentTarget: c2 };
 }
-function oe(a2, b2) {
+function oe$1(a2, b2) {
   for (var c2 = b2 + "Capture", d2 = []; null !== a2; ) {
     var e2 = a2, f2 = e2.stateNode;
     5 === e2.tag && null !== f2 && (e2 = f2, f2 = Kb(a2, c2), null != f2 && d2.unshift(tf(a2, f2, e2)), f2 = Kb(a2, b2), null != f2 && d2.push(tf(a2, f2, e2)));
@@ -2630,7 +2630,7 @@ function Cb(a2) {
   a2 = a2[Of] || a2[uf];
   return !a2 || 5 !== a2.tag && 6 !== a2.tag && 13 !== a2.tag && 3 !== a2.tag ? null : a2;
 }
-function ue(a2) {
+function ue$1(a2) {
   if (5 === a2.tag || 6 === a2.tag) return a2.stateNode;
   throw Error(p$2(33));
 }
@@ -2644,12 +2644,12 @@ function Uf(a2) {
 function E(a2) {
   0 > Tf || (a2.current = Sf[Tf], Sf[Tf] = null, Tf--);
 }
-function G$1(a2, b2) {
+function G$2(a2, b2) {
   Tf++;
   Sf[Tf] = a2.current;
   a2.current = b2;
 }
-var Vf = {}, H = Uf(Vf), Wf = Uf(false), Xf = Vf;
+var Vf = {}, H$1 = Uf(Vf), Wf = Uf(false), Xf = Vf;
 function Yf(a2, b2) {
   var c2 = a2.type.contextTypes;
   if (!c2) return Vf;
@@ -2666,12 +2666,12 @@ function Zf(a2) {
 }
 function $f() {
   E(Wf);
-  E(H);
+  E(H$1);
 }
 function ag(a2, b2, c2) {
-  if (H.current !== Vf) throw Error(p$2(168));
-  G$1(H, b2);
-  G$1(Wf, c2);
+  if (H$1.current !== Vf) throw Error(p$2(168));
+  G$2(H$1, b2);
+  G$2(Wf, c2);
 }
 function bg(a2, b2, c2) {
   var d2 = a2.stateNode;
@@ -2683,16 +2683,16 @@ function bg(a2, b2, c2) {
 }
 function cg(a2) {
   a2 = (a2 = a2.stateNode) && a2.__reactInternalMemoizedMergedChildContext || Vf;
-  Xf = H.current;
-  G$1(H, a2);
-  G$1(Wf, Wf.current);
+  Xf = H$1.current;
+  G$2(H$1, a2);
+  G$2(Wf, Wf.current);
   return true;
 }
 function dg(a2, b2, c2) {
   var d2 = a2.stateNode;
   if (!d2) throw Error(p$2(169));
-  c2 ? (a2 = bg(a2, b2, Xf), d2.__reactInternalMemoizedMergedChildContext = a2, E(Wf), E(H), G$1(H, a2)) : E(Wf);
-  G$1(Wf, c2);
+  c2 ? (a2 = bg(a2, b2, Xf), d2.__reactInternalMemoizedMergedChildContext = a2, E(Wf), E(H$1), G$2(H$1, a2)) : E(Wf);
+  G$2(Wf, c2);
 }
 var eg = null, fg = false, gg = false;
 function hg(a2) {
@@ -3192,7 +3192,7 @@ function nh(a2, b2, c2) {
   var d2 = a2.updateQueue;
   if (null === d2) return null;
   d2 = d2.shared;
-  if (0 !== (K & 2)) {
+  if (0 !== (K$1 & 2)) {
     var e2 = d2.pending;
     null === e2 ? b2.next = b2 : (b2.next = e2.next, e2.next = b2);
     d2.pending = b2;
@@ -3329,9 +3329,9 @@ function xh(a2) {
   return a2;
 }
 function yh(a2, b2) {
-  G$1(wh, b2);
-  G$1(vh, a2);
-  G$1(uh, th);
+  G$2(wh, b2);
+  G$2(vh, a2);
+  G$2(uh, th);
   a2 = b2.nodeType;
   switch (a2) {
     case 9:
@@ -3342,7 +3342,7 @@ function yh(a2, b2) {
       a2 = 8 === a2 ? b2.parentNode : b2, b2 = a2.namespaceURI || null, a2 = a2.tagName, b2 = lb(b2, a2);
   }
   E(uh);
-  G$1(uh, b2);
+  G$2(uh, b2);
 }
 function zh() {
   E(uh);
@@ -3353,12 +3353,12 @@ function Ah(a2) {
   xh(wh.current);
   var b2 = xh(uh.current);
   var c2 = lb(b2, a2.type);
-  b2 !== c2 && (G$1(vh, a2), G$1(uh, c2));
+  b2 !== c2 && (G$2(vh, a2), G$2(uh, c2));
 }
 function Bh(a2) {
   vh.current === a2 && (E(uh), E(vh));
 }
-var L = Uf(0);
+var L$1 = Uf(0);
 function Ch(a2) {
   for (var b2 = a2; null !== b2; ) {
     if (13 === b2.tag) {
@@ -3392,7 +3392,7 @@ function P() {
 }
 function Mh(a2, b2) {
   if (null === b2) return false;
-  for (var c2 = 0; c2 < b2.length && c2 < a2.length; c2++) if (!He(a2[c2], b2[c2])) return false;
+  for (var c2 = 0; c2 < b2.length && c2 < a2.length; c2++) if (!He$1(a2[c2], b2[c2])) return false;
   return true;
 }
 function Nh(a2, b2, c2, d2, e2, f2) {
@@ -3488,7 +3488,7 @@ function Wh(a2) {
       l2 = l2.next;
     } while (null !== l2 && l2 !== f2);
     null === k2 ? g = d2 : k2.next = h;
-    He(d2, b2.memoizedState) || (dh = true);
+    He$1(d2, b2.memoizedState) || (dh = true);
     b2.memoizedState = d2;
     b2.baseState = g;
     b2.baseQueue = k2;
@@ -3514,7 +3514,7 @@ function Xh(a2) {
     do
       f2 = a2(f2, g.action), g = g.next;
     while (g !== e2);
-    He(f2, b2.memoizedState) || (dh = true);
+    He$1(f2, b2.memoizedState) || (dh = true);
     b2.memoizedState = f2;
     null === b2.baseQueue && (b2.baseState = f2);
     c2.lastRenderedState = f2;
@@ -3524,14 +3524,14 @@ function Xh(a2) {
 function Yh() {
 }
 function Zh(a2, b2) {
-  var c2 = M$1, d2 = Uh(), e2 = b2(), f2 = !He(d2.memoizedState, e2);
+  var c2 = M$1, d2 = Uh(), e2 = b2(), f2 = !He$1(d2.memoizedState, e2);
   f2 && (d2.memoizedState = e2, dh = true);
   d2 = d2.queue;
   $h(ai.bind(null, c2, d2, a2), [a2]);
   if (d2.getSnapshot !== b2 || f2 || null !== O$1 && O$1.memoizedState.tag & 1) {
     c2.flags |= 2048;
     bi(9, ci.bind(null, c2, d2, e2, b2), void 0, null);
-    if (null === Q) throw Error(p$2(349));
+    if (null === Q$1) throw Error(p$2(349));
     0 !== (Hh & 30) || di(c2, b2, e2);
   }
   return e2;
@@ -3557,7 +3557,7 @@ function ei(a2) {
   a2 = a2.value;
   try {
     var c2 = b2();
-    return !He(a2, c2);
+    return !He$1(a2, c2);
   } catch (d2) {
     return true;
   }
@@ -3649,7 +3649,7 @@ function ti(a2, b2) {
 }
 function ui(a2, b2, c2) {
   if (0 === (Hh & 21)) return a2.baseState && (a2.baseState = false, dh = true), a2.memoizedState = c2;
-  He(c2, b2) || (c2 = yc(), M$1.lanes |= c2, rh |= c2, a2.baseState = true);
+  He$1(c2, b2) || (c2 = yc(), M$1.lanes |= c2, rh |= c2, a2.baseState = true);
   return b2;
 }
 function vi(a2, b2) {
@@ -3686,7 +3686,7 @@ function ii(a2, b2, c2) {
       var g = b2.lastRenderedState, h = f2(g, c2);
       e2.hasEagerState = true;
       e2.eagerState = h;
-      if (He(h, g)) {
+      if (He$1(h, g)) {
         var k2 = b2.interleaved;
         null === k2 ? (e2.next = e2, gh(b2)) : (e2.next = k2.next, k2.next = e2);
         b2.interleaved = e2;
@@ -3766,7 +3766,7 @@ var Rh = { readContext: eh, useCallback: P, useContext: P, useEffect: P, useImpe
     c2 = c2();
   } else {
     c2 = b2();
-    if (null === Q) throw Error(p$2(349));
+    if (null === Q$1) throw Error(p$2(349));
     0 !== (Hh & 30) || di(d2, b2, c2);
   }
   e2.memoizedState = c2;
@@ -3782,7 +3782,7 @@ var Rh = { readContext: eh, useCallback: P, useContext: P, useEffect: P, useImpe
   bi(9, ci.bind(null, d2, f2, c2, b2), void 0, null);
   return c2;
 }, useId: function() {
-  var a2 = Th(), b2 = Q.identifierPrefix;
+  var a2 = Th(), b2 = Q$1.identifierPrefix;
   if (I) {
     var c2 = sg;
     var d2 = rg;
@@ -3872,12 +3872,12 @@ var Ei = { isMounted: function(a2) {
 } };
 function Fi(a2, b2, c2, d2, e2, f2, g) {
   a2 = a2.stateNode;
-  return "function" === typeof a2.shouldComponentUpdate ? a2.shouldComponentUpdate(d2, f2, g) : b2.prototype && b2.prototype.isPureReactComponent ? !Ie(c2, d2) || !Ie(e2, f2) : true;
+  return "function" === typeof a2.shouldComponentUpdate ? a2.shouldComponentUpdate(d2, f2, g) : b2.prototype && b2.prototype.isPureReactComponent ? !Ie$1(c2, d2) || !Ie$1(e2, f2) : true;
 }
 function Gi(a2, b2, c2) {
   var d2 = false, e2 = Vf;
   var f2 = b2.contextType;
-  "object" === typeof f2 && null !== f2 ? f2 = eh(f2) : (e2 = Zf(b2) ? Xf : H.current, d2 = b2.contextTypes, f2 = (d2 = null !== d2 && void 0 !== d2) ? Yf(a2, e2) : Vf);
+  "object" === typeof f2 && null !== f2 ? f2 = eh(f2) : (e2 = Zf(b2) ? Xf : H$1.current, d2 = b2.contextTypes, f2 = (d2 = null !== d2 && void 0 !== d2) ? Yf(a2, e2) : Vf);
   b2 = new b2(c2, f2);
   a2.memoizedState = null !== b2.state && void 0 !== b2.state ? b2.state : null;
   b2.updater = Ei;
@@ -3899,7 +3899,7 @@ function Ii(a2, b2, c2, d2) {
   e2.refs = {};
   kh(a2);
   var f2 = b2.contextType;
-  "object" === typeof f2 && null !== f2 ? e2.context = eh(f2) : (f2 = Zf(b2) ? Xf : H.current, e2.context = Yf(a2, f2));
+  "object" === typeof f2 && null !== f2 ? e2.context = eh(f2) : (f2 = Zf(b2) ? Xf : H$1.current, e2.context = Yf(a2, f2));
   e2.state = a2.memoizedState;
   f2 = b2.getDerivedStateFromProps;
   "function" === typeof f2 && (Di(a2, b2, f2, c2), e2.state = a2.memoizedState);
@@ -4017,7 +4017,7 @@ function $i(a2, b2, c2, d2, e2) {
   if (0 === (a2.lanes & e2)) {
     var g = f2.memoizedProps;
     c2 = c2.compare;
-    c2 = null !== c2 ? c2 : Ie;
+    c2 = null !== c2 ? c2 : Ie$1;
     if (c2(g, d2) && a2.ref === b2.ref) return Zi(a2, b2, e2);
   }
   b2.flags |= 1;
@@ -4029,22 +4029,22 @@ function $i(a2, b2, c2, d2, e2) {
 function bj(a2, b2, c2, d2, e2) {
   if (null !== a2) {
     var f2 = a2.memoizedProps;
-    if (Ie(f2, d2) && a2.ref === b2.ref) if (dh = false, b2.pendingProps = d2 = f2, 0 !== (a2.lanes & e2)) 0 !== (a2.flags & 131072) && (dh = true);
+    if (Ie$1(f2, d2) && a2.ref === b2.ref) if (dh = false, b2.pendingProps = d2 = f2, 0 !== (a2.lanes & e2)) 0 !== (a2.flags & 131072) && (dh = true);
     else return b2.lanes = a2.lanes, Zi(a2, b2, e2);
   }
   return cj(a2, b2, c2, d2, e2);
 }
 function dj(a2, b2, c2) {
   var d2 = b2.pendingProps, e2 = d2.children, f2 = null !== a2 ? a2.memoizedState : null;
-  if ("hidden" === d2.mode) if (0 === (b2.mode & 1)) b2.memoizedState = { baseLanes: 0, cachePool: null, transitions: null }, G$1(ej, fj), fj |= c2;
+  if ("hidden" === d2.mode) if (0 === (b2.mode & 1)) b2.memoizedState = { baseLanes: 0, cachePool: null, transitions: null }, G$2(ej, fj), fj |= c2;
   else {
-    if (0 === (c2 & 1073741824)) return a2 = null !== f2 ? f2.baseLanes | c2 : c2, b2.lanes = b2.childLanes = 1073741824, b2.memoizedState = { baseLanes: a2, cachePool: null, transitions: null }, b2.updateQueue = null, G$1(ej, fj), fj |= a2, null;
+    if (0 === (c2 & 1073741824)) return a2 = null !== f2 ? f2.baseLanes | c2 : c2, b2.lanes = b2.childLanes = 1073741824, b2.memoizedState = { baseLanes: a2, cachePool: null, transitions: null }, b2.updateQueue = null, G$2(ej, fj), fj |= a2, null;
     b2.memoizedState = { baseLanes: 0, cachePool: null, transitions: null };
     d2 = null !== f2 ? f2.baseLanes : c2;
-    G$1(ej, fj);
+    G$2(ej, fj);
     fj |= d2;
   }
-  else null !== f2 ? (d2 = f2.baseLanes | c2, b2.memoizedState = null) : d2 = c2, G$1(ej, fj), fj |= d2;
+  else null !== f2 ? (d2 = f2.baseLanes | c2, b2.memoizedState = null) : d2 = c2, G$2(ej, fj), fj |= d2;
   Xi(a2, b2, e2, c2);
   return b2.child;
 }
@@ -4053,7 +4053,7 @@ function gj(a2, b2) {
   if (null === a2 && null !== c2 || null !== a2 && a2.ref !== c2) b2.flags |= 512, b2.flags |= 2097152;
 }
 function cj(a2, b2, c2, d2, e2) {
-  var f2 = Zf(c2) ? Xf : H.current;
+  var f2 = Zf(c2) ? Xf : H$1.current;
   f2 = Yf(b2, f2);
   ch$1(b2, e2);
   c2 = Nh(a2, b2, c2, d2, f2, e2);
@@ -4075,7 +4075,7 @@ function hj(a2, b2, c2, d2, e2) {
     var g = b2.stateNode, h = b2.memoizedProps;
     g.props = h;
     var k2 = g.context, l2 = c2.contextType;
-    "object" === typeof l2 && null !== l2 ? l2 = eh(l2) : (l2 = Zf(c2) ? Xf : H.current, l2 = Yf(b2, l2));
+    "object" === typeof l2 && null !== l2 ? l2 = eh(l2) : (l2 = Zf(c2) ? Xf : H$1.current, l2 = Yf(b2, l2));
     var m2 = c2.getDerivedStateFromProps, q2 = "function" === typeof m2 || "function" === typeof g.getSnapshotBeforeUpdate;
     q2 || "function" !== typeof g.UNSAFE_componentWillReceiveProps && "function" !== typeof g.componentWillReceiveProps || (h !== d2 || k2 !== l2) && Hi(b2, g, d2, l2);
     jh = false;
@@ -4093,7 +4093,7 @@ function hj(a2, b2, c2, d2, e2) {
     q2 = b2.pendingProps;
     r2 = g.context;
     k2 = c2.contextType;
-    "object" === typeof k2 && null !== k2 ? k2 = eh(k2) : (k2 = Zf(c2) ? Xf : H.current, k2 = Yf(b2, k2));
+    "object" === typeof k2 && null !== k2 ? k2 = eh(k2) : (k2 = Zf(c2) ? Xf : H$1.current, k2 = Yf(b2, k2));
     var y2 = c2.getDerivedStateFromProps;
     (m2 = "function" === typeof y2 || "function" === typeof g.getSnapshotBeforeUpdate) || "function" !== typeof g.UNSAFE_componentWillReceiveProps && "function" !== typeof g.componentWillReceiveProps || (h !== q2 || r2 !== k2) && Hi(b2, g, d2, k2);
     jh = false;
@@ -4135,11 +4135,11 @@ function nj(a2) {
   return { baseLanes: a2, cachePool: null, transitions: null };
 }
 function oj(a2, b2, c2) {
-  var d2 = b2.pendingProps, e2 = L.current, f2 = false, g = 0 !== (b2.flags & 128), h;
+  var d2 = b2.pendingProps, e2 = L$1.current, f2 = false, g = 0 !== (b2.flags & 128), h;
   (h = g) || (h = null !== a2 && null === a2.memoizedState ? false : 0 !== (e2 & 2));
   if (h) f2 = true, b2.flags &= -129;
   else if (null === a2 || null !== a2.memoizedState) e2 |= 1;
-  G$1(L, e2 & 1);
+  G$2(L$1, e2 & 1);
   if (null === a2) {
     Eg(b2);
     a2 = b2.memoizedState;
@@ -4224,7 +4224,7 @@ function rj(a2, b2, c2, d2, e2, f2, g) {
   }
   h = 0 !== (g & a2.childLanes);
   if (dh || h) {
-    d2 = Q;
+    d2 = Q$1;
     if (null !== d2) {
       switch (g & -g) {
         case 4:
@@ -4293,7 +4293,7 @@ function wj(a2, b2, c2, d2, e2) {
 function xj(a2, b2, c2) {
   var d2 = b2.pendingProps, e2 = d2.revealOrder, f2 = d2.tail;
   Xi(a2, b2, d2.children, c2);
-  d2 = L.current;
+  d2 = L$1.current;
   if (0 !== (d2 & 2)) d2 = d2 & 1 | 2, b2.flags |= 128;
   else {
     if (null !== a2 && 0 !== (a2.flags & 128)) a: for (a2 = b2.child; null !== a2; ) {
@@ -4314,7 +4314,7 @@ function xj(a2, b2, c2) {
     }
     d2 &= 1;
   }
-  G$1(L, d2);
+  G$2(L$1, d2);
   if (0 === (b2.mode & 1)) b2.memoizedState = null;
   else switch (e2) {
     case "forwards":
@@ -4382,19 +4382,19 @@ function yj(a2, b2, c2) {
       break;
     case 10:
       var d2 = b2.type._context, e2 = b2.memoizedProps.value;
-      G$1(Wg, d2._currentValue);
+      G$2(Wg, d2._currentValue);
       d2._currentValue = e2;
       break;
     case 13:
       d2 = b2.memoizedState;
       if (null !== d2) {
-        if (null !== d2.dehydrated) return G$1(L, L.current & 1), b2.flags |= 128, null;
+        if (null !== d2.dehydrated) return G$2(L$1, L$1.current & 1), b2.flags |= 128, null;
         if (0 !== (c2 & b2.child.childLanes)) return oj(a2, b2, c2);
-        G$1(L, L.current & 1);
+        G$2(L$1, L$1.current & 1);
         a2 = Zi(a2, b2, c2);
         return null !== a2 ? a2.sibling : null;
       }
-      G$1(L, L.current & 1);
+      G$2(L$1, L$1.current & 1);
       break;
     case 19:
       d2 = 0 !== (c2 & b2.childLanes);
@@ -4404,7 +4404,7 @@ function yj(a2, b2, c2) {
       }
       e2 = b2.memoizedState;
       null !== e2 && (e2.rendering = null, e2.tail = null, e2.lastEffect = null);
-      G$1(L, L.current);
+      G$2(L$1, L$1.current);
       if (d2) break;
       else return null;
     case 22:
@@ -4527,7 +4527,7 @@ function Ej(a2, b2, c2) {
       d2 = b2.stateNode;
       zh();
       E(Wf);
-      E(H);
+      E(H$1);
       Eh();
       d2.pendingContext && (d2.context = d2.pendingContext, d2.pendingContext = null);
       if (null === a2 || null === a2.child) Gg(b2) ? b2.flags |= 4 : null === a2 || a2.memoizedState.isDehydrated && 0 === (b2.flags & 256) || (b2.flags |= 1024, null !== zg && (Fj(zg), zg = null));
@@ -4763,7 +4763,7 @@ function Ej(a2, b2, c2) {
       S$3(b2);
       return null;
     case 13:
-      E(L);
+      E(L$1);
       d2 = b2.memoizedState;
       if (null === a2 || null !== a2.memoizedState && null !== a2.memoizedState.dehydrated) {
         if (I && null !== yg && 0 !== (b2.mode & 1) && 0 === (b2.flags & 128)) Hg(), Ig(), b2.flags |= 98560, f2 = false;
@@ -4782,7 +4782,7 @@ function Ej(a2, b2, c2) {
       }
       if (0 !== (b2.flags & 128)) return b2.lanes = c2, b2;
       d2 = null !== d2;
-      d2 !== (null !== a2 && null !== a2.memoizedState) && d2 && (b2.child.flags |= 8192, 0 !== (b2.mode & 1) && (null === a2 || 0 !== (L.current & 1) ? 0 === T && (T = 3) : tj()));
+      d2 !== (null !== a2 && null !== a2.memoizedState) && d2 && (b2.child.flags |= 8192, 0 !== (b2.mode & 1) && (null === a2 || 0 !== (L$1.current & 1) ? 0 === T && (T = 3) : tj()));
       null !== b2.updateQueue && (b2.flags |= 4);
       S$3(b2);
       return null;
@@ -4793,7 +4793,7 @@ function Ej(a2, b2, c2) {
     case 17:
       return Zf(b2.type) && $f(), S$3(b2), null;
     case 19:
-      E(L);
+      E(L$1);
       f2 = b2.memoizedState;
       if (null === f2) return S$3(b2), null;
       d2 = 0 !== (b2.flags & 128);
@@ -4810,7 +4810,7 @@ function Ej(a2, b2, c2) {
             b2.subtreeFlags = 0;
             d2 = c2;
             for (c2 = b2.child; null !== c2; ) f2 = c2, a2 = d2, f2.flags &= 14680066, g = f2.alternate, null === g ? (f2.childLanes = 0, f2.lanes = a2, f2.child = null, f2.subtreeFlags = 0, f2.memoizedProps = null, f2.memoizedState = null, f2.updateQueue = null, f2.dependencies = null, f2.stateNode = null) : (f2.childLanes = g.childLanes, f2.lanes = g.lanes, f2.child = g.child, f2.subtreeFlags = 0, f2.deletions = null, f2.memoizedProps = g.memoizedProps, f2.memoizedState = g.memoizedState, f2.updateQueue = g.updateQueue, f2.type = g.type, a2 = g.dependencies, f2.dependencies = null === a2 ? null : { lanes: a2.lanes, firstContext: a2.firstContext }), c2 = c2.sibling;
-            G$1(L, L.current & 1 | 2);
+            G$2(L$1, L$1.current & 1 | 2);
             return b2.child;
           }
           a2 = a2.sibling;
@@ -4823,7 +4823,7 @@ function Ej(a2, b2, c2) {
         } else 2 * B$1() - f2.renderingStartTime > Gj && 1073741824 !== c2 && (b2.flags |= 128, d2 = true, Dj(f2, false), b2.lanes = 4194304);
         f2.isBackwards ? (g.sibling = b2.child, b2.child = g) : (c2 = f2.last, null !== c2 ? c2.sibling = g : b2.child = g, f2.last = g);
       }
-      if (null !== f2.tail) return b2 = f2.tail, f2.rendering = b2, f2.tail = b2.sibling, f2.renderingStartTime = B$1(), b2.sibling = null, c2 = L.current, G$1(L, d2 ? c2 & 1 | 2 : c2 & 1), b2;
+      if (null !== f2.tail) return b2 = f2.tail, f2.rendering = b2, f2.tail = b2.sibling, f2.renderingStartTime = B$1(), b2.sibling = null, c2 = L$1.current, G$2(L$1, d2 ? c2 & 1 | 2 : c2 & 1), b2;
       S$3(b2);
       return null;
     case 22:
@@ -4842,11 +4842,11 @@ function Ij(a2, b2) {
     case 1:
       return Zf(b2.type) && $f(), a2 = b2.flags, a2 & 65536 ? (b2.flags = a2 & -65537 | 128, b2) : null;
     case 3:
-      return zh(), E(Wf), E(H), Eh(), a2 = b2.flags, 0 !== (a2 & 65536) && 0 === (a2 & 128) ? (b2.flags = a2 & -65537 | 128, b2) : null;
+      return zh(), E(Wf), E(H$1), Eh(), a2 = b2.flags, 0 !== (a2 & 65536) && 0 === (a2 & 128) ? (b2.flags = a2 & -65537 | 128, b2) : null;
     case 5:
       return Bh(b2), null;
     case 13:
-      E(L);
+      E(L$1);
       a2 = b2.memoizedState;
       if (null !== a2 && null !== a2.dehydrated) {
         if (null === b2.alternate) throw Error(p$2(340));
@@ -4855,7 +4855,7 @@ function Ij(a2, b2) {
       a2 = b2.flags;
       return a2 & 65536 ? (b2.flags = a2 & -65537 | 128, b2) : null;
     case 19:
-      return E(L), null;
+      return E(L$1), null;
     case 4:
       return zh(), null;
     case 10:
@@ -4875,7 +4875,7 @@ function Lj(a2, b2) {
   if (null !== c2) if ("function" === typeof c2) try {
     c2(null);
   } catch (d2) {
-    W(a2, b2, d2);
+    W$1(a2, b2, d2);
   }
   else c2.current = null;
 }
@@ -4883,14 +4883,14 @@ function Mj(a2, b2, c2) {
   try {
     c2();
   } catch (d2) {
-    W(a2, b2, d2);
+    W$1(a2, b2, d2);
   }
 }
 var Nj = false;
 function Oj(a2, b2) {
   Cf = dd;
-  a2 = Me();
-  if (Ne(a2)) {
+  a2 = Me$1();
+  if (Ne$1(a2)) {
     if ("selectionStart" in a2) var c2 = { start: a2.selectionStart, end: a2.selectionEnd };
     else a: {
       c2 = (c2 = a2.ownerDocument) && c2.defaultView || window;
@@ -4961,7 +4961,7 @@ function Oj(a2, b2) {
           throw Error(p$2(163));
       }
     } catch (F2) {
-      W(b2, b2.return, F2);
+      W$1(b2, b2.return, F2);
     }
     a2 = b2.sibling;
     if (null !== a2) {
@@ -5062,7 +5062,7 @@ function Wj(a2, b2, c2) {
   if (5 === d2 || 6 === d2) a2 = a2.stateNode, b2 ? c2.insertBefore(a2, b2) : c2.appendChild(a2);
   else if (4 !== d2 && (a2 = a2.child, null !== a2)) for (Wj(a2, b2, c2), a2 = a2.sibling; null !== a2; ) Wj(a2, b2, c2), a2 = a2.sibling;
 }
-var X$1 = null, Xj = false;
+var X$2 = null, Xj = false;
 function Yj(a2, b2, c2) {
   for (c2 = c2.child; null !== c2; ) Zj(a2, b2, c2), c2 = c2.sibling;
 }
@@ -5075,23 +5075,23 @@ function Zj(a2, b2, c2) {
     case 5:
       U$1 || Lj(c2, b2);
     case 6:
-      var d2 = X$1, e2 = Xj;
-      X$1 = null;
+      var d2 = X$2, e2 = Xj;
+      X$2 = null;
       Yj(a2, b2, c2);
-      X$1 = d2;
+      X$2 = d2;
       Xj = e2;
-      null !== X$1 && (Xj ? (a2 = X$1, c2 = c2.stateNode, 8 === a2.nodeType ? a2.parentNode.removeChild(c2) : a2.removeChild(c2)) : X$1.removeChild(c2.stateNode));
+      null !== X$2 && (Xj ? (a2 = X$2, c2 = c2.stateNode, 8 === a2.nodeType ? a2.parentNode.removeChild(c2) : a2.removeChild(c2)) : X$2.removeChild(c2.stateNode));
       break;
     case 18:
-      null !== X$1 && (Xj ? (a2 = X$1, c2 = c2.stateNode, 8 === a2.nodeType ? Kf(a2.parentNode, c2) : 1 === a2.nodeType && Kf(a2, c2), bd(a2)) : Kf(X$1, c2.stateNode));
+      null !== X$2 && (Xj ? (a2 = X$2, c2 = c2.stateNode, 8 === a2.nodeType ? Kf(a2.parentNode, c2) : 1 === a2.nodeType && Kf(a2, c2), bd(a2)) : Kf(X$2, c2.stateNode));
       break;
     case 4:
-      d2 = X$1;
+      d2 = X$2;
       e2 = Xj;
-      X$1 = c2.stateNode.containerInfo;
+      X$2 = c2.stateNode.containerInfo;
       Xj = true;
       Yj(a2, b2, c2);
-      X$1 = d2;
+      X$2 = d2;
       Xj = e2;
       break;
     case 0:
@@ -5113,7 +5113,7 @@ function Zj(a2, b2, c2) {
       if (!U$1 && (Lj(c2, b2), d2 = c2.stateNode, "function" === typeof d2.componentWillUnmount)) try {
         d2.props = c2.memoizedProps, d2.state = c2.memoizedState, d2.componentWillUnmount();
       } catch (h) {
-        W(c2, b2, h);
+        W$1(c2, b2, h);
       }
       Yj(a2, b2, c2);
       break;
@@ -5148,29 +5148,29 @@ function ck(a2, b2) {
       a: for (; null !== h; ) {
         switch (h.tag) {
           case 5:
-            X$1 = h.stateNode;
+            X$2 = h.stateNode;
             Xj = false;
             break a;
           case 3:
-            X$1 = h.stateNode.containerInfo;
+            X$2 = h.stateNode.containerInfo;
             Xj = true;
             break a;
           case 4:
-            X$1 = h.stateNode.containerInfo;
+            X$2 = h.stateNode.containerInfo;
             Xj = true;
             break a;
         }
         h = h.return;
       }
-      if (null === X$1) throw Error(p$2(160));
+      if (null === X$2) throw Error(p$2(160));
       Zj(f2, g, e2);
-      X$1 = null;
+      X$2 = null;
       Xj = false;
       var k2 = e2.alternate;
       null !== k2 && (k2.return = null);
       e2.return = null;
     } catch (l2) {
-      W(e2, b2, l2);
+      W$1(e2, b2, l2);
     }
   }
   if (b2.subtreeFlags & 12854) for (b2 = b2.child; null !== b2; ) dk(b2, a2), b2 = b2.sibling;
@@ -5188,12 +5188,12 @@ function dk(a2, b2) {
         try {
           Pj(3, a2, a2.return), Qj(3, a2);
         } catch (t2) {
-          W(a2, a2.return, t2);
+          W$1(a2, a2.return, t2);
         }
         try {
           Pj(5, a2, a2.return);
         } catch (t2) {
-          W(a2, a2.return, t2);
+          W$1(a2, a2.return, t2);
         }
       }
       break;
@@ -5211,7 +5211,7 @@ function dk(a2, b2) {
         try {
           ob(e2, "");
         } catch (t2) {
-          W(a2, a2.return, t2);
+          W$1(a2, a2.return, t2);
         }
       }
       if (d2 & 4 && (e2 = a2.stateNode, null != e2)) {
@@ -5245,7 +5245,7 @@ function dk(a2, b2) {
           }
           e2[Pf] = f2;
         } catch (t2) {
-          W(a2, a2.return, t2);
+          W$1(a2, a2.return, t2);
         }
       }
       break;
@@ -5259,7 +5259,7 @@ function dk(a2, b2) {
         try {
           e2.nodeValue = f2;
         } catch (t2) {
-          W(a2, a2.return, t2);
+          W$1(a2, a2.return, t2);
         }
       }
       break;
@@ -5269,7 +5269,7 @@ function dk(a2, b2) {
       if (d2 & 4 && null !== c2 && c2.memoizedState.isDehydrated) try {
         bd(b2.containerInfo);
       } catch (t2) {
-        W(a2, a2.return, t2);
+        W$1(a2, a2.return, t2);
       }
       break;
     case 4:
@@ -5309,7 +5309,7 @@ function dk(a2, b2) {
                   try {
                     b2 = d2, n3.props = b2.memoizedProps, n3.state = b2.memoizedState, n3.componentWillUnmount();
                   } catch (t2) {
-                    W(d2, c2, t2);
+                    W$1(d2, c2, t2);
                   }
                 }
                 break;
@@ -5333,14 +5333,14 @@ function dk(a2, b2) {
               try {
                 e2 = q2.stateNode, l2 ? (f2 = e2.style, "function" === typeof f2.setProperty ? f2.setProperty("display", "none", "important") : f2.display = "none") : (h = q2.stateNode, k2 = q2.memoizedProps.style, g = void 0 !== k2 && null !== k2 && k2.hasOwnProperty("display") ? k2.display : null, h.style.display = rb("display", g));
               } catch (t2) {
-                W(a2, a2.return, t2);
+                W$1(a2, a2.return, t2);
               }
             }
           } else if (6 === q2.tag) {
             if (null === m2) try {
               q2.stateNode.nodeValue = l2 ? "" : q2.memoizedProps;
             } catch (t2) {
-              W(a2, a2.return, t2);
+              W$1(a2, a2.return, t2);
             }
           } else if ((22 !== q2.tag && 23 !== q2.tag || null === q2.memoizedState || q2 === a2) && null !== q2.child) {
             q2.child.return = q2;
@@ -5403,7 +5403,7 @@ function ek(a2) {
           throw Error(p$2(161));
       }
     } catch (k2) {
-      W(a2, a2.return, k2);
+      W$1(a2, a2.return, k2);
     }
     a2.flags &= -3;
   }
@@ -5516,7 +5516,7 @@ function kk(a2) {
         }
         U$1 || b2.flags & 512 && Rj(b2);
       } catch (r2) {
-        W(b2, b2.return, r2);
+        W$1(b2, b2.return, r2);
       }
     }
     if (b2 === a2) {
@@ -5560,7 +5560,7 @@ function jk(a2) {
           try {
             Qj(4, b2);
           } catch (k2) {
-            W(b2, c2, k2);
+            W$1(b2, c2, k2);
           }
           break;
         case 1:
@@ -5570,14 +5570,14 @@ function jk(a2) {
             try {
               d2.componentDidMount();
             } catch (k2) {
-              W(b2, e2, k2);
+              W$1(b2, e2, k2);
             }
           }
           var f2 = b2.return;
           try {
             Rj(b2);
           } catch (k2) {
-            W(b2, f2, k2);
+            W$1(b2, f2, k2);
           }
           break;
         case 5:
@@ -5585,11 +5585,11 @@ function jk(a2) {
           try {
             Rj(b2);
           } catch (k2) {
-            W(b2, g, k2);
+            W$1(b2, g, k2);
           }
       }
     } catch (k2) {
-      W(b2, b2.return, k2);
+      W$1(b2, b2.return, k2);
     }
     if (b2 === a2) {
       V = null;
@@ -5604,13 +5604,13 @@ function jk(a2) {
     V = b2.return;
   }
 }
-var lk = Math.ceil, mk = ua.ReactCurrentDispatcher, nk = ua.ReactCurrentOwner, ok$1 = ua.ReactCurrentBatchConfig, K = 0, Q = null, Y = null, Z = 0, fj = 0, ej = Uf(0), T = 0, pk = null, rh = 0, qk = 0, rk = 0, sk = null, tk = null, fk = 0, Gj = Infinity, uk = null, Oi = false, Pi = null, Ri = null, vk = false, wk$1 = null, xk = 0, yk = 0, zk = null, Ak = -1, Bk = 0;
+var lk = Math.ceil, mk = ua.ReactCurrentDispatcher, nk = ua.ReactCurrentOwner, ok$1 = ua.ReactCurrentBatchConfig, K$1 = 0, Q$1 = null, Y$1 = null, Z$1 = 0, fj = 0, ej = Uf(0), T = 0, pk = null, rh = 0, qk = 0, rk = 0, sk = null, tk = null, fk = 0, Gj = Infinity, uk = null, Oi = false, Pi = null, Ri = null, vk = false, wk$1 = null, xk = 0, yk = 0, zk = null, Ak = -1, Bk = 0;
 function R$1() {
-  return 0 !== (K & 6) ? B$1() : -1 !== Ak ? Ak : Ak = B$1();
+  return 0 !== (K$1 & 6) ? B$1() : -1 !== Ak ? Ak : Ak = B$1();
 }
 function yi(a2) {
   if (0 === (a2.mode & 1)) return 1;
-  if (0 !== (K & 2) && 0 !== Z) return Z & -Z;
+  if (0 !== (K$1 & 2) && 0 !== Z$1) return Z$1 & -Z$1;
   if (null !== Kg.transition) return 0 === Bk && (Bk = yc()), Bk;
   a2 = C$1;
   if (0 !== a2) return a2;
@@ -5621,17 +5621,17 @@ function yi(a2) {
 function gi(a2, b2, c2, d2) {
   if (50 < yk) throw yk = 0, zk = null, Error(p$2(185));
   Ac(a2, c2, d2);
-  if (0 === (K & 2) || a2 !== Q) a2 === Q && (0 === (K & 2) && (qk |= c2), 4 === T && Ck(a2, Z)), Dk(a2, d2), 1 === c2 && 0 === K && 0 === (b2.mode & 1) && (Gj = B$1() + 500, fg && jg());
+  if (0 === (K$1 & 2) || a2 !== Q$1) a2 === Q$1 && (0 === (K$1 & 2) && (qk |= c2), 4 === T && Ck(a2, Z$1)), Dk(a2, d2), 1 === c2 && 0 === K$1 && 0 === (b2.mode & 1) && (Gj = B$1() + 500, fg && jg());
 }
 function Dk(a2, b2) {
   var c2 = a2.callbackNode;
   wc(a2, b2);
-  var d2 = uc(a2, a2 === Q ? Z : 0);
+  var d2 = uc(a2, a2 === Q$1 ? Z$1 : 0);
   if (0 === d2) null !== c2 && bc(c2), a2.callbackNode = null, a2.callbackPriority = 0;
   else if (b2 = d2 & -d2, a2.callbackPriority !== b2) {
     null != c2 && bc(c2);
     if (1 === b2) 0 === a2.tag ? ig(Ek.bind(null, a2)) : hg(Ek.bind(null, a2)), Jf(function() {
-      0 === (K & 6) && jg();
+      0 === (K$1 & 6) && jg();
     }), c2 = null;
     else {
       switch (Dc(d2)) {
@@ -5659,18 +5659,18 @@ function Dk(a2, b2) {
 function Gk(a2, b2) {
   Ak = -1;
   Bk = 0;
-  if (0 !== (K & 6)) throw Error(p$2(327));
+  if (0 !== (K$1 & 6)) throw Error(p$2(327));
   var c2 = a2.callbackNode;
   if (Hk() && a2.callbackNode !== c2) return null;
-  var d2 = uc(a2, a2 === Q ? Z : 0);
+  var d2 = uc(a2, a2 === Q$1 ? Z$1 : 0);
   if (0 === d2) return null;
   if (0 !== (d2 & 30) || 0 !== (d2 & a2.expiredLanes) || b2) b2 = Ik(a2, d2);
   else {
     b2 = d2;
-    var e2 = K;
-    K |= 2;
+    var e2 = K$1;
+    K$1 |= 2;
     var f2 = Jk();
-    if (Q !== a2 || Z !== b2) uk = null, Gj = B$1() + 500, Kk(a2, b2);
+    if (Q$1 !== a2 || Z$1 !== b2) uk = null, Gj = B$1() + 500, Kk(a2, b2);
     do
       try {
         Lk();
@@ -5681,8 +5681,8 @@ function Gk(a2, b2) {
     while (1);
     $g();
     mk.current = f2;
-    K = e2;
-    null !== Y ? b2 = 0 : (Q = null, Z = 0, b2 = T);
+    K$1 = e2;
+    null !== Y$1 ? b2 = 0 : (Q$1 = null, Z$1 = 0, b2 = T);
   }
   if (0 !== b2) {
     2 === b2 && (e2 = xc(a2), 0 !== e2 && (d2 = e2, b2 = Nk(a2, e2)));
@@ -5764,7 +5764,7 @@ function Ok(a2) {
         var e2 = c2[d2], f2 = e2.getSnapshot;
         e2 = e2.value;
         try {
-          if (!He(f2(), e2)) return false;
+          if (!He$1(f2(), e2)) return false;
         } catch (g) {
           return false;
         }
@@ -5796,7 +5796,7 @@ function Ck(a2, b2) {
   }
 }
 function Ek(a2) {
-  if (0 !== (K & 6)) throw Error(p$2(327));
+  if (0 !== (K$1 & 6)) throw Error(p$2(327));
   Hk();
   var b2 = uc(a2, 0);
   if (0 === (b2 & 1)) return Dk(a2, B$1()), null;
@@ -5814,23 +5814,23 @@ function Ek(a2) {
   return null;
 }
 function Qk(a2, b2) {
-  var c2 = K;
-  K |= 1;
+  var c2 = K$1;
+  K$1 |= 1;
   try {
     return a2(b2);
   } finally {
-    K = c2, 0 === K && (Gj = B$1() + 500, fg && jg());
+    K$1 = c2, 0 === K$1 && (Gj = B$1() + 500, fg && jg());
   }
 }
 function Rk(a2) {
-  null !== wk$1 && 0 === wk$1.tag && 0 === (K & 6) && Hk();
-  var b2 = K;
-  K |= 1;
+  null !== wk$1 && 0 === wk$1.tag && 0 === (K$1 & 6) && Hk();
+  var b2 = K$1;
+  K$1 |= 1;
   var c2 = ok$1.transition, d2 = C$1;
   try {
     if (ok$1.transition = null, C$1 = 1, a2) return a2();
   } finally {
-    C$1 = d2, ok$1.transition = c2, K = b2, 0 === (K & 6) && jg();
+    C$1 = d2, ok$1.transition = c2, K$1 = b2, 0 === (K$1 & 6) && jg();
   }
 }
 function Hj() {
@@ -5842,7 +5842,7 @@ function Kk(a2, b2) {
   a2.finishedLanes = 0;
   var c2 = a2.timeoutHandle;
   -1 !== c2 && (a2.timeoutHandle = -1, Gf(c2));
-  if (null !== Y) for (c2 = Y.return; null !== c2; ) {
+  if (null !== Y$1) for (c2 = Y$1.return; null !== c2; ) {
     var d2 = c2;
     wg(d2);
     switch (d2.tag) {
@@ -5853,7 +5853,7 @@ function Kk(a2, b2) {
       case 3:
         zh();
         E(Wf);
-        E(H);
+        E(H$1);
         Eh();
         break;
       case 5:
@@ -5863,10 +5863,10 @@ function Kk(a2, b2) {
         zh();
         break;
       case 13:
-        E(L);
+        E(L$1);
         break;
       case 19:
-        E(L);
+        E(L$1);
         break;
       case 10:
         ah(d2.type._context);
@@ -5877,9 +5877,9 @@ function Kk(a2, b2) {
     }
     c2 = c2.return;
   }
-  Q = a2;
-  Y = a2 = Pg(a2.current, null);
-  Z = fj = b2;
+  Q$1 = a2;
+  Y$1 = a2 = Pg(a2.current, null);
+  Z$1 = fj = b2;
   T = 0;
   pk = null;
   rk = qk = rh = 0;
@@ -5901,7 +5901,7 @@ function Kk(a2, b2) {
 }
 function Mk(a2, b2) {
   do {
-    var c2 = Y;
+    var c2 = Y$1;
     try {
       $g();
       Fh.current = Rh;
@@ -5921,12 +5921,12 @@ function Mk(a2, b2) {
       if (null === c2 || null === c2.return) {
         T = 1;
         pk = b2;
-        Y = null;
+        Y$1 = null;
         break;
       }
       a: {
         var f2 = a2, g = c2.return, h = c2, k2 = b2;
-        b2 = Z;
+        b2 = Z$1;
         h.flags |= 32768;
         if (null !== k2 && "object" === typeof k2 && "function" === typeof k2.then) {
           var l2 = k2, m2 = h, q2 = m2.tag;
@@ -5996,7 +5996,7 @@ function Mk(a2, b2) {
       Sk(c2);
     } catch (na) {
       b2 = na;
-      Y === c2 && null !== c2 && (Y = c2 = c2.return);
+      Y$1 === c2 && null !== c2 && (Y$1 = c2 = c2.return);
       continue;
     }
     break;
@@ -6009,13 +6009,13 @@ function Jk() {
 }
 function tj() {
   if (0 === T || 3 === T || 2 === T) T = 4;
-  null === Q || 0 === (rh & 268435455) && 0 === (qk & 268435455) || Ck(Q, Z);
+  null === Q$1 || 0 === (rh & 268435455) && 0 === (qk & 268435455) || Ck(Q$1, Z$1);
 }
 function Ik(a2, b2) {
-  var c2 = K;
-  K |= 2;
+  var c2 = K$1;
+  K$1 |= 2;
   var d2 = Jk();
-  if (Q !== a2 || Z !== b2) uk = null, Kk(a2, b2);
+  if (Q$1 !== a2 || Z$1 !== b2) uk = null, Kk(a2, b2);
   do
     try {
       Tk();
@@ -6025,23 +6025,23 @@ function Ik(a2, b2) {
     }
   while (1);
   $g();
-  K = c2;
+  K$1 = c2;
   mk.current = d2;
-  if (null !== Y) throw Error(p$2(261));
-  Q = null;
-  Z = 0;
+  if (null !== Y$1) throw Error(p$2(261));
+  Q$1 = null;
+  Z$1 = 0;
   return T;
 }
 function Tk() {
-  for (; null !== Y; ) Uk(Y);
+  for (; null !== Y$1; ) Uk(Y$1);
 }
 function Lk() {
-  for (; null !== Y && !cc(); ) Uk(Y);
+  for (; null !== Y$1 && !cc(); ) Uk(Y$1);
 }
 function Uk(a2) {
   var b2 = Vk(a2.alternate, a2, fj);
   a2.memoizedProps = a2.pendingProps;
-  null === b2 ? Sk(a2) : Y = b2;
+  null === b2 ? Sk(a2) : Y$1 = b2;
   nk.current = null;
 }
 function Sk(a2) {
@@ -6051,29 +6051,29 @@ function Sk(a2) {
     a2 = b2.return;
     if (0 === (b2.flags & 32768)) {
       if (c2 = Ej(c2, b2, fj), null !== c2) {
-        Y = c2;
+        Y$1 = c2;
         return;
       }
     } else {
       c2 = Ij(c2, b2);
       if (null !== c2) {
         c2.flags &= 32767;
-        Y = c2;
+        Y$1 = c2;
         return;
       }
       if (null !== a2) a2.flags |= 32768, a2.subtreeFlags = 0, a2.deletions = null;
       else {
         T = 6;
-        Y = null;
+        Y$1 = null;
         return;
       }
     }
     b2 = b2.sibling;
     if (null !== b2) {
-      Y = b2;
+      Y$1 = b2;
       return;
     }
-    Y = b2 = a2;
+    Y$1 = b2 = a2;
   } while (null !== b2);
   0 === T && (T = 5);
 }
@@ -6090,7 +6090,7 @@ function Wk(a2, b2, c2, d2) {
   do
     Hk();
   while (null !== wk$1);
-  if (0 !== (K & 6)) throw Error(p$2(327));
+  if (0 !== (K$1 & 6)) throw Error(p$2(327));
   c2 = a2.finishedWork;
   var e2 = a2.finishedLanes;
   if (null === c2) return null;
@@ -6101,7 +6101,7 @@ function Wk(a2, b2, c2, d2) {
   a2.callbackPriority = 0;
   var f2 = c2.lanes | c2.childLanes;
   Bc(a2, f2);
-  a2 === Q && (Y = Q = null, Z = 0);
+  a2 === Q$1 && (Y$1 = Q$1 = null, Z$1 = 0);
   0 === (c2.subtreeFlags & 2064) && 0 === (c2.flags & 2064) || vk || (vk = true, Fk(hc, function() {
     Hk();
     return null;
@@ -6112,18 +6112,18 @@ function Wk(a2, b2, c2, d2) {
     ok$1.transition = null;
     var g = C$1;
     C$1 = 1;
-    var h = K;
-    K |= 4;
+    var h = K$1;
+    K$1 |= 4;
     nk.current = null;
     Oj(a2, c2);
     dk(c2, a2);
-    Oe(Df);
+    Oe$1(Df);
     dd = !!Cf;
     Df = Cf = null;
     a2.current = c2;
     hk(c2);
     dc();
-    K = h;
+    K$1 = h;
     C$1 = g;
     ok$1.transition = f2;
   } else a2.current = c2;
@@ -6151,9 +6151,9 @@ function Hk() {
         a2 = wk$1;
         wk$1 = null;
         xk = 0;
-        if (0 !== (K & 6)) throw Error(p$2(331));
-        var e2 = K;
-        K |= 4;
+        if (0 !== (K$1 & 6)) throw Error(p$2(331));
+        var e2 = K$1;
+        K$1 |= 4;
         for (V = a2.current; null !== V; ) {
           var f2 = V, g = f2.child;
           if (0 !== (V.flags & 16)) {
@@ -6236,7 +6236,7 @@ function Hk() {
                   Qj(9, h);
               }
             } catch (na) {
-              W(h, h.return, na);
+              W$1(h, h.return, na);
             }
             if (h === g) {
               V = null;
@@ -6251,7 +6251,7 @@ function Hk() {
             V = h.return;
           }
         }
-        K = e2;
+        K$1 = e2;
         jg();
         if (lc && "function" === typeof lc.onPostCommitFiberRoot) try {
           lc.onPostCommitFiberRoot(kc, a2);
@@ -6273,7 +6273,7 @@ function Xk(a2, b2, c2) {
   b2 = R$1();
   null !== a2 && (Ac(a2, 1, b2), Dk(a2, b2));
 }
-function W(a2, b2, c2) {
+function W$1(a2, b2, c2) {
   if (3 === a2.tag) Xk(a2, a2, c2);
   else for (; null !== b2; ) {
     if (3 === b2.tag) {
@@ -6298,7 +6298,7 @@ function Ti(a2, b2, c2) {
   null !== d2 && d2.delete(b2);
   b2 = R$1();
   a2.pingedLanes |= a2.suspendedLanes & c2;
-  Q === a2 && (Z & c2) === c2 && (4 === T || 3 === T && (Z & 130023424) === Z && 500 > B$1() - fk ? Kk(a2, 0) : rk |= c2);
+  Q$1 === a2 && (Z$1 & c2) === c2 && (4 === T || 3 === T && (Z$1 & 130023424) === Z$1 && 500 > B$1() - fk ? Kk(a2, 0) : rk |= c2);
   Dk(a2, b2);
 }
 function Yk(a2, b2) {
@@ -6343,7 +6343,7 @@ Vk = function(a2, b2, c2) {
       var d2 = b2.type;
       ij(a2, b2);
       a2 = b2.pendingProps;
-      var e2 = Yf(b2, H.current);
+      var e2 = Yf(b2, H$1.current);
       ch$1(b2, c2);
       e2 = Nh(null, b2, d2, a2, e2, c2);
       var f2 = Sh();
@@ -6438,9 +6438,9 @@ Vk = function(a2, b2, c2) {
         e2 = b2.pendingProps;
         f2 = b2.memoizedProps;
         g = e2.value;
-        G$1(Wg, d2._currentValue);
+        G$2(Wg, d2._currentValue);
         d2._currentValue = g;
-        if (null !== f2) if (He(f2.value, g)) {
+        if (null !== f2) if (He$1(f2.value, g)) {
           if (f2.children === e2.children && !Wf.current) {
             b2 = Zi(a2, b2, c2);
             break a;
@@ -6842,7 +6842,7 @@ Ec = function(a2) {
       var b2 = a2.stateNode;
       if (b2.current.memoizedState.isDehydrated) {
         var c2 = tc(b2.pendingLanes);
-        0 !== c2 && (Cc(b2, c2 | 1), Dk(b2, B$1()), 0 === (K & 6) && (Gj = B$1() + 500, jg()));
+        0 !== c2 && (Cc(b2, c2 | 1), Dk(b2, B$1()), 0 === (K$1 & 6) && (Gj = B$1() + 500, jg()));
       }
       break;
     case 13:
@@ -6914,7 +6914,7 @@ yb = function(a2, b2, c2) {
 };
 Gb = Qk;
 Hb = Rk;
-var sl = { usingClientEntryPoint: false, Events: [Cb, ue, Db, Eb, Fb, Qk] }, tl = { findFiberByHostInstance: Wc, bundleType: 0, version: "18.3.1", rendererPackageName: "react-dom" };
+var sl = { usingClientEntryPoint: false, Events: [Cb, ue$1, Db, Eb, Fb, Qk] }, tl = { findFiberByHostInstance: Wc, bundleType: 0, version: "18.3.1", rendererPackageName: "react-dom" };
 var ul = { bundleType: tl.bundleType, version: tl.version, rendererPackageName: tl.rendererPackageName, rendererConfig: tl.rendererConfig, overrideHookState: null, overrideHookStateDeletePath: null, overrideHookStateRenamePath: null, overrideProps: null, overridePropsDeletePath: null, overridePropsRenamePath: null, setErrorHandler: null, setSuspenseHandler: null, scheduleUpdate: null, currentDispatcherRef: ua.ReactCurrentDispatcher, findHostInstanceByFiber: function(a2) {
   a2 = Zb(a2);
   return null === a2 ? null : a2.stateNode;
@@ -7800,7 +7800,7 @@ function useLocation() {
   return reactExports.useContext(LocationContext).location;
 }
 var navigateEffectWarning = `You should call navigate() in a React.useEffect(), not when your component is first rendered.`;
-function useIsomorphicLayoutEffect(cb2) {
+function useIsomorphicLayoutEffect$1(cb2) {
   let isStatic = reactExports.useContext(NavigationContext).static;
   if (!isStatic) {
     reactExports.useLayoutEffect(cb2);
@@ -7823,7 +7823,7 @@ function useNavigateUnstable() {
   let { pathname: locationPathname } = useLocation();
   let routePathnamesJson = JSON.stringify(getResolveToMatches(matches));
   let activeRef = reactExports.useRef(false);
-  useIsomorphicLayoutEffect(() => {
+  useIsomorphicLayoutEffect$1(() => {
     activeRef.current = true;
   });
   let navigate = reactExports.useCallback(
@@ -8306,7 +8306,7 @@ function useNavigateStable() {
     /* UseNavigateStable */
   );
   let activeRef = reactExports.useRef(false);
-  useIsomorphicLayoutEffect(() => {
+  useIsomorphicLayoutEffect$1(() => {
     activeRef.current = true;
   });
   let navigate = reactExports.useCallback(
@@ -9796,22 +9796,6 @@ const getDefaults = () => {
   }
 };
 const getDefaultEmulatorHost = (productName) => getDefaults()?.emulatorHosts?.[productName];
-const getDefaultEmulatorHostnameAndPort = (productName) => {
-  const host = getDefaultEmulatorHost(productName);
-  if (!host) {
-    return void 0;
-  }
-  const separatorIndex = host.lastIndexOf(":");
-  if (separatorIndex <= 0 || separatorIndex + 1 === host.length) {
-    throw new Error(`Invalid host ${host} with no separate hostname and port!`);
-  }
-  const port = parseInt(host.substring(separatorIndex + 1), 10);
-  if (host[0] === "[") {
-    return [host.substring(1, separatorIndex - 1), port];
-  } else {
-    return [host.substring(0, separatorIndex), port];
-  }
-};
 const getDefaultAppConfig = () => getDefaults()?.config;
 const getExperimentalSetting = (name2) => getDefaults()?.[`_${name2}`];
 /**
@@ -9864,59 +9848,6 @@ class Deferred {
       }
     };
   }
-}
-/**
- * @license
- * Copyright 2021 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-function createMockUserToken(token, projectId) {
-  if (token.uid) {
-    throw new Error('The "uid" field is no longer supported by mockUserToken. Please use "sub" instead for Firebase Auth User ID.');
-  }
-  const header = {
-    alg: "none",
-    type: "JWT"
-  };
-  const project = projectId || "demo-project";
-  const iat = token.iat || 0;
-  const sub = token.sub || token.user_id;
-  if (!sub) {
-    throw new Error("mockUserToken must contain 'sub' or 'user_id' field!");
-  }
-  const payload = {
-    // Set all required fields to decent defaults
-    iss: `https://securetoken.google.com/${project}`,
-    aud: project,
-    iat,
-    exp: iat + 3600,
-    auth_time: iat,
-    sub,
-    user_id: sub,
-    firebase: {
-      sign_in_provider: "custom",
-      identities: {}
-    },
-    // Override with user options
-    ...token
-  };
-  const signature = "";
-  return [
-    base64urlEncodeWithoutPadding(JSON.stringify(header)),
-    base64urlEncodeWithoutPadding(JSON.stringify(payload)),
-    signature
-  ].join(".");
 }
 /**
  * @license
@@ -9975,6 +9906,9 @@ function isIE() {
 }
 function isSafari() {
   return !isNode() && !!navigator.userAgent && navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome");
+}
+function isSafariOrWebkit() {
+  return !isNode() && !!navigator.userAgent && (navigator.userAgent.includes("Safari") || navigator.userAgent.includes("WebKit")) && !navigator.userAgent.includes("Chrome");
 }
 function isIndexedDBAvailable() {
   try {
@@ -20865,13 +20799,14 @@ const buttonVariants = cva(
   }
 );
 const Button = reactExports.forwardRef(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, type, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return /* @__PURE__ */ jsxRuntimeExports.jsx(
       Comp,
       {
         className: cn(buttonVariants({ variant, size, className })),
         ref,
+        type: asChild ? type : type ?? "button",
         ...props
       }
     );
@@ -20991,6 +20926,26 @@ const createLucideIcon = (iconName, iconNode) => {
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
+const ArrowDown = createLucideIcon("ArrowDown", [
+  ["path", { d: "M12 5v14", key: "s699le" }],
+  ["path", { d: "m19 12-7 7-7-7", key: "1idqje" }]
+]);
+/**
+ * @license lucide-react v0.468.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const ArrowUp = createLucideIcon("ArrowUp", [
+  ["path", { d: "m5 12 7-7 7 7", key: "hav0vg" }],
+  ["path", { d: "M12 19V5", key: "x0mq9r" }]
+]);
+/**
+ * @license lucide-react v0.468.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
 const Bell = createLucideIcon("Bell", [
   ["path", { d: "M10.268 21a2 2 0 0 0 3.464 0", key: "vwvbt9" }],
   [
@@ -21056,6 +21011,17 @@ const CircleCheck = createLucideIcon("CircleCheck", [
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
+const CirclePlus = createLucideIcon("CirclePlus", [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["path", { d: "M8 12h8", key: "1wcyev" }],
+  ["path", { d: "M12 8v8", key: "napkw2" }]
+]);
+/**
+ * @license lucide-react v0.468.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
 const CircleUser = createLucideIcon("CircleUser", [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }],
@@ -21077,6 +21043,29 @@ const ClipboardCheck = createLucideIcon("ClipboardCheck", [
     }
   ],
   ["path", { d: "m9 14 2 2 4-4", key: "df797q" }]
+]);
+/**
+ * @license lucide-react v0.468.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const CloudOff = createLucideIcon("CloudOff", [
+  ["path", { d: "m2 2 20 20", key: "1ooewy" }],
+  ["path", { d: "M5.782 5.782A7 7 0 0 0 9 19h8.5a4.5 4.5 0 0 0 1.307-.193", key: "yfwify" }],
+  [
+    "path",
+    { d: "M21.532 16.5A4.5 4.5 0 0 0 17.5 10h-1.79A7.008 7.008 0 0 0 10 5.07", key: "jlfiyv" }
+  ]
+]);
+/**
+ * @license lucide-react v0.468.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const Cloud = createLucideIcon("Cloud", [
+  ["path", { d: "M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z", key: "p7xjir" }]
 ]);
 /**
  * @license lucide-react v0.468.0 - ISC
@@ -21254,7 +21243,7 @@ const Users = createLucideIcon("Users", [
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const X = createLucideIcon("X", [
+const X$1 = createLucideIcon("X", [
   ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
   ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
 ]);
@@ -21306,7 +21295,7 @@ function DialogContent({
             className: "absolute right-3 top-3",
             onClick: onClose,
             "aria-label": "Close",
-            children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { className: "h-4 w-4", "aria-hidden": "true" })
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx(X$1, { className: "h-4 w-4", "aria-hidden": "true" })
           }
         ) : null,
         children
@@ -21378,6 +21367,28 @@ const badgeVariants = cva(
 function Badge({ className, variant, ...props }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: cn(badgeVariants({ variant }), className), ...props });
 }
+const TRAINING_COURSE_OPTIONS = [
+  { value: "2W", label: "2W" },
+  { value: "4W", label: "4W" },
+  { value: "HV", label: "Heavy Vehicle" }
+];
+const STUDENT_COURSE_OPTIONS = [
+  ...TRAINING_COURSE_OPTIONS,
+  { value: "both", label: "Both" }
+];
+const COURSE_LABELS = {
+  "2W": "2W",
+  "4W": "4W",
+  HV: "Heavy Vehicle",
+  both: "Both"
+};
+const COURSE_PARTS = {
+  "2W": ["2W"],
+  "4W": ["4W"],
+  HV: ["HV"],
+  both: ["2W", "4W"]
+};
+const DRIVING_TEST_COURSE_PARTS = COURSE_PARTS;
 function formatCurrency(amount) {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
@@ -21394,12 +21405,7 @@ function formatDate(date) {
   }).format(/* @__PURE__ */ new Date(`${date}T00:00:00`));
 }
 function formatCourseType(courseType) {
-  const labels = {
-    "2W": "2W",
-    "4W": "4W",
-    both: "Both"
-  };
-  return labels[courseType];
+  return COURSE_LABELS[courseType];
 }
 function formatStudentStatus(status) {
   const labels = {
@@ -21431,8 +21437,8 @@ function formatPhoneNumber(phone) {
 }
 function formatAlertType(type) {
   const labels = {
-    thirty_days_completed: "30 Days Completed",
-    near_completion: "Near 30-Day Completion",
+    thirty_days_completed: "Training Period Completed",
+    near_completion: "Near Training Completion",
     pending_fee: "Pending Fee",
     licence_expiry: "Licence Expiry",
     driving_test_pending: "Driving Test Pending"
@@ -21462,12 +21468,28 @@ function getLabel(status) {
   if (status === "not_started") return "Not Started";
   if (status === "in_progress") return "In Progress";
   if (status === "completed") return "Completed";
-  if (status === "thirty_days_completed") return "30 Days Completed";
+  if (status === "thirty_days_completed") return "Training Completed";
   if (status === "near_completion") return "Near Completion";
   if (status === "failed") return "Failed";
   return formatExpenseCategory(status);
 }
-function Alert({ className, variant = "default", ...props }) {
+function Alert({
+  autoDismiss,
+  autoDismissMs = 4e3,
+  children,
+  className,
+  variant = "default",
+  ...props
+}) {
+  const [isVisible, setIsVisible] = reactExports.useState(true);
+  const shouldAutoDismiss = autoDismiss ?? (variant === "success" || variant === "destructive");
+  reactExports.useEffect(() => {
+    setIsVisible(true);
+    if (!shouldAutoDismiss) return;
+    const timeoutId = window.setTimeout(() => setIsVisible(false), autoDismissMs);
+    return () => window.clearTimeout(timeoutId);
+  }, [autoDismissMs, children, shouldAutoDismiss, variant]);
+  if (!isVisible) return null;
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
@@ -21479,7 +21501,8 @@ function Alert({ className, variant = "default", ...props }) {
         variant === "warning" && "border-amber-200 bg-amber-50 text-warning",
         className
       ),
-      ...props
+      ...props,
+      children
     }
   );
 }
@@ -24376,28 +24399,6 @@ class __PRIVATE_EmptyAuthCredentialsProvider {
   shutdown() {
   }
 }
-class __PRIVATE_EmulatorAuthCredentialsProvider {
-  constructor(e2) {
-    this.token = e2, /**
-     * Stores the listener registered with setChangeListener()
-     * This isn't actually necessary since the UID never changes, but we use this
-     * to verify the listen contract is adhered to in tests.
-     */
-    this.changeListener = null;
-  }
-  getToken() {
-    return Promise.resolve(this.token);
-  }
-  invalidateToken() {
-  }
-  start(e2, t2) {
-    this.changeListener = t2, // Fire with initial user.
-    e2.enqueueRetryable(() => t2(this.token.user));
-  }
-  shutdown() {
-    this.changeListener = null;
-  }
-}
 class __PRIVATE_FirebaseAuthCredentialsProvider {
   constructor(e2) {
     this.t = e2, /** Tracks the current User. */
@@ -24620,6 +24621,9 @@ function __PRIVATE_isSurrogate(e2) {
 }
 function __PRIVATE_arrayEquals(e2, t2, n3) {
   return e2.length === t2.length && e2.every((e3, r2) => n3(e3, t2[r2]));
+}
+function __PRIVATE_immediateSuccessor(e2) {
+  return e2 + "\0";
 }
 /**
  * @license
@@ -24953,6 +24957,9 @@ function __PRIVATE_cast(e2, t2) {
   }
   return e2;
 }
+function __PRIVATE_validatePositiveNumber(e2, t2) {
+  if (t2 <= 0) throw new FirestoreError(D.INVALID_ARGUMENT, `Function ${e2}() requires a positive number, but it was: ${t2}.`);
+}
 /**
  * @license
  * Copyright 2025 Google LLC
@@ -25194,6 +25201,32 @@ class SnapshotVersion {
  * limitations under the License.
  */
 const N = -1;
+class FieldIndex {
+  constructor(e2, t2, n3, r2) {
+    this.indexId = e2, this.collectionGroup = t2, this.fields = n3, this.indexState = r2;
+  }
+}
+function __PRIVATE_fieldIndexGetArraySegment(e2) {
+  return e2.fields.find((e3) => 2 === e3.kind);
+}
+function __PRIVATE_fieldIndexGetDirectionalSegments(e2) {
+  return e2.fields.filter((e3) => 2 !== e3.kind);
+}
+FieldIndex.UNKNOWN_ID = -1;
+class IndexSegment {
+  constructor(e2, t2) {
+    this.fieldPath = e2, this.kind = t2;
+  }
+}
+class IndexState {
+  constructor(e2, t2) {
+    this.sequenceNumber = e2, this.offset = t2;
+  }
+  /** The state of an index that has not yet been backfilled. */
+  static empty() {
+    return new IndexState(0, IndexOffset.min());
+  }
+}
 function __PRIVATE_newIndexOffsetSuccessorFromReadTime(e2, t2) {
   const n3 = e2.toTimestamp().seconds, r2 = e2.toTimestamp().nanoseconds + 1, i2 = SnapshotVersion.fromTimestamp(1e9 === r2 ? new Timestamp(n3 + 1, 0) : new Timestamp(n3, r2));
   return new IndexOffset(i2, DocumentKey.empty(), t2);
@@ -25395,12 +25428,446 @@ class PersistencePromise {
     });
   }
 }
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const L = "SimpleDb";
+class __PRIVATE_SimpleDbTransaction {
+  static open(e2, t2, n3, r2) {
+    try {
+      return new __PRIVATE_SimpleDbTransaction(t2, e2.transaction(r2, n3));
+    } catch (e3) {
+      throw new __PRIVATE_IndexedDbTransactionError(t2, e3);
+    }
+  }
+  constructor(e2, t2) {
+    this.action = e2, this.transaction = t2, this.aborted = false, /**
+     * A `Promise` that resolves with the result of the IndexedDb transaction.
+     */
+    this.S = new __PRIVATE_Deferred(), this.transaction.oncomplete = () => {
+      this.S.resolve();
+    }, this.transaction.onabort = () => {
+      t2.error ? this.S.reject(new __PRIVATE_IndexedDbTransactionError(e2, t2.error)) : this.S.resolve();
+    }, this.transaction.onerror = (t3) => {
+      const n3 = __PRIVATE_checkForAndReportiOSError(t3.target.error);
+      this.S.reject(new __PRIVATE_IndexedDbTransactionError(e2, n3));
+    };
+  }
+  get D() {
+    return this.S.promise;
+  }
+  abort(e2) {
+    e2 && this.S.reject(e2), this.aborted || (__PRIVATE_logDebug(L, "Aborting transaction:", e2 ? e2.message : "Client-initiated abort"), this.aborted = true, this.transaction.abort());
+  }
+  C() {
+    const e2 = this.transaction;
+    this.aborted || "function" != typeof e2.commit || e2.commit();
+  }
+  /**
+   * Returns a SimpleDbStore<KeyType, ValueType> for the specified store. All
+   * operations performed on the SimpleDbStore happen within the context of this
+   * transaction and it cannot be used anymore once the transaction is
+   * completed.
+   *
+   * Note that we can't actually enforce that the KeyType and ValueType are
+   * correct, but they allow type safety through the rest of the consuming code.
+   */
+  store(e2) {
+    const t2 = this.transaction.objectStore(e2);
+    return new __PRIVATE_SimpleDbStore(t2);
+  }
+}
+class __PRIVATE_SimpleDb {
+  /** Deletes the specified database. */
+  static delete(e2) {
+    __PRIVATE_logDebug(L, "Removing database:", e2);
+    return __PRIVATE_wrapRequest(getGlobal().indexedDB.deleteDatabase(e2)).toPromise();
+  }
+  /** Returns true if IndexedDB is available in the current environment. */
+  static v() {
+    if (!isIndexedDBAvailable()) return false;
+    if (__PRIVATE_SimpleDb.F()) return true;
+    const e2 = getUA(), t2 = __PRIVATE_SimpleDb.M(e2), n3 = 0 < t2 && t2 < 10, r2 = __PRIVATE_getAndroidVersion(e2), i2 = 0 < r2 && r2 < 4.5;
+    return !(e2.indexOf("MSIE ") > 0 || e2.indexOf("Trident/") > 0 || e2.indexOf("Edge/") > 0 || n3 || i2);
+  }
+  /**
+   * Returns true if the backing IndexedDB store is the Node IndexedDBShim
+   * (see https://github.com/axemclion/IndexedDBShim).
+   */
+  static F() {
+    return "undefined" != typeof process && "YES" === process.__PRIVATE_env?.__PRIVATE_USE_MOCK_PERSISTENCE;
+  }
+  /** Helper to get a typed SimpleDbStore from a transaction. */
+  static O(e2, t2) {
+    return e2.store(t2);
+  }
+  // visible for testing
+  /** Parse User Agent to determine iOS version. Returns -1 if not found. */
+  static M(e2) {
+    const t2 = e2.match(/i(?:phone|pad|pod) os ([\d_]+)/i), n3 = t2 ? t2[1].split("_").slice(0, 2).join(".") : "-1";
+    return Number(n3);
+  }
+  /*
+   * Creates a new SimpleDb wrapper for IndexedDb database `name`.
+   *
+   * Note that `version` must not be a downgrade. IndexedDB does not support
+   * downgrading the schema version. We currently do not support any way to do
+   * versioning outside of IndexedDB's versioning mechanism, as only
+   * version-upgrade transactions are allowed to do things like create
+   * objectstores.
+   */
+  constructor(e2, t2, n3) {
+    this.name = e2, this.version = t2, this.N = n3, this.B = null;
+    12.2 === __PRIVATE_SimpleDb.M(getUA()) && __PRIVATE_logError("Firestore persistence suffers from a bug in iOS 12.2 Safari that may cause your app to stop working. See https://stackoverflow.com/q/56496296/110915 for details and a potential workaround.");
+  }
+  /**
+   * Opens the specified database, creating or upgrading it if necessary.
+   */
+  async L(e2) {
+    return this.db || (__PRIVATE_logDebug(L, "Opening database:", this.name), this.db = await new Promise((t2, n3) => {
+      const r2 = indexedDB.open(this.name, this.version);
+      r2.onsuccess = (e3) => {
+        const n4 = e3.target.result;
+        t2(n4);
+      }, r2.onblocked = () => {
+        n3(new __PRIVATE_IndexedDbTransactionError(e2, "Cannot upgrade IndexedDB schema while another tab is open. Close all tabs that access Firestore and reload this page to proceed."));
+      }, r2.onerror = (t3) => {
+        const r3 = t3.target.error;
+        "VersionError" === r3.name ? n3(new FirestoreError(D.FAILED_PRECONDITION, "A newer version of the Firestore SDK was previously used and so the persisted data is not compatible with the version of the SDK you are now using. The SDK will operate with persistence disabled. If you need persistence, please re-upgrade to a newer version of the SDK or else clear the persisted IndexedDB data for your app to start fresh.")) : "InvalidStateError" === r3.name ? n3(new FirestoreError(D.FAILED_PRECONDITION, "Unable to open an IndexedDB connection. This could be due to running in a private browsing session on a browser whose private browsing sessions do not support IndexedDB: " + r3)) : n3(new __PRIVATE_IndexedDbTransactionError(e2, r3));
+      }, r2.onupgradeneeded = (e3) => {
+        __PRIVATE_logDebug(L, 'Database "' + this.name + '" requires upgrade from version:', e3.oldVersion);
+        const t3 = e3.target.result;
+        this.N.k(t3, r2.transaction, e3.oldVersion, this.version).next(() => {
+          __PRIVATE_logDebug(L, "Database upgrade to version " + this.version + " complete");
+        });
+      };
+    })), this.K && (this.db.onversionchange = (e3) => this.K(e3)), this.db;
+  }
+  q(e2) {
+    this.K = e2, this.db && (this.db.onversionchange = (t2) => e2(t2));
+  }
+  async runTransaction(e2, t2, n3, r2) {
+    const i2 = "readonly" === t2;
+    let s2 = 0;
+    for (; ; ) {
+      ++s2;
+      try {
+        this.db = await this.L(e2);
+        const t3 = __PRIVATE_SimpleDbTransaction.open(this.db, e2, i2 ? "readonly" : "readwrite", n3), s3 = r2(t3).next((e3) => (t3.C(), e3)).catch((e3) => (
+          // Abort the transaction if there was an error.
+          (t3.abort(e3), PersistencePromise.reject(e3))
+        )).toPromise();
+        return s3.catch(() => {
+        }), // Wait for the transaction to complete (i.e. IndexedDb's onsuccess event to
+        // fire), but still return the original transactionFnResult back to the
+        // caller.
+        await t3.D, s3;
+      } catch (e3) {
+        const t3 = e3, n4 = "FirebaseError" !== t3.name && s2 < 3;
+        if (__PRIVATE_logDebug(L, "Transaction failed with error:", t3.message, "Retrying:", n4), this.close(), !n4) return Promise.reject(t3);
+      }
+    }
+  }
+  close() {
+    this.db && this.db.close(), this.db = void 0;
+  }
+}
 function __PRIVATE_getAndroidVersion(e2) {
   const t2 = e2.match(/Android ([\d.]+)/i), n3 = t2 ? t2[1].split(".").slice(0, 2).join(".") : "-1";
   return Number(n3);
 }
+class __PRIVATE_IterationController {
+  constructor(e2) {
+    this.U = e2, this.$ = false, this.W = null;
+  }
+  get isDone() {
+    return this.$;
+  }
+  get G() {
+    return this.W;
+  }
+  set cursor(e2) {
+    this.U = e2;
+  }
+  /**
+   * This function can be called to stop iteration at any point.
+   */
+  done() {
+    this.$ = true;
+  }
+  /**
+   * This function can be called to skip to that next key, which could be
+   * an index or a primary key.
+   */
+  j(e2) {
+    this.W = e2;
+  }
+  /**
+   * Delete the current cursor value from the object store.
+   *
+   * NOTE: You CANNOT do this with a keysOnly query.
+   */
+  delete() {
+    return __PRIVATE_wrapRequest(this.U.delete());
+  }
+}
+class __PRIVATE_IndexedDbTransactionError extends FirestoreError {
+  constructor(e2, t2) {
+    super(D.UNAVAILABLE, `IndexedDB transaction '${e2}' failed: ${t2}`), this.name = "IndexedDbTransactionError";
+  }
+}
 function __PRIVATE_isIndexedDbTransactionError(e2) {
   return "IndexedDbTransactionError" === e2.name;
+}
+class __PRIVATE_SimpleDbStore {
+  constructor(e2) {
+    this.store = e2;
+  }
+  put(e2, t2) {
+    let n3;
+    return void 0 !== t2 ? (__PRIVATE_logDebug(L, "PUT", this.store.name, e2, t2), n3 = this.store.put(t2, e2)) : (__PRIVATE_logDebug(L, "PUT", this.store.name, "<auto-key>", e2), n3 = this.store.put(e2)), __PRIVATE_wrapRequest(n3);
+  }
+  /**
+   * Adds a new value into an Object Store and returns the new key. Similar to
+   * IndexedDb's `add()`, this method will fail on primary key collisions.
+   *
+   * @param value - The object to write.
+   * @returns The key of the value to add.
+   */
+  add(e2) {
+    __PRIVATE_logDebug(L, "ADD", this.store.name, e2, e2);
+    return __PRIVATE_wrapRequest(this.store.add(e2));
+  }
+  /**
+   * Gets the object with the specified key from the specified store, or null
+   * if no object exists with the specified key.
+   *
+   * @key The key of the object to get.
+   * @returns The object with the specified key or null if no object exists.
+   */
+  get(e2) {
+    return __PRIVATE_wrapRequest(this.store.get(e2)).next((t2) => (
+      // Normalize nonexistence to null.
+      (void 0 === t2 && (t2 = null), __PRIVATE_logDebug(L, "GET", this.store.name, e2, t2), t2)
+    ));
+  }
+  delete(e2) {
+    __PRIVATE_logDebug(L, "DELETE", this.store.name, e2);
+    return __PRIVATE_wrapRequest(this.store.delete(e2));
+  }
+  /**
+   * If we ever need more of the count variants, we can add overloads. For now,
+   * all we need is to count everything in a store.
+   *
+   * Returns the number of rows in the store.
+   */
+  count() {
+    __PRIVATE_logDebug(L, "COUNT", this.store.name);
+    return __PRIVATE_wrapRequest(this.store.count());
+  }
+  J(e2, t2) {
+    const n3 = this.options(e2, t2), r2 = n3.index ? this.store.index(n3.index) : this.store;
+    if ("function" == typeof r2.getAll) {
+      const e3 = r2.getAll(n3.range);
+      return new PersistencePromise((t3, n4) => {
+        e3.onerror = (e4) => {
+          n4(e4.target.error);
+        }, e3.onsuccess = (e4) => {
+          t3(e4.target.result);
+        };
+      });
+    }
+    {
+      const e3 = this.cursor(n3), t3 = [];
+      return this.H(e3, (e4, n4) => {
+        t3.push(n4);
+      }).next(() => t3);
+    }
+  }
+  /**
+   * Loads the first `count` elements from the provided index range. Loads all
+   * elements if no limit is provided.
+   */
+  Z(e2, t2) {
+    const n3 = this.store.getAll(e2, null === t2 ? void 0 : t2);
+    return new PersistencePromise((e3, t3) => {
+      n3.onerror = (e4) => {
+        t3(e4.target.error);
+      }, n3.onsuccess = (t4) => {
+        e3(t4.target.result);
+      };
+    });
+  }
+  X(e2, t2) {
+    __PRIVATE_logDebug(L, "DELETE ALL", this.store.name);
+    const n3 = this.options(e2, t2);
+    n3.Y = false;
+    const r2 = this.cursor(n3);
+    return this.H(r2, (e3, t3, n4) => n4.delete());
+  }
+  ee(e2, t2) {
+    let n3;
+    t2 ? n3 = e2 : (n3 = {}, t2 = e2);
+    const r2 = this.cursor(n3);
+    return this.H(r2, t2);
+  }
+  /**
+   * Iterates over a store, but waits for the given callback to complete for
+   * each entry before iterating the next entry. This allows the callback to do
+   * asynchronous work to determine if this iteration should continue.
+   *
+   * The provided callback should return `true` to continue iteration, and
+   * `false` otherwise.
+   */
+  te(e2) {
+    const t2 = this.cursor({});
+    return new PersistencePromise((n3, r2) => {
+      t2.onerror = (e3) => {
+        const t3 = __PRIVATE_checkForAndReportiOSError(e3.target.error);
+        r2(t3);
+      }, t2.onsuccess = (t3) => {
+        const r3 = t3.target.result;
+        r3 ? e2(r3.primaryKey, r3.value).next((e3) => {
+          e3 ? r3.continue() : n3();
+        }) : n3();
+      };
+    });
+  }
+  H(e2, t2) {
+    const n3 = [];
+    return new PersistencePromise((r2, i2) => {
+      e2.onerror = (e3) => {
+        i2(e3.target.error);
+      }, e2.onsuccess = (e3) => {
+        const i3 = e3.target.result;
+        if (!i3) return void r2();
+        const s2 = new __PRIVATE_IterationController(i3), o2 = t2(i3.primaryKey, i3.value, s2);
+        if (o2 instanceof PersistencePromise) {
+          const e4 = o2.catch((e5) => (s2.done(), PersistencePromise.reject(e5)));
+          n3.push(e4);
+        }
+        s2.isDone ? r2() : null === s2.G ? i3.continue() : i3.continue(s2.G);
+      };
+    }).next(() => PersistencePromise.waitFor(n3));
+  }
+  options(e2, t2) {
+    let n3;
+    return void 0 !== e2 && ("string" == typeof e2 ? n3 = e2 : t2 = e2), {
+      index: n3,
+      range: t2
+    };
+  }
+  cursor(e2) {
+    let t2 = "next";
+    if (e2.reverse && (t2 = "prev"), e2.index) {
+      const n3 = this.store.index(e2.index);
+      return e2.Y ? n3.openKeyCursor(e2.range, t2) : n3.openCursor(e2.range, t2);
+    }
+    return this.store.openCursor(e2.range, t2);
+  }
+}
+function __PRIVATE_wrapRequest(e2) {
+  return new PersistencePromise((t2, n3) => {
+    e2.onsuccess = (e3) => {
+      const n4 = e3.target.result;
+      t2(n4);
+    }, e2.onerror = (e3) => {
+      const t3 = __PRIVATE_checkForAndReportiOSError(e3.target.error);
+      n3(t3);
+    };
+  });
+}
+let k$2 = false;
+function __PRIVATE_checkForAndReportiOSError(e2) {
+  const t2 = __PRIVATE_SimpleDb.M(getUA());
+  if (t2 >= 12.2 && t2 < 13) {
+    const t3 = "An internal error was encountered in the Indexed Database server";
+    if (e2.message.indexOf(t3) >= 0) {
+      const e3 = new FirestoreError("internal", `IOS_INDEXEDDB_BUG1: IndexedDb has thrown '${t3}'. This is likely due to an unavoidable bug in iOS. See https://stackoverflow.com/q/56496296/110915 for details and a potential workaround.`);
+      return k$2 || (k$2 = true, // Throw a global exception outside of this promise chain, for the user to
+      // potentially catch.
+      setTimeout(() => {
+        throw e3;
+      }, 0)), e3;
+    }
+  }
+  return e2;
+}
+const K = "IndexBackfiller";
+class __PRIVATE_IndexBackfillerScheduler {
+  constructor(e2, t2) {
+    this.asyncQueue = e2, this.ne = t2, this.task = null;
+  }
+  start() {
+    this.re(15e3);
+  }
+  stop() {
+    this.task && (this.task.cancel(), this.task = null);
+  }
+  get started() {
+    return null !== this.task;
+  }
+  re(e2) {
+    __PRIVATE_logDebug(K, `Scheduled in ${e2}ms`), this.task = this.asyncQueue.enqueueAfterDelay("index_backfill", e2, async () => {
+      this.task = null;
+      try {
+        const e3 = await this.ne.ie();
+        __PRIVATE_logDebug(K, `Documents written: ${e3}`);
+      } catch (e3) {
+        __PRIVATE_isIndexedDbTransactionError(e3) ? __PRIVATE_logDebug(K, "Ignoring IndexedDB error during index backfill: ", e3) : await __PRIVATE_ignoreIfPrimaryLeaseLoss(e3);
+      }
+      await this.re(6e4);
+    });
+  }
+}
+class __PRIVATE_IndexBackfiller {
+  constructor(e2, t2) {
+    this.localStore = e2, this.persistence = t2;
+  }
+  async ie(e2 = 50) {
+    return this.persistence.runTransaction("Backfill Indexes", "readwrite-primary", (t2) => this.se(t2, e2));
+  }
+  /** Writes index entries until the cap is reached. Returns the number of documents processed. */
+  se(e2, t2) {
+    const n3 = /* @__PURE__ */ new Set();
+    let r2 = t2, i2 = true;
+    return PersistencePromise.doWhile(() => true === i2 && r2 > 0, () => this.localStore.indexManager.getNextCollectionGroupToUpdate(e2).next((t3) => {
+      if (null !== t3 && !n3.has(t3)) return __PRIVATE_logDebug(K, `Processing collection: ${t3}`), this.oe(e2, t3, r2).next((e3) => {
+        r2 -= e3, n3.add(t3);
+      });
+      i2 = false;
+    })).next(() => t2 - r2);
+  }
+  /**
+   * Writes entries for the provided collection group. Returns the number of documents processed.
+   */
+  oe(e2, t2, n3) {
+    return this.localStore.indexManager.getMinOffsetFromCollectionGroup(e2, t2).next((r2) => this.localStore.localDocuments.getNextDocuments(e2, t2, r2, n3).next((n4) => {
+      const i2 = n4.changes;
+      return this.localStore.indexManager.updateIndexEntries(e2, i2).next(() => this._e(r2, n4)).next((n5) => (__PRIVATE_logDebug(K, `Updating offset: ${n5}`), this.localStore.indexManager.updateCollectionGroup(e2, t2, n5))).next(() => i2.size);
+    }));
+  }
+  /** Returns the next offset based on the provided documents. */
+  _e(e2, t2) {
+    let n3 = e2;
+    return t2.changes.forEach((e3, t3) => {
+      const r2 = __PRIVATE_newIndexOffsetFromDocument(t3);
+      __PRIVATE_indexOffsetComparator(r2, n3) > 0 && (n3 = r2);
+    }), new IndexOffset(n3.readTime, n3.documentKey, Math.max(t2.batchId, e2.largestBatchId));
+  }
 }
 /**
  * @license
@@ -25499,6 +25966,110 @@ function __PRIVATE_encodeSegment(e2, t2) {
 }
 function __PRIVATE_encodeSeparator(e2) {
   return e2 + U + "";
+}
+function __PRIVATE_decodeResourcePath(e2) {
+  const t2 = e2.length;
+  if (__PRIVATE_hardAssert(t2 >= 2, 64408, {
+    path: e2
+  }), 2 === t2) return __PRIVATE_hardAssert(e2.charAt(0) === U && "" === e2.charAt(1), 56145, {
+    path: e2
+  }), ResourcePath.emptyPath();
+  const __PRIVATE_lastReasonableEscapeIndex = t2 - 2, n3 = [];
+  let r2 = "";
+  for (let i2 = 0; i2 < t2; ) {
+    const t3 = e2.indexOf(U, i2);
+    (t3 < 0 || t3 > __PRIVATE_lastReasonableEscapeIndex) && fail$1(50515, {
+      path: e2
+    });
+    switch (e2.charAt(t3 + 1)) {
+      case "":
+        const s2 = e2.substring(i2, t3);
+        let o2;
+        0 === r2.length ? (
+          // Avoid copying for the common case of a segment that excludes \0
+          // and \001
+          o2 = s2
+        ) : (r2 += s2, o2 = r2, r2 = ""), n3.push(o2);
+        break;
+      case "":
+        r2 += e2.substring(i2, t3), r2 += "\0";
+        break;
+      case "":
+        r2 += e2.substring(i2, t3 + 1);
+        break;
+      default:
+        fail$1(61167, {
+          path: e2
+        });
+    }
+    i2 = t3 + 2;
+  }
+  return new ResourcePath(n3);
+}
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const $ = "remoteDocuments", W = "owner", Q = "owner", G$1 = "mutationQueues", z = "userId", j = "mutations", H = "batchId", J = "userMutationsIndex", Z = ["userId", "batchId"];
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function __PRIVATE_newDbDocumentMutationPrefixForPath(e2, t2) {
+  return [e2, __PRIVATE_encodeResourcePath(t2)];
+}
+function __PRIVATE_newDbDocumentMutationKey(e2, t2, n3) {
+  return [e2, __PRIVATE_encodeResourcePath(t2), n3];
+}
+const X = {}, Y = "documentMutations", ee = "remoteDocumentsV14", te = ["prefixPath", "collectionGroup", "readTime", "documentId"], ne = "documentKeyIndex", re = ["prefixPath", "collectionGroup", "documentId"], ie = "collectionGroupIndex", se = ["collectionGroup", "readTime", "prefixPath", "documentId"], oe = "remoteDocumentGlobal", _e = "remoteDocumentGlobalKey", ae = "targets", ue = "queryTargetsIndex", ce = ["canonicalId", "targetId"], le = "targetDocuments", he = ["targetId", "path"], Pe = "documentTargetsIndex", Te = ["path", "targetId"], Ie = "targetGlobalKey", Ee = "targetGlobal", Re = "collectionParents", Ae = ["collectionId", "parent"], Ve = "clientMetadata", de = "clientId", me = "bundles", fe = "bundleId", ge = "namedQueries", pe = "name", ye = "indexConfiguration", we = "indexId", be = "collectionGroupIndex", Se = "collectionGroup", De = "indexState", Ce = ["indexId", "uid"], ve = "sequenceNumberIndex", Fe = ["uid", "sequenceNumber"], Me = "indexEntries", xe = ["indexId", "uid", "arrayValue", "directionalValue", "orderedDocumentKey", "documentKey"], Oe = "documentKeyIndex", Ne = ["indexId", "uid", "orderedDocumentKey"], Be = "documentOverlays", Le = ["userId", "collectionPath", "documentId"], ke = "collectionPathOverlayIndex", Ke = ["userId", "collectionPath", "largestBatchId"], qe = "collectionGroupOverlayIndex", Ue = ["userId", "collectionGroup", "largestBatchId"], $e = "globals", We = "name", Qe = [...[...[...[...[G$1, j, Y, $, ae, W, Ee, le], Ve], oe], Re], me, ge], Ge = [...Qe, Be], ze = [G$1, j, Y, ee, ae, W, Ee, le, Ve, oe, Re, me, ge, Be], je = ze, He = [...je, ye, De, Me], Je = He, Ze = [...He, $e], Xe = Ze;
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+class __PRIVATE_IndexedDbTransaction extends PersistenceTransaction {
+  constructor(e2, t2) {
+    super(), this.le = e2, this.currentSequenceNumber = t2;
+  }
+}
+function __PRIVATE_getStore(e2, t2) {
+  const n3 = __PRIVATE_debugCast(e2);
+  return __PRIVATE_SimpleDb.O(n3.le, t2);
 }
 /**
  * @license
@@ -25963,6 +26534,9 @@ class SortedSetIterator {
     return this.iter.hasNext();
   }
 }
+function __PRIVATE_advanceIterator(e2) {
+  return e2.hasNext() ? e2.getNext() : void 0;
+}
 /**
  * @license
  * Copyright 2020 Google LLC
@@ -26243,8 +26817,16 @@ function __PRIVATE_databaseIdFromApp(e2, t2) {
  * limitations under the License.
  */
 const st = "__type__", ot = "__max__", _t = {
-  mapValue: {}
-}, at = "__vector__", ut = "value";
+  mapValue: {
+    fields: {
+      __type__: {
+        stringValue: ot
+      }
+    }
+  }
+}, at = "__vector__", ut = "value", ct = {
+  nullValue: "NULL_VALUE"
+};
 function __PRIVATE_typeOrder(e2) {
   return "nullValue" in e2 ? 0 : "booleanValue" in e2 ? 1 : "integerValue" in e2 || "doubleValue" in e2 ? 2 : "timestampValue" in e2 ? 3 : "stringValue" in e2 ? 5 : "bytesValue" in e2 ? 6 : "referenceValue" in e2 ? 7 : "geoPointValue" in e2 ? 8 : "arrayValue" in e2 ? 9 : "mapValue" in e2 ? __PRIVATE_isServerTimestamp(e2) ? 4 : __PRIVATE_isMaxValue(e2) ? 9007199254740991 : __PRIVATE_isVectorValue(e2) ? 10 : 11 : fail$1(28295, {
     value: e2
@@ -26516,6 +27098,78 @@ function __PRIVATE_deepClone(e2) {
 }
 function __PRIVATE_isMaxValue(e2) {
   return (((e2.mapValue || {}).fields || {}).__type__ || {}).stringValue === ot;
+}
+const lt = {
+  mapValue: {
+    fields: {
+      [st]: {
+        stringValue: at
+      },
+      [ut]: {
+        arrayValue: {}
+      }
+    }
+  }
+};
+function __PRIVATE_valuesGetLowerBound(e2) {
+  return "nullValue" in e2 ? ct : "booleanValue" in e2 ? {
+    booleanValue: false
+  } : "integerValue" in e2 || "doubleValue" in e2 ? {
+    doubleValue: NaN
+  } : "timestampValue" in e2 ? {
+    timestampValue: {
+      seconds: Number.MIN_SAFE_INTEGER
+    }
+  } : "stringValue" in e2 ? {
+    stringValue: ""
+  } : "bytesValue" in e2 ? {
+    bytesValue: ""
+  } : "referenceValue" in e2 ? __PRIVATE_refValue(DatabaseId.empty(), DocumentKey.empty()) : "geoPointValue" in e2 ? {
+    geoPointValue: {
+      latitude: -90,
+      longitude: -180
+    }
+  } : "arrayValue" in e2 ? {
+    arrayValue: {}
+  } : "mapValue" in e2 ? __PRIVATE_isVectorValue(e2) ? lt : {
+    mapValue: {}
+  } : fail$1(35942, {
+    value: e2
+  });
+}
+function __PRIVATE_valuesGetUpperBound(e2) {
+  return "nullValue" in e2 ? {
+    booleanValue: false
+  } : "booleanValue" in e2 ? {
+    doubleValue: NaN
+  } : "integerValue" in e2 || "doubleValue" in e2 ? {
+    timestampValue: {
+      seconds: Number.MIN_SAFE_INTEGER
+    }
+  } : "timestampValue" in e2 ? {
+    stringValue: ""
+  } : "stringValue" in e2 ? {
+    bytesValue: ""
+  } : "bytesValue" in e2 ? __PRIVATE_refValue(DatabaseId.empty(), DocumentKey.empty()) : "referenceValue" in e2 ? {
+    geoPointValue: {
+      latitude: -90,
+      longitude: -180
+    }
+  } : "geoPointValue" in e2 ? {
+    arrayValue: {}
+  } : "arrayValue" in e2 ? lt : "mapValue" in e2 ? __PRIVATE_isVectorValue(e2) ? {
+    mapValue: {}
+  } : _t : fail$1(61959, {
+    value: e2
+  });
+}
+function __PRIVATE_lowerBoundCompare(e2, t2) {
+  const n3 = __PRIVATE_valueCompare(e2.value, t2.value);
+  return 0 !== n3 ? n3 : e2.inclusive && !t2.inclusive ? -1 : !e2.inclusive && t2.inclusive ? 1 : 0;
+}
+function __PRIVATE_upperBoundCompare(e2, t2) {
+  const n3 = __PRIVATE_valueCompare(e2.value, t2.value);
+  return 0 !== n3 ? n3 : e2.inclusive && !t2.inclusive ? 1 : !e2.inclusive && t2.inclusive ? -1 : 0;
 }
 /**
  * @license
@@ -26959,6 +27613,9 @@ class CompositeFilter extends Filter {
 function __PRIVATE_compositeFilterIsConjunction(e2) {
   return "and" === e2.op;
 }
+function __PRIVATE_compositeFilterIsDisjunction(e2) {
+  return "or" === e2.op;
+}
 function __PRIVATE_compositeFilterIsFlatConjunction(e2) {
   return __PRIVATE_compositeFilterIsFlat(e2) && __PRIVATE_compositeFilterIsConjunction(e2);
 }
@@ -26985,6 +27642,10 @@ function __PRIVATE_filterEquals(e2, t2) {
     }
     return false;
   }(e2, t2) : void fail$1(19439);
+}
+function __PRIVATE_compositeFilterWithAddedFilters(e2, t2) {
+  const n3 = e2.filters.concat(t2);
+  return CompositeFilter.create(n3, e2.op);
 }
 function __PRIVATE_stringifyFilter(e2) {
   return e2 instanceof FieldFilter ? function __PRIVATE_stringifyFieldFilter(e3) {
@@ -27105,6 +27766,103 @@ function __PRIVATE_targetEquals(e2, t2) {
 function __PRIVATE_targetIsDocumentTarget(e2) {
   return DocumentKey.isDocumentKey(e2.path) && null === e2.collectionGroup && 0 === e2.filters.length;
 }
+function __PRIVATE_targetGetFieldFiltersForPath(e2, t2) {
+  return e2.filters.filter((e3) => e3 instanceof FieldFilter && e3.field.isEqual(t2));
+}
+function __PRIVATE_targetGetAscendingBound(e2, t2, n3) {
+  let r2 = ct, i2 = true;
+  for (const n4 of __PRIVATE_targetGetFieldFiltersForPath(e2, t2)) {
+    let e3 = ct, t3 = true;
+    switch (n4.op) {
+      case "<":
+      case "<=":
+        e3 = __PRIVATE_valuesGetLowerBound(n4.value);
+        break;
+      case "==":
+      case "in":
+      case ">=":
+        e3 = n4.value;
+        break;
+      case ">":
+        e3 = n4.value, t3 = false;
+        break;
+      case "!=":
+      case "not-in":
+        e3 = ct;
+    }
+    __PRIVATE_lowerBoundCompare({
+      value: r2,
+      inclusive: i2
+    }, {
+      value: e3,
+      inclusive: t3
+    }) < 0 && (r2 = e3, i2 = t3);
+  }
+  if (null !== n3) for (let s2 = 0; s2 < e2.orderBy.length; ++s2) {
+    if (e2.orderBy[s2].field.isEqual(t2)) {
+      const e3 = n3.position[s2];
+      __PRIVATE_lowerBoundCompare({
+        value: r2,
+        inclusive: i2
+      }, {
+        value: e3,
+        inclusive: n3.inclusive
+      }) < 0 && (r2 = e3, i2 = n3.inclusive);
+      break;
+    }
+  }
+  return {
+    value: r2,
+    inclusive: i2
+  };
+}
+function __PRIVATE_targetGetDescendingBound(e2, t2, n3) {
+  let r2 = _t, i2 = true;
+  for (const n4 of __PRIVATE_targetGetFieldFiltersForPath(e2, t2)) {
+    let e3 = _t, t3 = true;
+    switch (n4.op) {
+      case ">=":
+      case ">":
+        e3 = __PRIVATE_valuesGetUpperBound(n4.value), t3 = false;
+        break;
+      case "==":
+      case "in":
+      case "<=":
+        e3 = n4.value;
+        break;
+      case "<":
+        e3 = n4.value, t3 = false;
+        break;
+      case "!=":
+      case "not-in":
+        e3 = _t;
+    }
+    __PRIVATE_upperBoundCompare({
+      value: r2,
+      inclusive: i2
+    }, {
+      value: e3,
+      inclusive: t3
+    }) > 0 && (r2 = e3, i2 = t3);
+  }
+  if (null !== n3) for (let s2 = 0; s2 < e2.orderBy.length; ++s2) {
+    if (e2.orderBy[s2].field.isEqual(t2)) {
+      const e3 = n3.position[s2];
+      __PRIVATE_upperBoundCompare({
+        value: r2,
+        inclusive: i2
+      }, {
+        value: e3,
+        inclusive: n3.inclusive
+      }) > 0 && (r2 = e3, i2 = n3.inclusive);
+      break;
+    }
+  }
+  return {
+    value: r2,
+    inclusive: i2
+  };
+}
 /**
  * @license
  * Copyright 2017 Google LLC
@@ -27202,6 +27960,9 @@ function __PRIVATE_queryWithAddedOrderBy(e2, t2) {
 }
 function __PRIVATE_queryWithLimit(e2, t2, n3) {
   return new __PRIVATE_QueryImpl(e2.path, e2.collectionGroup, e2.explicitOrderBy.slice(), e2.filters.slice(), t2, n3, e2.startAt, e2.endAt);
+}
+function __PRIVATE_queryWithStartAt(e2, t2) {
+  return new __PRIVATE_QueryImpl(e2.path, e2.collectionGroup, e2.explicitOrderBy.slice(), e2.filters.slice(), e2.limit, e2.limitType, t2, e2.endAt);
 }
 function __PRIVATE_queryEquals(e2, t2) {
   return __PRIVATE_targetEquals(__PRIVATE_queryToTarget(e2), __PRIVATE_queryToTarget(t2)) && e2.limitType === t2.limitType;
@@ -28636,6 +29397,14 @@ function __PRIVATE_toMutationDocument(e2, t2, n3) {
     fields: n3.value.mapValue.fields
   };
 }
+function __PRIVATE_fromDocument(e2, t2, n3) {
+  const r2 = fromName(e2, t2.name), i2 = __PRIVATE_fromVersion(t2.updateTime), s2 = t2.createTime ? __PRIVATE_fromVersion(t2.createTime) : SnapshotVersion.min(), o2 = new ObjectValue({
+    mapValue: {
+      fields: t2.fields
+    }
+  }), _ = MutableDocument.newFoundDocument(r2, i2, s2, o2);
+  return n3 && _.setHasCommittedMutations(), n3 ? _.setHasCommittedMutations() : _;
+}
 function __PRIVATE_fromBatchGetDocumentsResponse(e2, t2) {
   return "found" in t2 ? function __PRIVATE_fromFound(e3, t3) {
     __PRIVATE_hardAssert(!!t3.found, 43571), t3.found.name, t3.found.updateTime;
@@ -28760,6 +29529,54 @@ function toMutation(e2, t2) {
       exists: t3.exists
     } : fail$1(27497);
   }(e2, t2.precondition)), n3;
+}
+function __PRIVATE_fromMutation(e2, t2) {
+  const n3 = t2.currentDocument ? function __PRIVATE_fromPrecondition(e3) {
+    return void 0 !== e3.updateTime ? Precondition.updateTime(__PRIVATE_fromVersion(e3.updateTime)) : void 0 !== e3.exists ? Precondition.exists(e3.exists) : Precondition.none();
+  }(t2.currentDocument) : Precondition.none(), r2 = t2.updateTransforms ? t2.updateTransforms.map((t3) => function __PRIVATE_fromFieldTransform(e3, t4) {
+    let n4 = null;
+    if ("setToServerValue" in t4) __PRIVATE_hardAssert("REQUEST_TIME" === t4.setToServerValue, 16630, {
+      proto: t4
+    }), n4 = new __PRIVATE_ServerTimestampTransform();
+    else if ("appendMissingElements" in t4) {
+      const e4 = t4.appendMissingElements.values || [];
+      n4 = new __PRIVATE_ArrayUnionTransformOperation(e4);
+    } else if ("removeAllFromArray" in t4) {
+      const e4 = t4.removeAllFromArray.values || [];
+      n4 = new __PRIVATE_ArrayRemoveTransformOperation(e4);
+    } else "increment" in t4 ? n4 = new __PRIVATE_NumericIncrementTransformOperation(e3, t4.increment) : fail$1(16584, {
+      proto: t4
+    });
+    const r3 = FieldPath$1.fromServerFormat(t4.fieldPath);
+    return new FieldTransform(r3, n4);
+  }(e2, t3)) : [];
+  if (t2.update) {
+    t2.update.name;
+    const i2 = fromName(e2, t2.update.name), s2 = new ObjectValue({
+      mapValue: {
+        fields: t2.update.fields
+      }
+    });
+    if (t2.updateMask) {
+      const e3 = function __PRIVATE_fromDocumentMask(e4) {
+        const t3 = e4.fieldPaths || [];
+        return new FieldMask(t3.map((e5) => FieldPath$1.fromServerFormat(e5)));
+      }(t2.updateMask);
+      return new __PRIVATE_PatchMutation(i2, s2, e3, n3, r2);
+    }
+    return new __PRIVATE_SetMutation(i2, s2, n3, r2);
+  }
+  if (t2.delete) {
+    const r3 = fromName(e2, t2.delete);
+    return new __PRIVATE_DeleteMutation(r3, n3);
+  }
+  if (t2.verify) {
+    const r3 = fromName(e2, t2.verify);
+    return new __PRIVATE_VerifyMutation(r3, n3);
+  }
+  return fail$1(1463, {
+    proto: t2
+  });
 }
 function __PRIVATE_fromWriteResults(e2, t2) {
   return e2 && e2.length > 0 ? (__PRIVATE_hardAssert(void 0 !== t2, 14353), e2.map((e3) => function __PRIVATE_fromWriteResult(e4, t3) {
@@ -29154,6 +29971,114 @@ class __PRIVATE_LocalSerializer {
     this.yt = e2;
   }
 }
+function __PRIVATE_fromDbRemoteDocument(e2, t2) {
+  let n3;
+  if (t2.document) n3 = __PRIVATE_fromDocument(e2.yt, t2.document, !!t2.hasCommittedMutations);
+  else if (t2.noDocument) {
+    const e3 = DocumentKey.fromSegments(t2.noDocument.path), r2 = __PRIVATE_fromDbTimestamp(t2.noDocument.readTime);
+    n3 = MutableDocument.newNoDocument(e3, r2), t2.hasCommittedMutations && n3.setHasCommittedMutations();
+  } else {
+    if (!t2.unknownDocument) return fail$1(56709);
+    {
+      const e3 = DocumentKey.fromSegments(t2.unknownDocument.path), r2 = __PRIVATE_fromDbTimestamp(t2.unknownDocument.version);
+      n3 = MutableDocument.newUnknownDocument(e3, r2);
+    }
+  }
+  return t2.readTime && n3.setReadTime(function __PRIVATE_fromDbTimestampKey(e3) {
+    const t3 = new Timestamp(e3[0], e3[1]);
+    return SnapshotVersion.fromTimestamp(t3);
+  }(t2.readTime)), n3;
+}
+function __PRIVATE_toDbRemoteDocument(e2, t2) {
+  const n3 = t2.key, r2 = {
+    prefixPath: n3.getCollectionPath().popLast().toArray(),
+    collectionGroup: n3.collectionGroup,
+    documentId: n3.path.lastSegment(),
+    readTime: __PRIVATE_toDbTimestampKey(t2.readTime),
+    hasCommittedMutations: t2.hasCommittedMutations
+  };
+  if (t2.isFoundDocument()) r2.document = function __PRIVATE_toDocument(e3, t3) {
+    return {
+      name: __PRIVATE_toName(e3, t3.key),
+      fields: t3.data.value.mapValue.fields,
+      updateTime: toTimestamp(e3, t3.version.toTimestamp()),
+      createTime: toTimestamp(e3, t3.createTime.toTimestamp())
+    };
+  }(e2.yt, t2);
+  else if (t2.isNoDocument()) r2.noDocument = {
+    path: n3.path.toArray(),
+    readTime: __PRIVATE_toDbTimestamp(t2.version)
+  };
+  else {
+    if (!t2.isUnknownDocument()) return fail$1(57904, {
+      document: t2
+    });
+    r2.unknownDocument = {
+      path: n3.path.toArray(),
+      version: __PRIVATE_toDbTimestamp(t2.version)
+    };
+  }
+  return r2;
+}
+function __PRIVATE_toDbTimestampKey(e2) {
+  const t2 = e2.toTimestamp();
+  return [t2.seconds, t2.nanoseconds];
+}
+function __PRIVATE_toDbTimestamp(e2) {
+  const t2 = e2.toTimestamp();
+  return {
+    seconds: t2.seconds,
+    nanoseconds: t2.nanoseconds
+  };
+}
+function __PRIVATE_fromDbTimestamp(e2) {
+  const t2 = new Timestamp(e2.seconds, e2.nanoseconds);
+  return SnapshotVersion.fromTimestamp(t2);
+}
+function __PRIVATE_fromDbMutationBatch(e2, t2) {
+  const n3 = (t2.baseMutations || []).map((t3) => __PRIVATE_fromMutation(e2.yt, t3));
+  for (let e3 = 0; e3 < t2.mutations.length - 1; ++e3) {
+    const n4 = t2.mutations[e3];
+    if (e3 + 1 < t2.mutations.length && void 0 !== t2.mutations[e3 + 1].transform) {
+      const r3 = t2.mutations[e3 + 1];
+      n4.updateTransforms = r3.transform.fieldTransforms, t2.mutations.splice(e3 + 1, 1), ++e3;
+    }
+  }
+  const r2 = t2.mutations.map((t3) => __PRIVATE_fromMutation(e2.yt, t3)), i2 = Timestamp.fromMillis(t2.localWriteTimeMs);
+  return new MutationBatch(t2.batchId, i2, n3, r2);
+}
+function __PRIVATE_fromDbTarget(e2) {
+  const t2 = __PRIVATE_fromDbTimestamp(e2.readTime), n3 = void 0 !== e2.lastLimboFreeSnapshotVersion ? __PRIVATE_fromDbTimestamp(e2.lastLimboFreeSnapshotVersion) : SnapshotVersion.min();
+  let r2;
+  return r2 = /**
+  * A helper function for figuring out what kind of query has been stored.
+  */
+  function __PRIVATE_isDocumentQuery(e3) {
+    return void 0 !== e3.documents;
+  }(e2.query) ? function __PRIVATE_fromDocumentsTarget(e3) {
+    const t3 = e3.documents.length;
+    return __PRIVATE_hardAssert(1 === t3, 1966, {
+      count: t3
+    }), __PRIVATE_queryToTarget(__PRIVATE_newQueryForPath(__PRIVATE_fromQueryPath(e3.documents[0])));
+  }(e2.query) : function __PRIVATE_fromQueryTarget(e3) {
+    return __PRIVATE_queryToTarget(__PRIVATE_convertQueryTargetToQuery(e3));
+  }(e2.query), new TargetData(r2, e2.targetId, "TargetPurposeListen", e2.lastListenSequenceNumber, t2, n3, ByteString.fromBase64String(e2.resumeToken));
+}
+function __PRIVATE_toDbTarget(e2, t2) {
+  const n3 = __PRIVATE_toDbTimestamp(t2.snapshotVersion), r2 = __PRIVATE_toDbTimestamp(t2.lastLimboFreeSnapshotVersion);
+  let i2;
+  i2 = __PRIVATE_targetIsDocumentTarget(t2.target) ? __PRIVATE_toDocumentsTarget(e2.yt, t2.target) : __PRIVATE_toQueryTarget(e2.yt, t2.target).ft;
+  const s2 = t2.resumeToken.toBase64();
+  return {
+    targetId: t2.targetId,
+    canonicalId: __PRIVATE_canonifyTarget(t2.target),
+    readTime: n3,
+    resumeToken: s2,
+    lastListenSequenceNumber: t2.sequenceNumber,
+    lastLimboFreeSnapshotVersion: r2,
+    query: i2
+  };
+}
 function __PRIVATE_fromBundledQuery(e2) {
   const t2 = __PRIVATE_convertQueryTargetToQuery({
     parent: e2.parent,
@@ -29165,6 +30090,835 @@ function __PRIVATE_fromBundledQuery(e2) {
     "L"
     /* LimitType.Last */
   ) : t2;
+}
+function __PRIVATE_fromDbDocumentOverlay(e2, t2) {
+  return new Overlay(t2.largestBatchId, __PRIVATE_fromMutation(e2.yt, t2.overlayMutation));
+}
+function __PRIVATE_toDbDocumentOverlayKey(e2, t2) {
+  const n3 = t2.path.lastSegment();
+  return [e2, __PRIVATE_encodeResourcePath(t2.path.popLast()), n3];
+}
+function __PRIVATE_toDbIndexState(e2, t2, n3, r2) {
+  return {
+    indexId: e2,
+    uid: t2,
+    sequenceNumber: n3,
+    readTime: __PRIVATE_toDbTimestamp(r2.readTime),
+    documentKey: __PRIVATE_encodeResourcePath(r2.documentKey.path),
+    largestBatchId: r2.largestBatchId
+  };
+}
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+class __PRIVATE_IndexedDbBundleCache {
+  getBundleMetadata(e2, t2) {
+    return __PRIVATE_bundlesStore(e2).get(t2).next((e3) => {
+      if (e3) return function __PRIVATE_fromDbBundle(e4) {
+        return {
+          id: e4.bundleId,
+          createTime: __PRIVATE_fromDbTimestamp(e4.createTime),
+          version: e4.version
+        };
+      }(e3);
+    });
+  }
+  saveBundleMetadata(e2, t2) {
+    return __PRIVATE_bundlesStore(e2).put(function __PRIVATE_toDbBundle(e3) {
+      return {
+        bundleId: e3.id,
+        createTime: __PRIVATE_toDbTimestamp(__PRIVATE_fromVersion(e3.createTime)),
+        version: e3.version
+      };
+    }(t2));
+  }
+  getNamedQuery(e2, t2) {
+    return __PRIVATE_namedQueriesStore(e2).get(t2).next((e3) => {
+      if (e3) return function __PRIVATE_fromDbNamedQuery(e4) {
+        return {
+          name: e4.name,
+          query: __PRIVATE_fromBundledQuery(e4.bundledQuery),
+          readTime: __PRIVATE_fromDbTimestamp(e4.readTime)
+        };
+      }(e3);
+    });
+  }
+  saveNamedQuery(e2, t2) {
+    return __PRIVATE_namedQueriesStore(e2).put(function __PRIVATE_toDbNamedQuery(e3) {
+      return {
+        name: e3.name,
+        readTime: __PRIVATE_toDbTimestamp(__PRIVATE_fromVersion(e3.readTime)),
+        bundledQuery: e3.bundledQuery
+      };
+    }(t2));
+  }
+}
+function __PRIVATE_bundlesStore(e2) {
+  return __PRIVATE_getStore(e2, me);
+}
+function __PRIVATE_namedQueriesStore(e2) {
+  return __PRIVATE_getStore(e2, ge);
+}
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+class __PRIVATE_IndexedDbDocumentOverlayCache {
+  /**
+   * @param serializer - The document serializer.
+   * @param userId - The userId for which we are accessing overlays.
+   */
+  constructor(e2, t2) {
+    this.serializer = e2, this.userId = t2;
+  }
+  static wt(e2, t2) {
+    const n3 = t2.uid || "";
+    return new __PRIVATE_IndexedDbDocumentOverlayCache(e2, n3);
+  }
+  getOverlay(e2, t2) {
+    return __PRIVATE_documentOverlayStore(e2).get(__PRIVATE_toDbDocumentOverlayKey(this.userId, t2)).next((e3) => e3 ? __PRIVATE_fromDbDocumentOverlay(this.serializer, e3) : null);
+  }
+  getOverlays(e2, t2) {
+    const n3 = __PRIVATE_newOverlayMap();
+    return PersistencePromise.forEach(t2, (t3) => this.getOverlay(e2, t3).next((e3) => {
+      null !== e3 && n3.set(t3, e3);
+    })).next(() => n3);
+  }
+  saveOverlays(e2, t2, n3) {
+    const r2 = [];
+    return n3.forEach((n4, i2) => {
+      const s2 = new Overlay(t2, i2);
+      r2.push(this.St(e2, s2));
+    }), PersistencePromise.waitFor(r2);
+  }
+  removeOverlaysForBatchId(e2, t2, n3) {
+    const r2 = /* @__PURE__ */ new Set();
+    t2.forEach((e3) => r2.add(__PRIVATE_encodeResourcePath(e3.getCollectionPath())));
+    const i2 = [];
+    return r2.forEach((t3) => {
+      const r3 = IDBKeyRange.bound(
+        [this.userId, t3, n3],
+        [this.userId, t3, n3 + 1],
+        /*lowerOpen=*/
+        false,
+        /*upperOpen=*/
+        true
+      );
+      i2.push(__PRIVATE_documentOverlayStore(e2).X(ke, r3));
+    }), PersistencePromise.waitFor(i2);
+  }
+  getOverlaysForCollection(e2, t2, n3) {
+    const r2 = __PRIVATE_newOverlayMap(), i2 = __PRIVATE_encodeResourcePath(t2), s2 = IDBKeyRange.bound(
+      [this.userId, i2, n3],
+      [this.userId, i2, Number.POSITIVE_INFINITY],
+      /*lowerOpen=*/
+      true
+    );
+    return __PRIVATE_documentOverlayStore(e2).J(ke, s2).next((e3) => {
+      for (const t3 of e3) {
+        const e4 = __PRIVATE_fromDbDocumentOverlay(this.serializer, t3);
+        r2.set(e4.getKey(), e4);
+      }
+      return r2;
+    });
+  }
+  getOverlaysForCollectionGroup(e2, t2, n3, r2) {
+    const i2 = __PRIVATE_newOverlayMap();
+    let s2;
+    const o2 = IDBKeyRange.bound(
+      [this.userId, t2, n3],
+      [this.userId, t2, Number.POSITIVE_INFINITY],
+      /*lowerOpen=*/
+      true
+    );
+    return __PRIVATE_documentOverlayStore(e2).ee({
+      index: qe,
+      range: o2
+    }, (e3, t3, n4) => {
+      const o3 = __PRIVATE_fromDbDocumentOverlay(this.serializer, t3);
+      i2.size() < r2 || o3.largestBatchId === s2 ? (i2.set(o3.getKey(), o3), s2 = o3.largestBatchId) : n4.done();
+    }).next(() => i2);
+  }
+  St(e2, t2) {
+    return __PRIVATE_documentOverlayStore(e2).put(function __PRIVATE_toDbDocumentOverlay(e3, t3, n3) {
+      const [r2, i2, s2] = __PRIVATE_toDbDocumentOverlayKey(t3, n3.mutation.key);
+      return {
+        userId: t3,
+        collectionPath: i2,
+        documentId: s2,
+        collectionGroup: n3.mutation.key.getCollectionGroup(),
+        largestBatchId: n3.largestBatchId,
+        overlayMutation: toMutation(e3.yt, n3.mutation)
+      };
+    }(this.serializer, this.userId, t2));
+  }
+}
+function __PRIVATE_documentOverlayStore(e2) {
+  return __PRIVATE_getStore(e2, Be);
+}
+/**
+ * @license
+ * Copyright 2024 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+class __PRIVATE_IndexedDbGlobalsCache {
+  bt(e2) {
+    return __PRIVATE_getStore(e2, $e);
+  }
+  getSessionToken(e2) {
+    return this.bt(e2).get("sessionToken").next((e3) => {
+      const t2 = e3?.value;
+      return t2 ? ByteString.fromUint8Array(t2) : ByteString.EMPTY_BYTE_STRING;
+    });
+  }
+  setSessionToken(e2, t2) {
+    return this.bt(e2).put({
+      name: "sessionToken",
+      value: t2.toUint8Array()
+    });
+  }
+}
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+class __PRIVATE_FirestoreIndexValueWriter {
+  constructor() {
+  }
+  // The write methods below short-circuit writing terminators for values
+  // containing a (terminating) truncated value.
+  // As an example, consider the resulting encoding for:
+  // ["bar", [2, "foo"]] -> (STRING, "bar", TERM, ARRAY, NUMBER, 2, STRING, "foo", TERM, TERM, TERM)
+  // ["bar", [2, truncated("foo")]] -> (STRING, "bar", TERM, ARRAY, NUMBER, 2, STRING, "foo", TRUNC)
+  // ["bar", truncated(["foo"])] -> (STRING, "bar", TERM, ARRAY. STRING, "foo", TERM, TRUNC)
+  /** Writes an index value.  */
+  Dt(e2, t2) {
+    this.Ct(e2, t2), // Write separator to split index values
+    // (see go/firestore-storage-format#encodings).
+    t2.vt();
+  }
+  Ct(e2, t2) {
+    if ("nullValue" in e2) this.Ft(t2, 5);
+    else if ("booleanValue" in e2) this.Ft(t2, 10), t2.Mt(e2.booleanValue ? 1 : 0);
+    else if ("integerValue" in e2) this.Ft(t2, 15), t2.Mt(__PRIVATE_normalizeNumber(e2.integerValue));
+    else if ("doubleValue" in e2) {
+      const n3 = __PRIVATE_normalizeNumber(e2.doubleValue);
+      isNaN(n3) ? this.Ft(t2, 13) : (this.Ft(t2, 15), __PRIVATE_isNegativeZero(n3) ? (
+        // -0.0, 0 and 0.0 are all considered the same
+        t2.Mt(0)
+      ) : t2.Mt(n3));
+    } else if ("timestampValue" in e2) {
+      let n3 = e2.timestampValue;
+      this.Ft(t2, 20), "string" == typeof n3 && (n3 = __PRIVATE_normalizeTimestamp(n3)), t2.xt(`${n3.seconds || ""}`), t2.Mt(n3.nanos || 0);
+    } else if ("stringValue" in e2) this.Ot(e2.stringValue, t2), this.Nt(t2);
+    else if ("bytesValue" in e2) this.Ft(t2, 30), t2.Bt(__PRIVATE_normalizeByteString(e2.bytesValue)), this.Nt(t2);
+    else if ("referenceValue" in e2) this.Lt(e2.referenceValue, t2);
+    else if ("geoPointValue" in e2) {
+      const n3 = e2.geoPointValue;
+      this.Ft(t2, 45), t2.Mt(n3.latitude || 0), t2.Mt(n3.longitude || 0);
+    } else "mapValue" in e2 ? __PRIVATE_isMaxValue(e2) ? this.Ft(t2, Number.MAX_SAFE_INTEGER) : __PRIVATE_isVectorValue(e2) ? this.kt(e2.mapValue, t2) : (this.Kt(e2.mapValue, t2), this.Nt(t2)) : "arrayValue" in e2 ? (this.qt(e2.arrayValue, t2), this.Nt(t2)) : fail$1(19022, {
+      Ut: e2
+    });
+  }
+  Ot(e2, t2) {
+    this.Ft(t2, 25), this.$t(e2, t2);
+  }
+  $t(e2, t2) {
+    t2.xt(e2);
+  }
+  Kt(e2, t2) {
+    const n3 = e2.fields || {};
+    this.Ft(t2, 55);
+    for (const e3 of Object.keys(n3)) this.Ot(e3, t2), this.Ct(n3[e3], t2);
+  }
+  kt(e2, t2) {
+    const n3 = e2.fields || {};
+    this.Ft(t2, 53);
+    const r2 = ut, i2 = n3[r2].arrayValue?.values?.length || 0;
+    this.Ft(t2, 15), t2.Mt(__PRIVATE_normalizeNumber(i2)), // Vectors then sort by position value
+    this.Ot(r2, t2), this.Ct(n3[r2], t2);
+  }
+  qt(e2, t2) {
+    const n3 = e2.values || [];
+    this.Ft(t2, 50);
+    for (const e3 of n3) this.Ct(e3, t2);
+  }
+  Lt(e2, t2) {
+    this.Ft(t2, 37);
+    DocumentKey.fromName(e2).path.forEach((e3) => {
+      this.Ft(t2, 60), this.$t(e3, t2);
+    });
+  }
+  Ft(e2, t2) {
+    e2.Mt(t2);
+  }
+  Nt(e2) {
+    e2.Mt(2);
+  }
+}
+__PRIVATE_FirestoreIndexValueWriter.Wt = new __PRIVATE_FirestoreIndexValueWriter();
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law | agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES | CONDITIONS OF ANY KIND, either express | implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const pt = 255;
+function __PRIVATE_numberOfLeadingZerosInByte(e2) {
+  if (0 === e2) return 8;
+  let t2 = 0;
+  return e2 >> 4 || // Test if the first four bits are zero.
+  (t2 += 4, e2 <<= 4), e2 >> 6 || // Test if the first two (or next two) bits are zero.
+  (t2 += 2, e2 <<= 2), e2 >> 7 || // Test if the remaining bit is zero.
+  (t2 += 1), t2;
+}
+function __PRIVATE_unsignedNumLength(e2) {
+  const t2 = 64 - function __PRIVATE_numberOfLeadingZeros(e3) {
+    let t3 = 0;
+    for (let n3 = 0; n3 < 8; ++n3) {
+      const r2 = __PRIVATE_numberOfLeadingZerosInByte(255 & e3[n3]);
+      if (t3 += r2, 8 !== r2) break;
+    }
+    return t3;
+  }(e2);
+  return Math.ceil(t2 / 8);
+}
+class __PRIVATE_OrderedCodeWriter {
+  constructor() {
+    this.buffer = new Uint8Array(1024), this.position = 0;
+  }
+  Qt(e2) {
+    const t2 = e2[Symbol.iterator]();
+    let n3 = t2.next();
+    for (; !n3.done; ) this.Gt(n3.value), n3 = t2.next();
+    this.zt();
+  }
+  jt(e2) {
+    const t2 = e2[Symbol.iterator]();
+    let n3 = t2.next();
+    for (; !n3.done; ) this.Jt(n3.value), n3 = t2.next();
+    this.Ht();
+  }
+  /** Writes utf8 bytes into this byte sequence, ascending. */
+  Zt(e2) {
+    for (const t2 of e2) {
+      const e3 = t2.charCodeAt(0);
+      if (e3 < 128) this.Gt(e3);
+      else if (e3 < 2048) this.Gt(960 | e3 >>> 6), this.Gt(128 | 63 & e3);
+      else if (t2 < "\uD800" || "\uDBFF" < t2) this.Gt(480 | e3 >>> 12), this.Gt(128 | 63 & e3 >>> 6), this.Gt(128 | 63 & e3);
+      else {
+        const e4 = t2.codePointAt(0);
+        this.Gt(240 | e4 >>> 18), this.Gt(128 | 63 & e4 >>> 12), this.Gt(128 | 63 & e4 >>> 6), this.Gt(128 | 63 & e4);
+      }
+    }
+    this.zt();
+  }
+  /** Writes utf8 bytes into this byte sequence, descending */
+  Xt(e2) {
+    for (const t2 of e2) {
+      const e3 = t2.charCodeAt(0);
+      if (e3 < 128) this.Jt(e3);
+      else if (e3 < 2048) this.Jt(960 | e3 >>> 6), this.Jt(128 | 63 & e3);
+      else if (t2 < "\uD800" || "\uDBFF" < t2) this.Jt(480 | e3 >>> 12), this.Jt(128 | 63 & e3 >>> 6), this.Jt(128 | 63 & e3);
+      else {
+        const e4 = t2.codePointAt(0);
+        this.Jt(240 | e4 >>> 18), this.Jt(128 | 63 & e4 >>> 12), this.Jt(128 | 63 & e4 >>> 6), this.Jt(128 | 63 & e4);
+      }
+    }
+    this.Ht();
+  }
+  Yt(e2) {
+    const t2 = this.en(e2), n3 = __PRIVATE_unsignedNumLength(t2);
+    this.tn(1 + n3), this.buffer[this.position++] = 255 & n3;
+    for (let e3 = t2.length - n3; e3 < t2.length; ++e3) this.buffer[this.position++] = 255 & t2[e3];
+  }
+  nn(e2) {
+    const t2 = this.en(e2), n3 = __PRIVATE_unsignedNumLength(t2);
+    this.tn(1 + n3), this.buffer[this.position++] = ~(255 & n3);
+    for (let e3 = t2.length - n3; e3 < t2.length; ++e3) this.buffer[this.position++] = ~(255 & t2[e3]);
+  }
+  /**
+   * Writes the "infinity" byte sequence that sorts after all other byte
+   * sequences written in ascending order.
+   */
+  rn() {
+    this.sn(pt), this.sn(255);
+  }
+  /**
+   * Writes the "infinity" byte sequence that sorts before all other byte
+   * sequences written in descending order.
+   */
+  _n() {
+    this.an(pt), this.an(255);
+  }
+  /**
+   * Resets the buffer such that it is the same as when it was newly
+   * constructed.
+   */
+  reset() {
+    this.position = 0;
+  }
+  seed(e2) {
+    this.tn(e2.length), this.buffer.set(e2, this.position), this.position += e2.length;
+  }
+  /** Makes a copy of the encoded bytes in this buffer.  */
+  un() {
+    return this.buffer.slice(0, this.position);
+  }
+  /**
+   * Encodes `val` into an encoding so that the order matches the IEEE 754
+   * floating-point comparison results with the following exceptions:
+   *   -0.0 < 0.0
+   *   all non-NaN < NaN
+   *   NaN = NaN
+   */
+  en(e2) {
+    const t2 = (
+      /** Converts a JavaScript number to a byte array (using big endian encoding). */
+      function __PRIVATE_doubleToLongBits(e3) {
+        const t3 = new DataView(new ArrayBuffer(8));
+        return t3.setFloat64(
+          0,
+          e3,
+          /* littleEndian= */
+          false
+        ), new Uint8Array(t3.buffer);
+      }(e2)
+    ), n3 = !!(128 & t2[0]);
+    t2[0] ^= n3 ? 255 : 128;
+    for (let e3 = 1; e3 < t2.length; ++e3) t2[e3] ^= n3 ? 255 : 0;
+    return t2;
+  }
+  /** Writes a single byte ascending to the buffer. */
+  Gt(e2) {
+    const t2 = 255 & e2;
+    0 === t2 ? (this.sn(0), this.sn(255)) : t2 === pt ? (this.sn(pt), this.sn(0)) : this.sn(t2);
+  }
+  /** Writes a single byte descending to the buffer.  */
+  Jt(e2) {
+    const t2 = 255 & e2;
+    0 === t2 ? (this.an(0), this.an(255)) : t2 === pt ? (this.an(pt), this.an(0)) : this.an(e2);
+  }
+  zt() {
+    this.sn(0), this.sn(1);
+  }
+  Ht() {
+    this.an(0), this.an(1);
+  }
+  sn(e2) {
+    this.tn(1), this.buffer[this.position++] = e2;
+  }
+  an(e2) {
+    this.tn(1), this.buffer[this.position++] = ~e2;
+  }
+  tn(e2) {
+    const t2 = e2 + this.position;
+    if (t2 <= this.buffer.length) return;
+    let n3 = 2 * this.buffer.length;
+    n3 < t2 && (n3 = t2);
+    const r2 = new Uint8Array(n3);
+    r2.set(this.buffer), // copy old data
+    this.buffer = r2;
+  }
+}
+class __PRIVATE_AscendingIndexByteEncoder {
+  constructor(e2) {
+    this.cn = e2;
+  }
+  Bt(e2) {
+    this.cn.Qt(e2);
+  }
+  xt(e2) {
+    this.cn.Zt(e2);
+  }
+  Mt(e2) {
+    this.cn.Yt(e2);
+  }
+  vt() {
+    this.cn.rn();
+  }
+}
+class __PRIVATE_DescendingIndexByteEncoder {
+  constructor(e2) {
+    this.cn = e2;
+  }
+  Bt(e2) {
+    this.cn.jt(e2);
+  }
+  xt(e2) {
+    this.cn.Xt(e2);
+  }
+  Mt(e2) {
+    this.cn.nn(e2);
+  }
+  vt() {
+    this.cn._n();
+  }
+}
+class __PRIVATE_IndexByteEncoder {
+  constructor() {
+    this.cn = new __PRIVATE_OrderedCodeWriter(), this.ascending = new __PRIVATE_AscendingIndexByteEncoder(this.cn), this.descending = new __PRIVATE_DescendingIndexByteEncoder(this.cn);
+  }
+  seed(e2) {
+    this.cn.seed(e2);
+  }
+  ln(e2) {
+    return 0 === e2 ? this.ascending : this.descending;
+  }
+  un() {
+    return this.cn.un();
+  }
+  reset() {
+    this.cn.reset();
+  }
+}
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+class __PRIVATE_IndexEntry {
+  constructor(e2, t2, n3, r2) {
+    this.hn = e2, this.Pn = t2, this.Tn = n3, this.In = r2;
+  }
+  /**
+   * Returns an IndexEntry entry that sorts immediately after the current
+   * directional value.
+   */
+  En() {
+    const e2 = this.In.length, t2 = 0 === e2 || 255 === this.In[e2 - 1] ? e2 + 1 : e2, n3 = new Uint8Array(t2);
+    return n3.set(this.In, 0), t2 !== e2 ? n3.set([0], this.In.length) : ++n3[n3.length - 1], new __PRIVATE_IndexEntry(this.hn, this.Pn, this.Tn, n3);
+  }
+  // Create a representation of the Index Entry as a DbIndexEntry
+  Rn(e2, t2, n3) {
+    return {
+      indexId: this.hn,
+      uid: e2,
+      arrayValue: __PRIVATE_encodeKeySafeBytes(this.Tn),
+      directionalValue: __PRIVATE_encodeKeySafeBytes(this.In),
+      orderedDocumentKey: __PRIVATE_encodeKeySafeBytes(t2),
+      documentKey: n3.path.toArray()
+    };
+  }
+  // Create a representation of the Index Entry as a DbIndexEntryKey
+  An(e2, t2, n3) {
+    const r2 = this.Rn(e2, t2, n3);
+    return [r2.indexId, r2.uid, r2.arrayValue, r2.directionalValue, r2.orderedDocumentKey, r2.documentKey];
+  }
+}
+function __PRIVATE_indexEntryComparator(e2, t2) {
+  let n3 = e2.hn - t2.hn;
+  return 0 !== n3 ? n3 : (n3 = __PRIVATE_compareByteArrays(e2.Tn, t2.Tn), 0 !== n3 ? n3 : (n3 = __PRIVATE_compareByteArrays(e2.In, t2.In), 0 !== n3 ? n3 : DocumentKey.comparator(e2.Pn, t2.Pn)));
+}
+function __PRIVATE_compareByteArrays(e2, t2) {
+  for (let n3 = 0; n3 < e2.length && n3 < t2.length; ++n3) {
+    const r2 = e2[n3] - t2[n3];
+    if (0 !== r2) return r2;
+  }
+  return e2.length - t2.length;
+}
+function __PRIVATE_encodeKeySafeBytes(e2) {
+  return isSafariOrWebkit() ? (
+    /**
+    * Encodes a Uint8Array into a "sortable byte string".
+    * A "sortable byte string" sorts in the same order as the Uint8Array.
+    * This works because JS string comparison sorts strings based on code points.
+    */
+    function __PRIVATE_encodeUint8ArrayToSortableString(e3) {
+      let t2 = "";
+      for (let n3 = 0; n3 < e3.length; n3++) t2 += String.fromCharCode(e3[n3]);
+      return t2;
+    }(e2)
+  ) : e2;
+}
+function __PRIVATE_decodeKeySafeBytes(e2) {
+  return "string" != typeof e2 ? e2 : function __PRIVATE_decodeSortableStringToUint8Array(e3) {
+    const t2 = new Uint8Array(e3.length);
+    for (let n3 = 0; n3 < e3.length; n3++) t2[n3] = e3.charCodeAt(n3);
+    return t2;
+  }(e2);
+}
+class __PRIVATE_TargetIndexMatcher {
+  constructor(e2) {
+    this.Vn = new SortedSet((e3, t2) => FieldPath$1.comparator(e3.field, t2.field)), this.collectionId = null != e2.collectionGroup ? e2.collectionGroup : e2.path.lastSegment(), this.dn = e2.orderBy, this.mn = [];
+    for (const t2 of e2.filters) {
+      const e3 = t2;
+      e3.isInequality() ? this.Vn = this.Vn.add(e3) : this.mn.push(e3);
+    }
+  }
+  get fn() {
+    return this.Vn.size > 1;
+  }
+  /**
+   * Returns whether the index can be used to serve the TargetIndexMatcher's
+   * target.
+   *
+   * An index is considered capable of serving the target when:
+   * - The target uses all index segments for its filters and orderBy clauses.
+   *   The target can have additional filter and orderBy clauses, but not
+   *   fewer.
+   * - If an ArrayContains/ArrayContainsAnyfilter is used, the index must also
+   *   have a corresponding `CONTAINS` segment.
+   * - All directional index segments can be mapped to the target as a series of
+   *   equality filters, a single inequality filter and a series of orderBy
+   *   clauses.
+   * - The segments that represent the equality filters may appear out of order.
+   * - The optional segment for the inequality filter must appear after all
+   *   equality segments.
+   * - The segments that represent that orderBy clause of the target must appear
+   *   in order after all equality and inequality segments. Single orderBy
+   *   clauses cannot be skipped, but a continuous orderBy suffix may be
+   *   omitted.
+   */
+  gn(e2) {
+    if (__PRIVATE_hardAssert(e2.collectionGroup === this.collectionId, 49279), this.fn)
+      return false;
+    const t2 = __PRIVATE_fieldIndexGetArraySegment(e2);
+    if (void 0 !== t2 && !this.pn(t2)) return false;
+    const n3 = __PRIVATE_fieldIndexGetDirectionalSegments(e2);
+    let r2 = /* @__PURE__ */ new Set(), i2 = 0, s2 = 0;
+    for (; i2 < n3.length && this.pn(n3[i2]); ++i2) r2 = r2.add(n3[i2].fieldPath.canonicalString());
+    if (i2 === n3.length) return true;
+    if (this.Vn.size > 0) {
+      const e3 = this.Vn.getIterator().getNext();
+      if (!r2.has(e3.field.canonicalString())) {
+        const t3 = n3[i2];
+        if (!this.yn(e3, t3) || !this.wn(this.dn[s2++], t3)) return false;
+      }
+      ++i2;
+    }
+    for (; i2 < n3.length; ++i2) {
+      const e3 = n3[i2];
+      if (s2 >= this.dn.length || !this.wn(this.dn[s2++], e3)) return false;
+    }
+    return true;
+  }
+  /**
+   * Returns a full matched field index for this target. Currently multiple
+   * inequality query is not supported so function returns null.
+   */
+  Sn() {
+    if (this.fn) return null;
+    let e2 = new SortedSet(FieldPath$1.comparator);
+    const t2 = [];
+    for (const n3 of this.mn) {
+      if (n3.field.isKeyField()) continue;
+      if ("array-contains" === n3.op || "array-contains-any" === n3.op) t2.push(new IndexSegment(
+        n3.field,
+        2
+        /* IndexKind.CONTAINS */
+      ));
+      else {
+        if (e2.has(n3.field)) continue;
+        e2 = e2.add(n3.field), t2.push(new IndexSegment(
+          n3.field,
+          0
+          /* IndexKind.ASCENDING */
+        ));
+      }
+    }
+    for (const n3 of this.dn)
+      n3.field.isKeyField() || e2.has(n3.field) || (e2 = e2.add(n3.field), t2.push(new IndexSegment(
+        n3.field,
+        "asc" === n3.dir ? 0 : 1
+        /* IndexKind.DESCENDING */
+      )));
+    return new FieldIndex(FieldIndex.UNKNOWN_ID, this.collectionId, t2, IndexState.empty());
+  }
+  pn(e2) {
+    for (const t2 of this.mn) if (this.yn(t2, e2)) return true;
+    return false;
+  }
+  yn(e2, t2) {
+    if (void 0 === e2 || !e2.field.isEqual(t2.fieldPath)) return false;
+    const n3 = "array-contains" === e2.op || "array-contains-any" === e2.op;
+    return 2 === t2.kind === n3;
+  }
+  wn(e2, t2) {
+    return !!e2.field.isEqual(t2.fieldPath) && (0 === t2.kind && "asc" === e2.dir || 1 === t2.kind && "desc" === e2.dir);
+  }
+}
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function __PRIVATE_computeInExpansion(e2) {
+  if (__PRIVATE_hardAssert(e2 instanceof FieldFilter || e2 instanceof CompositeFilter, 20012), e2 instanceof FieldFilter) {
+    if (e2 instanceof __PRIVATE_InFilter) {
+      const t3 = e2.value.arrayValue?.values?.map((t4) => FieldFilter.create(e2.field, "==", t4)) || [];
+      return CompositeFilter.create(
+        t3,
+        "or"
+        /* CompositeOperator.OR */
+      );
+    }
+    return e2;
+  }
+  const t2 = e2.filters.map((e3) => __PRIVATE_computeInExpansion(e3));
+  return CompositeFilter.create(t2, e2.op);
+}
+function __PRIVATE_getDnfTerms(e2) {
+  if (0 === e2.getFilters().length) return [];
+  const t2 = __PRIVATE_computeDistributedNormalForm(__PRIVATE_computeInExpansion(e2));
+  return __PRIVATE_hardAssert(__PRIVATE_isDisjunctiveNormalForm(t2), 7391), __PRIVATE_isSingleFieldFilter(t2) || __PRIVATE_isFlatConjunction(t2) ? [t2] : t2.getFilters();
+}
+function __PRIVATE_isSingleFieldFilter(e2) {
+  return e2 instanceof FieldFilter;
+}
+function __PRIVATE_isFlatConjunction(e2) {
+  return e2 instanceof CompositeFilter && __PRIVATE_compositeFilterIsFlatConjunction(e2);
+}
+function __PRIVATE_isDisjunctiveNormalForm(e2) {
+  return __PRIVATE_isSingleFieldFilter(e2) || __PRIVATE_isFlatConjunction(e2) || /**
+  * Returns true if the given filter is the disjunction of one or more "flat conjunctions" and
+  * field filters. e.g. (a == 10) || (b==20 && c==30)
+  */
+  function __PRIVATE_isDisjunctionOfFieldFiltersAndFlatConjunctions(e3) {
+    if (e3 instanceof CompositeFilter && __PRIVATE_compositeFilterIsDisjunction(e3)) {
+      for (const t2 of e3.getFilters()) if (!__PRIVATE_isSingleFieldFilter(t2) && !__PRIVATE_isFlatConjunction(t2)) return false;
+      return true;
+    }
+    return false;
+  }(e2);
+}
+function __PRIVATE_computeDistributedNormalForm(e2) {
+  if (__PRIVATE_hardAssert(e2 instanceof FieldFilter || e2 instanceof CompositeFilter, 34018), e2 instanceof FieldFilter) return e2;
+  if (1 === e2.filters.length) return __PRIVATE_computeDistributedNormalForm(e2.filters[0]);
+  const t2 = e2.filters.map((e3) => __PRIVATE_computeDistributedNormalForm(e3));
+  let n3 = CompositeFilter.create(t2, e2.op);
+  return n3 = __PRIVATE_applyAssociation(n3), __PRIVATE_isDisjunctiveNormalForm(n3) ? n3 : (__PRIVATE_hardAssert(n3 instanceof CompositeFilter, 64498), __PRIVATE_hardAssert(__PRIVATE_compositeFilterIsConjunction(n3), 40251), __PRIVATE_hardAssert(n3.filters.length > 1, 57927), n3.filters.reduce((e3, t3) => __PRIVATE_applyDistribution(e3, t3)));
+}
+function __PRIVATE_applyDistribution(e2, t2) {
+  let n3;
+  return __PRIVATE_hardAssert(e2 instanceof FieldFilter || e2 instanceof CompositeFilter, 38388), __PRIVATE_hardAssert(t2 instanceof FieldFilter || t2 instanceof CompositeFilter, 25473), // FieldFilter FieldFilter
+  n3 = e2 instanceof FieldFilter ? t2 instanceof FieldFilter ? function __PRIVATE_applyDistributionFieldFilters(e3, t3) {
+    return CompositeFilter.create(
+      [e3, t3],
+      "and"
+      /* CompositeOperator.AND */
+    );
+  }(e2, t2) : __PRIVATE_applyDistributionFieldAndCompositeFilters(e2, t2) : t2 instanceof FieldFilter ? __PRIVATE_applyDistributionFieldAndCompositeFilters(t2, e2) : function __PRIVATE_applyDistributionCompositeFilters(e3, t3) {
+    if (__PRIVATE_hardAssert(e3.filters.length > 0 && t3.filters.length > 0, 48005), __PRIVATE_compositeFilterIsConjunction(e3) && __PRIVATE_compositeFilterIsConjunction(t3)) return __PRIVATE_compositeFilterWithAddedFilters(e3, t3.getFilters());
+    const n4 = __PRIVATE_compositeFilterIsDisjunction(e3) ? e3 : t3, r2 = __PRIVATE_compositeFilterIsDisjunction(e3) ? t3 : e3, i2 = n4.filters.map((e4) => __PRIVATE_applyDistribution(e4, r2));
+    return CompositeFilter.create(
+      i2,
+      "or"
+      /* CompositeOperator.OR */
+    );
+  }(e2, t2), __PRIVATE_applyAssociation(n3);
+}
+function __PRIVATE_applyDistributionFieldAndCompositeFilters(e2, t2) {
+  if (__PRIVATE_compositeFilterIsConjunction(t2))
+    return __PRIVATE_compositeFilterWithAddedFilters(t2, e2.getFilters());
+  {
+    const n3 = t2.filters.map((t3) => __PRIVATE_applyDistribution(e2, t3));
+    return CompositeFilter.create(
+      n3,
+      "or"
+      /* CompositeOperator.OR */
+    );
+  }
+}
+function __PRIVATE_applyAssociation(e2) {
+  if (__PRIVATE_hardAssert(e2 instanceof FieldFilter || e2 instanceof CompositeFilter, 11850), e2 instanceof FieldFilter) return e2;
+  const t2 = e2.getFilters();
+  if (1 === t2.length) return __PRIVATE_applyAssociation(t2[0]);
+  if (__PRIVATE_compositeFilterIsFlat(e2)) return e2;
+  const n3 = t2.map((e3) => __PRIVATE_applyAssociation(e3)), r2 = [];
+  return n3.forEach((t3) => {
+    t3 instanceof FieldFilter ? r2.push(t3) : t3 instanceof CompositeFilter && (t3.op === e2.op ? (
+      // compositeFilter: (A | (B | C))
+      // compositeSubfilter: (B | C)
+      // Result: (A | B | C)
+      r2.push(...t3.filters)
+    ) : (
+      // compositeFilter: (A | (B & C))
+      // compositeSubfilter: (B & C)
+      // Result: (A | (B & C))
+      r2.push(t3)
+    ));
+  }), 1 === r2.length ? r2[0] : CompositeFilter.create(r2, e2.op);
 }
 /**
  * @license
@@ -29251,6 +31005,515 @@ class __PRIVATE_MemoryCollectionParentIndex {
 }
 /**
  * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const yt = "IndexedDbIndexManager", wt = new Uint8Array(0);
+class __PRIVATE_IndexedDbIndexManager {
+  constructor(e2, t2) {
+    this.databaseId = t2, /**
+     * An in-memory copy of the index entries we've already written since the SDK
+     * launched. Used to avoid re-writing the same entry repeatedly.
+     *
+     * This is *NOT* a complete cache of what's in persistence and so can never be
+     * used to satisfy reads.
+     */
+    this.Dn = new __PRIVATE_MemoryCollectionParentIndex(), /**
+     * Maps from a target to its equivalent list of sub-targets. Each sub-target
+     * contains only one term from the target's disjunctive normal form (DNF).
+     */
+    this.Cn = new ObjectMap((e3) => __PRIVATE_canonifyTarget(e3), (e3, t3) => __PRIVATE_targetEquals(e3, t3)), this.uid = e2.uid || "";
+  }
+  /**
+   * Adds a new entry to the collection parent index.
+   *
+   * Repeated calls for the same collectionPath should be avoided within a
+   * transaction as IndexedDbIndexManager only caches writes once a transaction
+   * has been committed.
+   */
+  addToCollectionParentIndex(e2, t2) {
+    if (!this.Dn.has(t2)) {
+      const n3 = t2.lastSegment(), r2 = t2.popLast();
+      e2.addOnCommittedListener(() => {
+        this.Dn.add(t2);
+      });
+      const i2 = {
+        collectionId: n3,
+        parent: __PRIVATE_encodeResourcePath(r2)
+      };
+      return __PRIVATE_collectionParentsStore(e2).put(i2);
+    }
+    return PersistencePromise.resolve();
+  }
+  getCollectionParents(e2, t2) {
+    const n3 = [], r2 = IDBKeyRange.bound(
+      [t2, ""],
+      [__PRIVATE_immediateSuccessor(t2), ""],
+      /*lowerOpen=*/
+      false,
+      /*upperOpen=*/
+      true
+    );
+    return __PRIVATE_collectionParentsStore(e2).J(r2).next((e3) => {
+      for (const r3 of e3) {
+        if (r3.collectionId !== t2) break;
+        n3.push(__PRIVATE_decodeResourcePath(r3.parent));
+      }
+      return n3;
+    });
+  }
+  addFieldIndex(e2, t2) {
+    const n3 = __PRIVATE_indexConfigurationStore(e2), r2 = function __PRIVATE_toDbIndexConfiguration(e3) {
+      return {
+        indexId: e3.indexId,
+        collectionGroup: e3.collectionGroup,
+        fields: e3.fields.map((e4) => [e4.fieldPath.canonicalString(), e4.kind])
+      };
+    }(t2);
+    delete r2.indexId;
+    const i2 = n3.add(r2);
+    if (t2.indexState) {
+      const n4 = __PRIVATE_indexStateStore(e2);
+      return i2.next((e3) => {
+        n4.put(__PRIVATE_toDbIndexState(e3, this.uid, t2.indexState.sequenceNumber, t2.indexState.offset));
+      });
+    }
+    return i2.next();
+  }
+  deleteFieldIndex(e2, t2) {
+    const n3 = __PRIVATE_indexConfigurationStore(e2), r2 = __PRIVATE_indexStateStore(e2), i2 = __PRIVATE_indexEntriesStore(e2);
+    return n3.delete(t2.indexId).next(() => r2.delete(IDBKeyRange.bound(
+      [t2.indexId],
+      [t2.indexId + 1],
+      /*lowerOpen=*/
+      false,
+      /*upperOpen=*/
+      true
+    ))).next(() => i2.delete(IDBKeyRange.bound(
+      [t2.indexId],
+      [t2.indexId + 1],
+      /*lowerOpen=*/
+      false,
+      /*upperOpen=*/
+      true
+    )));
+  }
+  deleteAllFieldIndexes(e2) {
+    const t2 = __PRIVATE_indexConfigurationStore(e2), n3 = __PRIVATE_indexEntriesStore(e2), r2 = __PRIVATE_indexStateStore(e2);
+    return t2.X().next(() => n3.X()).next(() => r2.X());
+  }
+  createTargetIndexes(e2, t2) {
+    return PersistencePromise.forEach(this.vn(t2), (t3) => this.getIndexType(e2, t3).next((n3) => {
+      if (0 === n3 || 1 === n3) {
+        const n4 = new __PRIVATE_TargetIndexMatcher(t3).Sn();
+        if (null != n4) return this.addFieldIndex(e2, n4);
+      }
+    }));
+  }
+  getDocumentsMatchingTarget(e2, t2) {
+    const n3 = __PRIVATE_indexEntriesStore(e2);
+    let r2 = true;
+    const i2 = /* @__PURE__ */ new Map();
+    return PersistencePromise.forEach(this.vn(t2), (t3) => this.Fn(e2, t3).next((e3) => {
+      r2 && (r2 = !!e3), i2.set(t3, e3);
+    })).next(() => {
+      if (r2) {
+        let e3 = __PRIVATE_documentKeySet();
+        const r3 = [];
+        return PersistencePromise.forEach(i2, (i3, s2) => {
+          __PRIVATE_logDebug(yt, `Using index ${function __PRIVATE_fieldIndexToString(e4) {
+            return `id=${e4.indexId}|cg=${e4.collectionGroup}|f=${e4.fields.map((e5) => `${e5.fieldPath}:${e5.kind}`).join(",")}`;
+          }(i3)} to execute ${__PRIVATE_canonifyTarget(t2)}`);
+          const o2 = function __PRIVATE_targetGetArrayValues(e4, t3) {
+            const n4 = __PRIVATE_fieldIndexGetArraySegment(t3);
+            if (void 0 === n4) return null;
+            for (const t4 of __PRIVATE_targetGetFieldFiltersForPath(e4, n4.fieldPath)) switch (t4.op) {
+              case "array-contains-any":
+                return t4.value.arrayValue.values || [];
+              case "array-contains":
+                return [t4.value];
+            }
+            return null;
+          }(s2, i3), _ = function __PRIVATE_targetGetNotInValues(e4, t3) {
+            const n4 = /* @__PURE__ */ new Map();
+            for (const r4 of __PRIVATE_fieldIndexGetDirectionalSegments(t3)) for (const t4 of __PRIVATE_targetGetFieldFiltersForPath(e4, r4.fieldPath)) switch (t4.op) {
+              case "==":
+              case "in":
+                n4.set(r4.fieldPath.canonicalString(), t4.value);
+                break;
+              case "not-in":
+              case "!=":
+                return n4.set(r4.fieldPath.canonicalString(), t4.value), Array.from(n4.values());
+            }
+            return null;
+          }(s2, i3), a2 = function __PRIVATE_targetGetLowerBound(e4, t3) {
+            const n4 = [];
+            let r4 = true;
+            for (const i4 of __PRIVATE_fieldIndexGetDirectionalSegments(t3)) {
+              const t4 = 0 === i4.kind ? __PRIVATE_targetGetAscendingBound(e4, i4.fieldPath, e4.startAt) : __PRIVATE_targetGetDescendingBound(e4, i4.fieldPath, e4.startAt);
+              n4.push(t4.value), r4 && (r4 = t4.inclusive);
+            }
+            return new Bound(n4, r4);
+          }(s2, i3), u2 = function __PRIVATE_targetGetUpperBound(e4, t3) {
+            const n4 = [];
+            let r4 = true;
+            for (const i4 of __PRIVATE_fieldIndexGetDirectionalSegments(t3)) {
+              const t4 = 0 === i4.kind ? __PRIVATE_targetGetDescendingBound(e4, i4.fieldPath, e4.endAt) : __PRIVATE_targetGetAscendingBound(e4, i4.fieldPath, e4.endAt);
+              n4.push(t4.value), r4 && (r4 = t4.inclusive);
+            }
+            return new Bound(n4, r4);
+          }(s2, i3), c2 = this.Mn(i3, s2, a2), l2 = this.Mn(i3, s2, u2), h = this.xn(i3, s2, _), P2 = this.On(i3.indexId, o2, c2, a2.inclusive, l2, u2.inclusive, h);
+          return PersistencePromise.forEach(P2, (i4) => n3.Z(i4, t2.limit).next((t3) => {
+            t3.forEach((t4) => {
+              const n4 = DocumentKey.fromSegments(t4.documentKey);
+              e3.has(n4) || (e3 = e3.add(n4), r3.push(n4));
+            });
+          }));
+        }).next(() => r3);
+      }
+      return PersistencePromise.resolve(null);
+    });
+  }
+  vn(e2) {
+    let t2 = this.Cn.get(e2);
+    if (t2) return t2;
+    if (0 === e2.filters.length) t2 = [e2];
+    else {
+      t2 = __PRIVATE_getDnfTerms(CompositeFilter.create(
+        e2.filters,
+        "and"
+        /* CompositeOperator.AND */
+      )).map((t3) => __PRIVATE_newTarget(e2.path, e2.collectionGroup, e2.orderBy, t3.getFilters(), e2.limit, e2.startAt, e2.endAt));
+    }
+    return this.Cn.set(e2, t2), t2;
+  }
+  /**
+   * Constructs a key range query on `DbIndexEntryStore` that unions all
+   * bounds.
+   */
+  On(e2, t2, n3, r2, i2, s2, o2) {
+    const _ = (null != t2 ? t2.length : 1) * Math.max(n3.length, i2.length), a2 = _ / (null != t2 ? t2.length : 1), u2 = [];
+    for (let c2 = 0; c2 < _; ++c2) {
+      const _2 = t2 ? this.Nn(t2[c2 / a2]) : wt, l2 = this.Bn(e2, _2, n3[c2 % a2], r2), h = this.Ln(e2, _2, i2[c2 % a2], s2), P2 = o2.map((t3) => this.Bn(
+        e2,
+        _2,
+        t3,
+        /* inclusive= */
+        true
+      ));
+      u2.push(...this.createRange(l2, h, P2));
+    }
+    return u2;
+  }
+  /** Generates the lower bound for `arrayValue` and `directionalValue`. */
+  Bn(e2, t2, n3, r2) {
+    const i2 = new __PRIVATE_IndexEntry(e2, DocumentKey.empty(), t2, n3);
+    return r2 ? i2 : i2.En();
+  }
+  /** Generates the upper bound for `arrayValue` and `directionalValue`. */
+  Ln(e2, t2, n3, r2) {
+    const i2 = new __PRIVATE_IndexEntry(e2, DocumentKey.empty(), t2, n3);
+    return r2 ? i2.En() : i2;
+  }
+  Fn(e2, t2) {
+    const n3 = new __PRIVATE_TargetIndexMatcher(t2), r2 = null != t2.collectionGroup ? t2.collectionGroup : t2.path.lastSegment();
+    return this.getFieldIndexes(e2, r2).next((e3) => {
+      let t3 = null;
+      for (const r3 of e3) {
+        n3.gn(r3) && (!t3 || r3.fields.length > t3.fields.length) && (t3 = r3);
+      }
+      return t3;
+    });
+  }
+  getIndexType(e2, t2) {
+    let n3 = 2;
+    const r2 = this.vn(t2);
+    return PersistencePromise.forEach(r2, (t3) => this.Fn(e2, t3).next((e3) => {
+      e3 ? 0 !== n3 && e3.fields.length < function __PRIVATE_targetGetSegmentCount(e4) {
+        let t4 = new SortedSet(FieldPath$1.comparator), n4 = false;
+        for (const r3 of e4.filters) for (const e5 of r3.getFlattenedFilters())
+          e5.field.isKeyField() || // ARRAY_CONTAINS or ARRAY_CONTAINS_ANY filters must be counted separately.
+          // For instance, it is possible to have an index for "a ARRAY a ASC". Even
+          // though these are on the same field, they should be counted as two
+          // separate segments in an index.
+          ("array-contains" === e5.op || "array-contains-any" === e5.op ? n4 = true : t4 = t4.add(e5.field));
+        for (const n5 of e4.orderBy)
+          n5.field.isKeyField() || (t4 = t4.add(n5.field));
+        return t4.size + (n4 ? 1 : 0);
+      }(t3) && (n3 = 1) : n3 = 0;
+    })).next(() => (
+      // OR queries have more than one sub-target (one sub-target per DNF term). We currently consider
+      // OR queries that have a `limit` to have a partial index. For such queries we perform sorting
+      // and apply the limit in memory as a post-processing step.
+      function __PRIVATE_targetHasLimit(e3) {
+        return null !== e3.limit;
+      }(t2) && r2.length > 1 && 2 === n3 ? 1 : n3
+    ));
+  }
+  /**
+   * Returns the byte encoded form of the directional values in the field index.
+   * Returns `null` if the document does not have all fields specified in the
+   * index.
+   */
+  kn(e2, t2) {
+    const n3 = new __PRIVATE_IndexByteEncoder();
+    for (const r2 of __PRIVATE_fieldIndexGetDirectionalSegments(e2)) {
+      const e3 = t2.data.field(r2.fieldPath);
+      if (null == e3) return null;
+      const i2 = n3.ln(r2.kind);
+      __PRIVATE_FirestoreIndexValueWriter.Wt.Dt(e3, i2);
+    }
+    return n3.un();
+  }
+  /** Encodes a single value to the ascending index format. */
+  Nn(e2) {
+    const t2 = new __PRIVATE_IndexByteEncoder();
+    return __PRIVATE_FirestoreIndexValueWriter.Wt.Dt(e2, t2.ln(
+      0
+      /* IndexKind.ASCENDING */
+    )), t2.un();
+  }
+  /**
+   * Returns an encoded form of the document key that sorts based on the key
+   * ordering of the field index.
+   */
+  Kn(e2, t2) {
+    const n3 = new __PRIVATE_IndexByteEncoder();
+    return __PRIVATE_FirestoreIndexValueWriter.Wt.Dt(__PRIVATE_refValue(this.databaseId, t2), n3.ln(function __PRIVATE_fieldIndexGetKeyOrder(e3) {
+      const t3 = __PRIVATE_fieldIndexGetDirectionalSegments(e3);
+      return 0 === t3.length ? 0 : t3[t3.length - 1].kind;
+    }(e2))), n3.un();
+  }
+  /**
+   * Encodes the given field values according to the specification in `target`.
+   * For IN queries, a list of possible values is returned.
+   */
+  xn(e2, t2, n3) {
+    if (null === n3) return [];
+    let r2 = [];
+    r2.push(new __PRIVATE_IndexByteEncoder());
+    let i2 = 0;
+    for (const s2 of __PRIVATE_fieldIndexGetDirectionalSegments(e2)) {
+      const e3 = n3[i2++];
+      for (const n4 of r2) if (this.qn(t2, s2.fieldPath) && isArray$3(e3)) r2 = this.Un(r2, s2, e3);
+      else {
+        const t3 = n4.ln(s2.kind);
+        __PRIVATE_FirestoreIndexValueWriter.Wt.Dt(e3, t3);
+      }
+    }
+    return this.$n(r2);
+  }
+  /**
+   * Encodes the given bounds according to the specification in `target`. For IN
+   * queries, a list of possible values is returned.
+   */
+  Mn(e2, t2, n3) {
+    return this.xn(e2, t2, n3.position);
+  }
+  /** Returns the byte representation for the provided encoders. */
+  $n(e2) {
+    const t2 = [];
+    for (let n3 = 0; n3 < e2.length; ++n3) t2[n3] = e2[n3].un();
+    return t2;
+  }
+  /**
+   * Creates a separate encoder for each element of an array.
+   *
+   * The method appends each value to all existing encoders (e.g. filter("a",
+   * "==", "a1").filter("b", "in", ["b1", "b2"]) becomes ["a1,b1", "a1,b2"]). A
+   * list of new encoders is returned.
+   */
+  Un(e2, t2, n3) {
+    const r2 = [...e2], i2 = [];
+    for (const e3 of n3.arrayValue.values || []) for (const n4 of r2) {
+      const r3 = new __PRIVATE_IndexByteEncoder();
+      r3.seed(n4.un()), __PRIVATE_FirestoreIndexValueWriter.Wt.Dt(e3, r3.ln(t2.kind)), i2.push(r3);
+    }
+    return i2;
+  }
+  qn(e2, t2) {
+    return !!e2.filters.find((e3) => e3 instanceof FieldFilter && e3.field.isEqual(t2) && ("in" === e3.op || "not-in" === e3.op));
+  }
+  getFieldIndexes(e2, t2) {
+    const n3 = __PRIVATE_indexConfigurationStore(e2), r2 = __PRIVATE_indexStateStore(e2);
+    return (t2 ? n3.J(be, IDBKeyRange.bound(t2, t2)) : n3.J()).next((e3) => {
+      const t3 = [];
+      return PersistencePromise.forEach(e3, (e4) => r2.get([e4.indexId, this.uid]).next((n4) => {
+        t3.push(function __PRIVATE_fromDbIndexConfiguration(e5, t4) {
+          const n5 = t4 ? new IndexState(t4.sequenceNumber, new IndexOffset(__PRIVATE_fromDbTimestamp(t4.readTime), new DocumentKey(__PRIVATE_decodeResourcePath(t4.documentKey)), t4.largestBatchId)) : IndexState.empty(), r3 = e5.fields.map(([e6, t5]) => new IndexSegment(FieldPath$1.fromServerFormat(e6), t5));
+          return new FieldIndex(e5.indexId, e5.collectionGroup, r3, n5);
+        }(e4, n4));
+      })).next(() => t3);
+    });
+  }
+  getNextCollectionGroupToUpdate(e2) {
+    return this.getFieldIndexes(e2).next((e3) => 0 === e3.length ? null : (e3.sort((e4, t2) => {
+      const n3 = e4.indexState.sequenceNumber - t2.indexState.sequenceNumber;
+      return 0 !== n3 ? n3 : __PRIVATE_primitiveComparator(e4.collectionGroup, t2.collectionGroup);
+    }), e3[0].collectionGroup));
+  }
+  updateCollectionGroup(e2, t2, n3) {
+    const r2 = __PRIVATE_indexConfigurationStore(e2), i2 = __PRIVATE_indexStateStore(e2);
+    return this.Wn(e2).next((e3) => r2.J(be, IDBKeyRange.bound(t2, t2)).next((t3) => PersistencePromise.forEach(t3, (t4) => i2.put(__PRIVATE_toDbIndexState(t4.indexId, this.uid, e3, n3)))));
+  }
+  updateIndexEntries(e2, t2) {
+    const n3 = /* @__PURE__ */ new Map();
+    return PersistencePromise.forEach(t2, (t3, r2) => {
+      const i2 = n3.get(t3.collectionGroup);
+      return (i2 ? PersistencePromise.resolve(i2) : this.getFieldIndexes(e2, t3.collectionGroup)).next((i3) => (n3.set(t3.collectionGroup, i3), PersistencePromise.forEach(i3, (n4) => this.Qn(e2, t3, n4).next((t4) => {
+        const i4 = this.Gn(r2, n4);
+        return t4.isEqual(i4) ? PersistencePromise.resolve() : this.zn(e2, r2, n4, t4, i4);
+      }))));
+    });
+  }
+  jn(e2, t2, n3, r2) {
+    return __PRIVATE_indexEntriesStore(e2).put(r2.Rn(this.uid, this.Kn(n3, t2.key), t2.key));
+  }
+  Jn(e2, t2, n3, r2) {
+    return __PRIVATE_indexEntriesStore(e2).delete(r2.An(this.uid, this.Kn(n3, t2.key), t2.key));
+  }
+  Qn(e2, t2, n3) {
+    const r2 = __PRIVATE_indexEntriesStore(e2);
+    let i2 = new SortedSet(__PRIVATE_indexEntryComparator);
+    return r2.ee({
+      index: Oe,
+      range: IDBKeyRange.only([n3.indexId, this.uid, __PRIVATE_encodeKeySafeBytes(this.Kn(n3, t2))])
+    }, (e3, r3) => {
+      i2 = i2.add(new __PRIVATE_IndexEntry(n3.indexId, t2, __PRIVATE_decodeKeySafeBytes(r3.arrayValue), __PRIVATE_decodeKeySafeBytes(r3.directionalValue)));
+    }).next(() => i2);
+  }
+  /** Creates the index entries for the given document. */
+  Gn(e2, t2) {
+    let n3 = new SortedSet(__PRIVATE_indexEntryComparator);
+    const r2 = this.kn(t2, e2);
+    if (null == r2) return n3;
+    const i2 = __PRIVATE_fieldIndexGetArraySegment(t2);
+    if (null != i2) {
+      const s2 = e2.data.field(i2.fieldPath);
+      if (isArray$3(s2)) for (const i3 of s2.arrayValue.values || []) n3 = n3.add(new __PRIVATE_IndexEntry(t2.indexId, e2.key, this.Nn(i3), r2));
+    } else n3 = n3.add(new __PRIVATE_IndexEntry(t2.indexId, e2.key, wt, r2));
+    return n3;
+  }
+  /**
+   * Updates the index entries for the provided document by deleting entries
+   * that are no longer referenced in `newEntries` and adding all newly added
+   * entries.
+   */
+  zn(e2, t2, n3, r2, i2) {
+    __PRIVATE_logDebug(yt, "Updating index entries for document '%s'", t2.key);
+    const s2 = [];
+    return function __PRIVATE_diffSortedSets(e3, t3, n4, r3, i3) {
+      const s3 = e3.getIterator(), o2 = t3.getIterator();
+      let _ = __PRIVATE_advanceIterator(s3), a2 = __PRIVATE_advanceIterator(o2);
+      for (; _ || a2; ) {
+        let e4 = false, t4 = false;
+        if (_ && a2) {
+          const r4 = n4(_, a2);
+          r4 < 0 ? (
+            // The element was removed if the next element in our ordered
+            // walkthrough is only in `before`.
+            t4 = true
+          ) : r4 > 0 && // The element was added if the next element in our ordered walkthrough
+          // is only in `after`.
+          (e4 = true);
+        } else null != _ ? t4 = true : e4 = true;
+        e4 ? (r3(a2), a2 = __PRIVATE_advanceIterator(o2)) : t4 ? (i3(_), _ = __PRIVATE_advanceIterator(s3)) : (_ = __PRIVATE_advanceIterator(s3), a2 = __PRIVATE_advanceIterator(o2));
+      }
+    }(
+      r2,
+      i2,
+      __PRIVATE_indexEntryComparator,
+      /* onAdd= */
+      (r3) => {
+        s2.push(this.jn(e2, t2, n3, r3));
+      },
+      /* onRemove= */
+      (r3) => {
+        s2.push(this.Jn(e2, t2, n3, r3));
+      }
+    ), PersistencePromise.waitFor(s2);
+  }
+  Wn(e2) {
+    let t2 = 1;
+    return __PRIVATE_indexStateStore(e2).ee({
+      index: ve,
+      reverse: true,
+      range: IDBKeyRange.upperBound([this.uid, Number.MAX_SAFE_INTEGER])
+    }, (e3, n3, r2) => {
+      r2.done(), t2 = n3.sequenceNumber + 1;
+    }).next(() => t2);
+  }
+  /**
+   * Returns a new set of IDB ranges that splits the existing range and excludes
+   * any values that match the `notInValue` from these ranges. As an example,
+   * '[foo > 2 && foo != 3]` becomes  `[foo > 2 && < 3, foo > 3]`.
+   */
+  createRange(e2, t2, n3) {
+    n3 = n3.sort((e3, t3) => __PRIVATE_indexEntryComparator(e3, t3)).filter((e3, t3, n4) => !t3 || 0 !== __PRIVATE_indexEntryComparator(e3, n4[t3 - 1]));
+    const r2 = [];
+    r2.push(e2);
+    for (const i3 of n3) {
+      const n4 = __PRIVATE_indexEntryComparator(i3, e2), s2 = __PRIVATE_indexEntryComparator(i3, t2);
+      if (0 === n4)
+        r2[0] = e2.En();
+      else if (n4 > 0 && s2 < 0)
+        r2.push(i3), r2.push(i3.En());
+      else if (s2 > 0)
+        break;
+    }
+    r2.push(t2);
+    const i2 = [];
+    for (let e3 = 0; e3 < r2.length; e3 += 2) {
+      if (this.Hn(r2[e3], r2[e3 + 1])) return [];
+      const t3 = r2[e3].An(this.uid, wt, DocumentKey.empty()), n4 = r2[e3 + 1].An(this.uid, wt, DocumentKey.empty());
+      i2.push(IDBKeyRange.bound(t3, n4));
+    }
+    return i2;
+  }
+  Hn(e2, t2) {
+    return __PRIVATE_indexEntryComparator(e2, t2) > 0;
+  }
+  getMinOffsetFromCollectionGroup(e2, t2) {
+    return this.getFieldIndexes(e2, t2).next(__PRIVATE_getMinOffsetFromFieldIndexes);
+  }
+  getMinOffset(e2, t2) {
+    return PersistencePromise.mapArray(this.vn(t2), (t3) => this.Fn(e2, t3).next((e3) => e3 || fail$1(44426))).next(__PRIVATE_getMinOffsetFromFieldIndexes);
+  }
+}
+function __PRIVATE_collectionParentsStore(e2) {
+  return __PRIVATE_getStore(e2, Re);
+}
+function __PRIVATE_indexEntriesStore(e2) {
+  return __PRIVATE_getStore(e2, Me);
+}
+function __PRIVATE_indexConfigurationStore(e2) {
+  return __PRIVATE_getStore(e2, ye);
+}
+function __PRIVATE_indexStateStore(e2) {
+  return __PRIVATE_getStore(e2, De);
+}
+function __PRIVATE_getMinOffsetFromFieldIndexes(e2) {
+  __PRIVATE_hardAssert(0 !== e2.length, 28825);
+  let t2 = e2[0].indexState.offset, n3 = t2.largestBatchId;
+  for (let r2 = 1; r2 < e2.length; r2++) {
+    const i2 = e2[r2].indexState.offset;
+    __PRIVATE_indexOffsetComparator(i2, t2) < 0 && (t2 = i2), n3 < i2.largestBatchId && (n3 = i2.largestBatchId);
+  }
+  return new IndexOffset(t2.readTime, t2.documentKey, n3);
+}
+/**
+ * @license
  * Copyright 2018 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29281,6 +31544,51 @@ class LruParams {
 }
 /**
  * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function removeMutationBatch(e2, t2, n3) {
+  const r2 = e2.store(j), i2 = e2.store(Y), s2 = [], o2 = IDBKeyRange.only(n3.batchId);
+  let _ = 0;
+  const a2 = r2.ee({
+    range: o2
+  }, (e3, t3, n4) => (_++, n4.delete()));
+  s2.push(a2.next(() => {
+    __PRIVATE_hardAssert(1 === _, 47070, {
+      batchId: n3.batchId
+    });
+  }));
+  const u2 = [];
+  for (const e3 of n3.mutations) {
+    const r3 = __PRIVATE_newDbDocumentMutationKey(t2, e3.key.path, n3.batchId);
+    s2.push(i2.delete(r3)), u2.push(e3.key);
+  }
+  return PersistencePromise.waitFor(s2).next(() => u2);
+}
+function __PRIVATE_dbDocumentSize(e2) {
+  if (!e2) return 0;
+  let t2;
+  if (e2.document) t2 = e2.document;
+  else if (e2.unknownDocument) t2 = e2.unknownDocument;
+  else {
+    if (!e2.noDocument) throw fail$1(14731);
+    t2 = e2.noDocument;
+  }
+  return JSON.stringify(t2).length;
+}
+/**
+ * @license
  * Copyright 2017 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29296,6 +31604,262 @@ class LruParams {
  * limitations under the License.
  */
 LruParams.DEFAULT_COLLECTION_PERCENTILE = 10, LruParams.DEFAULT_MAX_SEQUENCE_NUMBERS_TO_COLLECT = 1e3, LruParams.DEFAULT = new LruParams(St, LruParams.DEFAULT_COLLECTION_PERCENTILE, LruParams.DEFAULT_MAX_SEQUENCE_NUMBERS_TO_COLLECT), LruParams.DISABLED = new LruParams(-1, 0, 0);
+class __PRIVATE_IndexedDbMutationQueue {
+  constructor(e2, t2, n3, r2) {
+    this.userId = e2, this.serializer = t2, this.indexManager = n3, this.referenceDelegate = r2, /**
+     * Caches the document keys for pending mutation batches. If the mutation
+     * has been removed from IndexedDb, the cached value may continue to
+     * be used to retrieve the batch's document keys. To remove a cached value
+     * locally, `removeCachedMutationKeys()` should be invoked either directly
+     * or through `removeMutationBatches()`.
+     *
+     * With multi-tab, when the primary client acknowledges or rejects a mutation,
+     * this cache is used by secondary clients to invalidate the local
+     * view of the documents that were previously affected by the mutation.
+     */
+    // PORTING NOTE: Multi-tab only.
+    this.Zn = {};
+  }
+  /**
+   * Creates a new mutation queue for the given user.
+   * @param user - The user for which to create a mutation queue.
+   * @param serializer - The serializer to use when persisting to IndexedDb.
+   */
+  static wt(e2, t2, n3, r2) {
+    __PRIVATE_hardAssert("" !== e2.uid, 64387);
+    const i2 = e2.isAuthenticated() ? e2.uid : "";
+    return new __PRIVATE_IndexedDbMutationQueue(i2, t2, n3, r2);
+  }
+  checkEmpty(e2) {
+    let t2 = true;
+    const n3 = IDBKeyRange.bound([this.userId, Number.NEGATIVE_INFINITY], [this.userId, Number.POSITIVE_INFINITY]);
+    return __PRIVATE_mutationsStore(e2).ee({
+      index: J,
+      range: n3
+    }, (e3, n4, r2) => {
+      t2 = false, r2.done();
+    }).next(() => t2);
+  }
+  addMutationBatch(e2, t2, n3, r2) {
+    const i2 = __PRIVATE_documentMutationsStore(e2), s2 = __PRIVATE_mutationsStore(e2);
+    return s2.add({}).next((o2) => {
+      __PRIVATE_hardAssert("number" == typeof o2, 49019);
+      const _ = new MutationBatch(o2, t2, n3, r2), a2 = function __PRIVATE_toDbMutationBatch(e3, t3, n4) {
+        const r3 = n4.baseMutations.map((t4) => toMutation(e3.yt, t4)), i3 = n4.mutations.map((t4) => toMutation(e3.yt, t4));
+        return {
+          userId: t3,
+          batchId: n4.batchId,
+          localWriteTimeMs: n4.localWriteTime.toMillis(),
+          baseMutations: r3,
+          mutations: i3
+        };
+      }(this.serializer, this.userId, _), u2 = [];
+      let c2 = new SortedSet((e3, t3) => __PRIVATE_primitiveComparator(e3.canonicalString(), t3.canonicalString()));
+      for (const e3 of r2) {
+        const t3 = __PRIVATE_newDbDocumentMutationKey(this.userId, e3.key.path, o2);
+        c2 = c2.add(e3.key.path.popLast()), u2.push(s2.put(a2)), u2.push(i2.put(t3, X));
+      }
+      return c2.forEach((t3) => {
+        u2.push(this.indexManager.addToCollectionParentIndex(e2, t3));
+      }), e2.addOnCommittedListener(() => {
+        this.Zn[o2] = _.keys();
+      }), PersistencePromise.waitFor(u2).next(() => _);
+    });
+  }
+  lookupMutationBatch(e2, t2) {
+    return __PRIVATE_mutationsStore(e2).get(t2).next((e3) => e3 ? (__PRIVATE_hardAssert(e3.userId === this.userId, 48, "Unexpected user for mutation batch", {
+      userId: e3.userId,
+      batchId: t2
+    }), __PRIVATE_fromDbMutationBatch(this.serializer, e3)) : null);
+  }
+  /**
+   * Returns the document keys for the mutation batch with the given batchId.
+   * For primary clients, this method returns `null` after
+   * `removeMutationBatches()` has been called. Secondary clients return a
+   * cached result until `removeCachedMutationKeys()` is invoked.
+   */
+  // PORTING NOTE: Multi-tab only.
+  Xn(e2, t2) {
+    return this.Zn[t2] ? PersistencePromise.resolve(this.Zn[t2]) : this.lookupMutationBatch(e2, t2).next((e3) => {
+      if (e3) {
+        const n3 = e3.keys();
+        return this.Zn[t2] = n3, n3;
+      }
+      return null;
+    });
+  }
+  getNextMutationBatchAfterBatchId(e2, t2) {
+    const n3 = t2 + 1, r2 = IDBKeyRange.lowerBound([this.userId, n3]);
+    let i2 = null;
+    return __PRIVATE_mutationsStore(e2).ee({
+      index: J,
+      range: r2
+    }, (e3, t3, r3) => {
+      t3.userId === this.userId && (__PRIVATE_hardAssert(t3.batchId >= n3, 47524, {
+        Yn: n3
+      }), i2 = __PRIVATE_fromDbMutationBatch(this.serializer, t3)), r3.done();
+    }).next(() => i2);
+  }
+  getHighestUnacknowledgedBatchId(e2) {
+    const t2 = IDBKeyRange.upperBound([this.userId, Number.POSITIVE_INFINITY]);
+    let n3 = q;
+    return __PRIVATE_mutationsStore(e2).ee({
+      index: J,
+      range: t2,
+      reverse: true
+    }, (e3, t3, r2) => {
+      n3 = t3.batchId, r2.done();
+    }).next(() => n3);
+  }
+  getAllMutationBatches(e2) {
+    const t2 = IDBKeyRange.bound([this.userId, q], [this.userId, Number.POSITIVE_INFINITY]);
+    return __PRIVATE_mutationsStore(e2).J(J, t2).next((e3) => e3.map((e4) => __PRIVATE_fromDbMutationBatch(this.serializer, e4)));
+  }
+  getAllMutationBatchesAffectingDocumentKey(e2, t2) {
+    const n3 = __PRIVATE_newDbDocumentMutationPrefixForPath(this.userId, t2.path), r2 = IDBKeyRange.lowerBound(n3), i2 = [];
+    return __PRIVATE_documentMutationsStore(e2).ee({
+      range: r2
+    }, (n4, r3, s2) => {
+      const [o2, _, a2] = n4, u2 = __PRIVATE_decodeResourcePath(_);
+      if (o2 === this.userId && t2.path.isEqual(u2))
+        return __PRIVATE_mutationsStore(e2).get(a2).next((e3) => {
+          if (!e3) throw fail$1(61480, {
+            er: n4,
+            batchId: a2
+          });
+          __PRIVATE_hardAssert(e3.userId === this.userId, 10503, "Unexpected user for mutation batch", {
+            userId: e3.userId,
+            batchId: a2
+          }), i2.push(__PRIVATE_fromDbMutationBatch(this.serializer, e3));
+        });
+      s2.done();
+    }).next(() => i2);
+  }
+  getAllMutationBatchesAffectingDocumentKeys(e2, t2) {
+    let n3 = new SortedSet(__PRIVATE_primitiveComparator);
+    const r2 = [];
+    return t2.forEach((t3) => {
+      const i2 = __PRIVATE_newDbDocumentMutationPrefixForPath(this.userId, t3.path), s2 = IDBKeyRange.lowerBound(i2), o2 = __PRIVATE_documentMutationsStore(e2).ee({
+        range: s2
+      }, (e3, r3, i3) => {
+        const [s3, o3, _] = e3, a2 = __PRIVATE_decodeResourcePath(o3);
+        s3 === this.userId && t3.path.isEqual(a2) ? n3 = n3.add(_) : i3.done();
+      });
+      r2.push(o2);
+    }), PersistencePromise.waitFor(r2).next(() => this.tr(e2, n3));
+  }
+  getAllMutationBatchesAffectingQuery(e2, t2) {
+    const n3 = t2.path, r2 = n3.length + 1, i2 = __PRIVATE_newDbDocumentMutationPrefixForPath(this.userId, n3), s2 = IDBKeyRange.lowerBound(i2);
+    let o2 = new SortedSet(__PRIVATE_primitiveComparator);
+    return __PRIVATE_documentMutationsStore(e2).ee({
+      range: s2
+    }, (e3, t3, i3) => {
+      const [s3, _, a2] = e3, u2 = __PRIVATE_decodeResourcePath(_);
+      s3 === this.userId && n3.isPrefixOf(u2) ? (
+        // Rows with document keys more than one segment longer than the
+        // query path can't be matches. For example, a query on 'rooms'
+        // can't match the document /rooms/abc/messages/xyx.
+        // TODO(mcg): we'll need a different scanner when we implement
+        // ancestor queries.
+        u2.length === r2 && (o2 = o2.add(a2))
+      ) : i3.done();
+    }).next(() => this.tr(e2, o2));
+  }
+  tr(e2, t2) {
+    const n3 = [], r2 = [];
+    return t2.forEach((t3) => {
+      r2.push(__PRIVATE_mutationsStore(e2).get(t3).next((e3) => {
+        if (null === e3) throw fail$1(35274, {
+          batchId: t3
+        });
+        __PRIVATE_hardAssert(e3.userId === this.userId, 9748, "Unexpected user for mutation batch", {
+          userId: e3.userId,
+          batchId: t3
+        }), n3.push(__PRIVATE_fromDbMutationBatch(this.serializer, e3));
+      }));
+    }), PersistencePromise.waitFor(r2).next(() => n3);
+  }
+  removeMutationBatch(e2, t2) {
+    return removeMutationBatch(e2.le, this.userId, t2).next((n3) => (e2.addOnCommittedListener(() => {
+      this.nr(t2.batchId);
+    }), PersistencePromise.forEach(n3, (t3) => this.referenceDelegate.markPotentiallyOrphaned(e2, t3))));
+  }
+  /**
+   * Clears the cached keys for a mutation batch. This method should be
+   * called by secondary clients after they process mutation updates.
+   *
+   * Note that this method does not have to be called from primary clients as
+   * the corresponding cache entries are cleared when an acknowledged or
+   * rejected batch is removed from the mutation queue.
+   */
+  // PORTING NOTE: Multi-tab only
+  nr(e2) {
+    delete this.Zn[e2];
+  }
+  performConsistencyCheck(e2) {
+    return this.checkEmpty(e2).next((t2) => {
+      if (!t2) return PersistencePromise.resolve();
+      const n3 = IDBKeyRange.lowerBound(
+        /**
+        * Creates a [userId] key for use in the DbDocumentMutations index to iterate
+        * over all of a user's document mutations.
+        */
+        /* @__PURE__ */ function __PRIVATE_newDbDocumentMutationPrefixForUser(e3) {
+          return [e3];
+        }(this.userId)
+      ), r2 = [];
+      return __PRIVATE_documentMutationsStore(e2).ee({
+        range: n3
+      }, (e3, t3, n4) => {
+        if (e3[0] === this.userId) {
+          const t4 = __PRIVATE_decodeResourcePath(e3[1]);
+          r2.push(t4);
+        } else n4.done();
+      }).next(() => {
+        __PRIVATE_hardAssert(0 === r2.length, 56720, {
+          rr: r2.map((e3) => e3.canonicalString())
+        });
+      });
+    });
+  }
+  containsKey(e2, t2) {
+    return __PRIVATE_mutationQueueContainsKey(e2, this.userId, t2);
+  }
+  // PORTING NOTE: Multi-tab only (state is held in memory in other clients).
+  /** Returns the mutation queue's metadata from IndexedDb. */
+  ir(e2) {
+    return __PRIVATE_mutationQueuesStore(e2).get(this.userId).next((e3) => e3 || {
+      userId: this.userId,
+      lastAcknowledgedBatchId: q,
+      lastStreamToken: ""
+    });
+  }
+}
+function __PRIVATE_mutationQueueContainsKey(e2, t2, n3) {
+  const r2 = __PRIVATE_newDbDocumentMutationPrefixForPath(t2, n3.path), i2 = r2[1], s2 = IDBKeyRange.lowerBound(r2);
+  let o2 = false;
+  return __PRIVATE_documentMutationsStore(e2).ee({
+    range: s2,
+    Y: true
+  }, (e3, n4, r3) => {
+    const [
+      s3,
+      _,
+      /*batchID*/
+      a2
+    ] = e3;
+    s3 === t2 && _ === i2 && (o2 = true), r3.done();
+  }).next(() => o2);
+}
+function __PRIVATE_mutationsStore(e2) {
+  return __PRIVATE_getStore(e2, j);
+}
+function __PRIVATE_documentMutationsStore(e2) {
+  return __PRIVATE_getStore(e2, Y);
+}
+function __PRIVATE_mutationQueuesStore(e2) {
+  return __PRIVATE_getStore(e2, G$1);
+}
 /**
  * @license
  * Copyright 2017 Google LLC
@@ -29325,6 +31889,195 @@ class __PRIVATE_TargetIdGenerator {
   static ar() {
     return new __PRIVATE_TargetIdGenerator(-1);
   }
+}
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+class __PRIVATE_IndexedDbTargetCache {
+  constructor(e2, t2) {
+    this.referenceDelegate = e2, this.serializer = t2;
+  }
+  // PORTING NOTE: We don't cache global metadata for the target cache, since
+  // some of it (in particular `highestTargetId`) can be modified by secondary
+  // tabs. We could perhaps be more granular (and e.g. still cache
+  // `lastRemoteSnapshotVersion` in memory) but for simplicity we currently go
+  // to IndexedDb whenever we need to read metadata. We can revisit if it turns
+  // out to have a meaningful performance impact.
+  allocateTargetId(e2) {
+    return this.ur(e2).next((t2) => {
+      const n3 = new __PRIVATE_TargetIdGenerator(t2.highestTargetId);
+      return t2.highestTargetId = n3.next(), this.cr(e2, t2).next(() => t2.highestTargetId);
+    });
+  }
+  getLastRemoteSnapshotVersion(e2) {
+    return this.ur(e2).next((e3) => SnapshotVersion.fromTimestamp(new Timestamp(e3.lastRemoteSnapshotVersion.seconds, e3.lastRemoteSnapshotVersion.nanoseconds)));
+  }
+  getHighestSequenceNumber(e2) {
+    return this.ur(e2).next((e3) => e3.highestListenSequenceNumber);
+  }
+  setTargetsMetadata(e2, t2, n3) {
+    return this.ur(e2).next((r2) => (r2.highestListenSequenceNumber = t2, n3 && (r2.lastRemoteSnapshotVersion = n3.toTimestamp()), t2 > r2.highestListenSequenceNumber && (r2.highestListenSequenceNumber = t2), this.cr(e2, r2)));
+  }
+  addTargetData(e2, t2) {
+    return this.lr(e2, t2).next(() => this.ur(e2).next((n3) => (n3.targetCount += 1, this.hr(t2, n3), this.cr(e2, n3))));
+  }
+  updateTargetData(e2, t2) {
+    return this.lr(e2, t2);
+  }
+  removeTargetData(e2, t2) {
+    return this.removeMatchingKeysForTargetId(e2, t2.targetId).next(() => __PRIVATE_targetsStore(e2).delete(t2.targetId)).next(() => this.ur(e2)).next((t3) => (__PRIVATE_hardAssert(t3.targetCount > 0, 8065), t3.targetCount -= 1, this.cr(e2, t3)));
+  }
+  /**
+   * Drops any targets with sequence number less than or equal to the upper bound, excepting those
+   * present in `activeTargetIds`. Document associations for the removed targets are also removed.
+   * Returns the number of targets removed.
+   */
+  removeTargets(e2, t2, n3) {
+    let r2 = 0;
+    const i2 = [];
+    return __PRIVATE_targetsStore(e2).ee((s2, o2) => {
+      const _ = __PRIVATE_fromDbTarget(o2);
+      _.sequenceNumber <= t2 && null === n3.get(_.targetId) && (r2++, i2.push(this.removeTargetData(e2, _)));
+    }).next(() => PersistencePromise.waitFor(i2)).next(() => r2);
+  }
+  /**
+   * Call provided function with each `TargetData` that we have cached.
+   */
+  forEachTarget(e2, t2) {
+    return __PRIVATE_targetsStore(e2).ee((e3, n3) => {
+      const r2 = __PRIVATE_fromDbTarget(n3);
+      t2(r2);
+    });
+  }
+  ur(e2) {
+    return __PRIVATE_globalTargetStore(e2).get(Ie).next((e3) => (__PRIVATE_hardAssert(null !== e3, 2888), e3));
+  }
+  cr(e2, t2) {
+    return __PRIVATE_globalTargetStore(e2).put(Ie, t2);
+  }
+  lr(e2, t2) {
+    return __PRIVATE_targetsStore(e2).put(__PRIVATE_toDbTarget(this.serializer, t2));
+  }
+  /**
+   * In-place updates the provided metadata to account for values in the given
+   * TargetData. Saving is done separately. Returns true if there were any
+   * changes to the metadata.
+   */
+  hr(e2, t2) {
+    let n3 = false;
+    return e2.targetId > t2.highestTargetId && (t2.highestTargetId = e2.targetId, n3 = true), e2.sequenceNumber > t2.highestListenSequenceNumber && (t2.highestListenSequenceNumber = e2.sequenceNumber, n3 = true), n3;
+  }
+  getTargetCount(e2) {
+    return this.ur(e2).next((e3) => e3.targetCount);
+  }
+  getTargetData(e2, t2) {
+    const n3 = __PRIVATE_canonifyTarget(t2), r2 = IDBKeyRange.bound([n3, Number.NEGATIVE_INFINITY], [n3, Number.POSITIVE_INFINITY]);
+    let i2 = null;
+    return __PRIVATE_targetsStore(e2).ee({
+      range: r2,
+      index: ue
+    }, (e3, n4, r3) => {
+      const s2 = __PRIVATE_fromDbTarget(n4);
+      __PRIVATE_targetEquals(t2, s2.target) && (i2 = s2, r3.done());
+    }).next(() => i2);
+  }
+  addMatchingKeys(e2, t2, n3) {
+    const r2 = [], i2 = __PRIVATE_documentTargetStore(e2);
+    return t2.forEach((t3) => {
+      const s2 = __PRIVATE_encodeResourcePath(t3.path);
+      r2.push(i2.put({
+        targetId: n3,
+        path: s2
+      })), r2.push(this.referenceDelegate.addReference(e2, n3, t3));
+    }), PersistencePromise.waitFor(r2);
+  }
+  removeMatchingKeys(e2, t2, n3) {
+    const r2 = __PRIVATE_documentTargetStore(e2);
+    return PersistencePromise.forEach(t2, (t3) => {
+      const i2 = __PRIVATE_encodeResourcePath(t3.path);
+      return PersistencePromise.waitFor([r2.delete([n3, i2]), this.referenceDelegate.removeReference(e2, n3, t3)]);
+    });
+  }
+  removeMatchingKeysForTargetId(e2, t2) {
+    const n3 = __PRIVATE_documentTargetStore(e2), r2 = IDBKeyRange.bound(
+      [t2],
+      [t2 + 1],
+      /*lowerOpen=*/
+      false,
+      /*upperOpen=*/
+      true
+    );
+    return n3.delete(r2);
+  }
+  getMatchingKeysForTargetId(e2, t2) {
+    const n3 = IDBKeyRange.bound(
+      [t2],
+      [t2 + 1],
+      /*lowerOpen=*/
+      false,
+      /*upperOpen=*/
+      true
+    ), r2 = __PRIVATE_documentTargetStore(e2);
+    let i2 = __PRIVATE_documentKeySet();
+    return r2.ee({
+      range: n3,
+      Y: true
+    }, (e3, t3, n4) => {
+      const r3 = __PRIVATE_decodeResourcePath(e3[1]), s2 = new DocumentKey(r3);
+      i2 = i2.add(s2);
+    }).next(() => i2);
+  }
+  containsKey(e2, t2) {
+    const n3 = __PRIVATE_encodeResourcePath(t2.path), r2 = IDBKeyRange.bound(
+      [n3],
+      [__PRIVATE_immediateSuccessor(n3)],
+      /*lowerOpen=*/
+      false,
+      /*upperOpen=*/
+      true
+    );
+    let i2 = 0;
+    return __PRIVATE_documentTargetStore(e2).ee({
+      index: Pe,
+      Y: true,
+      range: r2
+    }, ([e3, t3], n4, r3) => {
+      0 !== e3 && (i2++, r3.done());
+    }).next(() => i2 > 0);
+  }
+  /**
+   * Looks up a TargetData entry by target ID.
+   *
+   * @param targetId - The target ID of the TargetData entry to look up.
+   * @returns The cached TargetData entry, or null if the cache has no entry for
+   * the target.
+   */
+  // PORTING NOTE: Multi-tab only.
+  At(e2, t2) {
+    return __PRIVATE_targetsStore(e2).get(t2).next((e3) => e3 ? __PRIVATE_fromDbTarget(e3) : null);
+  }
+}
+function __PRIVATE_targetsStore(e2) {
+  return __PRIVATE_getStore(e2, ae);
+}
+function __PRIVATE_globalTargetStore(e2) {
+  return __PRIVATE_getStore(e2, Ee);
+}
+function __PRIVATE_documentTargetStore(e2) {
+  return __PRIVATE_getStore(e2, le);
 }
 /**
  * @license
@@ -29444,6 +32197,130 @@ function __PRIVATE_newLruGarbageCollector(e2, t2) {
 }
 /**
  * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+class __PRIVATE_IndexedDbLruDelegateImpl {
+  constructor(e2, t2) {
+    this.db = e2, this.garbageCollector = __PRIVATE_newLruGarbageCollector(this, t2);
+  }
+  dr(e2) {
+    const t2 = this.pr(e2);
+    return this.db.getTargetCache().getTargetCount(e2).next((e3) => t2.next((t3) => e3 + t3));
+  }
+  pr(e2) {
+    let t2 = 0;
+    return this.mr(e2, (e3) => {
+      t2++;
+    }).next(() => t2);
+  }
+  forEachTarget(e2, t2) {
+    return this.db.getTargetCache().forEachTarget(e2, t2);
+  }
+  mr(e2, t2) {
+    return this.yr(e2, (e3, n3) => t2(n3));
+  }
+  addReference(e2, t2, n3) {
+    return __PRIVATE_writeSentinelKey(e2, n3);
+  }
+  removeReference(e2, t2, n3) {
+    return __PRIVATE_writeSentinelKey(e2, n3);
+  }
+  removeTargets(e2, t2, n3) {
+    return this.db.getTargetCache().removeTargets(e2, t2, n3);
+  }
+  markPotentiallyOrphaned(e2, t2) {
+    return __PRIVATE_writeSentinelKey(e2, t2);
+  }
+  /**
+   * Returns true if anything would prevent this document from being garbage
+   * collected, given that the document in question is not present in any
+   * targets and has a sequence number less than or equal to the upper bound for
+   * the collection run.
+   */
+  wr(e2, t2) {
+    return function __PRIVATE_mutationQueuesContainKey(e3, t3) {
+      let n3 = false;
+      return __PRIVATE_mutationQueuesStore(e3).te((r2) => __PRIVATE_mutationQueueContainsKey(e3, r2, t3).next((e4) => (e4 && (n3 = true), PersistencePromise.resolve(!e4)))).next(() => n3);
+    }(e2, t2);
+  }
+  removeOrphanedDocuments(e2, t2) {
+    const n3 = this.db.getRemoteDocumentCache().newChangeBuffer(), r2 = [];
+    let i2 = 0;
+    return this.yr(e2, (s2, o2) => {
+      if (o2 <= t2) {
+        const t3 = this.wr(e2, s2).next((t4) => {
+          if (!t4)
+            return i2++, n3.getEntry(e2, s2).next(() => (n3.removeEntry(s2, SnapshotVersion.min()), __PRIVATE_documentTargetStore(e2).delete(function __PRIVATE_sentinelKey$1(e3) {
+              return [0, __PRIVATE_encodeResourcePath(e3.path)];
+            }(s2))));
+        });
+        r2.push(t3);
+      }
+    }).next(() => PersistencePromise.waitFor(r2)).next(() => n3.apply(e2)).next(() => i2);
+  }
+  removeTarget(e2, t2) {
+    const n3 = t2.withSequenceNumber(e2.currentSequenceNumber);
+    return this.db.getTargetCache().updateTargetData(e2, n3);
+  }
+  updateLimboDocument(e2, t2) {
+    return __PRIVATE_writeSentinelKey(e2, t2);
+  }
+  /**
+   * Call provided function for each document in the cache that is 'orphaned'. Orphaned
+   * means not a part of any target, so the only entry in the target-document index for
+   * that document will be the sentinel row (targetId 0), which will also have the sequence
+   * number for the last time the document was accessed.
+   */
+  yr(e2, t2) {
+    const n3 = __PRIVATE_documentTargetStore(e2);
+    let r2, i2 = __PRIVATE_ListenSequence.ce;
+    return n3.ee({
+      index: Pe
+    }, ([e3, n4], { path: s2, sequenceNumber: o2 }) => {
+      0 === e3 ? (
+        // if nextToReport is valid, report it, this is a new key so the
+        // last one must not be a member of any targets.
+        (i2 !== __PRIVATE_ListenSequence.ce && t2(new DocumentKey(__PRIVATE_decodeResourcePath(r2)), i2), // set nextToReport to be this sequence number. It's the next one we
+        // might report, if we don't find any targets for this document.
+        // Note that the sequence number must be defined when the targetId
+        // is 0.
+        i2 = o2, r2 = s2)
+      ) : (
+        // set nextToReport to be invalid, we know we don't need to report
+        // this one since we found a target for it.
+        i2 = __PRIVATE_ListenSequence.ce
+      );
+    }).next(() => {
+      i2 !== __PRIVATE_ListenSequence.ce && t2(new DocumentKey(__PRIVATE_decodeResourcePath(r2)), i2);
+    });
+  }
+  getCacheSize(e2) {
+    return this.db.getRemoteDocumentCache().getSize(e2);
+  }
+}
+function __PRIVATE_writeSentinelKey(e2, t2) {
+  return __PRIVATE_documentTargetStore(e2).put(function __PRIVATE_sentinelRow(e3, t3) {
+    return {
+      targetId: 0,
+      path: __PRIVATE_encodeResourcePath(e3.path),
+      sequenceNumber: t3
+    };
+  }(t2, e2.currentSequenceNumber));
+}
+/**
+ * @license
  * Copyright 2017 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29519,6 +32396,281 @@ class RemoteDocumentChangeBuffer {
   /** Helper to assert this.changes is not null  */
   assertNotApplied() {
   }
+}
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+class __PRIVATE_IndexedDbRemoteDocumentCacheImpl {
+  constructor(e2) {
+    this.serializer = e2;
+  }
+  setIndexManager(e2) {
+    this.indexManager = e2;
+  }
+  /**
+   * Adds the supplied entries to the cache.
+   *
+   * All calls of `addEntry` are required to go through the RemoteDocumentChangeBuffer
+   * returned by `newChangeBuffer()` to ensure proper accounting of metadata.
+   */
+  addEntry(e2, t2, n3) {
+    return __PRIVATE_remoteDocumentsStore(e2).put(n3);
+  }
+  /**
+   * Removes a document from the cache.
+   *
+   * All calls of `removeEntry`  are required to go through the RemoteDocumentChangeBuffer
+   * returned by `newChangeBuffer()` to ensure proper accounting of metadata.
+   */
+  removeEntry(e2, t2, n3) {
+    return __PRIVATE_remoteDocumentsStore(e2).delete(
+      /**
+      * Returns a key that can be used for document lookups via the primary key of
+      * the DbRemoteDocument object store.
+      */
+      function __PRIVATE_dbReadTimeKey(e3, t3) {
+        const n4 = e3.path.toArray();
+        return [
+          /* prefix path */
+          n4.slice(0, n4.length - 2),
+          /* collection id */
+          n4[n4.length - 2],
+          __PRIVATE_toDbTimestampKey(t3),
+          /* document id */
+          n4[n4.length - 1]
+        ];
+      }(t2, n3)
+    );
+  }
+  /**
+   * Updates the current cache size.
+   *
+   * Callers to `addEntry()` and `removeEntry()` *must* call this afterwards to update the
+   * cache's metadata.
+   */
+  updateMetadata(e2, t2) {
+    return this.getMetadata(e2).next((n3) => (n3.byteSize += t2, this.Sr(e2, n3)));
+  }
+  getEntry(e2, t2) {
+    let n3 = MutableDocument.newInvalidDocument(t2);
+    return __PRIVATE_remoteDocumentsStore(e2).ee({
+      index: ne,
+      range: IDBKeyRange.only(__PRIVATE_dbKey(t2))
+    }, (e3, r2) => {
+      n3 = this.br(t2, r2);
+    }).next(() => n3);
+  }
+  /**
+   * Looks up an entry in the cache.
+   *
+   * @param documentKey - The key of the entry to look up.
+   * @returns The cached document entry and its size.
+   */
+  Dr(e2, t2) {
+    let n3 = {
+      size: 0,
+      document: MutableDocument.newInvalidDocument(t2)
+    };
+    return __PRIVATE_remoteDocumentsStore(e2).ee({
+      index: ne,
+      range: IDBKeyRange.only(__PRIVATE_dbKey(t2))
+    }, (e3, r2) => {
+      n3 = {
+        document: this.br(t2, r2),
+        size: __PRIVATE_dbDocumentSize(r2)
+      };
+    }).next(() => n3);
+  }
+  getEntries(e2, t2) {
+    let n3 = __PRIVATE_mutableDocumentMap();
+    return this.Cr(e2, t2, (e3, t3) => {
+      const r2 = this.br(e3, t3);
+      n3 = n3.insert(e3, r2);
+    }).next(() => n3);
+  }
+  /**
+   * Looks up several entries in the cache.
+   *
+   * @param documentKeys - The set of keys entries to look up.
+   * @returns A map of documents indexed by key and a map of sizes indexed by
+   *     key (zero if the document does not exist).
+   */
+  vr(e2, t2) {
+    let n3 = __PRIVATE_mutableDocumentMap(), r2 = new SortedMap(DocumentKey.comparator);
+    return this.Cr(e2, t2, (e3, t3) => {
+      const i2 = this.br(e3, t3);
+      n3 = n3.insert(e3, i2), r2 = r2.insert(e3, __PRIVATE_dbDocumentSize(t3));
+    }).next(() => ({
+      documents: n3,
+      Fr: r2
+    }));
+  }
+  Cr(e2, t2, n3) {
+    if (t2.isEmpty()) return PersistencePromise.resolve();
+    let r2 = new SortedSet(__PRIVATE_dbKeyComparator);
+    t2.forEach((e3) => r2 = r2.add(e3));
+    const i2 = IDBKeyRange.bound(__PRIVATE_dbKey(r2.first()), __PRIVATE_dbKey(r2.last())), s2 = r2.getIterator();
+    let o2 = s2.getNext();
+    return __PRIVATE_remoteDocumentsStore(e2).ee({
+      index: ne,
+      range: i2
+    }, (e3, t3, r3) => {
+      const i3 = DocumentKey.fromSegments([...t3.prefixPath, t3.collectionGroup, t3.documentId]);
+      for (; o2 && __PRIVATE_dbKeyComparator(o2, i3) < 0; ) n3(o2, null), o2 = s2.getNext();
+      o2 && o2.isEqual(i3) && // Key found in cache.
+      (n3(o2, t3), o2 = s2.hasNext() ? s2.getNext() : null), // Skip to the next key (if there is one).
+      o2 ? r3.j(__PRIVATE_dbKey(o2)) : r3.done();
+    }).next(() => {
+      for (; o2; ) n3(o2, null), o2 = s2.hasNext() ? s2.getNext() : null;
+    });
+  }
+  getDocumentsMatchingQuery(e2, t2, n3, r2, i2) {
+    const s2 = t2.path, o2 = [s2.popLast().toArray(), s2.lastSegment(), __PRIVATE_toDbTimestampKey(n3.readTime), n3.documentKey.path.isEmpty() ? "" : n3.documentKey.path.lastSegment()], _ = [s2.popLast().toArray(), s2.lastSegment(), [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER], ""];
+    return __PRIVATE_remoteDocumentsStore(e2).J(IDBKeyRange.bound(o2, _, true)).next((e3) => {
+      i2?.incrementDocumentReadCount(e3.length);
+      let n4 = __PRIVATE_mutableDocumentMap();
+      for (const i3 of e3) {
+        const e4 = this.br(DocumentKey.fromSegments(i3.prefixPath.concat(i3.collectionGroup, i3.documentId)), i3);
+        e4.isFoundDocument() && (__PRIVATE_queryMatches(t2, e4) || r2.has(e4.key)) && // Either the document matches the given query, or it is mutated.
+        (n4 = n4.insert(e4.key, e4));
+      }
+      return n4;
+    });
+  }
+  getAllFromCollectionGroup(e2, t2, n3, r2) {
+    let i2 = __PRIVATE_mutableDocumentMap();
+    const s2 = __PRIVATE_dbCollectionGroupKey(t2, n3), o2 = __PRIVATE_dbCollectionGroupKey(t2, IndexOffset.max());
+    return __PRIVATE_remoteDocumentsStore(e2).ee({
+      index: ie,
+      range: IDBKeyRange.bound(s2, o2, true)
+    }, (e3, t3, n4) => {
+      const s3 = this.br(DocumentKey.fromSegments(t3.prefixPath.concat(t3.collectionGroup, t3.documentId)), t3);
+      i2 = i2.insert(s3.key, s3), i2.size === r2 && n4.done();
+    }).next(() => i2);
+  }
+  newChangeBuffer(e2) {
+    return new __PRIVATE_IndexedDbRemoteDocumentChangeBuffer(this, !!e2 && e2.trackRemovals);
+  }
+  getSize(e2) {
+    return this.getMetadata(e2).next((e3) => e3.byteSize);
+  }
+  getMetadata(e2) {
+    return __PRIVATE_documentGlobalStore(e2).get(_e).next((e3) => (__PRIVATE_hardAssert(!!e3, 20021), e3));
+  }
+  Sr(e2, t2) {
+    return __PRIVATE_documentGlobalStore(e2).put(_e, t2);
+  }
+  /**
+   * Decodes `dbRemoteDoc` and returns the document (or an invalid document if
+   * the document corresponds to the format used for sentinel deletes).
+   */
+  br(e2, t2) {
+    if (t2) {
+      const e3 = __PRIVATE_fromDbRemoteDocument(this.serializer, t2);
+      if (!(e3.isNoDocument() && e3.version.isEqual(SnapshotVersion.min()))) return e3;
+    }
+    return MutableDocument.newInvalidDocument(e2);
+  }
+}
+function __PRIVATE_newIndexedDbRemoteDocumentCache(e2) {
+  return new __PRIVATE_IndexedDbRemoteDocumentCacheImpl(e2);
+}
+class __PRIVATE_IndexedDbRemoteDocumentChangeBuffer extends RemoteDocumentChangeBuffer {
+  /**
+   * @param documentCache - The IndexedDbRemoteDocumentCache to apply the changes to.
+   * @param trackRemovals - Whether to create sentinel deletes that can be tracked by
+   * `getNewDocumentChanges()`.
+   */
+  constructor(e2, t2) {
+    super(), this.Mr = e2, this.trackRemovals = t2, // A map of document sizes and read times prior to applying the changes in
+    // this buffer.
+    this.Or = new ObjectMap((e3) => e3.toString(), (e3, t3) => e3.isEqual(t3));
+  }
+  applyChanges(e2) {
+    const t2 = [];
+    let n3 = 0, r2 = new SortedSet((e3, t3) => __PRIVATE_primitiveComparator(e3.canonicalString(), t3.canonicalString()));
+    return this.changes.forEach((i2, s2) => {
+      const o2 = this.Or.get(i2);
+      if (t2.push(this.Mr.removeEntry(e2, i2, o2.readTime)), s2.isValidDocument()) {
+        const _ = __PRIVATE_toDbRemoteDocument(this.Mr.serializer, s2);
+        r2 = r2.add(i2.path.popLast());
+        const a2 = __PRIVATE_dbDocumentSize(_);
+        n3 += a2 - o2.size, t2.push(this.Mr.addEntry(e2, i2, _));
+      } else if (n3 -= o2.size, this.trackRemovals) {
+        const n4 = __PRIVATE_toDbRemoteDocument(this.Mr.serializer, s2.convertToNoDocument(SnapshotVersion.min()));
+        t2.push(this.Mr.addEntry(e2, i2, n4));
+      }
+    }), r2.forEach((n4) => {
+      t2.push(this.Mr.indexManager.addToCollectionParentIndex(e2, n4));
+    }), t2.push(this.Mr.updateMetadata(e2, n3)), PersistencePromise.waitFor(t2);
+  }
+  getFromCache(e2, t2) {
+    return this.Mr.Dr(e2, t2).next((e3) => (this.Or.set(t2, {
+      size: e3.size,
+      readTime: e3.document.readTime
+    }), e3.document));
+  }
+  getAllFromCache(e2, t2) {
+    return this.Mr.vr(e2, t2).next(({ documents: e3, Fr: t3 }) => (
+      // Note: `getAllFromCache` returns two maps instead of a single map from
+      // keys to `DocumentSizeEntry`s. This is to allow returning the
+      // `MutableDocumentMap` directly, without a conversion.
+      (t3.forEach((t4, n3) => {
+        this.Or.set(t4, {
+          size: n3,
+          readTime: e3.get(t4).readTime
+        });
+      }), e3)
+    ));
+  }
+}
+function __PRIVATE_documentGlobalStore(e2) {
+  return __PRIVATE_getStore(e2, oe);
+}
+function __PRIVATE_remoteDocumentsStore(e2) {
+  return __PRIVATE_getStore(e2, ee);
+}
+function __PRIVATE_dbKey(e2) {
+  const t2 = e2.path.toArray();
+  return [
+    /* prefix path */
+    t2.slice(0, t2.length - 2),
+    /* collection id */
+    t2[t2.length - 2],
+    /* document id */
+    t2[t2.length - 1]
+  ];
+}
+function __PRIVATE_dbCollectionGroupKey(e2, t2) {
+  const n3 = t2.documentKey.path.toArray();
+  return [
+    /* collection id */
+    e2,
+    __PRIVATE_toDbTimestampKey(t2.readTime),
+    /* prefix path */
+    n3.slice(0, n3.length - 2),
+    /* document id */
+    n3.length > 0 ? n3[n3.length - 1] : ""
+  ];
+}
+function __PRIVATE_dbKeyComparator(e2, t2) {
+  const n3 = e2.path.toArray(), r2 = t2.path.toArray();
+  let i2 = 0;
+  for (let e3 = 0; e3 < n3.length - 2 && e3 < r2.length - 2; ++e3) if (i2 = __PRIVATE_primitiveComparator(n3[e3], r2[e3]), i2) return i2;
+  return i2 = __PRIVATE_primitiveComparator(n3.length, r2.length), i2 || (i2 = __PRIVATE_primitiveComparator(n3[n3.length - 2], r2[r2.length - 2]), i2 || __PRIVATE_primitiveComparator(n3[n3.length - 1], r2[r2.length - 1]));
 }
 /**
  * @license
@@ -30564,6 +33716,618 @@ class __PRIVATE_MemoryLruDelegate {
 }
 /**
  * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+class __PRIVATE_SchemaConverter {
+  constructor(e2) {
+    this.serializer = e2;
+  }
+  /**
+   * Performs database creation and schema upgrades.
+   *
+   * Note that in production, this method is only ever used to upgrade the schema
+   * to SCHEMA_VERSION. Different values of toVersion are only used for testing
+   * and local feature development.
+   */
+  k(e2, t2, n3, r2) {
+    const i2 = new __PRIVATE_SimpleDbTransaction("createOrUpgrade", t2);
+    n3 < 1 && r2 >= 1 && (!function __PRIVATE_createPrimaryClientStore(e3) {
+      e3.createObjectStore(W);
+    }(e2), function __PRIVATE_createMutationQueue(e3) {
+      e3.createObjectStore(G$1, {
+        keyPath: z
+      });
+      const t3 = e3.createObjectStore(j, {
+        keyPath: H,
+        autoIncrement: true
+      });
+      t3.createIndex(J, Z, {
+        unique: true
+      }), e3.createObjectStore(Y);
+    }(e2), __PRIVATE_createQueryCache(e2), function __PRIVATE_createLegacyRemoteDocumentCache(e3) {
+      e3.createObjectStore($);
+    }(e2));
+    let s2 = PersistencePromise.resolve();
+    return n3 < 3 && r2 >= 3 && // Brand new clients don't need to drop and recreate--only clients that
+    // potentially have corrupt data.
+    (0 !== n3 && (!function __PRIVATE_dropQueryCache(e3) {
+      e3.deleteObjectStore(le), e3.deleteObjectStore(ae), e3.deleteObjectStore(Ee);
+    }(e2), __PRIVATE_createQueryCache(e2)), s2 = s2.next(() => (
+      /**
+      * Creates the target global singleton row.
+      *
+      * @param txn - The version upgrade transaction for indexeddb
+      */
+      function __PRIVATE_writeEmptyTargetGlobalEntry(e3) {
+        const t3 = e3.store(Ee), n4 = {
+          highestTargetId: 0,
+          highestListenSequenceNumber: 0,
+          lastRemoteSnapshotVersion: SnapshotVersion.min().toTimestamp(),
+          targetCount: 0
+        };
+        return t3.put(Ie, n4);
+      }(i2)
+    ))), n3 < 4 && r2 >= 4 && (0 !== n3 && // Schema version 3 uses auto-generated keys to generate globally unique
+    // mutation batch IDs (this was previously ensured internally by the
+    // client). To migrate to the new schema, we have to read all mutations
+    // and write them back out. We preserve the existing batch IDs to guarantee
+    // consistency with other object stores. Any further mutation batch IDs will
+    // be auto-generated.
+    (s2 = s2.next(() => function __PRIVATE_upgradeMutationBatchSchemaAndMigrateData(e3, t3) {
+      const n4 = t3.store(j);
+      return n4.J().next((n5) => {
+        e3.deleteObjectStore(j);
+        e3.createObjectStore(j, {
+          keyPath: H,
+          autoIncrement: true
+        }).createIndex(J, Z, {
+          unique: true
+        });
+        const r3 = t3.store(j), i3 = n5.map((e4) => r3.put(e4));
+        return PersistencePromise.waitFor(i3);
+      });
+    }(e2, i2))), s2 = s2.next(() => {
+      !function __PRIVATE_createClientMetadataStore(e3) {
+        e3.createObjectStore(Ve, {
+          keyPath: de
+        });
+      }(e2);
+    })), n3 < 5 && r2 >= 5 && (s2 = s2.next(() => this.gi(i2))), n3 < 6 && r2 >= 6 && (s2 = s2.next(() => (function __PRIVATE_createDocumentGlobalStore(e3) {
+      e3.createObjectStore(oe);
+    }(e2), this.pi(i2)))), n3 < 7 && r2 >= 7 && (s2 = s2.next(() => this.yi(i2))), n3 < 8 && r2 >= 8 && (s2 = s2.next(() => this.wi(e2, i2))), n3 < 9 && r2 >= 9 && (s2 = s2.next(() => {
+      !function __PRIVATE_dropRemoteDocumentChangesStore(e3) {
+        e3.objectStoreNames.contains("remoteDocumentChanges") && e3.deleteObjectStore("remoteDocumentChanges");
+      }(e2);
+    })), n3 < 10 && r2 >= 10 && (s2 = s2.next(() => this.Si(i2))), n3 < 11 && r2 >= 11 && (s2 = s2.next(() => {
+      !function __PRIVATE_createBundlesStore(e3) {
+        e3.createObjectStore(me, {
+          keyPath: fe
+        });
+      }(e2), function __PRIVATE_createNamedQueriesStore(e3) {
+        e3.createObjectStore(ge, {
+          keyPath: pe
+        });
+      }(e2);
+    })), n3 < 12 && r2 >= 12 && (s2 = s2.next(() => {
+      !function __PRIVATE_createDocumentOverlayStore(e3) {
+        const t3 = e3.createObjectStore(Be, {
+          keyPath: Le
+        });
+        t3.createIndex(ke, Ke, {
+          unique: false
+        }), t3.createIndex(qe, Ue, {
+          unique: false
+        });
+      }(e2);
+    })), n3 < 13 && r2 >= 13 && (s2 = s2.next(() => function __PRIVATE_createRemoteDocumentCache(e3) {
+      const t3 = e3.createObjectStore(ee, {
+        keyPath: te
+      });
+      t3.createIndex(ne, re), t3.createIndex(ie, se);
+    }(e2)).next(() => this.bi(e2, i2)).next(() => e2.deleteObjectStore($))), n3 < 14 && r2 >= 14 && (s2 = s2.next(() => this.Di(e2, i2))), n3 < 15 && r2 >= 15 && (s2 = s2.next(() => function __PRIVATE_createFieldIndex(e3) {
+      const t3 = e3.createObjectStore(ye, {
+        keyPath: we,
+        autoIncrement: true
+      });
+      t3.createIndex(be, Se, {
+        unique: false
+      });
+      const n4 = e3.createObjectStore(De, {
+        keyPath: Ce
+      });
+      n4.createIndex(ve, Fe, {
+        unique: false
+      });
+      const r3 = e3.createObjectStore(Me, {
+        keyPath: xe
+      });
+      r3.createIndex(Oe, Ne, {
+        unique: false
+      });
+    }(e2))), n3 < 16 && r2 >= 16 && // Clear the object stores to remove possibly corrupted index entries
+    (s2 = s2.next(() => {
+      t2.objectStore(De).clear();
+    }).next(() => {
+      t2.objectStore(Me).clear();
+    })), n3 < 17 && r2 >= 17 && (s2 = s2.next(() => {
+      !function __PRIVATE_createGlobalsStore(e3) {
+        e3.createObjectStore($e, {
+          keyPath: We
+        });
+      }(e2);
+    })), n3 < 18 && r2 >= 18 && isSafariOrWebkit() && (s2 = s2.next(() => {
+      t2.objectStore(De).clear();
+    }).next(() => {
+      t2.objectStore(Me).clear();
+    })), s2;
+  }
+  pi(e2) {
+    let t2 = 0;
+    return e2.store($).ee((e3, n3) => {
+      t2 += __PRIVATE_dbDocumentSize(n3);
+    }).next(() => {
+      const n3 = {
+        byteSize: t2
+      };
+      return e2.store(oe).put(_e, n3);
+    });
+  }
+  gi(e2) {
+    const t2 = e2.store(G$1), n3 = e2.store(j);
+    return t2.J().next((t3) => PersistencePromise.forEach(t3, (t4) => {
+      const r2 = IDBKeyRange.bound([t4.userId, q], [t4.userId, t4.lastAcknowledgedBatchId]);
+      return n3.J(J, r2).next((n4) => PersistencePromise.forEach(n4, (n5) => {
+        __PRIVATE_hardAssert(n5.userId === t4.userId, 18650, "Cannot process batch from unexpected user", {
+          batchId: n5.batchId
+        });
+        const r3 = __PRIVATE_fromDbMutationBatch(this.serializer, n5);
+        return removeMutationBatch(e2, t4.userId, r3).next(() => {
+        });
+      }));
+    }));
+  }
+  /**
+   * Ensures that every document in the remote document cache has a corresponding sentinel row
+   * with a sequence number. Missing rows are given the most recently used sequence number.
+   */
+  yi(e2) {
+    const t2 = e2.store(le), n3 = e2.store($);
+    return e2.store(Ee).get(Ie).next((e3) => {
+      const r2 = [];
+      return n3.ee((n4, i2) => {
+        const s2 = new ResourcePath(n4), o2 = function __PRIVATE_sentinelKey(e4) {
+          return [0, __PRIVATE_encodeResourcePath(e4)];
+        }(s2);
+        r2.push(t2.get(o2).next((n5) => n5 ? PersistencePromise.resolve() : ((n6) => t2.put({
+          targetId: 0,
+          path: __PRIVATE_encodeResourcePath(n6),
+          sequenceNumber: e3.highestListenSequenceNumber
+        }))(s2)));
+      }).next(() => PersistencePromise.waitFor(r2));
+    });
+  }
+  wi(e2, t2) {
+    e2.createObjectStore(Re, {
+      keyPath: Ae
+    });
+    const n3 = t2.store(Re), r2 = new __PRIVATE_MemoryCollectionParentIndex(), addEntry = (e3) => {
+      if (r2.add(e3)) {
+        const t3 = e3.lastSegment(), r3 = e3.popLast();
+        return n3.put({
+          collectionId: t3,
+          parent: __PRIVATE_encodeResourcePath(r3)
+        });
+      }
+    };
+    return t2.store($).ee({
+      Y: true
+    }, (e3, t3) => {
+      const n4 = new ResourcePath(e3);
+      return addEntry(n4.popLast());
+    }).next(() => t2.store(Y).ee({
+      Y: true
+    }, ([e3, t3, n4], r3) => {
+      const i2 = __PRIVATE_decodeResourcePath(t3);
+      return addEntry(i2.popLast());
+    }));
+  }
+  Si(e2) {
+    const t2 = e2.store(ae);
+    return t2.ee((e3, n3) => {
+      const r2 = __PRIVATE_fromDbTarget(n3), i2 = __PRIVATE_toDbTarget(this.serializer, r2);
+      return t2.put(i2);
+    });
+  }
+  bi(e2, t2) {
+    const n3 = t2.store($), r2 = [];
+    return n3.ee((e3, n4) => {
+      const i2 = t2.store(ee), s2 = function __PRIVATE_extractKey(e4) {
+        return e4.document ? new DocumentKey(ResourcePath.fromString(e4.document.name).popFirst(5)) : e4.noDocument ? DocumentKey.fromSegments(e4.noDocument.path) : e4.unknownDocument ? DocumentKey.fromSegments(e4.unknownDocument.path) : fail$1(36783);
+      }(n4).path.toArray(), o2 = {
+        prefixPath: s2.slice(0, s2.length - 2),
+        collectionGroup: s2[s2.length - 2],
+        documentId: s2[s2.length - 1],
+        readTime: n4.readTime || [0, 0],
+        unknownDocument: n4.unknownDocument,
+        noDocument: n4.noDocument,
+        document: n4.document,
+        hasCommittedMutations: !!n4.hasCommittedMutations
+      };
+      r2.push(i2.put(o2));
+    }).next(() => PersistencePromise.waitFor(r2));
+  }
+  Di(e2, t2) {
+    const n3 = t2.store(j), r2 = __PRIVATE_newIndexedDbRemoteDocumentCache(this.serializer), i2 = new __PRIVATE_MemoryPersistence(__PRIVATE_MemoryEagerDelegate.Vi, this.serializer.yt);
+    return n3.J().next((e3) => {
+      const n4 = /* @__PURE__ */ new Map();
+      return e3.forEach((e4) => {
+        let t3 = n4.get(e4.userId) ?? __PRIVATE_documentKeySet();
+        __PRIVATE_fromDbMutationBatch(this.serializer, e4).keys().forEach((e5) => t3 = t3.add(e5)), n4.set(e4.userId, t3);
+      }), PersistencePromise.forEach(n4, (e4, n5) => {
+        const s2 = new User(n5), o2 = __PRIVATE_IndexedDbDocumentOverlayCache.wt(this.serializer, s2), _ = i2.getIndexManager(s2), a2 = __PRIVATE_IndexedDbMutationQueue.wt(s2, this.serializer, _, i2.referenceDelegate);
+        return new LocalDocumentsView(r2, a2, o2, _).recalculateAndSaveOverlaysForDocumentKeys(new __PRIVATE_IndexedDbTransaction(t2, __PRIVATE_ListenSequence.ce), e4).next();
+      });
+    });
+  }
+}
+function __PRIVATE_createQueryCache(e2) {
+  e2.createObjectStore(le, {
+    keyPath: he
+  }).createIndex(Pe, Te, {
+    unique: true
+  });
+  e2.createObjectStore(ae, {
+    keyPath: "targetId"
+  }).createIndex(ue, ce, {
+    unique: true
+  }), e2.createObjectStore(Ee);
+}
+const vt = "IndexedDbPersistence", Ft = 18e5, Mt = 5e3, xt = "Failed to obtain exclusive access to the persistence layer. To allow shared access, multi-tab synchronization has to be enabled in all tabs. If you are using `experimentalForceOwningTab:true`, make sure that only one tab has persistence enabled at any given time.", Ot = "main";
+class __PRIVATE_IndexedDbPersistence {
+  constructor(e2, t2, n3, r2, i2, s2, o2, _, a2, u2, c2 = 18) {
+    if (this.allowTabSynchronization = e2, this.persistenceKey = t2, this.clientId = n3, this.Ci = i2, this.window = s2, this.document = o2, this.Fi = a2, this.Mi = u2, this.xi = c2, this.ai = null, this.ui = false, this.isPrimary = false, this.networkEnabled = true, /** Our window.unload handler, if registered. */
+    this.Oi = null, this.inForeground = false, /** Our 'visibilitychange' listener if registered. */
+    this.Ni = null, /** The client metadata refresh task. */
+    this.Bi = null, /** The last time we garbage collected the client metadata object store. */
+    this.Li = Number.NEGATIVE_INFINITY, /** A listener to notify on primary state changes. */
+    this.ki = (e3) => Promise.resolve(), !__PRIVATE_IndexedDbPersistence.v()) throw new FirestoreError(D.UNIMPLEMENTED, "This platform is either missing IndexedDB or is known to have an incomplete implementation. Offline persistence has been disabled.");
+    this.referenceDelegate = new __PRIVATE_IndexedDbLruDelegateImpl(this, r2), this.Ki = t2 + Ot, this.serializer = new __PRIVATE_LocalSerializer(_), this.qi = new __PRIVATE_SimpleDb(this.Ki, this.xi, new __PRIVATE_SchemaConverter(this.serializer)), this.ci = new __PRIVATE_IndexedDbGlobalsCache(), this.li = new __PRIVATE_IndexedDbTargetCache(this.referenceDelegate, this.serializer), this.remoteDocumentCache = __PRIVATE_newIndexedDbRemoteDocumentCache(this.serializer), this.Pi = new __PRIVATE_IndexedDbBundleCache(), this.window && this.window.localStorage ? this.Ui = this.window.localStorage : (this.Ui = null, false === u2 && __PRIVATE_logError(vt, "LocalStorage is unavailable. As a result, persistence may not work reliably. In particular enablePersistence() could fail immediately after refreshing the page."));
+  }
+  /**
+   * Attempt to start IndexedDb persistence.
+   *
+   * @returns Whether persistence was enabled.
+   */
+  start() {
+    return this.$i().then(() => {
+      if (!this.isPrimary && !this.allowTabSynchronization)
+        throw new FirestoreError(D.FAILED_PRECONDITION, xt);
+      return this.Wi(), this.Qi(), this.Gi(), this.runTransaction("getHighestListenSequenceNumber", "readonly", (e2) => this.li.getHighestSequenceNumber(e2));
+    }).then((e2) => {
+      this.ai = new __PRIVATE_ListenSequence(e2, this.Fi);
+    }).then(() => {
+      this.ui = true;
+    }).catch((e2) => (this.qi && this.qi.close(), Promise.reject(e2)));
+  }
+  /**
+   * Registers a listener that gets called when the primary state of the
+   * instance changes. Upon registering, this listener is invoked immediately
+   * with the current primary state.
+   *
+   * PORTING NOTE: This is only used for Web multi-tab.
+   */
+  zi(e2) {
+    return this.ki = async (t2) => {
+      if (this.started) return e2(t2);
+    }, e2(this.isPrimary);
+  }
+  /**
+   * Registers a listener that gets called when the database receives a
+   * version change event indicating that it has deleted.
+   *
+   * PORTING NOTE: This is only used for Web multi-tab.
+   */
+  setDatabaseDeletedListener(e2) {
+    this.qi.q(async (t2) => {
+      null === t2.newVersion && await e2();
+    });
+  }
+  /**
+   * Adjusts the current network state in the client's metadata, potentially
+   * affecting the primary lease.
+   *
+   * PORTING NOTE: This is only used for Web multi-tab.
+   */
+  setNetworkEnabled(e2) {
+    this.networkEnabled !== e2 && (this.networkEnabled = e2, // Schedule a primary lease refresh for immediate execution. The eventual
+    // lease update will be propagated via `primaryStateListener`.
+    this.Ci.enqueueAndForget(async () => {
+      this.started && await this.$i();
+    }));
+  }
+  /**
+   * Updates the client metadata in IndexedDb and attempts to either obtain or
+   * extend the primary lease for the local client. Asynchronously notifies the
+   * primary state listener if the client either newly obtained or released its
+   * primary lease.
+   */
+  $i() {
+    return this.runTransaction("updateClientMetadataAndTryBecomePrimary", "readwrite", (e2) => __PRIVATE_clientMetadataStore(e2).put({
+      clientId: this.clientId,
+      updateTimeMs: Date.now(),
+      networkEnabled: this.networkEnabled,
+      inForeground: this.inForeground
+    }).next(() => {
+      if (this.isPrimary) return this.ji(e2).next((e3) => {
+        e3 || (this.isPrimary = false, this.Ci.enqueueRetryable(() => this.ki(false)));
+      });
+    }).next(() => this.Ji(e2)).next((t2) => this.isPrimary && !t2 ? this.Hi(e2).next(() => false) : !!t2 && this.Zi(e2).next(() => true))).catch((e2) => {
+      if (__PRIVATE_isIndexedDbTransactionError(e2))
+        return __PRIVATE_logDebug(vt, "Failed to extend owner lease: ", e2), this.isPrimary;
+      if (!this.allowTabSynchronization) throw e2;
+      return __PRIVATE_logDebug(vt, "Releasing owner lease after error during lease refresh", e2), /* isPrimary= */
+      false;
+    }).then((e2) => {
+      this.isPrimary !== e2 && this.Ci.enqueueRetryable(() => this.ki(e2)), this.isPrimary = e2;
+    });
+  }
+  ji(e2) {
+    return __PRIVATE_primaryClientStore(e2).get(Q).next((e3) => PersistencePromise.resolve(this.Xi(e3)));
+  }
+  Yi(e2) {
+    return __PRIVATE_clientMetadataStore(e2).delete(this.clientId);
+  }
+  /**
+   * If the garbage collection threshold has passed, prunes the
+   * RemoteDocumentChanges and the ClientMetadata store based on the last update
+   * time of all clients.
+   */
+  async es() {
+    if (this.isPrimary && !this.ts(this.Li, Ft)) {
+      this.Li = Date.now();
+      const e2 = await this.runTransaction("maybeGarbageCollectMultiClientState", "readwrite-primary", (e3) => {
+        const t2 = __PRIVATE_getStore(e3, Ve);
+        return t2.J().next((e4) => {
+          const n3 = this.ns(e4, Ft), r2 = e4.filter((e5) => -1 === n3.indexOf(e5));
+          return PersistencePromise.forEach(r2, (e5) => t2.delete(e5.clientId)).next(() => r2);
+        });
+      }).catch(() => []);
+      if (this.Ui) for (const t2 of e2) this.Ui.removeItem(this.rs(t2.clientId));
+    }
+  }
+  /**
+   * Schedules a recurring timer to update the client metadata and to either
+   * extend or acquire the primary lease if the client is eligible.
+   */
+  Gi() {
+    this.Bi = this.Ci.enqueueAfterDelay("client_metadata_refresh", 4e3, () => this.$i().then(() => this.es()).then(() => this.Gi()));
+  }
+  /** Checks whether `client` is the local client. */
+  Xi(e2) {
+    return !!e2 && e2.ownerId === this.clientId;
+  }
+  /**
+   * Evaluate the state of all active clients and determine whether the local
+   * client is or can act as the holder of the primary lease. Returns whether
+   * the client is eligible for the lease, but does not actually acquire it.
+   * May return 'false' even if there is no active leaseholder and another
+   * (foreground) client should become leaseholder instead.
+   */
+  Ji(e2) {
+    if (this.Mi) return PersistencePromise.resolve(true);
+    return __PRIVATE_primaryClientStore(e2).get(Q).next((t2) => {
+      if (null !== t2 && this.ts(t2.leaseTimestampMs, Mt) && !this.ss(t2.ownerId)) {
+        if (this.Xi(t2) && this.networkEnabled) return true;
+        if (!this.Xi(t2)) {
+          if (!t2.allowTabSynchronization)
+            throw new FirestoreError(D.FAILED_PRECONDITION, xt);
+          return false;
+        }
+      }
+      return !(!this.networkEnabled || !this.inForeground) || __PRIVATE_clientMetadataStore(e2).J().next((e3) => void 0 === this.ns(e3, Mt).find((e4) => {
+        if (this.clientId !== e4.clientId) {
+          const t3 = !this.networkEnabled && e4.networkEnabled, n3 = !this.inForeground && e4.inForeground, r2 = this.networkEnabled === e4.networkEnabled;
+          if (t3 || n3 && r2) return true;
+        }
+        return false;
+      }));
+    }).next((e3) => (this.isPrimary !== e3 && __PRIVATE_logDebug(vt, `Client ${e3 ? "is" : "is not"} eligible for a primary lease.`), e3));
+  }
+  async shutdown() {
+    this.ui = false, this._s(), this.Bi && (this.Bi.cancel(), this.Bi = null), this.us(), this.cs(), // Use `SimpleDb.runTransaction` directly to avoid failing if another tab
+    // has obtained the primary lease.
+    await this.qi.runTransaction("shutdown", "readwrite", [W, Ve], (e2) => {
+      const t2 = new __PRIVATE_IndexedDbTransaction(e2, __PRIVATE_ListenSequence.ce);
+      return this.Hi(t2).next(() => this.Yi(t2));
+    }), this.qi.close(), // Remove the entry marking the client as zombied from LocalStorage since
+    // we successfully deleted its metadata from IndexedDb.
+    this.ls();
+  }
+  /**
+   * Returns clients that are not zombied and have an updateTime within the
+   * provided threshold.
+   */
+  ns(e2, t2) {
+    return e2.filter((e3) => this.ts(e3.updateTimeMs, t2) && !this.ss(e3.clientId));
+  }
+  /**
+   * Returns the IDs of the clients that are currently active. If multi-tab
+   * is not supported, returns an array that only contains the local client's
+   * ID.
+   *
+   * PORTING NOTE: This is only used for Web multi-tab.
+   */
+  hs() {
+    return this.runTransaction("getActiveClients", "readonly", (e2) => __PRIVATE_clientMetadataStore(e2).J().next((e3) => this.ns(e3, Ft).map((e4) => e4.clientId)));
+  }
+  get started() {
+    return this.ui;
+  }
+  getGlobalsCache() {
+    return this.ci;
+  }
+  getMutationQueue(e2, t2) {
+    return __PRIVATE_IndexedDbMutationQueue.wt(e2, this.serializer, t2, this.referenceDelegate);
+  }
+  getTargetCache() {
+    return this.li;
+  }
+  getRemoteDocumentCache() {
+    return this.remoteDocumentCache;
+  }
+  getIndexManager(e2) {
+    return new __PRIVATE_IndexedDbIndexManager(e2, this.serializer.yt.databaseId);
+  }
+  getDocumentOverlayCache(e2) {
+    return __PRIVATE_IndexedDbDocumentOverlayCache.wt(this.serializer, e2);
+  }
+  getBundleCache() {
+    return this.Pi;
+  }
+  runTransaction(e2, t2, n3) {
+    __PRIVATE_logDebug(vt, "Starting transaction:", e2);
+    const r2 = "readonly" === t2 ? "readonly" : "readwrite", i2 = (
+      /** Returns the object stores for the provided schema. */
+      function __PRIVATE_getObjectStores(e3) {
+        return 18 === e3 ? Xe : 17 === e3 ? Ze : 16 === e3 ? Je : 15 === e3 ? He : 14 === e3 ? je : 13 === e3 ? ze : 12 === e3 ? Ge : 11 === e3 ? Qe : void fail$1(60245);
+      }(this.xi)
+    );
+    let s2;
+    return this.qi.runTransaction(e2, r2, i2, (r3) => (s2 = new __PRIVATE_IndexedDbTransaction(r3, this.ai ? this.ai.next() : __PRIVATE_ListenSequence.ce), "readwrite-primary" === t2 ? this.ji(s2).next((e3) => !!e3 || this.Ji(s2)).next((t3) => {
+      if (!t3) throw __PRIVATE_logError(`Failed to obtain primary lease for action '${e2}'.`), this.isPrimary = false, this.Ci.enqueueRetryable(() => this.ki(false)), new FirestoreError(D.FAILED_PRECONDITION, B);
+      return n3(s2);
+    }).next((e3) => this.Zi(s2).next(() => e3)) : this.Ps(s2).next(() => n3(s2)))).then((e3) => (s2.raiseOnCommittedEvent(), e3));
+  }
+  /**
+   * Verifies that the current tab is the primary leaseholder or alternatively
+   * that the leaseholder has opted into multi-tab synchronization.
+   */
+  // TODO(b/114226234): Remove this check when `synchronizeTabs` can no longer
+  // be turned off.
+  Ps(e2) {
+    return __PRIVATE_primaryClientStore(e2).get(Q).next((e3) => {
+      if (null !== e3 && this.ts(e3.leaseTimestampMs, Mt) && !this.ss(e3.ownerId) && !this.Xi(e3) && !(this.Mi || this.allowTabSynchronization && e3.allowTabSynchronization)) throw new FirestoreError(D.FAILED_PRECONDITION, xt);
+    });
+  }
+  /**
+   * Obtains or extends the new primary lease for the local client. This
+   * method does not verify that the client is eligible for this lease.
+   */
+  Zi(e2) {
+    const t2 = {
+      ownerId: this.clientId,
+      allowTabSynchronization: this.allowTabSynchronization,
+      leaseTimestampMs: Date.now()
+    };
+    return __PRIVATE_primaryClientStore(e2).put(Q, t2);
+  }
+  static v() {
+    return __PRIVATE_SimpleDb.v();
+  }
+  /** Checks the primary lease and removes it if we are the current primary. */
+  Hi(e2) {
+    const t2 = __PRIVATE_primaryClientStore(e2);
+    return t2.get(Q).next((e3) => this.Xi(e3) ? (__PRIVATE_logDebug(vt, "Releasing primary lease."), t2.delete(Q)) : PersistencePromise.resolve());
+  }
+  /** Verifies that `updateTimeMs` is within `maxAgeMs`. */
+  ts(e2, t2) {
+    const n3 = Date.now();
+    return !(e2 < n3 - t2) && (!(e2 > n3) || (__PRIVATE_logError(`Detected an update time that is in the future: ${e2} > ${n3}`), false));
+  }
+  Wi() {
+    null !== this.document && "function" == typeof this.document.addEventListener && (this.Ni = () => {
+      this.Ci.enqueueAndForget(() => (this.inForeground = "visible" === this.document.visibilityState, this.$i()));
+    }, this.document.addEventListener("visibilitychange", this.Ni), this.inForeground = "visible" === this.document.visibilityState);
+  }
+  us() {
+    this.Ni && (this.document.removeEventListener("visibilitychange", this.Ni), this.Ni = null);
+  }
+  /**
+   * Attaches a window.unload handler that will synchronously write our
+   * clientId to a "zombie client id" location in LocalStorage. This can be used
+   * by tabs trying to acquire the primary lease to determine that the lease
+   * is no longer valid even if the timestamp is recent. This is particularly
+   * important for the refresh case (so the tab correctly re-acquires the
+   * primary lease). LocalStorage is used for this rather than IndexedDb because
+   * it is a synchronous API and so can be used reliably from  an unload
+   * handler.
+   */
+  Qi() {
+    "function" == typeof this.window?.addEventListener && (this.Oi = () => {
+      this._s();
+      const e2 = /(?:Version|Mobile)\/1[456]/;
+      isSafari() && (navigator.appVersion.match(e2) || navigator.userAgent.match(e2)) && // On Safari 14, 15, and 16, we do not run any cleanup actions as it might
+      // trigger a bug that prevents Safari from re-opening IndexedDB during
+      // the next page load.
+      // See https://bugs.webkit.org/show_bug.cgi?id=226547
+      this.Ci.enterRestrictedMode(
+        /* purgeExistingTasks= */
+        true
+      ), this.Ci.enqueueAndForget(() => this.shutdown());
+    }, this.window.addEventListener("pagehide", this.Oi));
+  }
+  cs() {
+    this.Oi && (this.window.removeEventListener("pagehide", this.Oi), this.Oi = null);
+  }
+  /**
+   * Returns whether a client is "zombied" based on its LocalStorage entry.
+   * Clients become zombied when their tab closes without running all of the
+   * cleanup logic in `shutdown()`.
+   */
+  ss(e2) {
+    try {
+      const t2 = null !== this.Ui?.getItem(this.rs(e2));
+      return __PRIVATE_logDebug(vt, `Client '${e2}' ${t2 ? "is" : "is not"} zombied in LocalStorage`), t2;
+    } catch (e3) {
+      return __PRIVATE_logError(vt, "Failed to get zombied client id.", e3), false;
+    }
+  }
+  /**
+   * Record client as zombied (a client that had its tab closed). Zombied
+   * clients are ignored during primary tab selection.
+   */
+  _s() {
+    if (this.Ui) try {
+      this.Ui.setItem(this.rs(this.clientId), String(Date.now()));
+    } catch (e2) {
+      __PRIVATE_logError("Failed to set zombie client id.", e2);
+    }
+  }
+  /** Removes the zombied client entry if it exists. */
+  ls() {
+    if (this.Ui) try {
+      this.Ui.removeItem(this.rs(this.clientId));
+    } catch (e2) {
+    }
+  }
+  rs(e2) {
+    return `firestore_zombie_${this.persistenceKey}_${e2}`;
+  }
+}
+function __PRIVATE_primaryClientStore(e2) {
+  return __PRIVATE_getStore(e2, W);
+}
+function __PRIVATE_clientMetadataStore(e2) {
+  return __PRIVATE_getStore(e2, Ve);
+}
+function __PRIVATE_indexedDbStoragePrefix(e2, t2) {
+  let n3 = e2.projectId;
+  return e2.isDefaultDatabase || (n3 += "." + e2.database), "firestore/" + t2 + "/" + n3 + "/";
+}
+/**
+ * @license
  * Copyright 2017 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30985,11 +34749,147 @@ function __PRIVATE_localStoreExecuteQuery(e2, t2, n3) {
     }))
   );
 }
+function __PRIVATE_localStoreGetCachedTarget(e2, t2) {
+  const n3 = __PRIVATE_debugCast(e2), r2 = __PRIVATE_debugCast(n3.li), i2 = n3.vs.get(t2);
+  return i2 ? Promise.resolve(i2.target) : n3.persistence.runTransaction("Get target data", "readonly", (e3) => r2.At(e3, t2).next((e4) => e4 ? e4.target : null));
+}
+function __PRIVATE_localStoreGetNewDocumentChanges(e2, t2) {
+  const n3 = __PRIVATE_debugCast(e2), r2 = n3.Ms.get(t2) || SnapshotVersion.min();
+  return n3.persistence.runTransaction("Get new document changes", "readonly", (e3) => n3.xs.getAllFromCollectionGroup(
+    e3,
+    t2,
+    __PRIVATE_newIndexOffsetSuccessorFromReadTime(r2, N),
+    /* limit= */
+    Number.MAX_SAFE_INTEGER
+  )).then((e3) => (__PRIVATE_setMaxReadTime(n3, t2, e3), e3));
+}
 function __PRIVATE_setMaxReadTime(e2, t2, n3) {
   let r2 = e2.Ms.get(t2) || SnapshotVersion.min();
   n3.forEach((e3, t3) => {
     t3.readTime.compareTo(r2) > 0 && (r2 = t3.readTime);
   }), e2.Ms.set(t2, r2);
+}
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const Lt = "firestore_clients";
+function createWebStorageClientStateKey(e2, t2) {
+  return `${Lt}_${e2}_${t2}`;
+}
+const kt = "firestore_mutations";
+function createWebStorageMutationBatchKey(e2, t2, n3) {
+  let r2 = `${kt}_${e2}_${n3}`;
+  return t2.isAuthenticated() && (r2 += `_${t2.uid}`), r2;
+}
+const Kt = "firestore_targets";
+function createWebStorageQueryTargetMetadataKey(e2, t2) {
+  return `${Kt}_${e2}_${t2}`;
+}
+/**
+ * @license
+ * Copyright 2018 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const qt = "SharedClientState";
+class __PRIVATE_MutationMetadata {
+  constructor(e2, t2, n3, r2) {
+    this.user = e2, this.batchId = t2, this.state = n3, this.error = r2;
+  }
+  /**
+   * Parses a MutationMetadata from its JSON representation in WebStorage.
+   * Logs a warning and returns null if the format of the data is not valid.
+   */
+  static $s(e2, t2, n3) {
+    const r2 = JSON.parse(n3);
+    let i2, s2 = "object" == typeof r2 && -1 !== ["pending", "acknowledged", "rejected"].indexOf(r2.state) && (void 0 === r2.error || "object" == typeof r2.error);
+    return s2 && r2.error && (s2 = "string" == typeof r2.error.message && "string" == typeof r2.error.code, s2 && (i2 = new FirestoreError(r2.error.code, r2.error.message))), s2 ? new __PRIVATE_MutationMetadata(e2, t2, r2.state, i2) : (__PRIVATE_logError(qt, `Failed to parse mutation state for ID '${t2}': ${n3}`), null);
+  }
+  Ws() {
+    const e2 = {
+      state: this.state,
+      updateTimeMs: Date.now()
+    };
+    return this.error && (e2.error = {
+      code: this.error.code,
+      message: this.error.message
+    }), JSON.stringify(e2);
+  }
+}
+class __PRIVATE_QueryTargetMetadata {
+  constructor(e2, t2, n3) {
+    this.targetId = e2, this.state = t2, this.error = n3;
+  }
+  /**
+   * Parses a QueryTargetMetadata from its JSON representation in WebStorage.
+   * Logs a warning and returns null if the format of the data is not valid.
+   */
+  static $s(e2, t2) {
+    const n3 = JSON.parse(t2);
+    let r2, i2 = "object" == typeof n3 && -1 !== ["not-current", "current", "rejected"].indexOf(n3.state) && (void 0 === n3.error || "object" == typeof n3.error);
+    return i2 && n3.error && (i2 = "string" == typeof n3.error.message && "string" == typeof n3.error.code, i2 && (r2 = new FirestoreError(n3.error.code, n3.error.message))), i2 ? new __PRIVATE_QueryTargetMetadata(e2, n3.state, r2) : (__PRIVATE_logError(qt, `Failed to parse target state for ID '${e2}': ${t2}`), null);
+  }
+  Ws() {
+    const e2 = {
+      state: this.state,
+      updateTimeMs: Date.now()
+    };
+    return this.error && (e2.error = {
+      code: this.error.code,
+      message: this.error.message
+    }), JSON.stringify(e2);
+  }
+}
+class __PRIVATE_RemoteClientState {
+  constructor(e2, t2) {
+    this.clientId = e2, this.activeTargetIds = t2;
+  }
+  /**
+   * Parses a RemoteClientState from the JSON representation in WebStorage.
+   * Logs a warning and returns null if the format of the data is not valid.
+   */
+  static $s(e2, t2) {
+    const n3 = JSON.parse(t2);
+    let r2 = "object" == typeof n3 && n3.activeTargetIds instanceof Array, i2 = __PRIVATE_targetIdSet();
+    for (let e3 = 0; r2 && e3 < n3.activeTargetIds.length; ++e3) r2 = isSafeInteger(n3.activeTargetIds[e3]), i2 = i2.add(n3.activeTargetIds[e3]);
+    return r2 ? new __PRIVATE_RemoteClientState(e2, i2) : (__PRIVATE_logError(qt, `Failed to parse client data for instance '${e2}': ${t2}`), null);
+  }
+}
+class __PRIVATE_SharedOnlineState {
+  constructor(e2, t2) {
+    this.clientId = e2, this.onlineState = t2;
+  }
+  /**
+   * Parses a SharedOnlineState from its JSON representation in WebStorage.
+   * Logs a warning and returns null if the format of the data is not valid.
+   */
+  static $s(e2) {
+    const t2 = JSON.parse(e2);
+    return "object" == typeof t2 && -1 !== ["Unknown", "Online", "Offline"].indexOf(t2.onlineState) && "string" == typeof t2.clientId ? new __PRIVATE_SharedOnlineState(t2.clientId, t2.onlineState) : (__PRIVATE_logError(qt, `Failed to parse online state: ${e2}`), null);
+  }
 }
 class __PRIVATE_LocalClientState {
   constructor() {
@@ -31011,6 +34911,277 @@ class __PRIVATE_LocalClientState {
       updateTimeMs: Date.now()
     };
     return JSON.stringify(e2);
+  }
+}
+class __PRIVATE_WebStorageSharedClientState {
+  constructor(e2, t2, n3, r2, i2) {
+    this.window = e2, this.Ci = t2, this.persistenceKey = n3, this.zs = r2, this.syncEngine = null, this.onlineStateHandler = null, this.sequenceNumberHandler = null, this.js = this.Js.bind(this), this.Hs = new SortedMap(__PRIVATE_primitiveComparator), this.started = false, /**
+     * Captures WebStorage events that occur before `start()` is called. These
+     * events are replayed once `WebStorageSharedClientState` is started.
+     */
+    this.Zs = [];
+    const s2 = n3.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    this.storage = this.window.localStorage, this.currentUser = i2, this.Xs = createWebStorageClientStateKey(this.persistenceKey, this.zs), this.Ys = /** Assembles the key for the current sequence number. */
+    function createWebStorageSequenceNumberKey(e3) {
+      return `firestore_sequence_number_${e3}`;
+    }(this.persistenceKey), this.Hs = this.Hs.insert(this.zs, new __PRIVATE_LocalClientState()), this.eo = new RegExp(`^${Lt}_${s2}_([^_]*)$`), this.no = new RegExp(`^${kt}_${s2}_(\\d+)(?:_(.*))?$`), this.ro = new RegExp(`^${Kt}_${s2}_(\\d+)$`), this.io = /** Assembles the key for the online state of the primary tab. */
+    function createWebStorageOnlineStateKey(e3) {
+      return `firestore_online_state_${e3}`;
+    }(this.persistenceKey), this.so = function createBundleLoadedKey(e3) {
+      return `firestore_bundle_loaded_v2_${e3}`;
+    }(this.persistenceKey), // Rather than adding the storage observer during start(), we add the
+    // storage observer during initialization. This ensures that we collect
+    // events before other components populate their initial state (during their
+    // respective start() calls). Otherwise, we might for example miss a
+    // mutation that is added after LocalStore's start() processed the existing
+    // mutations but before we observe WebStorage events.
+    this.window.addEventListener("storage", this.js);
+  }
+  /** Returns 'true' if WebStorage is available in the current environment. */
+  static v(e2) {
+    return !(!e2 || !e2.localStorage);
+  }
+  async start() {
+    const e2 = await this.syncEngine.hs();
+    for (const t3 of e2) {
+      if (t3 === this.zs) continue;
+      const e3 = this.getItem(createWebStorageClientStateKey(this.persistenceKey, t3));
+      if (e3) {
+        const n3 = __PRIVATE_RemoteClientState.$s(t3, e3);
+        n3 && (this.Hs = this.Hs.insert(n3.clientId, n3));
+      }
+    }
+    this.oo();
+    const t2 = this.storage.getItem(this.io);
+    if (t2) {
+      const e3 = this._o(t2);
+      e3 && this.ao(e3);
+    }
+    for (const e3 of this.Zs) this.Js(e3);
+    this.Zs = [], // Register a window unload hook to remove the client metadata entry from
+    // WebStorage even if `shutdown()` was not called.
+    this.window.addEventListener("pagehide", () => this.shutdown()), this.started = true;
+  }
+  writeSequenceNumber(e2) {
+    this.setItem(this.Ys, JSON.stringify(e2));
+  }
+  getAllActiveQueryTargets() {
+    return this.uo(this.Hs);
+  }
+  isActiveQueryTarget(e2) {
+    let t2 = false;
+    return this.Hs.forEach((n3, r2) => {
+      r2.activeTargetIds.has(e2) && (t2 = true);
+    }), t2;
+  }
+  addPendingMutation(e2) {
+    this.co(e2, "pending");
+  }
+  updateMutationState(e2, t2, n3) {
+    this.co(e2, t2, n3), // Once a final mutation result is observed by other clients, they no longer
+    // access the mutation's metadata entry. Since WebStorage replays events
+    // in order, it is safe to delete the entry right after updating it.
+    this.lo(e2);
+  }
+  addLocalQueryTarget(e2, t2 = true) {
+    let n3 = "not-current";
+    if (this.isActiveQueryTarget(e2)) {
+      const t3 = this.storage.getItem(createWebStorageQueryTargetMetadataKey(this.persistenceKey, e2));
+      if (t3) {
+        const r2 = __PRIVATE_QueryTargetMetadata.$s(e2, t3);
+        r2 && (n3 = r2.state);
+      }
+    }
+    return t2 && this.ho.Qs(e2), this.oo(), n3;
+  }
+  removeLocalQueryTarget(e2) {
+    this.ho.Gs(e2), this.oo();
+  }
+  isLocalQueryTarget(e2) {
+    return this.ho.activeTargetIds.has(e2);
+  }
+  clearQueryState(e2) {
+    this.removeItem(createWebStorageQueryTargetMetadataKey(this.persistenceKey, e2));
+  }
+  updateQueryState(e2, t2, n3) {
+    this.Po(e2, t2, n3);
+  }
+  handleUserChange(e2, t2, n3) {
+    t2.forEach((e3) => {
+      this.lo(e3);
+    }), this.currentUser = e2, n3.forEach((e3) => {
+      this.addPendingMutation(e3);
+    });
+  }
+  setOnlineState(e2) {
+    this.To(e2);
+  }
+  notifyBundleLoaded(e2) {
+    this.Io(e2);
+  }
+  shutdown() {
+    this.started && (this.window.removeEventListener("storage", this.js), this.removeItem(this.Xs), this.started = false);
+  }
+  getItem(e2) {
+    const t2 = this.storage.getItem(e2);
+    return __PRIVATE_logDebug(qt, "READ", e2, t2), t2;
+  }
+  setItem(e2, t2) {
+    __PRIVATE_logDebug(qt, "SET", e2, t2), this.storage.setItem(e2, t2);
+  }
+  removeItem(e2) {
+    __PRIVATE_logDebug(qt, "REMOVE", e2), this.storage.removeItem(e2);
+  }
+  Js(e2) {
+    const t2 = e2;
+    if (t2.storageArea === this.storage) {
+      if (__PRIVATE_logDebug(qt, "EVENT", t2.key, t2.newValue), t2.key === this.Xs) return void __PRIVATE_logError("Received WebStorage notification for local change. Another client might have garbage-collected our state");
+      this.Ci.enqueueRetryable(async () => {
+        if (this.started) {
+          if (null !== t2.key) {
+            if (this.eo.test(t2.key)) {
+              if (null == t2.newValue) {
+                const e3 = this.Eo(t2.key);
+                return this.Ro(e3, null);
+              }
+              {
+                const e3 = this.Ao(t2.key, t2.newValue);
+                if (e3) return this.Ro(e3.clientId, e3);
+              }
+            } else if (this.no.test(t2.key)) {
+              if (null !== t2.newValue) {
+                const e3 = this.Vo(t2.key, t2.newValue);
+                if (e3) return this.mo(e3);
+              }
+            } else if (this.ro.test(t2.key)) {
+              if (null !== t2.newValue) {
+                const e3 = this.fo(t2.key, t2.newValue);
+                if (e3) return this.po(e3);
+              }
+            } else if (t2.key === this.io) {
+              if (null !== t2.newValue) {
+                const e3 = this._o(t2.newValue);
+                if (e3) return this.ao(e3);
+              }
+            } else if (t2.key === this.Ys) {
+              const e3 = function __PRIVATE_fromWebStorageSequenceNumber(e4) {
+                let t3 = __PRIVATE_ListenSequence.ce;
+                if (null != e4) try {
+                  const n3 = JSON.parse(e4);
+                  __PRIVATE_hardAssert("number" == typeof n3, 30636, {
+                    yo: e4
+                  }), t3 = n3;
+                } catch (e5) {
+                  __PRIVATE_logError(qt, "Failed to read sequence number from WebStorage", e5);
+                }
+                return t3;
+              }(t2.newValue);
+              e3 !== __PRIVATE_ListenSequence.ce && this.sequenceNumberHandler(e3);
+            } else if (t2.key === this.so) {
+              const e3 = this.wo(t2.newValue);
+              await Promise.all(e3.map((e4) => this.syncEngine.So(e4)));
+            }
+          }
+        } else this.Zs.push(t2);
+      });
+    }
+  }
+  get ho() {
+    return this.Hs.get(this.zs);
+  }
+  oo() {
+    this.setItem(this.Xs, this.ho.Ws());
+  }
+  co(e2, t2, n3) {
+    const r2 = new __PRIVATE_MutationMetadata(this.currentUser, e2, t2, n3), i2 = createWebStorageMutationBatchKey(this.persistenceKey, this.currentUser, e2);
+    this.setItem(i2, r2.Ws());
+  }
+  lo(e2) {
+    const t2 = createWebStorageMutationBatchKey(this.persistenceKey, this.currentUser, e2);
+    this.removeItem(t2);
+  }
+  To(e2) {
+    const t2 = {
+      clientId: this.zs,
+      onlineState: e2
+    };
+    this.storage.setItem(this.io, JSON.stringify(t2));
+  }
+  Po(e2, t2, n3) {
+    const r2 = createWebStorageQueryTargetMetadataKey(this.persistenceKey, e2), i2 = new __PRIVATE_QueryTargetMetadata(e2, t2, n3);
+    this.setItem(r2, i2.Ws());
+  }
+  Io(e2) {
+    const t2 = JSON.stringify(Array.from(e2));
+    this.setItem(this.so, t2);
+  }
+  /**
+   * Parses a client state key in WebStorage. Returns null if the key does not
+   * match the expected key format.
+   */
+  Eo(e2) {
+    const t2 = this.eo.exec(e2);
+    return t2 ? t2[1] : null;
+  }
+  /**
+   * Parses a client state in WebStorage. Returns 'null' if the value could not
+   * be parsed.
+   */
+  Ao(e2, t2) {
+    const n3 = this.Eo(e2);
+    return __PRIVATE_RemoteClientState.$s(n3, t2);
+  }
+  /**
+   * Parses a mutation batch state in WebStorage. Returns 'null' if the value
+   * could not be parsed.
+   */
+  Vo(e2, t2) {
+    const n3 = this.no.exec(e2), r2 = Number(n3[1]), i2 = void 0 !== n3[2] ? n3[2] : null;
+    return __PRIVATE_MutationMetadata.$s(new User(i2), r2, t2);
+  }
+  /**
+   * Parses a query target state from WebStorage. Returns 'null' if the value
+   * could not be parsed.
+   */
+  fo(e2, t2) {
+    const n3 = this.ro.exec(e2), r2 = Number(n3[1]);
+    return __PRIVATE_QueryTargetMetadata.$s(r2, t2);
+  }
+  /**
+   * Parses an online state from WebStorage. Returns 'null' if the value
+   * could not be parsed.
+   */
+  _o(e2) {
+    return __PRIVATE_SharedOnlineState.$s(e2);
+  }
+  wo(e2) {
+    return JSON.parse(e2);
+  }
+  async mo(e2) {
+    if (e2.user.uid === this.currentUser.uid) return this.syncEngine.bo(e2.batchId, e2.state, e2.error);
+    __PRIVATE_logDebug(qt, `Ignoring mutation for non-active user ${e2.user.uid}`);
+  }
+  po(e2) {
+    return this.syncEngine.Do(e2.targetId, e2.state, e2.error);
+  }
+  Ro(e2, t2) {
+    const n3 = t2 ? this.Hs.insert(e2, t2) : this.Hs.remove(e2), r2 = this.uo(this.Hs), i2 = this.uo(n3), s2 = [], o2 = [];
+    return i2.forEach((e3) => {
+      r2.has(e3) || s2.push(e3);
+    }), r2.forEach((e3) => {
+      i2.has(e3) || o2.push(e3);
+    }), this.syncEngine.Co(s2, o2).then(() => {
+      this.Hs = n3;
+    });
+  }
+  ao(e2) {
+    this.Hs.get(e2.clientId) && this.onlineStateHandler(e2.onlineState);
+  }
+  uo(e2) {
+    let t2 = __PRIVATE_targetIdSet();
+    return e2.forEach((e3, n3) => {
+      t2 = t2.unionWith(n3.activeTargetIds);
+    }), t2;
   }
 }
 class __PRIVATE_MemorySharedClientState {
@@ -31503,6 +35674,25 @@ class __PRIVATE_WebChannelConnection extends __PRIVATE_RestConnection {
  */
 function __PRIVATE_newConnection(e2) {
   return new __PRIVATE_WebChannelConnection(e2);
+}
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function __PRIVATE_getWindow() {
+  return "undefined" != typeof window ? window : null;
 }
 function getDocument$1() {
   return "undefined" != typeof document ? document : null;
@@ -33523,6 +37713,161 @@ function __PRIVATE_syncEngineGetRemoteKeysForTarget(e2, t2) {
     return e3;
   }
 }
+async function __PRIVATE_synchronizeViewAndComputeSnapshot(e2, t2) {
+  const n3 = __PRIVATE_debugCast(e2), r2 = await __PRIVATE_localStoreExecuteQuery(
+    n3.localStore,
+    t2.query,
+    /* usePreviousResults= */
+    true
+  ), i2 = t2.view.Tu(r2);
+  return n3.isPrimaryClient && __PRIVATE_updateTrackedLimbos(n3, t2.targetId, i2.hu), i2;
+}
+async function __PRIVATE_syncEngineSynchronizeWithChangedDocuments(e2, t2) {
+  const n3 = __PRIVATE_debugCast(e2);
+  return __PRIVATE_localStoreGetNewDocumentChanges(n3.localStore, t2).then((e3) => __PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore(n3, e3));
+}
+async function __PRIVATE_syncEngineApplyBatchState(e2, t2, n3, r2) {
+  const i2 = __PRIVATE_debugCast(e2), s2 = await function __PRIVATE_localStoreLookupMutationDocuments(e3, t3) {
+    const n4 = __PRIVATE_debugCast(e3), r3 = __PRIVATE_debugCast(n4.mutationQueue);
+    return n4.persistence.runTransaction("Lookup mutation documents", "readonly", (e4) => r3.Xn(e4, t3).next((t4) => t4 ? n4.localDocuments.getDocuments(e4, t4) : PersistencePromise.resolve(null)));
+  }(i2.localStore, t2);
+  null !== s2 ? ("pending" === n3 ? (
+    // If we are the primary client, we need to send this write to the
+    // backend. Secondary clients will ignore these writes since their remote
+    // connection is disabled.
+    await __PRIVATE_fillWritePipeline(i2.remoteStore)
+  ) : "acknowledged" === n3 || "rejected" === n3 ? (
+    // NOTE: Both these methods are no-ops for batches that originated from
+    // other clients.
+    (__PRIVATE_processUserCallback(i2, t2, r2 || null), __PRIVATE_triggerPendingWritesCallbacks(i2, t2), function __PRIVATE_localStoreRemoveCachedMutationBatchMetadata(e3, t3) {
+      __PRIVATE_debugCast(__PRIVATE_debugCast(e3).mutationQueue).nr(t3);
+    }(i2.localStore, t2))
+  ) : fail$1(6720, "Unknown batchState", {
+    vu: n3
+  }), await __PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore(i2, s2)) : (
+    // A throttled tab may not have seen the mutation before it was completed
+    // and removed from the mutation queue, in which case we won't have cached
+    // the affected documents. In this case we can safely ignore the update
+    // since that means we didn't apply the mutation locally at all (if we
+    // had, we would have cached the affected documents), and so we will just
+    // see any resulting document changes via normal remote document updates
+    // as applicable.
+    __PRIVATE_logDebug(Zt, "Cannot apply mutation batch with id: " + t2)
+  );
+}
+async function __PRIVATE_syncEngineApplyPrimaryState(e2, t2) {
+  const n3 = __PRIVATE_debugCast(e2);
+  if (__PRIVATE_ensureWatchCallbacks(n3), __PRIVATE_syncEngineEnsureWriteCallbacks(n3), true === t2 && true !== n3.Su) {
+    const e3 = n3.sharedClientState.getAllActiveQueryTargets(), t3 = await __PRIVATE_synchronizeQueryViewsAndRaiseSnapshots(n3, e3.toArray());
+    n3.Su = true, await __PRIVATE_remoteStoreApplyPrimaryState(n3.remoteStore, true);
+    for (const e4 of t3) __PRIVATE_remoteStoreListen(n3.remoteStore, e4);
+  } else if (false === t2 && false !== n3.Su) {
+    const e3 = [];
+    let t3 = Promise.resolve();
+    n3.Vu.forEach((r2, i2) => {
+      n3.sharedClientState.isLocalQueryTarget(i2) ? e3.push(i2) : t3 = t3.then(() => (__PRIVATE_removeAndCleanupTarget(n3, i2), __PRIVATE_localStoreReleaseTarget(
+        n3.localStore,
+        i2,
+        /*keepPersistedTargetData=*/
+        true
+      ))), __PRIVATE_remoteStoreUnlisten(n3.remoteStore, i2);
+    }), await t3, await __PRIVATE_synchronizeQueryViewsAndRaiseSnapshots(n3, e3), // PORTING NOTE: Multi-Tab only.
+    function __PRIVATE_resetLimboDocuments(e4) {
+      const t4 = __PRIVATE_debugCast(e4);
+      t4.fu.forEach((e5, n4) => {
+        __PRIVATE_remoteStoreUnlisten(t4.remoteStore, n4);
+      }), t4.gu.zr(), t4.fu = /* @__PURE__ */ new Map(), t4.mu = new SortedMap(DocumentKey.comparator);
+    }(n3), n3.Su = false, await __PRIVATE_remoteStoreApplyPrimaryState(n3.remoteStore, false);
+  }
+}
+async function __PRIVATE_synchronizeQueryViewsAndRaiseSnapshots(e2, t2, n3) {
+  const r2 = __PRIVATE_debugCast(e2), i2 = [], s2 = [];
+  for (const e3 of t2) {
+    let t3;
+    const n4 = r2.Vu.get(e3);
+    if (n4 && 0 !== n4.length) {
+      t3 = await __PRIVATE_localStoreAllocateTarget(r2.localStore, __PRIVATE_queryToTarget(n4[0]));
+      for (const e4 of n4) {
+        const t4 = r2.Au.get(e4), n5 = await __PRIVATE_synchronizeViewAndComputeSnapshot(r2, t4);
+        n5.snapshot && s2.push(n5.snapshot);
+      }
+    } else {
+      const n5 = await __PRIVATE_localStoreGetCachedTarget(r2.localStore, e3);
+      t3 = await __PRIVATE_localStoreAllocateTarget(r2.localStore, n5), await __PRIVATE_initializeViewAndComputeSnapshot(
+        r2,
+        __PRIVATE_synthesizeTargetToQuery(n5),
+        e3,
+        /*current=*/
+        false,
+        t3.resumeToken
+      );
+    }
+    i2.push(t3);
+  }
+  return r2.Ru.H_(s2), i2;
+}
+function __PRIVATE_synthesizeTargetToQuery(e2) {
+  return __PRIVATE_newQuery(e2.path, e2.collectionGroup, e2.orderBy, e2.filters, e2.limit, "F", e2.startAt, e2.endAt);
+}
+function __PRIVATE_syncEngineGetActiveClients(e2) {
+  return function __PRIVATE_localStoreGetActiveClients(e3) {
+    return __PRIVATE_debugCast(__PRIVATE_debugCast(e3).persistence).hs();
+  }(__PRIVATE_debugCast(e2).localStore);
+}
+async function __PRIVATE_syncEngineApplyTargetState(e2, t2, n3, r2) {
+  const i2 = __PRIVATE_debugCast(e2);
+  if (i2.Su)
+    return void __PRIVATE_logDebug(Zt, "Ignoring unexpected query state notification.");
+  const s2 = i2.Vu.get(t2);
+  if (s2 && s2.length > 0) switch (n3) {
+    case "current":
+    case "not-current": {
+      const e3 = await __PRIVATE_localStoreGetNewDocumentChanges(i2.localStore, __PRIVATE_queryCollectionGroup(s2[0])), r3 = RemoteEvent.createSynthesizedRemoteEventForCurrentChange(t2, "current" === n3, ByteString.EMPTY_BYTE_STRING);
+      await __PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore(i2, e3, r3);
+      break;
+    }
+    case "rejected":
+      await __PRIVATE_localStoreReleaseTarget(
+        i2.localStore,
+        t2,
+        /* keepPersistedTargetData */
+        true
+      ), __PRIVATE_removeAndCleanupTarget(i2, t2, r2);
+      break;
+    default:
+      fail$1(64155, n3);
+  }
+}
+async function __PRIVATE_syncEngineApplyActiveTargetsChange(e2, t2, n3) {
+  const r2 = __PRIVATE_ensureWatchCallbacks(e2);
+  if (r2.Su) {
+    for (const e3 of t2) {
+      if (r2.Vu.has(e3) && r2.sharedClientState.isActiveQueryTarget(e3)) {
+        __PRIVATE_logDebug(Zt, "Adding an already active target " + e3);
+        continue;
+      }
+      const t3 = await __PRIVATE_localStoreGetCachedTarget(r2.localStore, e3), n4 = await __PRIVATE_localStoreAllocateTarget(r2.localStore, t3);
+      await __PRIVATE_initializeViewAndComputeSnapshot(
+        r2,
+        __PRIVATE_synthesizeTargetToQuery(t3),
+        n4.targetId,
+        /*current=*/
+        false,
+        n4.resumeToken
+      ), __PRIVATE_remoteStoreListen(r2.remoteStore, n4);
+    }
+    for (const e3 of n3)
+      r2.Vu.has(e3) && // Release queries that are still active.
+      await __PRIVATE_localStoreReleaseTarget(
+        r2.localStore,
+        e3,
+        /* keepPersistedTargetData */
+        false
+      ).then(() => {
+        __PRIVATE_remoteStoreUnlisten(r2.remoteStore, e3), __PRIVATE_removeAndCleanupTarget(r2, e3);
+      }).catch(__PRIVATE_ignoreIfPrimaryLeaseLoss);
+  }
+}
 function __PRIVATE_ensureWatchCallbacks(e2) {
   const t2 = __PRIVATE_debugCast(e2);
   return t2.remoteStore.remoteSyncer.applyRemoteEvent = __PRIVATE_syncEngineApplyRemoteEvent.bind(null, t2), t2.remoteStore.remoteSyncer.getRemoteKeysForTarget = __PRIVATE_syncEngineGetRemoteKeysForTarget.bind(null, t2), t2.remoteStore.remoteSyncer.rejectListen = __PRIVATE_syncEngineRejectListen.bind(null, t2), t2.Ru.H_ = __PRIVATE_eventManagerOnWatchChange.bind(null, t2.eventManager), t2.Ru.Du = __PRIVATE_eventManagerOnWatchError.bind(null, t2.eventManager), t2;
@@ -33572,6 +37917,66 @@ class __PRIVATE_LruGcMemoryOfflineComponentProvider extends __PRIVATE_MemoryOffl
   xu(e2) {
     const t2 = void 0 !== this.cacheSizeBytes ? LruParams.withCacheSize(this.cacheSizeBytes) : LruParams.DEFAULT;
     return new __PRIVATE_MemoryPersistence((e3) => __PRIVATE_MemoryLruDelegate.Vi(e3, t2), this.serializer);
+  }
+}
+class __PRIVATE_IndexedDbOfflineComponentProvider extends __PRIVATE_MemoryOfflineComponentProvider {
+  constructor(e2, t2, n3) {
+    super(), this.Lu = e2, this.cacheSizeBytes = t2, this.forceOwnership = n3, this.kind = "persistent", this.synchronizeTabs = false;
+  }
+  async initialize(e2) {
+    await super.initialize(e2), await this.Lu.initialize(this, e2), // Enqueue writes from a previous session
+    await __PRIVATE_syncEngineEnsureWriteCallbacks(this.Lu.syncEngine), await __PRIVATE_fillWritePipeline(this.Lu.remoteStore), // NOTE: This will immediately call the listener, so we make sure to
+    // set it after localStore / remoteStore are started.
+    await this.persistence.zi(() => (this.gcScheduler && !this.gcScheduler.started && this.gcScheduler.start(), this.indexBackfillerScheduler && !this.indexBackfillerScheduler.started && this.indexBackfillerScheduler.start(), Promise.resolve()));
+  }
+  Ou(e2) {
+    return __PRIVATE_newLocalStore(this.persistence, new __PRIVATE_QueryEngine(), e2.initialUser, this.serializer);
+  }
+  Nu(e2, t2) {
+    const n3 = this.persistence.referenceDelegate.garbageCollector;
+    return new __PRIVATE_LruScheduler(n3, e2.asyncQueue, t2);
+  }
+  Bu(e2, t2) {
+    const n3 = new __PRIVATE_IndexBackfiller(t2, this.persistence);
+    return new __PRIVATE_IndexBackfillerScheduler(e2.asyncQueue, n3);
+  }
+  xu(e2) {
+    const t2 = __PRIVATE_indexedDbStoragePrefix(e2.databaseInfo.databaseId, e2.databaseInfo.persistenceKey), n3 = void 0 !== this.cacheSizeBytes ? LruParams.withCacheSize(this.cacheSizeBytes) : LruParams.DEFAULT;
+    return new __PRIVATE_IndexedDbPersistence(this.synchronizeTabs, t2, e2.clientId, n3, e2.asyncQueue, __PRIVATE_getWindow(), getDocument$1(), this.serializer, this.sharedClientState, !!this.forceOwnership);
+  }
+  Mu(e2) {
+    return new __PRIVATE_MemorySharedClientState();
+  }
+}
+class __PRIVATE_MultiTabOfflineComponentProvider extends __PRIVATE_IndexedDbOfflineComponentProvider {
+  constructor(e2, t2) {
+    super(
+      e2,
+      t2,
+      /* forceOwnership= */
+      false
+    ), this.Lu = e2, this.cacheSizeBytes = t2, this.synchronizeTabs = true;
+  }
+  async initialize(e2) {
+    await super.initialize(e2);
+    const t2 = this.Lu.syncEngine;
+    this.sharedClientState instanceof __PRIVATE_WebStorageSharedClientState && (this.sharedClientState.syncEngine = {
+      bo: __PRIVATE_syncEngineApplyBatchState.bind(null, t2),
+      Do: __PRIVATE_syncEngineApplyTargetState.bind(null, t2),
+      Co: __PRIVATE_syncEngineApplyActiveTargetsChange.bind(null, t2),
+      hs: __PRIVATE_syncEngineGetActiveClients.bind(null, t2),
+      So: __PRIVATE_syncEngineSynchronizeWithChangedDocuments.bind(null, t2)
+    }, await this.sharedClientState.start()), // NOTE: This will immediately call the listener, so we make sure to
+    // set it after localStore / remoteStore are started.
+    await this.persistence.zi(async (e3) => {
+      await __PRIVATE_syncEngineApplyPrimaryState(this.Lu.syncEngine, e3), this.gcScheduler && (e3 && !this.gcScheduler.started ? this.gcScheduler.start() : e3 || this.gcScheduler.stop()), this.indexBackfillerScheduler && (e3 && !this.indexBackfillerScheduler.started ? this.indexBackfillerScheduler.start() : e3 || this.indexBackfillerScheduler.stop());
+    });
+  }
+  Mu(e2) {
+    const t2 = __PRIVATE_getWindow();
+    if (!__PRIVATE_WebStorageSharedClientState.v(t2)) throw new FirestoreError(D.UNIMPLEMENTED, "IndexedDB persistence is only available on platforms that support LocalStorage.");
+    const n3 = __PRIVATE_indexedDbStoragePrefix(e2.databaseInfo.databaseId, e2.databaseInfo.persistenceKey);
+    return new __PRIVATE_WebStorageSharedClientState(t2, e2.asyncQueue, n3, e2.clientId, e2.initialUser);
   }
 }
 class OnlineComponentProvider {
@@ -33978,6 +38383,12 @@ async function __PRIVATE_getEventManager(e2) {
   const t2 = await __PRIVATE_ensureOnlineComponents(e2), n3 = t2.eventManager;
   return n3.onListen = __PRIVATE_syncEngineListen.bind(null, t2.syncEngine), n3.onUnlisten = __PRIVATE_syncEngineUnlisten.bind(null, t2.syncEngine), n3.onFirstRemoteStoreListen = __PRIVATE_triggerRemoteStoreListen.bind(null, t2.syncEngine), n3.onLastRemoteStoreUnlisten = __PRIVATE_triggerRemoteStoreUnlisten.bind(null, t2.syncEngine), n3;
 }
+function __PRIVATE_firestoreClientListen(e2, t2, n3, r2) {
+  const i2 = new __PRIVATE_AsyncObserver(r2), s2 = new __PRIVATE_QueryListener(t2, i2, n3);
+  return e2.asyncQueue.enqueueAndForget(async () => __PRIVATE_eventManagerListen(await __PRIVATE_getEventManager(e2), s2)), () => {
+    i2.Ku(), e2.asyncQueue.enqueueAndForget(async () => __PRIVATE_eventManagerUnlisten(await __PRIVATE_getEventManager(e2), s2));
+  };
+}
 function __PRIVATE_firestoreClientGetDocumentViaSnapshotListener(e2, t2, n3 = {}) {
   const r2 = new __PRIVATE_Deferred();
   return e2.asyncQueue.enqueueAndForget(async () => function __PRIVATE_readDocumentViaSnapshotListener(e3, t3, n4, r3, i2) {
@@ -34217,31 +38628,6 @@ class Firestore$1 {
       const t2 = en.get(e2);
       t2 && (__PRIVATE_logDebug(Yt$1, "Removing Datastore"), en.delete(e2), t2.terminate());
     }(this), Promise.resolve();
-  }
-}
-function connectFirestoreEmulator(e2, t2, n3, r2 = {}) {
-  e2 = __PRIVATE_cast(e2, Firestore$1);
-  const i2 = isCloudWorkstation(t2), s2 = e2._getSettings(), o2 = {
-    ...s2,
-    emulatorOptions: e2._getEmulatorOptions()
-  }, _ = `${t2}:${n3}`;
-  i2 && pingServer(`https://${_}`), s2.host !== tn && s2.host !== _ && __PRIVATE_logWarn("Host has been set in both settings() and connectFirestoreEmulator(), emulator host will be used.");
-  const a2 = {
-    ...s2,
-    host: _,
-    ssl: i2,
-    emulatorOptions: r2
-  };
-  if (!deepEqual$1(a2, o2) && (e2._setSettings(a2), r2.mockUserToken)) {
-    let t3, n4;
-    if ("string" == typeof r2.mockUserToken) t3 = r2.mockUserToken, n4 = User.MOCK_USER;
-    else {
-      t3 = createMockUserToken(r2.mockUserToken, e2._app?.options.projectId);
-      const i3 = r2.mockUserToken.sub || r2.mockUserToken.user_id;
-      if (!i3) throw new FirestoreError(D.INVALID_ARGUMENT, "mockUserToken must contain 'sub' or 'user_id' field!");
-      n4 = new User(i3);
-    }
-    e2._authCredentials = new __PRIVATE_EmulatorAuthCredentialsProvider(new __PRIVATE_OAuthToken(t3, n4));
   }
 }
 /**
@@ -34576,15 +38962,22 @@ class Firestore extends Firestore$1 {
     }
   }
 }
-function getFirestore(e2, n3) {
-  const r2 = "object" == typeof e2 ? e2 : getApp(), i2 = "string" == typeof e2 ? e2 : it, s2 = _getProvider(r2, "firestore").getImmediate({
-    identifier: i2
-  });
-  if (!s2._initialized) {
-    const e3 = getDefaultEmulatorHostnameAndPort("firestore");
-    e3 && connectFirestoreEmulator(s2, ...e3);
+function initializeFirestore(e2, t2, n3) {
+  n3 || (n3 = it);
+  const r2 = _getProvider(e2, "firestore");
+  if (r2.isInitialized(n3)) {
+    const e3 = r2.getImmediate({
+      identifier: n3
+    }), i2 = r2.getOptions(n3);
+    if (deepEqual$1(i2, t2)) return e3;
+    throw new FirestoreError(D.FAILED_PRECONDITION, "initializeFirestore() has already been called with different options. To avoid this error, call initializeFirestore() with the same options as when it was originally called, or call getFirestore() to return the already initialized instance.");
   }
-  return s2;
+  if (void 0 !== t2.cacheSizeBytes && void 0 !== t2.localCache) throw new FirestoreError(D.INVALID_ARGUMENT, "cache and cacheSizeBytes cannot be specified at the same time as cacheSizeBytes willbe deprecated. Instead, specify the cache size in the cache object");
+  if (void 0 !== t2.cacheSizeBytes && -1 !== t2.cacheSizeBytes && t2.cacheSizeBytes < Ct) throw new FirestoreError(D.INVALID_ARGUMENT, "cacheSizeBytes must be at least 1048576");
+  return t2.host && isCloudWorkstation(t2.host) && pingServer(t2.host), r2.initialize({
+    options: t2,
+    instanceIdentifier: n3
+  });
 }
 function ensureFirestoreConfigured(e2) {
   if (e2._terminated) throw new FirestoreError(D.FAILED_PRECONDITION, "The client has already been terminated.");
@@ -34740,6 +39133,9 @@ class FieldPath {
   isEqual(e2) {
     return this._internalPath.isEqual(e2._internalPath);
   }
+}
+function documentId() {
+  return new FieldPath(F);
 }
 /**
  * @license
@@ -35451,6 +39847,30 @@ function serverTimestamp() {
 const Ut = "@firebase/firestore", Ht = "4.14.1";
 /**
  * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function __PRIVATE_isPartialObserver(t2) {
+  return function __PRIVATE_implementsAnyMethods(t3, e2) {
+    if ("object" != typeof t3 || null === t3) return false;
+    const n3 = t3;
+    for (const t4 of e2) if (t4 in n3 && "function" == typeof n3[t4]) return true;
+    return false;
+  }(t2, ["next", "error", "complete"]);
+}
+/**
+ * @license
  * Copyright 2022 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35754,6 +40174,91 @@ function orderBy(t2, e2 = "asc") {
   const n3 = e2, r2 = __PRIVATE_fieldPathFromArgument("orderBy", t2);
   return QueryOrderByConstraint._create(r2, n3);
 }
+class QueryLimitConstraint extends QueryConstraint {
+  /**
+   * @internal
+   */
+  constructor(t2, e2, n3) {
+    super(), this.type = t2, this._limit = e2, this._limitType = n3;
+  }
+  static _create(t2, e2, n3) {
+    return new QueryLimitConstraint(t2, e2, n3);
+  }
+  _apply(t2) {
+    return new Query$1(t2.firestore, t2.converter, __PRIVATE_queryWithLimit(t2._query, this._limit, this._limitType));
+  }
+}
+function limit(t2) {
+  return __PRIVATE_validatePositiveNumber("limit", t2), QueryLimitConstraint._create(
+    "limit",
+    t2,
+    "F"
+    /* LimitType.First */
+  );
+}
+class QueryStartAtConstraint extends QueryConstraint {
+  /**
+   * @internal
+   */
+  constructor(t2, e2, n3) {
+    super(), this.type = t2, this._docOrFields = e2, this._inclusive = n3;
+  }
+  static _create(t2, e2, n3) {
+    return new QueryStartAtConstraint(t2, e2, n3);
+  }
+  _apply(t2) {
+    const e2 = __PRIVATE_newQueryBoundFromDocOrFields(t2, this.type, this._docOrFields, this._inclusive);
+    return new Query$1(t2.firestore, t2.converter, __PRIVATE_queryWithStartAt(t2._query, e2));
+  }
+}
+function startAfter(...t2) {
+  return QueryStartAtConstraint._create(
+    "startAfter",
+    t2,
+    /*inclusive=*/
+    false
+  );
+}
+function __PRIVATE_newQueryBoundFromDocOrFields(t2, e2, n3, r2) {
+  if (n3[0] = getModularInstance(n3[0]), n3[0] instanceof DocumentSnapshot$1) return function __PRIVATE_newQueryBoundFromDocument(t3, e3, n4, r3, s2) {
+    if (!r3) throw new FirestoreError(D.NOT_FOUND, `Can't use a DocumentSnapshot that doesn't exist for ${n4}().`);
+    const a2 = [];
+    for (const n5 of __PRIVATE_queryNormalizedOrderBy(t3)) if (n5.field.isKeyField()) a2.push(__PRIVATE_refValue(e3, r3.key));
+    else {
+      const t4 = r3.data.field(n5.field);
+      if (__PRIVATE_isServerTimestamp(t4)) throw new FirestoreError(D.INVALID_ARGUMENT, 'Invalid query. You are trying to start or end a query using a document for which the field "' + n5.field + '" is an uncommitted server timestamp. (Since the value of this field is unknown, you cannot start/end a query with it.)');
+      if (null === t4) {
+        const t5 = n5.field.canonicalString();
+        throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. You are trying to start or end a query using a document for which the field '${t5}' (used as the orderBy) does not exist.`);
+      }
+      a2.push(t4);
+    }
+    return new Bound(a2, s2);
+  }(t2._query, t2.firestore._databaseId, e2, n3[0]._document, r2);
+  {
+    const s2 = __PRIVATE_newUserDataReader(t2.firestore);
+    return function __PRIVATE_newQueryBoundFromFields(t3, e3, n4, r3, s3, a2) {
+      const o2 = t3.explicitOrderBy;
+      if (s3.length > o2.length) throw new FirestoreError(D.INVALID_ARGUMENT, `Too many arguments provided to ${r3}(). The number of arguments must be less than or equal to the number of orderBy() clauses`);
+      const i2 = [];
+      for (let a3 = 0; a3 < s3.length; a3++) {
+        const c2 = s3[a3];
+        if (o2[a3].field.isKeyField()) {
+          if ("string" != typeof c2) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. Expected a string for document ID in ${r3}(), but got a ${typeof c2}`);
+          if (!__PRIVATE_isCollectionGroupQuery(t3) && -1 !== c2.indexOf("/")) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. When querying a collection and ordering by documentId(), the value passed to ${r3}() must be a plain document ID, but '${c2}' contains a slash.`);
+          const n5 = t3.path.child(ResourcePath.fromString(c2));
+          if (!DocumentKey.isDocumentKey(n5)) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. When querying a collection group and ordering by documentId(), the value passed to ${r3}() must result in a valid document path, but '${n5}' is not because it contains an odd number of segments.`);
+          const s4 = new DocumentKey(n5);
+          i2.push(__PRIVATE_refValue(e3, s4));
+        } else {
+          const t4 = __PRIVATE_parseQueryValue(n4, r3, c2);
+          i2.push(t4);
+        }
+      }
+      return new Bound(i2, a2);
+    }(t2._query, t2.firestore._databaseId, s2, e2, n3, r2);
+  }
+}
 function __PRIVATE_parseDocumentIdValue(t2, e2, n3) {
   if ("string" == typeof (n3 = getModularInstance(n3))) {
     if ("" === n3) throw new FirestoreError(D.INVALID_ARGUMENT, "Invalid query. When querying with documentId(), you must provide a valid document ID, but it was an empty string.");
@@ -35861,6 +40366,62 @@ function getAggregateFromServer(t2, e2) {
       return s3;
     }(n3, t2, e3)
   ));
+}
+class __PRIVATE_PersistentLocalCacheImpl {
+  constructor(t2) {
+    let e2;
+    this.kind = "persistent", t2?.tabManager ? (t2.tabManager._initialize(t2), e2 = t2.tabManager) : (e2 = persistentSingleTabManager(void 0), e2._initialize(t2)), this._onlineComponentProvider = e2._onlineComponentProvider, this._offlineComponentProvider = e2._offlineComponentProvider;
+  }
+  toJSON() {
+    return {
+      kind: this.kind
+    };
+  }
+}
+function persistentLocalCache(t2) {
+  return new __PRIVATE_PersistentLocalCacheImpl(t2);
+}
+class __PRIVATE_SingleTabManagerImpl {
+  constructor(t2) {
+    this.forceOwnership = t2, this.kind = "persistentSingleTab";
+  }
+  toJSON() {
+    return {
+      kind: this.kind
+    };
+  }
+  /**
+   * @internal
+   */
+  _initialize(t2) {
+    this._onlineComponentProvider = OnlineComponentProvider.provider, this._offlineComponentProvider = {
+      build: (e2) => new __PRIVATE_IndexedDbOfflineComponentProvider(e2, t2?.cacheSizeBytes, this.forceOwnership)
+    };
+  }
+}
+class __PRIVATE_MultiTabManagerImpl {
+  constructor() {
+    this.kind = "PersistentMultipleTab";
+  }
+  toJSON() {
+    return {
+      kind: this.kind
+    };
+  }
+  /**
+   * @internal
+   */
+  _initialize(t2) {
+    this._onlineComponentProvider = OnlineComponentProvider.provider, this._offlineComponentProvider = {
+      build: (e2) => new __PRIVATE_MultiTabOfflineComponentProvider(e2, t2?.cacheSizeBytes)
+    };
+  }
+}
+function persistentSingleTabManager(t2) {
+  return new __PRIVATE_SingleTabManagerImpl(t2?.forceOwnership);
+}
+function persistentMultipleTabManager() {
+  return new __PRIVATE_MultiTabManagerImpl();
 }
 class SnapshotMetadata {
   /** @hideconstructor */
@@ -36331,6 +40892,44 @@ function addDoc(t2, e2) {
   const n3 = __PRIVATE_cast(t2.firestore, Firestore), r2 = doc(t2), s2 = __PRIVATE_applyFirestoreDataConverter(t2.converter, e2), o2 = __PRIVATE_newUserDataReader(t2.firestore);
   return executeWrite(n3, [__PRIVATE_parseSetData(o2, "addDoc", r2._key, s2, null !== t2.converter, {}).toMutation(r2._key, Precondition.exists(false))]).then(() => r2);
 }
+function onSnapshot(t2, ...e2) {
+  t2 = getModularInstance(t2);
+  let n3 = {
+    includeMetadataChanges: false,
+    source: "default"
+  }, r2 = 0;
+  "object" != typeof e2[r2] || __PRIVATE_isPartialObserver(e2[r2]) || (n3 = e2[r2++]);
+  const s2 = {
+    includeMetadataChanges: n3.includeMetadataChanges,
+    source: n3.source
+  };
+  if (__PRIVATE_isPartialObserver(e2[r2])) {
+    const t3 = e2[r2];
+    e2[r2] = t3.next?.bind(t3), e2[r2 + 1] = t3.error?.bind(t3), e2[r2 + 2] = t3.complete?.bind(t3);
+  }
+  let o2, i2, c2;
+  if (t2 instanceof DocumentReference) i2 = __PRIVATE_cast(t2.firestore, Firestore), c2 = __PRIVATE_newQueryForPath(t2._key.path), o2 = {
+    next: (n4) => {
+      e2[r2] && e2[r2](__PRIVATE_convertToDocSnapshot(i2, t2, n4));
+    },
+    error: e2[r2 + 1],
+    complete: e2[r2 + 2]
+  };
+  else {
+    const n4 = __PRIVATE_cast(t2, Query$1);
+    i2 = __PRIVATE_cast(n4.firestore, Firestore), c2 = n4._query;
+    const s3 = new __PRIVATE_ExpUserDataWriter(i2);
+    o2 = {
+      next: (t3) => {
+        e2[r2] && e2[r2](new QuerySnapshot(i2, s3, n4, t3));
+      },
+      error: e2[r2 + 1],
+      complete: e2[r2 + 2]
+    }, __PRIVATE_validateHasExplicitOrderByForLimitToLast(t2._query);
+  }
+  const h = ensureFirestoreConfigured(i2);
+  return __PRIVATE_firestoreClientListen(h, c2, s2, o2);
+}
 function executeWrite(t2, e2) {
   const n3 = ensureFirestoreConfigured(t2);
   return __PRIVATE_firestoreClientWrite(n3, e2);
@@ -36384,13 +40983,71 @@ if (!firebaseConfig.apiKey || !firebaseConfig.authDomain || !firebaseConfig.proj
 }
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp);
+const db = initializeFirestore(firebaseApp, {
+  localCache: persistentLocalCache({
+    tabManager: persistentMultipleTabManager()
+  })
+});
+const createStoreImpl = (createState) => {
+  let state2;
+  const listeners3 = /* @__PURE__ */ new Set();
+  const setState = (partial, replace) => {
+    const nextState = typeof partial === "function" ? partial(state2) : partial;
+    if (!Object.is(nextState, state2)) {
+      const previousState = state2;
+      state2 = (replace != null ? replace : typeof nextState !== "object" || nextState === null) ? nextState : Object.assign({}, state2, nextState);
+      listeners3.forEach((listener) => listener(state2, previousState));
+    }
+  };
+  const getState = () => state2;
+  const getInitialState = () => initialState;
+  const subscribe = (listener) => {
+    listeners3.add(listener);
+    return () => listeners3.delete(listener);
+  };
+  const api = { setState, getState, getInitialState, subscribe };
+  const initialState = state2 = createState(setState, getState, api);
+  return api;
+};
+const createStore = (createState) => createState ? createStoreImpl(createState) : createStoreImpl;
+const identity = (arg) => arg;
+function useStore(api, selector = identity) {
+  const slice4 = React.useSyncExternalStore(
+    api.subscribe,
+    React.useCallback(() => selector(api.getState()), [api, selector]),
+    React.useCallback(() => selector(api.getInitialState()), [api, selector])
+  );
+  React.useDebugValue(slice4);
+  return slice4;
+}
+const createImpl = (createState) => {
+  const api = createStore(createState);
+  const useBoundStore = (selector) => useStore(api, selector);
+  Object.assign(useBoundStore, api);
+  return useBoundStore;
+};
+const create = (createState) => createState ? createImpl(createState) : createImpl;
+const useSyncStore = create((set5) => ({
+  isOnline: typeof navigator === "undefined" ? true : navigator.onLine,
+  lastOnlineAt: typeof navigator === "undefined" || navigator.onLine ? (/* @__PURE__ */ new Date()).toISOString() : null,
+  lastOfflineAt: typeof navigator !== "undefined" && !navigator.onLine ? (/* @__PURE__ */ new Date()).toISOString() : null,
+  isFromCache: false,
+  hasPendingWrites: false,
+  setOnlineStatus: (isOnline) => set5((current) => ({
+    isOnline,
+    lastOnlineAt: isOnline ? (/* @__PURE__ */ new Date()).toISOString() : current.lastOnlineAt,
+    lastOfflineAt: isOnline ? current.lastOfflineAt : (/* @__PURE__ */ new Date()).toISOString()
+  })),
+  setFirestoreMetadata: (metadata) => set5((current) => ({
+    isFromCache: metadata.fromCache ?? current.isFromCache,
+    hasPendingWrites: metadata.hasPendingWrites ?? current.hasPendingWrites
+  }))
+}));
 const collections = {
   branches: "branches",
   users: "users",
   students: "students",
   fees: "fees",
-  payments: "payments",
   expenses: "expenses",
   courseExtensions: "courseExtensions",
   sessions: "sessions",
@@ -36399,6 +41056,8 @@ const collections = {
   counters: "counters"
 };
 const createdAt = () => serverTimestamp();
+const collectionSubscriptionCache = /* @__PURE__ */ new Map();
+const liveQueryKeepAliveMs = 5 * 60 * 1e3;
 function normalizeDoc(id2, data2) {
   return {
     id: id2,
@@ -36412,11 +41071,70 @@ function normalizeDoc(id2, data2) {
 }
 async function getDocument(collectionName, id2) {
   const snapshot = await getDoc(doc(db, collectionName, id2));
+  useSyncStore.getState().setFirestoreMetadata({
+    fromCache: snapshot.metadata.fromCache,
+    hasPendingWrites: snapshot.metadata.hasPendingWrites
+  });
   return snapshot.exists() ? normalizeDoc(snapshot.id, snapshot.data()) : null;
 }
 async function getCollection(collectionName, constraints = []) {
   const snapshot = await getDocs(query(collection(db, collectionName), ...constraints));
+  useSyncStore.getState().setFirestoreMetadata({
+    fromCache: snapshot.metadata.fromCache,
+    hasPendingWrites: snapshot.docs.some((item) => item.metadata.hasPendingWrites)
+  });
   return snapshot.docs.map((item) => normalizeDoc(item.id, item.data()));
+}
+function subscribeCollection(collectionName, constraints = [], onNext, onError, cacheKey = collectionName) {
+  const subscriber = { onNext, onError };
+  const existing = collectionSubscriptionCache.get(cacheKey);
+  if (existing) {
+    if (existing.closeTimer) {
+      window.clearTimeout(existing.closeTimer);
+      existing.closeTimer = null;
+    }
+    existing.subscribers.add(subscriber);
+    if (existing.lastSnapshot) onNext(existing.lastSnapshot);
+    return () => releaseCachedCollectionSubscription(cacheKey, subscriber);
+  }
+  const cachedSubscription = {
+    subscribers: /* @__PURE__ */ new Set([subscriber]),
+    unsubscribe: () => void 0,
+    closeTimer: null,
+    lastSnapshot: null
+  };
+  cachedSubscription.unsubscribe = onSnapshot(
+    query(collection(db, collectionName), ...constraints),
+    { includeMetadataChanges: true },
+    (snapshot) => {
+      const metadata = {
+        fromCache: snapshot.metadata.fromCache,
+        hasPendingWrites: snapshot.docs.some((item) => item.metadata.hasPendingWrites)
+      };
+      const nextSnapshot = {
+        rows: snapshot.docs.map((item) => normalizeDoc(item.id, item.data())),
+        metadata
+      };
+      cachedSubscription.lastSnapshot = nextSnapshot;
+      useSyncStore.getState().setFirestoreMetadata(metadata);
+      cachedSubscription.subscribers.forEach((item) => item.onNext(nextSnapshot));
+    },
+    (error) => {
+      cachedSubscription.subscribers.forEach((item) => item.onError?.(error));
+    }
+  );
+  collectionSubscriptionCache.set(cacheKey, cachedSubscription);
+  return () => releaseCachedCollectionSubscription(cacheKey, subscriber);
+}
+function releaseCachedCollectionSubscription(cacheKey, subscriber) {
+  const cachedSubscription = collectionSubscriptionCache.get(cacheKey);
+  if (!cachedSubscription) return;
+  cachedSubscription.subscribers.delete(subscriber);
+  if (cachedSubscription.subscribers.size > 0 || cachedSubscription.closeTimer) return;
+  cachedSubscription.closeTimer = window.setTimeout(() => {
+    cachedSubscription.unsubscribe();
+    collectionSubscriptionCache.delete(cacheKey);
+  }, liveQueryKeepAliveMs);
 }
 const authService = {
   async signIn(email, password) {
@@ -36447,282 +41165,6 @@ const authService = {
     const profile = await getDocument(collections.users, user.uid);
     return { user, profile };
   }
-};
-function addDays(date, days) {
-  const nextDate = /* @__PURE__ */ new Date(`${date}T00:00:00`);
-  nextDate.setDate(nextDate.getDate() + days);
-  return nextDate.toISOString().slice(0, 10);
-}
-function getDaysRemaining(expiryDate) {
-  const expiry = /* @__PURE__ */ new Date(`${expiryDate}T00:00:00`);
-  const today2 = /* @__PURE__ */ new Date();
-  today2.setHours(0, 0, 0, 0);
-  return Math.ceil((expiry.getTime() - today2.getTime()) / 864e5);
-}
-function calculateStudentExpiryDate(enrollmentDate, durationDays = 30) {
-  return addDays(enrollmentDate, durationDays);
-}
-function isWithinNextDays(targetDate, days) {
-  const remaining = getDaysRemaining(targetDate);
-  return remaining >= 0 && remaining <= days;
-}
-function isPastDate(date) {
-  return getDaysRemaining(date) < 0;
-}
-function getMonthStartAndEnd(month, year) {
-  const paddedMonth = String(month).padStart(2, "0");
-  const end2 = new Date(year, month, 0);
-  return {
-    startDate: `${year}-${paddedMonth}-01`,
-    endDate: `${year}-${paddedMonth}-${String(end2.getDate()).padStart(2, "0")}`
-  };
-}
-function isDateInMonthYear(date, month, year) {
-  if (!date) return false;
-  const { startDate, endDate } = getMonthStartAndEnd(month, year);
-  return date >= startDate && date <= endDate;
-}
-const courseParts$3 = {
-  "2W": ["2W"],
-  "4W": ["4W"],
-  both: ["2W", "4W"]
-};
-function emptySessionSlots() {
-  return Array.from({ length: 30 }, (_, index2) => ({
-    slotNo: index2 + 1,
-    date: null,
-    classType: ""
-  }));
-}
-function emptyTestAttempts() {
-  return Array.from({ length: 3 }, (_, index2) => ({
-    attemptNo: index2 + 1,
-    date: null,
-    result: "pending",
-    notes: ""
-  }));
-}
-function normalizeSearch(value2) {
-  return value2.trim().toLowerCase();
-}
-async function getStudentFee(studentId) {
-  const fees = await getCollection(collections.fees, [where("studentId", "==", studentId)]);
-  const fee = fees[0];
-  if (!fee) return null;
-  const installments = Array.isArray(fee.installments) ? fee.installments : [];
-  const paidAmount = installments.length ? installments.reduce((total, installment) => total + Number(installment.amount), 0) : Number(fee.paidAmount ?? 0);
-  return {
-    ...fee,
-    branchId: fee.branchId ?? "",
-    installments,
-    paidAmount,
-    balance: Number(fee.totalAmount) - paidAmount
-  };
-}
-async function attachFeeAndBranch(student, branches) {
-  const fee = await getStudentFee(student.id);
-  const totalAmount = Number(fee?.totalAmount ?? 0);
-  const paidAmount = Number(fee?.paidAmount ?? 0);
-  const balance = Number(fee?.balance ?? Math.max(totalAmount - paidAmount, 0));
-  const durationDays = student.baseDurationDays ?? student.durationDays ?? 30;
-  const expiryDate = calculateStudentExpiryDate(student.enrollmentDate, durationDays);
-  return {
-    ...student,
-    durationDays,
-    baseSessionCount: student.baseSessionCount ?? 30,
-    baseDurationDays: durationDays,
-    branchName: branches.find((branch) => branch.id === student.branchId)?.name,
-    totalAmount,
-    paidAmount,
-    balance,
-    expiryDate,
-    daysRemaining: getDaysRemaining(expiryDate),
-    fee
-  };
-}
-async function existingCourseDocs(collectionName, studentId) {
-  return getCollection(collectionName, [where("studentId", "==", studentId)]);
-}
-const studentService = {
-  async getStudents(filters = {}) {
-    const { profile } = await authService.getCurrentUser();
-    const effectiveBranchId2 = profile?.role === "staff" ? profile.branchId : filters.branchId;
-    const constraints = [
-      ...effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : [],
-      ...filters.courseType && filters.courseType !== "all" ? [where("courseType", "==", filters.courseType)] : [],
-      ...filters.status && filters.status !== "all" ? [where("status", "==", filters.status)] : [],
-      orderBy("enrollmentDate", "desc")
-    ];
-    const [studentsRaw, branches] = await Promise.all([
-      getCollection(collections.students, constraints),
-      effectiveBranchId2 ? getDocument(collections.branches, effectiveBranchId2).then((branch) => branch ? [branch] : []) : getCollection(collections.branches)
-    ]);
-    const search = normalizeSearch(filters.search ?? "");
-    const students = search ? studentsRaw.filter(
-      (student) => [student.fullName, student.phone, student.learningLicenceNo ?? "", student.drivingLicenceNo ?? ""].some((value2) => value2.toLowerCase().includes(search))
-    ) : studentsRaw;
-    return Promise.all(students.map((student) => attachFeeAndBranch(student, branches)));
-  },
-  async getStudentById(studentId) {
-    const student = await getDocument(collections.students, studentId);
-    const branches = student ? await getDocument(collections.branches, student.branchId).then((branch) => branch ? [branch] : []) : [];
-    return student ? attachFeeAndBranch(student, branches) : null;
-  },
-  async getStudentsByBranch(branchId) {
-    return getCollection(collections.students, [where("branchId", "==", branchId)]);
-  },
-  async createStudent(payload) {
-    if (payload.totalAmount <= 0) throw new Error("Total fee must be greater than 0.");
-    const studentRef = await addDoc(collection(db, collections.students), {
-      branchId: payload.branchId,
-      fullName: payload.fullName.trim(),
-      phone: payload.phone.trim(),
-      courseType: payload.courseType,
-      enrollmentDate: payload.enrollmentDate,
-      learningLicenceNo: payload.learningLicenceNo?.trim() ?? "",
-      drivingLicenceNo: payload.drivingLicenceNo?.trim() ?? "",
-      dlIssueDate: payload.dlIssueDate || null,
-      dlExpiryDate: payload.dlExpiryDate || null,
-      status: payload.status,
-      durationDays: 30,
-      baseSessionCount: 30,
-      baseDurationDays: 30,
-      completedAt: null,
-      createdAt: createdAt()
-    });
-    await studentService.createInitialStudentRelatedDocs(
-      studentRef.id,
-      payload.branchId,
-      payload.courseType,
-      payload.totalAmount
-    );
-    const student = await studentService.getStudentById(studentRef.id);
-    if (!student) throw new Error("Student was created but could not be loaded.");
-    return student;
-  },
-  async updateStudent(studentId, payload) {
-    const existingStudent = await getDocument(collections.students, studentId);
-    if (!existingStudent) throw new Error("Student not found.");
-    const nextBranchId = payload.branchId ?? existingStudent.branchId;
-    const nextCourseType = payload.courseType ?? existingStudent.courseType;
-    const updatePayload = {};
-    if (payload.fullName !== void 0) updatePayload.fullName = payload.fullName.trim();
-    if (payload.phone !== void 0) updatePayload.phone = payload.phone.trim();
-    if (payload.enrollmentDate !== void 0) updatePayload.enrollmentDate = payload.enrollmentDate;
-    if (payload.courseType !== void 0) updatePayload.courseType = payload.courseType;
-    if (payload.learningLicenceNo !== void 0) updatePayload.learningLicenceNo = payload.learningLicenceNo.trim();
-    if (payload.drivingLicenceNo !== void 0) updatePayload.drivingLicenceNo = payload.drivingLicenceNo.trim();
-    if (payload.dlIssueDate !== void 0) updatePayload.dlIssueDate = payload.dlIssueDate || null;
-    if (payload.dlExpiryDate !== void 0) updatePayload.dlExpiryDate = payload.dlExpiryDate || null;
-    if (payload.status !== void 0) updatePayload.status = payload.status;
-    if (payload.branchId !== void 0) updatePayload.branchId = payload.branchId;
-    await updateDoc(doc(db, collections.students, studentId), updatePayload);
-    if (payload.totalAmount !== void 0 || payload.branchId !== void 0) {
-      const fee = await getStudentFee(studentId);
-      if (!fee) throw new Error("Fee record was not found for this student.");
-      const totalAmount = payload.totalAmount ?? Number(fee.totalAmount);
-      if (totalAmount <= 0) throw new Error("Total fee must be greater than 0.");
-      const paidAmount = Number(fee.paidAmount ?? 0);
-      await updateDoc(doc(db, collections.fees, fee.id), {
-        branchId: nextBranchId,
-        totalAmount,
-        paidAmount,
-        balance: totalAmount - paidAmount
-      });
-    }
-    if (payload.branchId !== void 0) {
-      await studentService.updateRelatedDocBranch(studentId, payload.branchId);
-    }
-    await studentService.ensureCourseRelatedDocs(studentId, nextBranchId, nextCourseType);
-  },
-  async deleteStudent(studentId) {
-    await updateDoc(doc(db, collections.students, studentId), { status: "dropped" });
-  },
-  getStudentFee,
-  async createInitialStudentRelatedDocs(studentId, branchId, courseType, totalAmount) {
-    const batch = writeBatch(db);
-    batch.set(doc(collection(db, collections.fees)), {
-      studentId,
-      branchId,
-      totalAmount,
-      installments: [],
-      paidAmount: 0,
-      balance: totalAmount,
-      createdAt: serverTimestamp()
-    });
-    courseParts$3[courseType].forEach((course) => {
-      batch.set(doc(collection(db, collections.sessions)), {
-        studentId,
-        courseType: course,
-        branchId,
-        slots: emptySessionSlots(),
-        createdAt: serverTimestamp()
-      });
-      batch.set(doc(collection(db, collections.drivingTests)), {
-        studentId,
-        courseType: course,
-        branchId,
-        attempts: emptyTestAttempts(),
-        createdAt: serverTimestamp()
-      });
-    });
-    await batch.commit();
-  },
-  async ensureCourseRelatedDocs(studentId, branchId, courseType) {
-    const [sessions, tests] = await Promise.all([
-      existingCourseDocs(collections.sessions, studentId),
-      existingCourseDocs(collections.drivingTests, studentId)
-    ]);
-    const existingSessionCourses = new Set(sessions.map((session) => session.courseType));
-    const existingTestCourses = new Set(tests.map((test) => test.courseType));
-    const batch = writeBatch(db);
-    let hasWrites = false;
-    courseParts$3[courseType].forEach((course) => {
-      if (!existingSessionCourses.has(course)) {
-        batch.set(doc(collection(db, collections.sessions)), {
-          studentId,
-          courseType: course,
-          branchId,
-          slots: emptySessionSlots(),
-          createdAt: serverTimestamp()
-        });
-        hasWrites = true;
-      }
-      if (!existingTestCourses.has(course)) {
-        batch.set(doc(collection(db, collections.drivingTests)), {
-          studentId,
-          courseType: course,
-          branchId,
-          attempts: emptyTestAttempts(),
-          createdAt: serverTimestamp()
-        });
-        hasWrites = true;
-      }
-    });
-    if (hasWrites) {
-      await batch.commit();
-    }
-  },
-  async updateRelatedDocBranch(studentId, branchId) {
-    const batch = writeBatch(db);
-    const [sessions, tests] = await Promise.all([
-      getDocs(query(collection(db, collections.sessions), where("studentId", "==", studentId))),
-      getDocs(query(collection(db, collections.drivingTests), where("studentId", "==", studentId)))
-    ]);
-    sessions.docs.forEach((snapshot) => batch.update(snapshot.ref, { branchId }));
-    tests.docs.forEach((snapshot) => batch.update(snapshot.ref, { branchId }));
-    if (!sessions.empty || !tests.empty) {
-      await batch.commit();
-    }
-  },
-  async updateStudentStatus(studentId, status) {
-    await updateDoc(doc(db, collections.students, studentId), { status });
-  }
-};
-const courseParts$2 = {
-  "2W": ["2W"],
-  "4W": ["4W"],
-  both: ["2W", "4W"]
 };
 function emptyAttempts() {
   return Array.from({ length: 3 }, (_, index2) => ({
@@ -36822,7 +41264,7 @@ const drivingTestService = {
     const snapshot = await getDocs(query(collection(db, collections.drivingTests), where("studentId", "==", student.id)));
     const existingCourses = new Set(snapshot.docs.map((item) => item.data().courseType));
     await Promise.all(
-      courseParts$2[student.courseType].map(
+      DRIVING_TEST_COURSE_PARTS[student.courseType].map(
         (courseType) => existingCourses.has(courseType) ? Promise.resolve() : drivingTestService.createEmptyDrivingTest(student.id, student.branchId, courseType)
       )
     );
@@ -36838,20 +41280,16 @@ const drivingTestService = {
     const student = await getDocument(collections.students, studentId);
     if (!student || student.status === "passed") return null;
     const tests = await Promise.all(
-      courseParts$2[student.courseType].map(
+      DRIVING_TEST_COURSE_PARTS[student.courseType].map(
         (courseType) => drivingTestService.getDrivingTestByStudentAndCourse(studentId, courseType)
       )
     );
     const allRequiredCoursesPassed = tests.every(hasPassed);
     if (!allRequiredCoursesPassed) return null;
     if (student.courseType === "both") {
-      return "This student has passed both 2W and 4W tests. Mark student as Passed?";
+      return "This student has passed both 2W and 4W tests. Add the driving licence number in the student profile to mark the course as Passed.";
     }
-    return `This student has passed ${student.courseType} test. Mark student as Passed?`;
-  },
-  async markStudentPassed(studentId) {
-    await assertCanAccessStudent$2(studentId);
-    await studentService.updateStudentStatus(studentId, "passed");
+    return `This student has passed the ${COURSE_LABELS[student.courseType]} test. Add the driving licence number in the student profile to mark the course as Passed.`;
   }
 };
 const today$7 = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
@@ -37046,8 +41484,7 @@ function resultVariant(result) {
 function DrivingTestCard({
   studentId,
   branchId,
-  courseType,
-  onStudentPassed
+  courseType
 }) {
   const [drivingTest, setDrivingTest] = reactExports.useState(null);
   const [editAttempt, setEditAttempt] = reactExports.useState(null);
@@ -37055,7 +41492,6 @@ function DrivingTestCard({
   const [message, setMessage] = reactExports.useState("");
   const [errorMessage, setErrorMessage] = reactExports.useState("");
   const [isLoading, setIsLoading] = reactExports.useState(true);
-  const [isMarkingPassed, setIsMarkingPassed] = reactExports.useState(false);
   reactExports.useEffect(() => {
     let isMounted = true;
     const loadDrivingTest = async () => {
@@ -37091,20 +41527,6 @@ function DrivingTestCard({
       setPassSuggestion(null);
     }
   };
-  const markStudentPassed = async () => {
-    setIsMarkingPassed(true);
-    setErrorMessage("");
-    try {
-      await drivingTestService.markStudentPassed(studentId);
-      setMessage("Student marked as passed.");
-      setPassSuggestion(null);
-      onStudentPassed?.();
-    } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Unable to mark student as passed.");
-    } finally {
-      setIsMarkingPassed(false);
-    }
-  };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(Card, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(CardHeader, { className: "flex flex-col gap-3 space-y-0 sm:flex-row sm:items-center sm:justify-between", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs(CardTitle, { className: "text-sm", children: [
@@ -37115,6 +41537,7 @@ function DrivingTestCard({
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(CardContent, { className: "space-y-4", children: [
       message ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "success", children: message }) : null,
+      passSuggestion ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { children: passSuggestion }) : null,
       errorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: errorMessage }) : null,
       isLoading ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted-foreground", children: "Loading driving test details..." }) : drivingTest ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-x-auto rounded-md border", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Table, { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableHeader, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(TableRow, { children: [
@@ -37145,18 +41568,7 @@ function DrivingTestCard({
         onClose: () => setEditAttempt(null),
         onSaved: (nextTest, nextMessage) => void handleSaved(nextTest, nextMessage)
       }
-    ) : null,
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ConfirmDialog,
-      {
-        open: passSuggestion !== null,
-        title: "Mark Student Passed",
-        description: passSuggestion ?? "",
-        confirmLabel: isMarkingPassed ? "Updating..." : "Mark Passed",
-        onCancel: () => setPassSuggestion(null),
-        onConfirm: () => void markStudentPassed()
-      }
-    )
+    ) : null
   ] });
 }
 function formatReceiptNumber(nextNo) {
@@ -37183,6 +41595,11 @@ function normalizedInstallments(fee) {
 function assertValidAmount(amount) {
   if (!Number.isFinite(amount) || amount <= 0) {
     throw new Error("Amount must be greater than 0.");
+  }
+}
+function assertOnlineForReceipt() {
+  if (!useSyncStore.getState().isOnline) {
+    throw new Error("Internet is required to record payments and generate receipt numbers.");
   }
 }
 async function assertCanManageStudent$1(studentId) {
@@ -37233,6 +41650,7 @@ const feeService = {
     return fees[0] ? recalculateFee$1(fees[0]) : null;
   },
   async addInstallment(studentId, payload) {
+    assertOnlineForReceipt();
     assertValidAmount(payload.amount);
     if (!payload.date) throw new Error("Payment date is required.");
     await assertCanManageStudent$1(studentId);
@@ -37271,6 +41689,7 @@ const feeService = {
     });
   },
   async updateInstallment(studentId, receiptNo, payload) {
+    assertOnlineForReceipt();
     assertValidAmount(payload.amount);
     if (!payload.date) throw new Error("Payment date is required.");
     await assertCanManageStudent$1(studentId);
@@ -37310,6 +41729,7 @@ const feeService = {
     });
   },
   async deleteInstallment(studentId, receiptNo) {
+    assertOnlineForReceipt();
     await assertCanManageStudent$1(studentId);
     const feeId = await getFeeReferenceByStudentId(studentId);
     return runTransaction(db, async (transaction) => {
@@ -37344,6 +41764,7 @@ function AddInstallmentModal({
   onClose,
   onSaved
 }) {
+  const isOnline = useSyncStore((state2) => state2.isOnline);
   const [amount, setAmount] = reactExports.useState("");
   const [date, setDate] = reactExports.useState(today$6);
   const [notes, setNotes] = reactExports.useState("");
@@ -37354,6 +41775,10 @@ function AddInstallmentModal({
     setErrorMessage("");
     const parsedAmount = Number(amount);
     if (!student) return;
+    if (!isOnline) {
+      setErrorMessage("Internet is required to record payments and generate receipt numbers.");
+      return;
+    }
     if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
       setErrorMessage("Amount must be greater than 0.");
       return;
@@ -37393,6 +41818,7 @@ function AddInstallmentModal({
       ] })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "space-y-4", onSubmit: handleSubmit, children: [
+      !isOnline ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "warning", children: "Payments need internet because receipt numbers are generated online." }) : null,
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "installment-amount", children: "Amount" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -37402,7 +41828,8 @@ function AddInstallmentModal({
             type: "number",
             min: "1",
             value: amount,
-            onChange: (event) => setAmount(event.target.value)
+            onChange: (event) => setAmount(event.target.value),
+            disabled: !isOnline
           }
         )
       ] }),
@@ -37414,7 +41841,8 @@ function AddInstallmentModal({
             id: "installment-date",
             type: "date",
             value: date,
-            onChange: (event) => setDate(event.target.value)
+            onChange: (event) => setDate(event.target.value),
+            disabled: !isOnline
           }
         )
       ] }),
@@ -37425,14 +41853,15 @@ function AddInstallmentModal({
           {
             id: "installment-notes",
             value: notes,
-            onChange: (event) => setNotes(event.target.value)
+            onChange: (event) => setNotes(event.target.value),
+            disabled: !isOnline
           }
         )
       ] }),
       errorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: errorMessage }) : null,
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-end gap-2", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", variant: "outline", onClick: onClose, children: "Cancel" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "submit", disabled: isSaving || !student, children: isSaving ? "Saving..." : "Add Installment" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "submit", disabled: isSaving || !student || !isOnline, children: isSaving ? "Saving..." : "Add Installment" })
       ] })
     ] })
   ] }) : null });
@@ -37444,6 +41873,7 @@ function EditInstallmentModal({
   onClose,
   onSaved
 }) {
+  const isOnline = useSyncStore((state2) => state2.isOnline);
   const [amount, setAmount] = reactExports.useState("");
   const [date, setDate] = reactExports.useState("");
   const [notes, setNotes] = reactExports.useState("");
@@ -37461,6 +41891,10 @@ function EditInstallmentModal({
     setErrorMessage("");
     const parsedAmount = Number(amount);
     if (!installment) return;
+    if (!isOnline) {
+      setErrorMessage("Internet is required to update payments and receipt records.");
+      return;
+    }
     if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
       setErrorMessage("Amount must be greater than 0.");
       return;
@@ -37492,6 +41926,7 @@ function EditInstallmentModal({
       ] })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "space-y-4", onSubmit: handleSubmit, children: [
+      !isOnline ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "warning", children: "Payment receipt records can only be changed while online." }) : null,
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "edit-installment-amount", children: "Amount" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -37501,7 +41936,8 @@ function EditInstallmentModal({
             type: "number",
             min: "1",
             value: amount,
-            onChange: (event) => setAmount(event.target.value)
+            onChange: (event) => setAmount(event.target.value),
+            disabled: !isOnline
           }
         )
       ] }),
@@ -37513,7 +41949,8 @@ function EditInstallmentModal({
             id: "edit-installment-date",
             type: "date",
             value: date,
-            onChange: (event) => setDate(event.target.value)
+            onChange: (event) => setDate(event.target.value),
+            disabled: !isOnline
           }
         )
       ] }),
@@ -37524,14 +41961,15 @@ function EditInstallmentModal({
           {
             id: "edit-installment-notes",
             value: notes,
-            onChange: (event) => setNotes(event.target.value)
+            onChange: (event) => setNotes(event.target.value),
+            disabled: !isOnline
           }
         )
       ] }),
       errorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: errorMessage }) : null,
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-end gap-2", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", variant: "outline", onClick: onClose, children: "Cancel" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "submit", disabled: isSaving || !installment, children: isSaving ? "Saving..." : "Save Changes" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "submit", disabled: isSaving || !installment || !isOnline, children: isSaving ? "Saving..." : "Save Changes" })
       ] })
     ] })
   ] }) : null });
@@ -39326,16 +43764,16 @@ function tinf_build_bits_base(bits2, base, delta, first2) {
     sum += 1 << bits2[i2];
   }
 }
-function tinf_build_fixed_trees(lt, dt2) {
+function tinf_build_fixed_trees(lt2, dt2) {
   var i2;
-  for (i2 = 0; i2 < 7; ++i2) lt.table[i2] = 0;
-  lt.table[7] = 24;
-  lt.table[8] = 152;
-  lt.table[9] = 112;
-  for (i2 = 0; i2 < 24; ++i2) lt.trans[i2] = 256 + i2;
-  for (i2 = 0; i2 < 144; ++i2) lt.trans[24 + i2] = i2;
-  for (i2 = 0; i2 < 8; ++i2) lt.trans[24 + 144 + i2] = 280 + i2;
-  for (i2 = 0; i2 < 112; ++i2) lt.trans[24 + 144 + 8 + i2] = 144 + i2;
+  for (i2 = 0; i2 < 7; ++i2) lt2.table[i2] = 0;
+  lt2.table[7] = 24;
+  lt2.table[8] = 152;
+  lt2.table[9] = 112;
+  for (i2 = 0; i2 < 24; ++i2) lt2.trans[i2] = 256 + i2;
+  for (i2 = 0; i2 < 144; ++i2) lt2.trans[24 + i2] = i2;
+  for (i2 = 0; i2 < 8; ++i2) lt2.trans[24 + 144 + i2] = 280 + i2;
+  for (i2 = 0; i2 < 112; ++i2) lt2.trans[24 + 144 + 8 + i2] = 144 + i2;
   for (i2 = 0; i2 < 5; ++i2) dt2.table[i2] = 0;
   dt2.table[5] = 32;
   for (i2 = 0; i2 < 32; ++i2) dt2.trans[i2] = i2;
@@ -39393,7 +43831,7 @@ function tinf_decode_symbol(d2, t2) {
   d2.bitcount -= len;
   return t2.trans[sum + cur];
 }
-function tinf_decode_trees(d2, lt, dt2) {
+function tinf_decode_trees(d2, lt2, dt2) {
   var hlit, hdist, hclen;
   var i2, num, length2;
   hlit = tinf_read_bits(d2, 5, 257);
@@ -39429,12 +43867,12 @@ function tinf_decode_trees(d2, lt, dt2) {
         break;
     }
   }
-  tinf_build_tree(lt, lengths, 0, hlit);
+  tinf_build_tree(lt2, lengths, 0, hlit);
   tinf_build_tree(dt2, lengths, hlit, hdist);
 }
-function tinf_inflate_block_data(d2, lt, dt2) {
+function tinf_inflate_block_data(d2, lt2, dt2) {
   while (1) {
-    var sym = tinf_decode_symbol(d2, lt);
+    var sym = tinf_decode_symbol(d2, lt2);
     if (sym === 256) {
       return TINF_OK;
     }
@@ -43112,7 +47550,7 @@ function requireDecode() {
         var distance_code;
         var distance;
         var context2;
-        var j;
+        var j2;
         var copy_dst;
         br.readMoreInput();
         if (block_length[1] === 0) {
@@ -43143,7 +47581,7 @@ function requireDecode() {
         copy_length = Prefix.kCopyLengthPrefixCode[copy_code].offset + br.readBits(Prefix.kCopyLengthPrefixCode[copy_code].nbits);
         prev_byte1 = ringbuffer[pos - 1 & ringbuffer_mask];
         prev_byte2 = ringbuffer[pos - 2 & ringbuffer_mask];
-        for (j = 0; j < insert_length; ++j) {
+        for (j2 = 0; j2 < insert_length; ++j2) {
           br.readMoreInput();
           if (block_length[0] === 0) {
             DecodeBlockType(
@@ -43251,7 +47689,7 @@ function requireDecode() {
           if (copy_length > meta_block_remaining_len) {
             throw new Error("Invalid backward reference. pos: " + pos + " distance: " + distance + " len: " + copy_length + " bytes left: " + meta_block_remaining_len);
           }
-          for (j = 0; j < copy_length; ++j) {
+          for (j2 = 0; j2 < copy_length; ++j2) {
             ringbuffer[pos & ringbuffer_mask] = ringbuffer[pos - distance & ringbuffer_mask];
             if ((pos & ringbuffer_mask) === ringbuffer_mask) {
               output.write(ringbuffer, ringbuffer_size);
@@ -51612,7 +56050,7 @@ function $7826f90f6f0cecc9$var$initialReordering(font, glyphs, plan) {
       end2++;
     }
     let base = end2;
-    let limit = start2;
+    let limit2 = start2;
     let hasReph = false;
     if (indicConfig.rephPos !== $90a9d3398ee54fe5$export$1a1f61c9c4dd9df0.Ra_To_Become_Reph && features.rphf && start2 + 3 <= end2 && (indicConfig.rephMode === "Implicit" && !$7826f90f6f0cecc9$var$isJoiner(glyphs[start2 + 2]) || indicConfig.rephMode === "Explicit" && glyphs[start2 + 2].shaperInfo.category === $90a9d3398ee54fe5$export$a513ea61a7bee91c.ZWJ)) {
       let g = [
@@ -51621,14 +56059,14 @@ function $7826f90f6f0cecc9$var$initialReordering(font, glyphs, plan) {
         glyphs[start2 + 2].copy()
       ];
       if ($7826f90f6f0cecc9$var$wouldSubstitute(g.slice(0, 2), "rphf") || indicConfig.rephMode === "Explicit" && $7826f90f6f0cecc9$var$wouldSubstitute(g, "rphf")) {
-        limit += 2;
-        while (limit < end2 && $7826f90f6f0cecc9$var$isJoiner(glyphs[limit])) limit++;
+        limit2 += 2;
+        while (limit2 < end2 && $7826f90f6f0cecc9$var$isJoiner(glyphs[limit2])) limit2++;
         base = start2;
         hasReph = true;
       }
     } else if (indicConfig.rephMode === "Log_Repha" && glyphs[start2].shaperInfo.category === $90a9d3398ee54fe5$export$a513ea61a7bee91c.Repha) {
-      limit++;
-      while (limit < end2 && $7826f90f6f0cecc9$var$isJoiner(glyphs[limit])) limit++;
+      limit2++;
+      while (limit2 < end2 && $7826f90f6f0cecc9$var$isJoiner(glyphs[limit2])) limit2++;
       base = start2;
       hasReph = true;
     }
@@ -51646,22 +56084,22 @@ function $7826f90f6f0cecc9$var$initialReordering(font, glyphs, plan) {
             if (info.position === $90a9d3398ee54fe5$export$1a1f61c9c4dd9df0.Below_C) seenBelow = true;
             base = i2;
           } else if (start2 < i2 && info.category === $90a9d3398ee54fe5$export$a513ea61a7bee91c.ZWJ && glyphs[i2 - 1].shaperInfo.category === $90a9d3398ee54fe5$export$a513ea61a7bee91c.H) break;
-        } while (i2 > limit);
+        } while (i2 > limit2);
         break;
       }
       case "First":
         base = start2;
         for (let i2 = base + 1; i2 < end2; i2++) if ($7826f90f6f0cecc9$var$isConsonant(glyphs[i2])) glyphs[i2].shaperInfo.position = $90a9d3398ee54fe5$export$1a1f61c9c4dd9df0.Below_C;
     }
-    if (hasReph && base === start2 && limit - base <= 2) hasReph = false;
+    if (hasReph && base === start2 && limit2 - base <= 2) hasReph = false;
     for (let i2 = start2; i2 < base; i2++) {
       let info = glyphs[i2].shaperInfo;
       info.position = Math.min($90a9d3398ee54fe5$export$1a1f61c9c4dd9df0.Pre_C, info.position);
     }
     if (base < end2) glyphs[base].shaperInfo.position = $90a9d3398ee54fe5$export$1a1f61c9c4dd9df0.Base_C;
     for (let i2 = base + 1; i2 < end2; i2++) if (glyphs[i2].shaperInfo.category === $90a9d3398ee54fe5$export$a513ea61a7bee91c.M) {
-      for (let j = i2 + 1; j < end2; j++) if ($7826f90f6f0cecc9$var$isConsonant(glyphs[j])) {
-        glyphs[j].shaperInfo.position = $90a9d3398ee54fe5$export$1a1f61c9c4dd9df0.Final_C;
+      for (let j2 = i2 + 1; j2 < end2; j2++) if ($7826f90f6f0cecc9$var$isConsonant(glyphs[j2])) {
+        glyphs[j2].shaperInfo.position = $90a9d3398ee54fe5$export$1a1f61c9c4dd9df0.Final_C;
         break;
       }
       break;
@@ -51670,14 +56108,14 @@ function $7826f90f6f0cecc9$var$initialReordering(font, glyphs, plan) {
     if (plan.isOldSpec) {
       let disallowDoubleHalants = plan.unicodeScript !== "Malayalam";
       for (let i2 = base + 1; i2 < end2; i2++) if (glyphs[i2].shaperInfo.category === $90a9d3398ee54fe5$export$a513ea61a7bee91c.H) {
-        let j;
-        for (j = end2 - 1; j > i2; j--) {
-          if ($7826f90f6f0cecc9$var$isConsonant(glyphs[j]) || disallowDoubleHalants && glyphs[j].shaperInfo.category === $90a9d3398ee54fe5$export$a513ea61a7bee91c.H) break;
+        let j2;
+        for (j2 = end2 - 1; j2 > i2; j2--) {
+          if ($7826f90f6f0cecc9$var$isConsonant(glyphs[j2]) || disallowDoubleHalants && glyphs[j2].shaperInfo.category === $90a9d3398ee54fe5$export$a513ea61a7bee91c.H) break;
         }
-        if (glyphs[j].shaperInfo.category !== $90a9d3398ee54fe5$export$a513ea61a7bee91c.H && j > i2) {
+        if (glyphs[j2].shaperInfo.category !== $90a9d3398ee54fe5$export$a513ea61a7bee91c.H && j2 > i2) {
           let t2 = glyphs[i2];
-          glyphs.splice(i2, 0, ...glyphs.splice(i2 + 1, j - i2));
-          glyphs[j] = t2;
+          glyphs.splice(i2, 0, ...glyphs.splice(i2 + 1, j2 - i2));
+          glyphs[j2] = t2;
         }
         break;
       }
@@ -51688,8 +56126,8 @@ function $7826f90f6f0cecc9$var$initialReordering(font, glyphs, plan) {
       if (info.category & ($90a9d3398ee54fe5$export$bbcd928767338e0d | $90a9d3398ee54fe5$export$a513ea61a7bee91c.N | $90a9d3398ee54fe5$export$a513ea61a7bee91c.RS | $90a9d3398ee54fe5$export$a513ea61a7bee91c.CM | $90a9d3398ee54fe5$export$ca9599b2a300afc & info.category)) {
         info.position = lastPos;
         if (info.category === $90a9d3398ee54fe5$export$a513ea61a7bee91c.H && info.position === $90a9d3398ee54fe5$export$1a1f61c9c4dd9df0.Pre_M) {
-          for (let j = i2; j > start2; j--) if (glyphs[j - 1].shaperInfo.position !== $90a9d3398ee54fe5$export$1a1f61c9c4dd9df0.Pre_M) {
-            info.position = glyphs[j - 1].shaperInfo.position;
+          for (let j2 = i2; j2 > start2; j2--) if (glyphs[j2 - 1].shaperInfo.position !== $90a9d3398ee54fe5$export$1a1f61c9c4dd9df0.Pre_M) {
+            info.position = glyphs[j2 - 1].shaperInfo.position;
             break;
           }
         }
@@ -51698,7 +56136,7 @@ function $7826f90f6f0cecc9$var$initialReordering(font, glyphs, plan) {
     let last2 = base;
     for (let i2 = base + 1; i2 < end2; i2++) {
       if ($7826f90f6f0cecc9$var$isConsonant(glyphs[i2])) {
-        for (let j = last2 + 1; j < i2; j++) if (glyphs[j].shaperInfo.position < $90a9d3398ee54fe5$export$1a1f61c9c4dd9df0.SMVD) glyphs[j].shaperInfo.position = glyphs[i2].shaperInfo.position;
+        for (let j2 = last2 + 1; j2 < i2; j2++) if (glyphs[j2].shaperInfo.position < $90a9d3398ee54fe5$export$1a1f61c9c4dd9df0.SMVD) glyphs[j2].shaperInfo.position = glyphs[i2].shaperInfo.position;
         last2 = i2;
       } else if (glyphs[i2].shaperInfo.category === $90a9d3398ee54fe5$export$a513ea61a7bee91c.M) last2 = i2;
     }
@@ -51734,18 +56172,18 @@ function $7826f90f6f0cecc9$var$initialReordering(font, glyphs, plan) {
           glyphs[i2 + 1].copy()
         ];
         if ($7826f90f6f0cecc9$var$wouldSubstitute(g, "pref")) {
-          for (let j = 0; j < prefLen; j++) glyphs[i2++].features.pref = true;
+          for (let j2 = 0; j2 < prefLen; j2++) glyphs[i2++].features.pref = true;
           if (features.cfar) for (; i2 < end2; i2++) glyphs[i2].features.cfar = true;
           break;
         }
       }
     for (let i2 = start2 + 1; i2 < end2; i2++) if ($7826f90f6f0cecc9$var$isJoiner(glyphs[i2])) {
       let nonJoiner = glyphs[i2].shaperInfo.category === $90a9d3398ee54fe5$export$a513ea61a7bee91c.ZWNJ;
-      let j = i2;
+      let j2 = i2;
       do {
-        j--;
-        if (nonJoiner) delete glyphs[j].features.half;
-      } while (j > start2 && !$7826f90f6f0cecc9$var$isConsonant(glyphs[j]));
+        j2--;
+        if (nonJoiner) delete glyphs[j2].features.half;
+      } while (j2 > start2 && !$7826f90f6f0cecc9$var$isConsonant(glyphs[j2]));
     }
   }
 }
@@ -51851,7 +56289,7 @@ function $7826f90f6f0cecc9$var$finalReordering(font, glyphs, plan) {
             while (newPos > start2 && !(glyphs[newPos - 1].shaperInfo.category & ($90a9d3398ee54fe5$export$a513ea61a7bee91c.M | $90a9d3398ee54fe5$export$ca9599b2a300afc))) newPos--;
             if (newPos > start2 && glyphs[newPos - 1].shaperInfo.category === $90a9d3398ee54fe5$export$a513ea61a7bee91c.M) {
               let oldPos2 = i2;
-              for (let j = base + 1; j < oldPos2; j++) if (glyphs[j].shaperInfo.category === $90a9d3398ee54fe5$export$a513ea61a7bee91c.M) {
+              for (let j2 = base + 1; j2 < oldPos2; j2++) if (glyphs[j2].shaperInfo.category === $90a9d3398ee54fe5$export$a513ea61a7bee91c.M) {
                 newPos--;
                 break;
               }
@@ -51951,8 +56389,8 @@ function $7ab494fe977143c6$var$setupSyllables(font, glyphs) {
   for (let [start2, end2, tags2] of $7ab494fe977143c6$var$stateMachine.match(glyphs.map($7ab494fe977143c6$var$useCategory))) {
     ++syllable;
     for (let i2 = start2; i2 <= end2; i2++) glyphs[i2].shaperInfo = new $7ab494fe977143c6$var$USEInfo($7ab494fe977143c6$var$categories[$7ab494fe977143c6$var$useCategory(glyphs[i2])], tags2[0], syllable);
-    let limit = glyphs[start2].shaperInfo.category === "R" ? 1 : Math.min(3, end2 - start2);
-    for (let i2 = start2; i2 < start2 + limit; i2++) glyphs[i2].features.rphf = true;
+    let limit2 = glyphs[start2].shaperInfo.category === "R" ? 1 : Math.min(3, end2 - start2);
+    for (let i2 = start2; i2 < start2 + limit2; i2++) glyphs[i2].features.rphf = true;
   }
 }
 function $7ab494fe977143c6$var$clearSubstitutionFlags(font, glyphs) {
@@ -51969,7 +56407,7 @@ function $7ab494fe977143c6$var$recordPref(font, glyphs) {
 function $7ab494fe977143c6$var$reorder(font, glyphs) {
   let dottedCircle = font.glyphForCodePoint(9676).id;
   for (let start2 = 0, end2 = $7ab494fe977143c6$var$nextSyllable(glyphs, 0); start2 < glyphs.length; start2 = end2, end2 = $7ab494fe977143c6$var$nextSyllable(glyphs, start2)) {
-    let i2, j;
+    let i2, j2;
     let info = glyphs[start2].shaperInfo;
     let type = info.syllableType;
     if (type !== "virama_terminated_cluster" && type !== "standard_cluster" && type !== "broken_cluster") continue;
@@ -51991,11 +56429,11 @@ function $7ab494fe977143c6$var$reorder(font, glyphs) {
           break;
         }
       }
-    for (i2 = start2, j = end2; i2 < end2; i2++) {
+    for (i2 = start2, j2 = end2; i2 < end2; i2++) {
       info = glyphs[i2].shaperInfo;
       if ($7ab494fe977143c6$var$isBase(info) || $7ab494fe977143c6$var$isHalant(glyphs[i2]))
-        j = $7ab494fe977143c6$var$isHalant(glyphs[i2]) ? i2 + 1 : i2;
-      else if ((info.category === "VPre" || info.category === "VMPre") && j < i2) glyphs.splice(j, 1, glyphs[i2], ...glyphs.splice(j, i2 - j));
+        j2 = $7ab494fe977143c6$var$isHalant(glyphs[i2]) ? i2 + 1 : i2;
+      else if ((info.category === "VPre" || info.category === "VMPre") && j2 < i2) glyphs.splice(j2, 1, glyphs[i2], ...glyphs.splice(j2, i2 - j2));
     }
   }
 }
@@ -52388,24 +56826,24 @@ class $c96c93587d49c14d$export$2e2bcd8739ae039 extends $a83b9c36aaa94fd3$export$
   fixCursiveAttachment(i2) {
     let glyph = this.glyphs[i2];
     if (glyph.cursiveAttachment != null) {
-      let j = glyph.cursiveAttachment;
+      let j2 = glyph.cursiveAttachment;
       glyph.cursiveAttachment = null;
-      this.fixCursiveAttachment(j);
-      this.positions[i2].yOffset += this.positions[j].yOffset;
+      this.fixCursiveAttachment(j2);
+      this.positions[i2].yOffset += this.positions[j2].yOffset;
     }
   }
   fixMarkAttachment() {
     for (let i2 = 0; i2 < this.glyphs.length; i2++) {
       let glyph = this.glyphs[i2];
       if (glyph.markAttachment != null) {
-        let j = glyph.markAttachment;
-        this.positions[i2].xOffset += this.positions[j].xOffset;
-        this.positions[i2].yOffset += this.positions[j].yOffset;
-        if (this.direction === "ltr") for (let k2 = j; k2 < i2; k2++) {
+        let j2 = glyph.markAttachment;
+        this.positions[i2].xOffset += this.positions[j2].xOffset;
+        this.positions[i2].yOffset += this.positions[j2].yOffset;
+        if (this.direction === "ltr") for (let k2 = j2; k2 < i2; k2++) {
           this.positions[i2].xOffset -= this.positions[k2].xAdvance;
           this.positions[i2].yOffset -= this.positions[k2].yAdvance;
         }
-        else for (let k2 = j + 1; k2 < i2 + 1; k2++) {
+        else for (let k2 = j2 + 1; k2 < i2 + 1; k2++) {
           this.positions[i2].xOffset += this.positions[k2].xAdvance;
           this.positions[i2].yOffset += this.positions[k2].yAdvance;
         }
@@ -53283,7 +57721,7 @@ class $69aac16029968692$export$2e2bcd8739ae039 extends $f92906be28e61769$export$
       flags.push(flag);
       if (flag & $69aac16029968692$var$REPEAT) {
         let count2 = stream2.readUInt8();
-        for (let j = 0; j < count2; j++) flags.push(flag);
+        for (let j2 = 0; j2 < count2; j2++) flags.push(flag);
       }
     }
     for (var i2 = 0; i2 < flags.length; i2++) {
@@ -53342,8 +57780,8 @@ class $69aac16029968692$export$2e2bcd8739ae039 extends $f92906be28e61769$export$
     }
     if (this._font._variationProcessor) {
       let points = [];
-      for (let j = 0; j < glyph.components.length; j++) {
-        var component = glyph.components[j];
+      for (let j2 = 0; j2 < glyph.components.length; j2++) {
+        var component = glyph.components[j2];
         points.push(new $69aac16029968692$export$baf26146a414f24a(true, true, component.dx, component.dy));
       }
       points.push(...this._getPhantomPoints(glyph));
@@ -53378,8 +57816,8 @@ class $69aac16029968692$export$2e2bcd8739ae039 extends $f92906be28e61769$export$
         let contours2 = this._font.getGlyph(component.glyphID)._getContours();
         for (let i2 = 0; i2 < contours2.length; i2++) {
           let contour = contours2[i2];
-          for (let j = 0; j < contour.length; j++) {
-            let point2 = contour[j];
+          for (let j2 = 0; j2 < contour.length; j2++) {
+            let point2 = contour[j2];
             let x = point2.x * component.scaleX + point2.y * component.scale01 + component.dx;
             let y2 = point2.y * component.scaleY + point2.x * component.scale10 + component.dy;
             points.push(new $69aac16029968692$export$baf26146a414f24a(point2.onCurve, point2.endContour, x, y2));
@@ -53433,18 +57871,18 @@ class $69aac16029968692$export$2e2bcd8739ae039 extends $f92906be28e61769$export$
         var curvePt = firstPt;
       }
       path.moveTo(firstPt.x, firstPt.y);
-      for (let j = start2; j < contour.length; j++) {
-        let pt = contour[j];
-        let prevPt = j === 0 ? firstPt : contour[j - 1];
-        if (prevPt.onCurve && pt.onCurve) path.lineTo(pt.x, pt.y);
-        else if (prevPt.onCurve && !pt.onCurve) var curvePt = pt;
-        else if (!prevPt.onCurve && !pt.onCurve) {
-          let midX = (prevPt.x + pt.x) / 2;
-          let midY = (prevPt.y + pt.y) / 2;
+      for (let j2 = start2; j2 < contour.length; j2++) {
+        let pt2 = contour[j2];
+        let prevPt = j2 === 0 ? firstPt : contour[j2 - 1];
+        if (prevPt.onCurve && pt2.onCurve) path.lineTo(pt2.x, pt2.y);
+        else if (prevPt.onCurve && !pt2.onCurve) var curvePt = pt2;
+        else if (!prevPt.onCurve && !pt2.onCurve) {
+          let midX = (prevPt.x + pt2.x) / 2;
+          let midY = (prevPt.y + pt2.y) / 2;
           path.quadraticCurveTo(prevPt.x, prevPt.y, midX, midY);
-          var curvePt = pt;
-        } else if (!prevPt.onCurve && pt.onCurve) {
-          path.quadraticCurveTo(curvePt.x, curvePt.y, pt.x, pt.y);
+          var curvePt = pt2;
+        } else if (!prevPt.onCurve && pt2.onCurve) {
+          path.quadraticCurveTo(curvePt.x, curvePt.y, pt2.x, pt2.y);
           var curvePt = null;
         } else throw new Error("Unknown TTF path state");
       }
@@ -53593,7 +58031,7 @@ class $62cc5109c6101893$export$2e2bcd8739ae039 extends $f92906be28e61769$export$
               let base = delta - numBlends;
               for (let i2 = 0; i2 < numBlends; i2++) {
                 let sum = stack[base + i2];
-                for (let j = 0; j < blendVector.length; j++) sum += blendVector[j] * stack[delta++];
+                for (let j2 = 0; j2 < blendVector.length; j2++) sum += blendVector[j2] * stack[delta++];
                 stack[base + i2] = sum;
               }
               while (numOperands--) stack.pop();
@@ -53800,18 +58238,18 @@ class $62cc5109c6101893$export$2e2bcd8739ae039 extends $f92906be28e61769$export$
                   break;
                 case 30:
                   let n3 = stack.pop();
-                  let j = stack.pop();
-                  if (j >= 0) while (j > 0) {
+                  let j2 = stack.pop();
+                  if (j2 >= 0) while (j2 > 0) {
                     var t2 = stack[n3 - 1];
                     for (let i2 = n3 - 2; i2 >= 0; i2--) stack[i2 + 1] = stack[i2];
                     stack[0] = t2;
-                    j--;
+                    j2--;
                   }
-                  else while (j < 0) {
+                  else while (j2 < 0) {
                     var t2 = stack[0];
                     for (let i2 = 0; i2 <= n3; i2++) stack[i2] = stack[i2 + 1];
                     stack[n3 - 1] = t2;
-                    j++;
+                    j2++;
                   }
                   break;
                 case 34:
@@ -54048,10 +58486,10 @@ class $0bb840cac04e911b$export$2e2bcd8739ae039 {
     }
     if (this.font.avar) for (var i2 = 0; i2 < this.font.avar.segment.length; i2++) {
       let segment2 = this.font.avar.segment[i2];
-      for (let j = 0; j < segment2.correspondence.length; j++) {
-        let pair = segment2.correspondence[j];
-        if (j >= 1 && normalized[i2] < pair.fromCoord) {
-          let prev = segment2.correspondence[j - 1];
+      for (let j2 = 0; j2 < segment2.correspondence.length; j2++) {
+        let pair = segment2.correspondence[j2];
+        if (j2 >= 1 && normalized[i2] < pair.fromCoord) {
+          let prev = segment2.correspondence[j2 - 1];
           normalized[i2] = ((normalized[i2] - prev.fromCoord) * (pair.toCoord - prev.toCoord) + Number.EPSILON) / (pair.fromCoord - prev.fromCoord + Number.EPSILON) + prev.toCoord;
           break;
         }
@@ -54077,7 +58515,7 @@ class $0bb840cac04e911b$export$2e2bcd8739ae039 {
       offsetToData = stream2.pos;
       stream2.pos = here;
     }
-    let origPoints = glyphPoints.map((pt) => pt.copy());
+    let origPoints = glyphPoints.map((pt2) => pt2.copy());
     tupleCount &= $0bb840cac04e911b$var$TUPLE_COUNT_MASK;
     for (let i2 = 0; i2 < tupleCount; i2++) {
       let tupleDataSize = stream2.readUInt16BE();
@@ -54113,7 +58551,7 @@ class $0bb840cac04e911b$export$2e2bcd8739ae039 {
         point.y += Math.round(yDeltas[i3] * factor2);
       }
       else {
-        let outPoints = origPoints.map((pt) => pt.copy());
+        let outPoints = origPoints.map((pt2) => pt2.copy());
         let hasDelta = glyphPoints.map(() => false);
         for (let i3 = 0; i3 < points.length; i3++) {
           let idx = points[i3];
@@ -54147,7 +58585,7 @@ class $0bb840cac04e911b$export$2e2bcd8739ae039 {
       let run = stream2.readUInt8();
       let runCount = (run & $0bb840cac04e911b$var$POINT_RUN_COUNT_MASK) + 1;
       let fn = run & $0bb840cac04e911b$var$POINTS_ARE_WORDS ? stream2.readUInt16 : stream2.readUInt8;
-      for (let j = 0; j < runCount && i2 < count2; j++) {
+      for (let j2 = 0; j2 < runCount && i2 < count2; j2++) {
         point += fn.call(stream2);
         points[i2++] = point;
       }
@@ -54164,7 +58602,7 @@ class $0bb840cac04e911b$export$2e2bcd8739ae039 {
       if (run & $0bb840cac04e911b$var$DELTAS_ARE_ZERO) i2 += runCount;
       else {
         let fn = run & $0bb840cac04e911b$var$DELTAS_ARE_WORDS ? stream2.readInt16BE : stream2.readInt8;
-        for (let j = 0; j < runCount && i2 < count2; j++) deltas[i2++] = fn.call(stream2);
+        for (let j2 = 0; j2 < runCount && i2 < count2; j2++) deltas[i2++] = fn.call(stream2);
       }
     }
     return deltas;
@@ -54196,8 +58634,8 @@ class $0bb840cac04e911b$export$2e2bcd8739ae039 {
     while (point < points.length) {
       let firstPoint = point;
       let endPoint = point;
-      let pt = points[endPoint];
-      while (!pt.endContour) pt = points[++endPoint];
+      let pt2 = points[endPoint];
+      while (!pt2.endContour) pt2 = points[++endPoint];
       while (point <= endPoint && !hasDelta[point]) point++;
       if (point > endPoint) continue;
       let firstDelta = point;
@@ -54290,17 +58728,17 @@ class $0bb840cac04e911b$export$2e2bcd8739ae039 {
       let scalar = 1;
       let regionIndex = varData.regionIndexes[master];
       let axes = itemStore.variationRegionList.variationRegions[regionIndex];
-      for (let j = 0; j < axes.length; j++) {
-        let axis = axes[j];
+      for (let j2 = 0; j2 < axes.length; j2++) {
+        let axis = axes[j2];
         let axisScalar;
         if (axis.startCoord > axis.peakCoord || axis.peakCoord > axis.endCoord) axisScalar = 1;
         else if (axis.startCoord < 0 && axis.endCoord > 0 && axis.peakCoord !== 0) axisScalar = 1;
         else if (axis.peakCoord === 0) axisScalar = 1;
-        else if (normalizedCoords[j] < axis.startCoord || normalizedCoords[j] > axis.endCoord) axisScalar = 0;
+        else if (normalizedCoords[j2] < axis.startCoord || normalizedCoords[j2] > axis.endCoord) axisScalar = 0;
         else {
-          if (normalizedCoords[j] === axis.peakCoord) axisScalar = 1;
-          else if (normalizedCoords[j] < axis.peakCoord) axisScalar = (normalizedCoords[j] - axis.startCoord + Number.EPSILON) / (axis.peakCoord - axis.startCoord + Number.EPSILON);
-          else axisScalar = (axis.endCoord - normalizedCoords[j] + Number.EPSILON) / (axis.endCoord - axis.peakCoord + Number.EPSILON);
+          if (normalizedCoords[j2] === axis.peakCoord) axisScalar = 1;
+          else if (normalizedCoords[j2] < axis.peakCoord) axisScalar = (normalizedCoords[j2] - axis.startCoord + Number.EPSILON) / (axis.peakCoord - axis.startCoord + Number.EPSILON);
+          else axisScalar = (axis.endCoord - normalizedCoords[j2] + Number.EPSILON) / (axis.endCoord - axis.peakCoord + Number.EPSILON);
         }
         scalar *= axisScalar;
       }
@@ -54370,11 +58808,11 @@ class $807e58506be70005$export$2e2bcd8739ae039 {
     let pointCount = 0;
     for (let i2 = 0; i2 < path.commands.length; i2++) {
       let c2 = path.commands[i2];
-      for (let j = 0; j < c2.args.length; j += 2) {
-        let x = c2.args[j];
-        let y2 = c2.args[j + 1];
+      for (let j2 = 0; j2 < c2.args.length; j2 += 2) {
+        let x = c2.args[j2];
+        let y2 = c2.args[j2 + 1];
         let flag = 0;
-        if (c2.command === "quadraticCurveTo" && j === 2) {
+        if (c2.command === "quadraticCurveTo" && j2 === 2) {
           let next = path.commands[i2 + 1];
           if (next && next.command === "quadraticCurveTo") {
             let midX = (lastX + next.args[0]) / 2;
@@ -54382,7 +58820,7 @@ class $807e58506be70005$export$2e2bcd8739ae039 {
             if (x === midX && y2 === midY) continue;
           }
         }
-        if (!(c2.command === "quadraticCurveTo" && j === 0)) flag |= $807e58506be70005$var$ON_CURVE;
+        if (!(c2.command === "quadraticCurveTo" && j2 === 0)) flag |= $807e58506be70005$var$ON_CURVE;
         flag = this._encodePoint(x, lastX, xPoints, flag, $807e58506be70005$var$X_SHORT_VECTOR, $807e58506be70005$var$SAME_X);
         flag = this._encodePoint(y2, lastY, yPoints, flag, $807e58506be70005$var$Y_SHORT_VECTOR, $807e58506be70005$var$SAME_Y);
         if (flag === lastFlag && same < 255) {
@@ -55150,7 +59588,7 @@ const $c28ec7bbb3b8de3a$var$Base128 = {
       3,
       4
     ];
-    for (let j = 0; j < iterable.length; j++) {
+    for (let j2 = 0; j2 < iterable.length; j2++) {
       let code2 = stream2.readUInt8();
       if (result & 3758096384) throw new Error("Overflow");
       result = result << 7 | code2 & 127;
@@ -55947,17 +60385,17 @@ function smaller(tree, n3, m2, depth) {
 }
 function pqdownheap(s2, tree, k2) {
   var v2 = s2.heap[k2];
-  var j = k2 << 1;
-  while (j <= s2.heap_len) {
-    if (j < s2.heap_len && smaller(tree, s2.heap[j + 1], s2.heap[j], s2.depth)) {
-      j++;
+  var j2 = k2 << 1;
+  while (j2 <= s2.heap_len) {
+    if (j2 < s2.heap_len && smaller(tree, s2.heap[j2 + 1], s2.heap[j2], s2.depth)) {
+      j2++;
     }
-    if (smaller(tree, v2, s2.heap[j], s2.depth)) {
+    if (smaller(tree, v2, s2.heap[j2], s2.depth)) {
       break;
     }
-    s2.heap[k2] = s2.heap[j];
-    k2 = j;
-    j <<= 1;
+    s2.heap[k2] = s2.heap[j2];
+    k2 = j2;
+    j2 <<= 1;
   }
   s2.heap[k2] = v2;
 }
@@ -56454,7 +60892,7 @@ function longest_match(s2, cur_match) {
   var len;
   var best_len = s2.prev_length;
   var nice_match = s2.nice_match;
-  var limit = s2.strstart > s2.w_size - MIN_LOOKAHEAD ? s2.strstart - (s2.w_size - MIN_LOOKAHEAD) : 0;
+  var limit2 = s2.strstart > s2.w_size - MIN_LOOKAHEAD ? s2.strstart - (s2.w_size - MIN_LOOKAHEAD) : 0;
   var _win = s2.window;
   var wmask = s2.w_mask;
   var prev = s2.prev;
@@ -56487,7 +60925,7 @@ function longest_match(s2, cur_match) {
       scan_end1 = _win[scan + best_len - 1];
       scan_end = _win[scan + best_len];
     }
-  } while ((cur_match = prev[cur_match & wmask]) > limit && --chain_length !== 0);
+  } while ((cur_match = prev[cur_match & wmask]) > limit2 && --chain_length !== 0);
   if (best_len <= s2.lookahead) {
     return best_len;
   }
@@ -59820,13 +64258,13 @@ const sbox = /* @__PURE__ */ (() => {
   clean$2(t2);
   return box;
 })();
-const invSbox = /* @__PURE__ */ sbox.map((_, j) => sbox.indexOf(j));
+const invSbox = /* @__PURE__ */ sbox.map((_, j2) => sbox.indexOf(j2));
 const rotr32_8 = (n3) => n3 << 24 | n3 >>> 8;
 const rotl32_8 = (n3) => n3 << 8 | n3 >>> 24;
 function genTtable(sbox2, fn) {
   if (sbox2.length !== 256)
     throw new Error("Wrong sbox length");
-  const T0 = new Uint32Array(256).map((_, j) => fn(sbox2[j]));
+  const T0 = new Uint32Array(256).map((_, j2) => fn(sbox2[j2]));
   const T1 = T0.map(rotl32_8);
   const T2 = T1.map(rotl32_8);
   const T3 = T2.map(rotl32_8);
@@ -59834,11 +64272,11 @@ function genTtable(sbox2, fn) {
   const T23 = new Uint32Array(256 * 256);
   const sbox22 = new Uint16Array(256 * 256);
   for (let i2 = 0; i2 < 256; i2++) {
-    for (let j = 0; j < 256; j++) {
-      const idx = i2 * 256 + j;
-      T01[idx] = T0[i2] ^ T1[j];
-      T23[idx] = T2[i2] ^ T3[j];
-      sbox22[idx] = sbox2[i2] << 8 | sbox2[j];
+    for (let j2 = 0; j2 < 256; j2++) {
+      const idx = i2 * 256 + j2;
+      T01[idx] = T0[i2] ^ T1[j2];
+      T23[idx] = T2[i2] ^ T3[j2];
+      sbox22[idx] = sbox2[i2] << 8 | sbox2[j2];
     }
   }
   return { sbox: sbox2, sbox2: sbox22, T0, T1, T2, T3, T01, T23 };
@@ -59883,8 +64321,8 @@ function expandKeyDecLE(key) {
   const { sbox2 } = tableEncoding;
   const { T0, T1, T2, T3 } = tableDecoding;
   for (let i2 = 0; i2 < Nk2; i2 += 4) {
-    for (let j = 0; j < 4; j++)
-      xk2[i2 + j] = encKey[Nk2 - i2 - 4 + j];
+    for (let j2 = 0; j2 < 4; j2++)
+      xk2[i2 + j2] = encKey[Nk2 - i2 - 4 + j2];
   }
   clean$2(encKey);
   for (let i2 = 4; i2 < Nk2 - 4; i2++) {
@@ -60105,7 +64543,7 @@ var b64 = {};
         return code2 - LOWER + 26;
     }
     function b64ToByteArray(b642) {
-      var i2, j, l2, tmp, placeHolders, arr;
+      var i2, j2, l2, tmp, placeHolders, arr;
       if (b642.length % 4 > 0) {
         throw new Error("Invalid string. Length must be a multiple of 4");
       }
@@ -60117,7 +64555,7 @@ var b64 = {};
       function push(v2) {
         arr[L2++] = v2;
       }
-      for (i2 = 0, j = 0; i2 < l2; i2 += 4, j += 3) {
+      for (i2 = 0, j2 = 0; i2 < l2; i2 += 4, j2 += 3) {
         tmp = decode2(b642.charAt(i2)) << 18 | decode2(b642.charAt(i2 + 1)) << 12 | decode2(b642.charAt(i2 + 2)) << 6 | decode2(b642.charAt(i2 + 3));
         push((tmp & 16711680) >> 16);
         push((tmp & 65280) >> 8);
@@ -62042,8 +66480,8 @@ var freb = function(eb2, start2) {
   }
   var r2 = new i32(b2[30]);
   for (var i2 = 1; i2 < 30; ++i2) {
-    for (var j = b2[i2]; j < b2[i2 + 1]; ++j) {
-      r2[j] = j - b2[i2] << 5 | i2;
+    for (var j2 = b2[i2]; j2 < b2[i2 + 1]; ++j2) {
+      r2[j2] = j2 - b2[i2] << 5 | i2;
     }
   }
   return { b: b2, r: r2 };
@@ -62229,10 +66667,10 @@ var inflt = function(dat, st2, buf, dict) {
               ldt[i2++] = c2;
           }
         }
-        var lt = ldt.subarray(0, hLit), dt2 = ldt.subarray(hLit);
-        lbt = max$2(lt);
+        var lt2 = ldt.subarray(0, hLit), dt2 = ldt.subarray(hLit);
+        lbt = max$2(lt2);
         dbt = max$2(dt2);
-        lm = hMap(lt, lbt, 1);
+        lm = hMap(lt2, lbt, 1);
         dm = hMap(dt2, dbt, 1);
       } else
         err(1);
@@ -62624,7 +67062,7 @@ let PNG$1 = class PNG {
             let pixelsPos = ((y0 + row * dy) * width + x0) * pixelBytes;
             let bufferPos = row * scanlineLength;
             for (i2 = 0; i2 < w2; i2++) {
-              for (let j = 0; j < pixelBytes; j++)
+              for (let j2 = 0; j2 < pixelBytes; j2++)
                 pixels[pixelsPos++] = buffer[bufferPos++];
               pixelsPos += (dx - 1) * pixelBytes;
             }
@@ -62663,7 +67101,7 @@ let PNG$1 = class PNG {
     return ret;
   }
   copyToImageData(imageData, pixels) {
-    let j, k2;
+    let j2, k2;
     let { colors: colors2 } = this;
     let palette = null;
     let alpha = this.hasAlphaChannel;
@@ -62675,25 +67113,25 @@ let PNG$1 = class PNG {
     const data2 = imageData.data || imageData;
     const { length: length2 } = data2;
     const input = palette || pixels;
-    let i2 = j = 0;
+    let i2 = j2 = 0;
     if (colors2 === 1) {
       while (i2 < length2) {
-        k2 = palette ? pixels[i2 / 4] * 4 : j;
+        k2 = palette ? pixels[i2 / 4] * 4 : j2;
         const v2 = input[k2++];
         data2[i2++] = v2;
         data2[i2++] = v2;
         data2[i2++] = v2;
         data2[i2++] = alpha ? input[k2++] : 255;
-        j = k2;
+        j2 = k2;
       }
     } else {
       while (i2 < length2) {
-        k2 = palette ? pixels[i2 / 4] * 4 : j;
+        k2 = palette ? pixels[i2 / 4] * 4 : j2;
         data2[i2++] = input[k2++];
         data2[i2++] = input[k2++];
         data2[i2++] = input[k2++];
         data2[i2++] = alpha ? input[k2++] : 255;
-        j = k2;
+        j2 = k2;
       }
     }
   }
@@ -62724,7 +67162,7 @@ function toByteArray$1(b642) {
   if (!inited$1) {
     init$1();
   }
-  var i2, j, l2, tmp, placeHolders, arr;
+  var i2, j2, l2, tmp, placeHolders, arr;
   var len = b642.length;
   if (len % 4 > 0) {
     throw new Error("Invalid string. Length must be a multiple of 4");
@@ -62733,7 +67171,7 @@ function toByteArray$1(b642) {
   arr = new Arr$1(len * 3 / 4 - placeHolders);
   l2 = placeHolders > 0 ? len - 4 : len;
   var L2 = 0;
-  for (i2 = 0, j = 0; i2 < l2; i2 += 4, j += 3) {
+  for (i2 = 0, j2 = 0; i2 < l2; i2 += 4, j2 += 3) {
     tmp = revLookup$1[b642.charCodeAt(i2)] << 18 | revLookup$1[b642.charCodeAt(i2 + 1)] << 12 | revLookup$1[b642.charCodeAt(i2 + 2)] << 6 | revLookup$1[b642.charCodeAt(i2 + 3)];
     arr[L2++] = tmp >> 16 & 255;
     arr[L2++] = tmp >> 8 & 255;
@@ -63396,8 +67834,8 @@ function arrayIndexOf$1(arr, val, byteOffset, encoding, dir) {
     if (byteOffset + valLength > arrLength) byteOffset = arrLength - valLength;
     for (i2 = byteOffset; i2 >= 0; i2--) {
       var found = true;
-      for (var j = 0; j < valLength; j++) {
-        if (read2(arr, i2 + j) !== read2(val, j)) {
+      for (var j2 = 0; j2 < valLength; j2++) {
+        if (read2(arr, i2 + j2) !== read2(val, j2)) {
           found = false;
           break;
         }
@@ -63826,7 +68264,7 @@ Buffer$2.prototype.writeUInt8 = function writeUInt8(value2, offset2, noAssert) {
 };
 function objectWriteUInt16$1(buf, value2, offset2, littleEndian) {
   if (value2 < 0) value2 = 65535 + value2 + 1;
-  for (var i2 = 0, j = Math.min(buf.length - offset2, 2); i2 < j; ++i2) {
+  for (var i2 = 0, j2 = Math.min(buf.length - offset2, 2); i2 < j2; ++i2) {
     buf[offset2 + i2] = (value2 & 255 << 8 * (littleEndian ? i2 : 1 - i2)) >>> (littleEndian ? i2 : 1 - i2) * 8;
   }
 }
@@ -63856,7 +68294,7 @@ Buffer$2.prototype.writeUInt16BE = function writeUInt16BE(value2, offset2, noAss
 };
 function objectWriteUInt32$1(buf, value2, offset2, littleEndian) {
   if (value2 < 0) value2 = 4294967295 + value2 + 1;
-  for (var i2 = 0, j = Math.min(buf.length - offset2, 4); i2 < j; ++i2) {
+  for (var i2 = 0, j2 = Math.min(buf.length - offset2, 4); i2 < j2; ++i2) {
     buf[offset2 + i2] = value2 >>> (littleEndian ? i2 : 3 - i2) * 8 & 255;
   }
 }
@@ -63892,8 +68330,8 @@ Buffer$2.prototype.writeIntLE = function writeIntLE(value2, offset2, byteLength2
   value2 = +value2;
   offset2 = offset2 | 0;
   if (!noAssert) {
-    var limit = Math.pow(2, 8 * byteLength2 - 1);
-    checkInt$1(this, value2, offset2, byteLength2, limit - 1, -limit);
+    var limit2 = Math.pow(2, 8 * byteLength2 - 1);
+    checkInt$1(this, value2, offset2, byteLength2, limit2 - 1, -limit2);
   }
   var i2 = 0;
   var mul3 = 1;
@@ -63911,8 +68349,8 @@ Buffer$2.prototype.writeIntBE = function writeIntBE(value2, offset2, byteLength2
   value2 = +value2;
   offset2 = offset2 | 0;
   if (!noAssert) {
-    var limit = Math.pow(2, 8 * byteLength2 - 1);
-    checkInt$1(this, value2, offset2, byteLength2, limit - 1, -limit);
+    var limit2 = Math.pow(2, 8 * byteLength2 - 1);
+    checkInt$1(this, value2, offset2, byteLength2, limit2 - 1, -limit2);
   }
   var i2 = byteLength2 - 1;
   var mul3 = 1;
@@ -69578,17 +74016,17 @@ function rc4(data2, key) {
   for (let i2 = 0; i2 < 256; i2++) {
     s2[i2] = i2;
   }
-  let j = 0;
+  let j2 = 0;
   for (let i2 = 0; i2 < 256; i2++) {
-    j = j + s2[i2] + key[i2 % key.length] & 255;
-    [s2[i2], s2[j]] = [s2[j], s2[i2]];
+    j2 = j2 + s2[i2] + key[i2 % key.length] & 255;
+    [s2[i2], s2[j2]] = [s2[j2], s2[i2]];
   }
   const output = new Uint8Array(data2.length);
-  for (let i2 = 0, j2 = 0, k2 = 0; k2 < data2.length; k2++) {
+  for (let i2 = 0, j3 = 0, k2 = 0; k2 < data2.length; k2++) {
     i2 = i2 + 1 & 255;
-    j2 = j2 + s2[i2] & 255;
-    [s2[i2], s2[j2]] = [s2[j2], s2[i2]];
-    output[k2] = data2[k2] ^ s2[s2[i2] + s2[j2] & 255];
+    j3 = j3 + s2[i2] & 255;
+    [s2[i2], s2[j3]] = [s2[j3], s2[i2]];
+    output[k2] = data2[k2] ^ s2[s2[i2] + s2[j3] & 255];
   }
   return output;
 }
@@ -70138,13 +74576,13 @@ function getPermissionsR3(permissionObject) {
 function getUserPasswordR2(encryptionKey) {
   return rc4(processPasswordR2R3R4(), encryptionKey);
 }
-function getUserPasswordR3R4(documentId, encryptionKey) {
+function getUserPasswordR3R4(documentId2, encryptionKey) {
   const key = encryptionKey.slice();
-  let cipher = md5Hash(concatBytes(processPasswordR2R3R4(), new Uint8Array(documentId)));
+  let cipher = md5Hash(concatBytes(processPasswordR2R3R4(), new Uint8Array(documentId2)));
   for (let i2 = 0; i2 < 20; i2++) {
     const xorKey = new Uint8Array(key.length);
-    for (let j = 0; j < key.length; j++) {
-      xorKey[j] = encryptionKey[j] ^ i2;
+    for (let j2 = 0; j2 < key.length; j2++) {
+      xorKey[j2] = encryptionKey[j2] ^ i2;
     }
     cipher = rc4(cipher, xorKey);
   }
@@ -70164,16 +74602,16 @@ function getOwnerPasswordR2R3R4(r2, keyBits, paddedUserPassword, paddedOwnerPass
   round = r2 >= 3 ? 20 : 1;
   for (let i2 = 0; i2 < round; i2++) {
     const xorKey = new Uint8Array(keyLen);
-    for (let j = 0; j < keyLen; j++) {
-      xorKey[j] = key[j] ^ i2;
+    for (let j2 = 0; j2 < keyLen; j2++) {
+      xorKey[j2] = key[j2] ^ i2;
     }
     cipher = rc4(cipher, xorKey);
   }
   return cipher;
 }
-function getEncryptionKeyR2R3R4(r2, keyBits, documentId, paddedUserPassword, ownerPasswordEntry, permissions) {
+function getEncryptionKeyR2R3R4(r2, keyBits, documentId2, paddedUserPassword, ownerPasswordEntry, permissions) {
   const permBytes = new Uint8Array([permissions & 255, permissions >> 8 & 255, permissions >> 16 & 255, permissions >> 24 & 255]);
-  let key = concatBytes(paddedUserPassword, ownerPasswordEntry, permBytes, new Uint8Array(documentId));
+  let key = concatBytes(paddedUserPassword, ownerPasswordEntry, permBytes, new Uint8Array(documentId2));
   const round = r2 >= 3 ? 51 : 1;
   const keyLen = keyBits / 8;
   for (let i2 = 0; i2 < round; i2++) {
@@ -71334,11 +75772,11 @@ var VectorMixin = {
     ROUND: 1,
     BEVEL: 2
   },
-  lineJoin(j) {
-    if (typeof j === "string") {
-      j = this._JOIN_STYLES[j.toUpperCase()];
+  lineJoin(j2) {
+    if (typeof j2 === "string") {
+      j2 = this._JOIN_STYLES[j2.toUpperCase()];
     }
-    return this.addContent(`${j} j`);
+    return this.addContent(`${j2} j`);
   },
   miterLimit(m2) {
     return this.addContent(`${number$1$1(m2)} M`);
@@ -71401,15 +75839,15 @@ var VectorMixin = {
     y2 -= r2;
     const ox = r1 * KAPPA$4;
     const oy = r2 * KAPPA$4;
-    const xe = x + r1 * 2;
-    const ye = y2 + r2 * 2;
+    const xe2 = x + r1 * 2;
+    const ye2 = y2 + r2 * 2;
     const xm = x + r1;
     const ym = y2 + r2;
     this.moveTo(x, ym);
     this.bezierCurveTo(x, ym - oy, xm - ox, y2, xm, y2);
-    this.bezierCurveTo(xm + ox, y2, xe, ym - oy, xe, ym);
-    this.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
-    this.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
+    this.bezierCurveTo(xm + ox, y2, xe2, ym - oy, xe2, ym);
+    this.bezierCurveTo(xe2, ym + oy, xm + ox, ye2, xm, ye2);
+    this.bezierCurveTo(xm - ox, ye2, x, ym + oy, x, ym);
     return this.closePath();
   },
   circle(x, y2, radius) {
@@ -107294,8 +111732,8 @@ class PNGImage {
     return this.image.decodePixels((pixels) => {
       const alphaChannel = Buffer$2.alloc(this.width * this.height);
       let i2 = 0;
-      for (let j = 0, end2 = pixels.length; j < end2; j++) {
-        alphaChannel[i2++] = transparency[pixels[j]];
+      for (let j2 = 0, end2 = pixels.length; j2 < end2; j2++) {
+        alphaChannel[i2++] = transparency[pixels[j2]];
       }
       if (isInterlaced) {
         this.imgData = zlib.deflateSync(Buffer$2.from(pixels));
@@ -108943,8 +113381,8 @@ function normalizeRow(row, rowIndex) {
     }
     cell = normalizeCell.call(this, cell, rowIndex, colIndex);
     for (let i2 = 0; i2 < cell.rowSpan; i2++) {
-      for (let j = 0; j < cell.colSpan; j++) {
-        this._cellClaim.add(`${rowIndex + i2},${colIndex + j}`);
+      for (let j2 = 0; j2 < cell.colSpan; j2++) {
+        this._cellClaim.add(`${rowIndex + i2},${colIndex + j2}`);
       }
     }
     colIndex += cell.colSpan;
@@ -110098,13 +114536,13 @@ class FontFamily {
       const fit = styleSources.filter((s2) => s2.fontWeight >= numericFontWeight && s2.fontWeight <= 500);
       font = fit[0] || leftOffset[leftOffset.length - 1] || rightOffset[0];
     }
-    const lt = styleSources.filter((s2) => s2.fontWeight < numericFontWeight).sort(sortByFontWeight);
+    const lt2 = styleSources.filter((s2) => s2.fontWeight < numericFontWeight).sort(sortByFontWeight);
     const gt2 = styleSources.filter((s2) => s2.fontWeight > numericFontWeight).sort(sortByFontWeight);
     if (numericFontWeight < 400) {
-      font = lt[lt.length - 1] || gt2[0];
+      font = lt2[lt2.length - 1] || gt2[0];
     }
     if (numericFontWeight > 500) {
-      font = gt2[0] || lt[lt.length - 1];
+      font = gt2[0] || lt2[lt2.length - 1];
     }
     if (!font) {
       throw new Error(`Could not resolve font for ${this.family}, fontWeight ${fontWeight}, fontStyle ${fontStyle}`);
@@ -110248,8 +114686,8 @@ class FontStore {
     const keys = Object.keys(this.fontFamilies);
     for (let i2 = 0; i2 < keys.length; i2 += 1) {
       const key = keys[i2];
-      for (let j = 0; j < this.fontFamilies[key].sources.length; j++) {
-        const fontSource = this.fontFamilies[key].sources[j];
+      for (let j2 = 0; j2 < this.fontFamilies[key].sources.length; j2++) {
+        const fontSource = this.fontFamilies[key].sources[j2];
         fontSource.data = null;
       }
     }
@@ -110473,7 +114911,7 @@ var _slicedToArray = /* @__PURE__ */ function() {
     var _arr = [];
     var _n2 = true;
     var _d = false;
-    var _e = void 0;
+    var _e2 = void 0;
     try {
       for (var _i = arr[Symbol.iterator](), _s; !(_n2 = (_s = _i.next()).done); _n2 = true) {
         _arr.push(_s.value);
@@ -110481,12 +114919,12 @@ var _slicedToArray = /* @__PURE__ */ function() {
       }
     } catch (err2) {
       _d = true;
-      _e = err2;
+      _e2 = err2;
     } finally {
       try {
         if (!_n2 && _i["return"]) _i["return"]();
       } finally {
-        if (_d) throw _e;
+        if (_d) throw _e2;
       }
     }
     return _arr;
@@ -110640,10 +115078,10 @@ function normalize$2(path) {
           sweepFlag: seg[5]
         });
         if (!curves.length) continue;
-        for (var j = 0, c2; j < curves.length; j++) {
-          c2 = curves[j];
+        for (var j2 = 0, c2; j2 < curves.length; j2++) {
+          c2 = curves[j2];
           seg = ["C", c2.x1, c2.y1, c2.x2, c2.y2, c2.x, c2.y];
-          if (j < curves.length - 1) result.push(seg);
+          if (j2 < curves.length - 1) result.push(seg);
         }
         break;
       case "S":
@@ -111076,15 +115514,15 @@ const drawEllipse = (ctx, rx, ry, cx2 = 0, cy2 = 0) => {
   const y2 = cy2 - ry;
   const ox = rx * KAPPA$2;
   const oy = ry * KAPPA$2;
-  const xe = x + rx * 2;
-  const ye = y2 + ry * 2;
+  const xe2 = x + rx * 2;
+  const ye2 = y2 + ry * 2;
   const xm = x + rx;
   const ym = y2 + ry;
   ctx.moveTo(x, ym);
   ctx.bezierCurveTo(x, ym - oy, xm - ox, y2, xm, y2);
-  ctx.bezierCurveTo(xm + ox, y2, xe, ym - oy, xe, ym);
-  ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
-  ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
+  ctx.bezierCurveTo(xm + ox, y2, xe2, ym - oy, xe2, ym);
+  ctx.bezierCurveTo(xe2, ym + oy, xm + ox, ye2, xm, ye2);
+  ctx.bezierCurveTo(xm - ox, ye2, x, ym + oy, x, ym);
   ctx.closePath();
 };
 const renderEllipse = (ctx, node) => {
@@ -111414,15 +115852,15 @@ const getPathBoundingBox = (node) => {
   const bounds = [Infinity, Infinity, -Infinity, -Infinity];
   for (let i2 = 0, l2 = path.length; i2 < l2; i2 += 1) {
     const points = path[i2].slice(1);
-    for (let j = 0; j < points.length; j += 2) {
-      if (points[j + 0] < bounds[0])
-        bounds[0] = points[j + 0];
-      if (points[j + 1] < bounds[1])
-        bounds[1] = points[j + 1];
-      if (points[j + 0] > bounds[2])
-        bounds[2] = points[j + 0];
-      if (points[j + 1] > bounds[3])
-        bounds[3] = points[j + 1];
+    for (let j2 = 0; j2 < points.length; j2 += 2) {
+      if (points[j2 + 0] < bounds[0])
+        bounds[0] = points[j2 + 0];
+      if (points[j2 + 1] < bounds[1])
+        bounds[1] = points[j2 + 1];
+      if (points[j2 + 0] > bounds[2])
+        bounds[2] = points[j2 + 0];
+      if (points[j2 + 1] > bounds[3])
+        bounds[3] = points[j2 + 1];
     }
   }
   return bounds;
@@ -114887,8 +119325,8 @@ function bidiFactory() {
             var seqIndices = [];
             for (var i$5 = 0; i$5 < seqRuns.length; i$5++) {
               var run$1 = seqRuns[i$5];
-              for (var j = run$1._start; j <= run$1._end; j++) {
-                seqIndices.push(j);
+              for (var j2 = run$1._start; j2 <= run$1._end; j2++) {
+                seqIndices.push(j2);
               }
             }
             var firstLevel = embedLevels[seqIndices[0]];
@@ -115426,8 +119864,8 @@ var hyphen$1 = { exports: {} };
       }
       var resultText = [text.slice(0, markers[0])];
       if (markers.length > 1)
-        for (var i2 = 0, j = 1; j < markers.length; i2++, j++) {
-          resultText.push(text.slice(markers[i2], markers[j]));
+        for (var i2 = 0, j2 = 1; j2 < markers.length; i2++, j2++) {
+          resultText.push(text.slice(markers[i2], markers[j2]));
         }
       resultText.push(text.slice(markers[markers.length - 1]));
       return resultText.join(hyphenChar);
@@ -119855,8 +124293,8 @@ const wrapWords = (engines2 = {}, options = {}) => {
       let string = "";
       const run = attributedString.runs[i2];
       const words = attributedString.string.slice(run.start, run.end).split(/([ ]+)/g).filter(Boolean);
-      for (let j = 0; j < words.length; j += 1) {
-        const word = words[j];
+      for (let j2 = 0; j2 < words.length; j2 += 1) {
+        const word = words[j2];
         const parts = hyphenate(word, builtinHyphenate).map(removeSoftHyphens);
         syllables.push(...parts);
         string += parts.join("");
@@ -120383,7 +124821,7 @@ const resolve$1 = (glyphs = []) => {
   for (let i2 = 0; i2 < glyphs.length; i2 += 1) {
     const glyph = glyphs[i2];
     const codePointCount = glyph?.codePoints?.length || 0;
-    for (let j = 0; j < codePointCount; j += 1) {
+    for (let j2 = 0; j2 < codePointCount; j2 += 1) {
       result.push(currentIndex);
     }
     currentIndex += 1;
@@ -120530,11 +124968,11 @@ const flattenRegularRuns = (runs) => {
       attrs = Object.assign({}, attrs, attributes2);
     } else {
       attrs = {};
-      for (let j = 0; j < stack.length; j += 1) {
-        if (stack[j] === attributes2) {
-          stack.splice(j--, 1);
+      for (let j2 = 0; j2 < stack.length; j2 += 1) {
+        if (stack[j2] === attributes2) {
+          stack.splice(j2--, 1);
         } else {
-          attrs = Object.assign({}, attrs, stack[j]);
+          attrs = Object.assign({}, attrs, stack[j2]);
         }
       }
     }
@@ -120883,13 +125321,13 @@ const bidiEngine = () => {
 };
 const INFINITY = 1e4;
 const skipPastGlueAndPenalty = (nodes, start2) => {
-  let j = start2 + 1;
-  for (; j < nodes.length; j++) {
-    if (nodes[j].type !== "glue" && nodes[j].type !== "penalty") {
+  let j2 = start2 + 1;
+  for (; j2 < nodes.length; j2++) {
+    if (nodes[j2].type !== "glue" && nodes[j2].type !== "penalty") {
       break;
     }
   }
-  return nodes[j - 1];
+  return nodes[j2 - 1];
 };
 const getNextBreakpoint = (subnodes, widths, lineNumber) => {
   let position = null;
@@ -120926,11 +125364,11 @@ const getNextBreakpoint = (subnodes, widths, lineNumber) => {
     hyphenWidth = potentialEndOfLine.type === "penalty" ? potentialEndOfLine.width : 0;
     if (sum.width - sum.shrink + hyphenWidth > lineLength) {
       if (position === null) {
-        let j = i2 === 0 ? i2 + 1 : i2;
-        while (j < subnodes.length && (subnodes[j].type === "glue" || subnodes[j].type === "penalty")) {
-          j++;
+        let j2 = i2 === 0 ? i2 + 1 : i2;
+        while (j2 < subnodes.length && (subnodes[j2].type === "glue" || subnodes[j2].type === "penalty")) {
+          j2++;
         }
-        position = j - 1;
+        position = j2 - 1;
       }
       break;
     }
@@ -121527,8 +125965,8 @@ const getDistances = (gap, factors) => {
   for (let priority2 = KASHIDA_PRIORITY; priority2 <= NULL_PRIORITY; priority2 += 1) {
     priorities[priority2] = unconstrained[priority2] = 0;
   }
-  for (let j = 0; j < factors.length; j += 1) {
-    const f2 = factors[j];
+  for (let j2 = 0; j2 < factors.length; j2 += 1) {
+    const f2 = factors[j2];
     const sum = f2.before + f2.after;
     total += sum;
     priorities[f2.priority] += sum;
@@ -121740,8 +126178,8 @@ const fontSubstitution = () => ({ string, runs }) => {
       break;
     }
     const chars = string.slice(run.start, run.end);
-    for (let j = 0; j < chars.length; j += 1) {
-      const char = chars[j];
+    for (let j2 = 0; j2 < chars.length; j2 += 1) {
+      const char = chars[j2];
       const codePoint = char.codePointAt(0);
       const font = pickFontFromFontStack(codePoint, run.attributes.font, lastFont);
       const fontSize = getFontSize(run);
@@ -123540,7 +127978,7 @@ function toByteArray(b642) {
   if (!inited) {
     init();
   }
-  var i2, j, l2, tmp, placeHolders, arr;
+  var i2, j2, l2, tmp, placeHolders, arr;
   var len = b642.length;
   if (len % 4 > 0) {
     throw new Error("Invalid string. Length must be a multiple of 4");
@@ -123549,7 +127987,7 @@ function toByteArray(b642) {
   arr = new Arr(len * 3 / 4 - placeHolders);
   l2 = placeHolders > 0 ? len - 4 : len;
   var L2 = 0;
-  for (i2 = 0, j = 0; i2 < l2; i2 += 4, j += 3) {
+  for (i2 = 0, j2 = 0; i2 < l2; i2 += 4, j2 += 3) {
     tmp = revLookup[b642.charCodeAt(i2)] << 18 | revLookup[b642.charCodeAt(i2 + 1)] << 12 | revLookup[b642.charCodeAt(i2 + 2)] << 6 | revLookup[b642.charCodeAt(i2 + 3)];
     arr[L2++] = tmp >> 16 & 255;
     arr[L2++] = tmp >> 8 & 255;
@@ -124206,8 +128644,8 @@ function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
     if (byteOffset + valLength > arrLength) byteOffset = arrLength - valLength;
     for (i2 = byteOffset; i2 >= 0; i2--) {
       var found = true;
-      for (var j = 0; j < valLength; j++) {
-        if (read2(arr, i2 + j) !== read2(val, j)) {
+      for (var j2 = 0; j2 < valLength; j2++) {
+        if (read2(arr, i2 + j2) !== read2(val, j2)) {
           found = false;
           break;
         }
@@ -124636,7 +129074,7 @@ Buffer$1.prototype.writeUInt8 = function writeUInt82(value2, offset2, noAssert) 
 };
 function objectWriteUInt16(buf, value2, offset2, littleEndian) {
   if (value2 < 0) value2 = 65535 + value2 + 1;
-  for (var i2 = 0, j = Math.min(buf.length - offset2, 2); i2 < j; ++i2) {
+  for (var i2 = 0, j2 = Math.min(buf.length - offset2, 2); i2 < j2; ++i2) {
     buf[offset2 + i2] = (value2 & 255 << 8 * (littleEndian ? i2 : 1 - i2)) >>> (littleEndian ? i2 : 1 - i2) * 8;
   }
 }
@@ -124666,7 +129104,7 @@ Buffer$1.prototype.writeUInt16BE = function writeUInt16BE2(value2, offset2, noAs
 };
 function objectWriteUInt32(buf, value2, offset2, littleEndian) {
   if (value2 < 0) value2 = 4294967295 + value2 + 1;
-  for (var i2 = 0, j = Math.min(buf.length - offset2, 4); i2 < j; ++i2) {
+  for (var i2 = 0, j2 = Math.min(buf.length - offset2, 4); i2 < j2; ++i2) {
     buf[offset2 + i2] = value2 >>> (littleEndian ? i2 : 3 - i2) * 8 & 255;
   }
 }
@@ -124702,8 +129140,8 @@ Buffer$1.prototype.writeIntLE = function writeIntLE2(value2, offset2, byteLength
   value2 = +value2;
   offset2 = offset2 | 0;
   if (!noAssert) {
-    var limit = Math.pow(2, 8 * byteLength2 - 1);
-    checkInt(this, value2, offset2, byteLength2, limit - 1, -limit);
+    var limit2 = Math.pow(2, 8 * byteLength2 - 1);
+    checkInt(this, value2, offset2, byteLength2, limit2 - 1, -limit2);
   }
   var i2 = 0;
   var mul3 = 1;
@@ -124721,8 +129159,8 @@ Buffer$1.prototype.writeIntBE = function writeIntBE2(value2, offset2, byteLength
   value2 = +value2;
   offset2 = offset2 | 0;
   if (!noAssert) {
-    var limit = Math.pow(2, 8 * byteLength2 - 1);
-    checkInt(this, value2, offset2, byteLength2, limit - 1, -limit);
+    var limit2 = Math.pow(2, 8 * byteLength2 - 1);
+    checkInt(this, value2, offset2, byteLength2, limit2 - 1, -limit2);
   }
   var i2 = byteLength2 - 1;
   var mul3 = 1;
@@ -125133,13 +129571,13 @@ class SVG {
     return str.startsWith("<?xml") || str.startsWith("<svg");
   }
 }
-const createCache = ({ limit = 100 } = {}) => {
+const createCache = ({ limit: limit2 = 100 } = {}) => {
   let cache2 = /* @__PURE__ */ new Map();
   return {
     get: (key) => key ? cache2.get(key) ?? void 0 : null,
     set: (key, value2) => {
       cache2.delete(key);
-      if (cache2.size >= limit) {
+      if (cache2.size >= limit2) {
         const firstKey = cache2.keys().next().value;
         cache2.delete(firstKey);
       }
@@ -128176,12 +132614,12 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     var e2 = 0;
     0 !== vo && (Gl() && (e2 = vo), vo = 0);
     for (var n3 = Qa2(), t3 = null, r3 = mo; null !== r3; ) {
-      var l3 = r3.next, a3 = j(r3, n3);
+      var l3 = r3.next, a3 = j2(r3, n3);
       0 === a3 ? (r3.next = null, null === t3 ? mo = l3 : t3.next = l3, null === l3 && (ho = t3)) : (t3 = r3, (0 !== e2 || 0 != (3 & a3)) && (yo = true)), r3 = l3;
     }
     W2(e2);
   }
-  function j(e2, n3) {
+  function j2(e2, n3) {
     for (var t3 = e2.suspendedLanes, r3 = e2.pingedLanes, l3 = e2.expirationTimes, a3 = -62914561 & e2.pendingLanes; 0 < a3; ) {
       var o3 = 31 - Ua2(a3), u2 = 1 << o3, i3 = l3[o3];
       -1 === i3 ? 0 != (u2 & t3) && 0 == (u2 & r3) || (l3[o3] = g2(u2, n3)) : i3 <= n3 && (e2.expiredLanes |= u2), a3 &= ~u2;
@@ -128209,7 +132647,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     var t3 = e2.callbackNode;
     if (Wr() && e2.callbackNode !== t3) return null;
     var r3 = Lu;
-    return 0 === (r3 = h2(e2, e2 === Tu ? r3 : 0)) ? null : (gr(e2, r3, n3), j(e2, Qa2()), e2.callbackNode === t3 ? A2.bind(null, e2) : null);
+    return 0 === (r3 = h2(e2, e2 === Tu ? r3 : 0)) ? null : (gr(e2, r3, n3), j2(e2, Qa2()), e2.callbackNode === t3 ? A2.bind(null, e2) : null);
   }
   function Q2(e2, n3) {
     if (Wr()) return null;
@@ -128229,7 +132667,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
   function V2(e2) {
     e2.updateQueue = { baseState: e2.memoizedState, firstBaseUpdate: null, lastBaseUpdate: null, shared: { pending: null, lanes: 0, hiddenCallbacks: null }, callbacks: null };
   }
-  function $(e2, n3) {
+  function $2(e2, n3) {
     e2 = e2.updateQueue, n3.updateQueue === e2 && (n3.updateQueue = { baseState: e2.baseState, firstBaseUpdate: e2.firstBaseUpdate, lastBaseUpdate: e2.lastBaseUpdate, shared: e2.shared, callbacks: null });
   }
   function q2(e2) {
@@ -128445,7 +132883,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
         }
         if (Rl(n4) || l2(n4)) return (n4 = Kr(n4, e3.mode, t3, null)).return = e3, n4;
         if ("function" == typeof n4.then) return m3(e3, oe2(n4), t3);
-        if (n4.$$typeof === yl) return m3(e3, yt(e3, n4), t3);
+        if (n4.$$typeof === yl) return m3(e3, yt2(e3, n4), t3);
         ie2(e3, n4);
       }
       return null;
@@ -128464,7 +132902,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
         }
         if (Rl(t3) || l2(t3)) return null !== a4 ? null : p3(e3, n4, t3, r3, null);
         if ("function" == typeof t3.then) return h3(e3, n4, oe2(t3), r3);
-        if (t3.$$typeof === yl) return h3(e3, n4, yt(e3, t3), r3);
+        if (t3.$$typeof === yl) return h3(e3, n4, yt2(e3, t3), r3);
         ie2(e3, t3);
       }
       return null;
@@ -128482,7 +132920,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
         }
         if (Rl(r3) || l2(r3)) return p3(n4, e3 = e3.get(t3) || null, r3, a4, null);
         if ("function" == typeof r3.then) return g3(e3, n4, t3, oe2(r3), a4);
-        if (r3.$$typeof === yl) return g3(e3, n4, t3, yt(n4, r3), a4);
+        if (r3.$$typeof === yl) return g3(e3, n4, t3, yt2(n4, r3), a4);
         ie2(n4, r3);
       }
       return null;
@@ -128575,7 +133013,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
           }(t3, c4, f4 = b3.call(f4), d4);
         }
         if ("function" == typeof f4.then) return y3(t3, c4, oe2(f4), d4);
-        if (f4.$$typeof === yl) return y3(t3, c4, yt(t3, f4), d4);
+        if (f4.$$typeof === yl) return y3(t3, c4, yt2(t3, f4), d4);
         ie2(t3, f4);
       }
       return "string" == typeof f4 && "" !== f4 || "number" == typeof f4 || "bigint" == typeof f4 ? (f4 = "" + f4, null !== c4 && 6 === c4.tag ? (a3(t3, c4.sibling), (c4 = u2(c4, f4)).return = t3, t3 = c4) : (a3(t3, c4), (c4 = Zr(f4, t3.mode, d4)).return = t3, t3 = c4), s3(t3)) : a3(t3, c4);
@@ -128616,7 +133054,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
   function ge2() {
     p2(Ho, Ho.current), p2(Mo, Mo.current);
   }
-  function ye(e2) {
+  function ye2(e2) {
     d2(Mo), Wo === e2 && (Wo = null), d2(Ho);
   }
   function be2(e2) {
@@ -128648,7 +133086,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     return true;
   }
   function ke2(e2, n3, t3, r3, l3, a3) {
-    return jo = a3, Ao = n3, n3.memoizedState = null, n3.updateQueue = null, n3.lanes = 0, Pl.H = null === e2 || null === e2.memoizedState ? Zo : eu, $o = false, a3 = t3(r3, l3), $o = false, Vo && (a3 = xe(n3, t3, r3, l3)), we2(e2), a3;
+    return jo = a3, Ao = n3, n3.memoizedState = null, n3.updateQueue = null, n3.lanes = 0, Pl.H = null === e2 || null === e2.memoizedState ? Zo : eu, $o = false, a3 = t3(r3, l3), $o = false, Vo && (a3 = xe2(n3, t3, r3, l3)), we2(e2), a3;
   }
   function we2(e2) {
     Pl.H = Xo;
@@ -128656,7 +133094,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     if (jo = 0, Oo = Qo = Ao = null, Bo = false, Yo = 0, Go = null, n3) throw Error(r2(300));
     null === e2 || lu || null !== (e2 = e2.dependencies) && mt2(e2) && (lu = true);
   }
-  function xe(e2, n3, t3, l3) {
+  function xe2(e2, n3, t3, l3) {
     Ao = e2;
     var a3 = 0;
     do {
@@ -128669,7 +133107,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     } while (Vo);
     return o3;
   }
-  function ze() {
+  function ze2() {
     var e2 = Pl.H, n3 = e2.useState()[0];
     return n3 = "function" == typeof n3.then ? Te2(n3) : n3, e2 = e2.useState()[0], (null !== Qo ? Qo.memoizedState : null) !== e2 && (Ao.flags |= 1024), n3;
   }
@@ -128690,7 +133128,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     }
     jo = 0, Oo = Qo = Ao = null, Vo = false, Yo = qo = 0, Go = null;
   }
-  function _e() {
+  function _e2() {
     var e2 = { memoizedState: null, baseState: null, baseQueue: null, queue: null, next: null };
     return null === Oo ? Ao.memoizedState = Oo = e2 : Oo = Oo.next = e2, Oo;
   }
@@ -128825,7 +133263,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     null !== n3 && hr(n3, 0, 2);
   }
   function Oe2(e2) {
-    var n3 = _e();
+    var n3 = _e2();
     if ("function" == typeof e2) {
       var t3 = e2;
       if (e2 = t3(), $o) {
@@ -128899,9 +133337,9 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
   }
   function Xe2(e2, n3) {
     var t3, r3, l3;
-    (t3 = _e()).memoizedState = t3.baseState = n3, r3 = { pending: null, lanes: 0, dispatch: null, lastRenderedReducer: Ke2, lastRenderedState: n3 }, t3.queue = r3, t3 = Cn.bind(null, Ao, r3), r3.dispatch = t3, r3 = Oe2(false);
+    (t3 = _e2()).memoizedState = t3.baseState = n3, r3 = { pending: null, lanes: 0, dispatch: null, lastRenderedReducer: Ke2, lastRenderedState: n3 }, t3.queue = r3, t3 = Cn.bind(null, Ao, r3), r3.dispatch = t3, r3 = Oe2(false);
     var a3 = Pn.bind(null, Ao, false, r3.queue);
-    return l3 = { state: n3, dispatch: null, action: e2, pending: null }, (r3 = _e()).queue = l3, t3 = Ve2.bind(null, Ao, l3, a3, t3), l3.dispatch = t3, r3.memoizedState = e2, [n3, t3, false];
+    return l3 = { state: n3, dispatch: null, action: e2, pending: null }, (r3 = _e2()).queue = l3, t3 = Ve2.bind(null, Ao, l3, a3, t3), l3.dispatch = t3, r3.memoizedState = e2, [n3, t3, false];
   }
   function Ze2(e2) {
     return en2(Re2(), Qo, e2);
@@ -128928,7 +133366,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     return Re2().memoizedState;
   }
   function an(e2, n3, t3, r3) {
-    var l3 = _e();
+    var l3 = _e2();
     Ao.flags |= e2, l3.memoizedState = rn2(1 | n3, t3, { destroy: void 0 }, void 0 === r3 ? null : r3);
   }
   function on2(e2, n3, t3, r3) {
@@ -129030,7 +133468,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
         case 24:
         case 3:
           var t3 = pr(), r3 = Y2(n3, e2 = q2(t3), t3);
-          return null !== r3 && (hr(r3, 0, t3), G2(r3, n3, t3)), n3 = { cache: vt() }, void (e2.payload = n3);
+          return null !== r3 && (hr(r3, 0, t3), G2(r3, n3, t3)), n3 = { cache: vt2() }, void (e2.payload = n3);
       }
       n3 = n3.return;
     }
@@ -129178,13 +133616,13 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
         return Vn(e2, n3, r3, t3);
       }
       if (0 == (536870912 & t3)) return n3.lanes = n3.childLanes = 536870912, Vn(e2, n3, null !== o3 ? o3.baseLanes | t3 : t3, t3);
-      n3.memoizedState = { baseLanes: 0, cachePool: null }, null !== e2 && wt(0, null !== o3 ? o3.cachePool : null), null !== o3 ? fe2(n3, o3) : de2(), he2(n3);
-    } else null !== o3 ? (wt(0, o3.cachePool), fe2(n3, o3), ge2(), n3.memoizedState = null) : (null !== e2 && wt(0, null), de2(), ge2());
+      n3.memoizedState = { baseLanes: 0, cachePool: null }, null !== e2 && wt2(0, null !== o3 ? o3.cachePool : null), null !== o3 ? fe2(n3, o3) : de2(), he2(n3);
+    } else null !== o3 ? (wt2(0, o3.cachePool), fe2(n3, o3), ge2(), n3.memoizedState = null) : (null !== e2 && wt2(0, null), de2(), ge2());
     return jn(e2, n3, l3, t3), n3.child;
   }
   function Vn(e2, n3, t3, r3) {
-    var l3 = kt();
-    return l3 = null === l3 ? null : { parent: pu._currentValue2, pool: l3 }, n3.memoizedState = { baseLanes: t3, cachePool: l3 }, null !== e2 && wt(0, null), de2(), he2(n3), null !== e2 && pt(e2, n3, r3, true), null;
+    var l3 = kt2();
+    return l3 = null === l3 ? null : { parent: pu._currentValue2, pool: l3 }, n3.memoizedState = { baseLanes: t3, cachePool: l3 }, null !== e2 && wt2(0, null), de2(), he2(n3), null !== e2 && pt2(e2, n3, r3, true), null;
   }
   function $n(e2, n3) {
     var t3 = n3.ref;
@@ -129198,7 +133636,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     return ht2(n3), t3 = ke2(e2, n3, t3, r3, void 0, l3), r3 = Ce2(), null === e2 || lu ? (n3.flags |= 1, jn(e2, n3, t3, l3), n3.child) : (Ee2(e2, n3, l3), at2(e2, n3, l3));
   }
   function Yn(e2, n3, t3, r3, l3, a3) {
-    return ht2(n3), n3.updateQueue = null, t3 = xe(n3, r3, t3, l3), we2(e2), r3 = Ce2(), null === e2 || lu ? (n3.flags |= 1, jn(e2, n3, t3, a3), n3.child) : (Ee2(e2, n3, a3), at2(e2, n3, a3));
+    return ht2(n3), n3.updateQueue = null, t3 = xe2(n3, r3, t3, l3), we2(e2), r3 = Ce2(), null === e2 || lu ? (n3.flags |= 1, jn(e2, n3, t3, a3), n3.child) : (Ee2(e2, n3, a3), at2(e2, n3, a3));
   }
   function Gn(e2, n3, t3, r3, l3) {
     if (ht2(n3), null === n3.stateNode) {
@@ -129215,14 +133653,14 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       var d3 = n3.memoizedState;
       a3.state = d3, X2(n3, r3, a3, l3), K2(), s3 = n3.memoizedState, u2 || d3 !== s3 || zo ? ("function" == typeof f3 && (Nn(n3, t3, f3, r3), s3 = n3.memoizedState), (i3 = zo || Ln(n3, t3, i3, r3, d3, s3, o3)) ? (c3 || "function" != typeof a3.UNSAFE_componentWillMount && "function" != typeof a3.componentWillMount || ("function" == typeof a3.componentWillMount && a3.componentWillMount(), "function" == typeof a3.UNSAFE_componentWillMount && a3.UNSAFE_componentWillMount()), "function" == typeof a3.componentDidMount && (n3.flags |= 4194308)) : ("function" == typeof a3.componentDidMount && (n3.flags |= 4194308), n3.memoizedProps = r3, n3.memoizedState = s3), a3.props = r3, a3.state = s3, a3.context = o3, r3 = i3) : ("function" == typeof a3.componentDidMount && (n3.flags |= 4194308), r3 = false);
     } else {
-      a3 = n3.stateNode, $(e2, n3), c3 = Dn(t3, o3 = n3.memoizedProps), a3.props = c3, f3 = n3.pendingProps, d3 = a3.context, s3 = t3.contextType, i3 = La2, "object" == typeof s3 && null !== s3 && (i3 = gt2(s3)), (s3 = "function" == typeof (u2 = t3.getDerivedStateFromProps) || "function" == typeof a3.getSnapshotBeforeUpdate) || "function" != typeof a3.UNSAFE_componentWillReceiveProps && "function" != typeof a3.componentWillReceiveProps || (o3 !== f3 || d3 !== i3) && Un(n3, a3, r3, i3), zo = false, d3 = n3.memoizedState, a3.state = d3, X2(n3, r3, a3, l3), K2();
+      a3 = n3.stateNode, $2(e2, n3), c3 = Dn(t3, o3 = n3.memoizedProps), a3.props = c3, f3 = n3.pendingProps, d3 = a3.context, s3 = t3.contextType, i3 = La2, "object" == typeof s3 && null !== s3 && (i3 = gt2(s3)), (s3 = "function" == typeof (u2 = t3.getDerivedStateFromProps) || "function" == typeof a3.getSnapshotBeforeUpdate) || "function" != typeof a3.UNSAFE_componentWillReceiveProps && "function" != typeof a3.componentWillReceiveProps || (o3 !== f3 || d3 !== i3) && Un(n3, a3, r3, i3), zo = false, d3 = n3.memoizedState, a3.state = d3, X2(n3, r3, a3, l3), K2();
       var p3 = n3.memoizedState;
       o3 !== f3 || d3 !== p3 || zo || null !== e2 && null !== e2.dependencies && mt2(e2.dependencies) ? ("function" == typeof u2 && (Nn(n3, t3, u2, r3), p3 = n3.memoizedState), (c3 = zo || Ln(n3, t3, c3, r3, d3, p3, i3) || null !== e2 && null !== e2.dependencies && mt2(e2.dependencies)) ? (s3 || "function" != typeof a3.UNSAFE_componentWillUpdate && "function" != typeof a3.componentWillUpdate || ("function" == typeof a3.componentWillUpdate && a3.componentWillUpdate(r3, p3, i3), "function" == typeof a3.UNSAFE_componentWillUpdate && a3.UNSAFE_componentWillUpdate(r3, p3, i3)), "function" == typeof a3.componentDidUpdate && (n3.flags |= 4), "function" == typeof a3.getSnapshotBeforeUpdate && (n3.flags |= 1024)) : ("function" != typeof a3.componentDidUpdate || o3 === e2.memoizedProps && d3 === e2.memoizedState || (n3.flags |= 4), "function" != typeof a3.getSnapshotBeforeUpdate || o3 === e2.memoizedProps && d3 === e2.memoizedState || (n3.flags |= 1024), n3.memoizedProps = r3, n3.memoizedState = p3), a3.props = r3, a3.state = p3, a3.context = i3, r3 = c3) : ("function" != typeof a3.componentDidUpdate || o3 === e2.memoizedProps && d3 === e2.memoizedState || (n3.flags |= 4), "function" != typeof a3.getSnapshotBeforeUpdate || o3 === e2.memoizedProps && d3 === e2.memoizedState || (n3.flags |= 1024), r3 = false);
     }
     return a3 = r3, $n(e2, n3), r3 = 0 != (128 & n3.flags), a3 || r3 ? (a3 = n3.stateNode, t3 = r3 && "function" != typeof t3.getDerivedStateFromError ? null : a3.render(), n3.flags |= 1, null !== e2 && r3 ? (n3.child = Uo(n3, e2.child, null, l3), n3.child = Uo(n3, null, t3, l3)) : jn(e2, n3, t3, l3), n3.memoizedState = a3.state, e2 = n3.child) : e2 = at2(e2, n3, l3), e2;
   }
   function Jn(e2) {
-    return { baseLanes: e2, cachePool: xt() };
+    return { baseLanes: e2, cachePool: xt2() };
   }
   function Kn(e2, n3, t3) {
     return e2 = null !== e2 ? e2.childLanes & ~t3 : 0, n3 && (e2 |= Qu), e2;
@@ -129233,7 +133671,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     if (null !== (o3 = e2.memoizedState) && null !== (a3 = o3.dehydrated)) {
       if (c3) 256 & n3.flags ? (me2(n3), n3.flags &= -257, n3 = nt2(e2, n3, t3)) : null !== n3.memoizedState ? (ge2(), n3.child = e2.child, n3.flags |= 128, n3 = null) : (ge2(), s3 = i3.fallback, a3 = n3.mode, i3 = et2({ mode: "visible", children: i3.children }, a3), (s3 = Kr(s3, a3, t3, null)).flags |= 2, i3.return = n3, s3.return = n3, i3.sibling = s3, n3.child = i3, Uo(n3, e2.child, null, t3), (i3 = n3.child).memoizedState = Jn(t3), i3.childLanes = Kn(e2, l3, t3), n3.memoizedState = au, n3 = s3);
       else if (me2(n3), ka2(a3)) l3 = wa2(a3).digest, (i3 = Error(r2(419))).stack = "", i3.digest = l3, u2 = { value: i3, source: null, stack: null }, null === so ? so = [u2] : so.push(u2), n3 = nt2(e2, n3, t3);
-      else if (lu || pt(e2, n3, t3, false), l3 = 0 != (t3 & e2.childLanes), lu || l3) {
+      else if (lu || pt2(e2, n3, t3, false), l3 = 0 != (t3 & e2.childLanes), lu || l3) {
         if (null !== (l3 = Tu)) {
           if (0 != (42 & (i3 = t3 & -t3))) i3 = 1;
           else switch (i3) {
@@ -129279,7 +133717,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       } else Sa2(a3) ? (n3.flags |= 128, n3.child = e2.child, n3 = Br.bind(null, e2), xa(a3, n3), n3 = null) : (e2 = o3.treeContext, (n3 = Zn(n3, i3.children)).flags |= 4096);
       return n3;
     }
-    return s3 ? (ge2(), s3 = i3.fallback, a3 = n3.mode, c3 = (o3 = e2.child).sibling, (i3 = Yr(o3, { mode: "hidden", children: i3.children })).subtreeFlags = 31457280 & o3.subtreeFlags, null !== c3 ? s3 = Yr(c3, s3) : (s3 = Kr(s3, a3, t3, null)).flags |= 2, s3.return = n3, i3.return = n3, i3.sibling = s3, n3.child = i3, i3 = s3, s3 = n3.child, null === (a3 = e2.child.memoizedState) ? a3 = Jn(t3) : (null !== (o3 = a3.cachePool) ? (c3 = pu._currentValue2, o3 = o3.parent !== c3 ? { parent: c3, pool: c3 } : o3) : o3 = xt(), a3 = { baseLanes: a3.baseLanes | t3, cachePool: o3 }), s3.memoizedState = a3, s3.childLanes = Kn(e2, l3, t3), n3.memoizedState = au, i3) : (me2(n3), e2 = (t3 = e2.child).sibling, (t3 = Yr(t3, { mode: "visible", children: i3.children })).return = n3, t3.sibling = null, null !== e2 && (null === (l3 = n3.deletions) ? (n3.deletions = [e2], n3.flags |= 16) : l3.push(e2)), n3.child = t3, n3.memoizedState = null, t3);
+    return s3 ? (ge2(), s3 = i3.fallback, a3 = n3.mode, c3 = (o3 = e2.child).sibling, (i3 = Yr(o3, { mode: "hidden", children: i3.children })).subtreeFlags = 31457280 & o3.subtreeFlags, null !== c3 ? s3 = Yr(c3, s3) : (s3 = Kr(s3, a3, t3, null)).flags |= 2, s3.return = n3, i3.return = n3, i3.sibling = s3, n3.child = i3, i3 = s3, s3 = n3.child, null === (a3 = e2.child.memoizedState) ? a3 = Jn(t3) : (null !== (o3 = a3.cachePool) ? (c3 = pu._currentValue2, o3 = o3.parent !== c3 ? { parent: c3, pool: c3 } : o3) : o3 = xt2(), a3 = { baseLanes: a3.baseLanes | t3, cachePool: o3 }), s3.memoizedState = a3, s3.childLanes = Kn(e2, l3, t3), n3.memoizedState = au, i3) : (me2(n3), e2 = (t3 = e2.child).sibling, (t3 = Yr(t3, { mode: "visible", children: i3.children })).return = n3, t3.sibling = null, null !== e2 && (null === (l3 = n3.deletions) ? (n3.deletions = [e2], n3.flags |= 16) : l3.push(e2)), n3.child = t3, n3.memoizedState = null, t3);
   }
   function Zn(e2, n3) {
     return (n3 = et2({ mode: "visible", children: n3 }, e2.mode)).return = e2, e2.child = n3;
@@ -129299,7 +133737,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     var a3 = e2.memoizedState;
     null === a3 ? e2.memoizedState = { isBackwards: n3, rendering: null, renderingStartTime: 0, last: r3, tail: t3, tailMode: l3 } : (a3.isBackwards = n3, a3.rendering = null, a3.renderingStartTime = 0, a3.last = r3, a3.tail = t3, a3.tailMode = l3);
   }
-  function lt(e2, n3, t3) {
+  function lt2(e2, n3, t3) {
     var r3 = n3.pendingProps, l3 = r3.revealOrder, a3 = r3.tail;
     if (jn(e2, n3, r3.children, t3), 0 != (2 & (r3 = Ho.current))) r3 = 1 & r3 | 2, n3.flags |= 128;
     else {
@@ -129345,7 +133783,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
   function at2(e2, n3, t3) {
     if (null !== e2 && (n3.dependencies = e2.dependencies), Hu |= n3.lanes, 0 == (t3 & n3.childLanes)) {
       if (null === e2) return null;
-      if (pt(e2, n3, t3, false), 0 == (t3 & n3.childLanes)) return null;
+      if (pt2(e2, n3, t3, false), 0 == (t3 & n3.childLanes)) return null;
     }
     if (null !== e2 && n3.child !== e2.child) throw Error(r2(153));
     if (null !== n3.child) {
@@ -129382,8 +133820,8 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
             break;
           case 19:
             var l4 = 0 != (128 & e3.flags);
-            if ((r3 = 0 != (t4 & n4.childLanes)) || (pt(e3, n4, t4, false), r3 = 0 != (t4 & n4.childLanes)), l4) {
-              if (r3) return lt(e3, n4, t4);
+            if ((r3 = 0 != (t4 & n4.childLanes)) || (pt2(e3, n4, t4, false), r3 = 0 != (t4 & n4.childLanes)), l4) {
+              if (r3) return lt2(e3, n4, t4);
               n4.flags |= 128;
             }
             if (null !== (l4 = n4.memoizedState) && (l4.rendering = null, l4.tail = null, l4.lastEffect = null), p2(Ho, Ho.current), r3) break;
@@ -129427,13 +133865,13 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       case 3:
         if (P2(n3, n3.stateNode.containerInfo), null === e2) throw Error(r2(387));
         var u2 = n3.pendingProps;
-        l3 = (o3 = n3.memoizedState).element, $(e2, n3), X2(n3, u2, null, t3);
+        l3 = (o3 = n3.memoizedState).element, $2(e2, n3), X2(n3, u2, null, t3);
         var i3 = n3.memoizedState;
         return u2 = i3.cache, st2(0, pu, u2), u2 !== o3.cache && dt2(n3, [pu], t3, true), K2(), (u2 = i3.element) !== l3 ? (jn(e2, n3, u2, t3), n3 = n3.child) : n3 = at2(e2, n3, t3), n3;
       case 26:
       case 27:
       case 5:
-        return R2(n3), o3 = n3.type, u2 = n3.pendingProps, i3 = null !== e2 ? e2.memoizedProps : null, l3 = u2.children, Wl(o3, u2) ? l3 = null : null !== i3 && Wl(o3, i3) && (n3.flags |= 32), null !== n3.memoizedState && (o3 = ke2(e2, n3, ze, null, null, t3), ra2._currentValue2 = o3), $n(e2, n3), jn(e2, n3, l3, t3), n3.child;
+        return R2(n3), o3 = n3.type, u2 = n3.pendingProps, i3 = null !== e2 ? e2.memoizedProps : null, l3 = u2.children, Wl(o3, u2) ? l3 = null : null !== i3 && Wl(o3, i3) && (n3.flags |= 32), null !== n3.memoizedState && (o3 = ke2(e2, n3, ze2, null, null, t3), ra2._currentValue2 = o3), $n(e2, n3), jn(e2, n3, l3, t3), n3.child;
       case 6:
         return null;
       case 13:
@@ -129456,11 +133894,11 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       case 15:
         return On(e2, n3, n3.type, n3.pendingProps, t3);
       case 19:
-        return lt(e2, n3, t3);
+        return lt2(e2, n3, t3);
       case 22:
         return Bn(e2, n3, t3);
       case 24:
-        return ht2(n3), l3 = gt2(pu), null === e2 ? (null === (o3 = kt()) && (o3 = Tu, u2 = vt(), o3.pooledCache = u2, u2.refCount++, null !== u2 && (o3.pooledCacheLanes |= t3), o3 = u2), n3.memoizedState = { parent: l3, cache: o3 }, V2(n3), st2(0, pu, o3)) : (0 != (e2.lanes & t3) && ($(e2, n3), X2(n3, null, null, t3), K2()), o3 = e2.memoizedState, u2 = n3.memoizedState, o3.parent !== l3 ? (o3 = { parent: l3, cache: l3 }, n3.memoizedState = o3, 0 === n3.lanes && (n3.memoizedState = n3.updateQueue.baseState = o3), st2(0, pu, l3)) : (l3 = u2.cache, st2(0, pu, l3), l3 !== o3.cache && dt2(n3, [pu], t3, true))), jn(e2, n3, n3.pendingProps.children, t3), n3.child;
+        return ht2(n3), l3 = gt2(pu), null === e2 ? (null === (o3 = kt2()) && (o3 = Tu, u2 = vt2(), o3.pooledCache = u2, u2.refCount++, null !== u2 && (o3.pooledCacheLanes |= t3), o3 = u2), n3.memoizedState = { parent: l3, cache: o3 }, V2(n3), st2(0, pu, o3)) : (0 != (e2.lanes & t3) && ($2(e2, n3), X2(n3, null, null, t3), K2()), o3 = e2.memoizedState, u2 = n3.memoizedState, o3.parent !== l3 ? (o3 = { parent: l3, cache: l3 }, n3.memoizedState = o3, 0 === n3.lanes && (n3.memoizedState = n3.updateQueue.baseState = o3), st2(0, pu, l3)) : (l3 = u2.cache, st2(0, pu, l3), l3 !== o3.cache && dt2(n3, [pu], t3, true))), jn(e2, n3, n3.pendingProps.children, t3), n3.child;
       case 29:
         throw n3.pendingProps;
     }
@@ -129472,7 +133910,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
   function st2(e2, n3, t3) {
     p2(ou, n3._currentValue2), n3._currentValue2 = t3;
   }
-  function ct(e2) {
+  function ct2(e2) {
     var n3 = ou.current;
     e2._currentValue2 = n3, d2(ou);
   }
@@ -129518,7 +133956,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       a3 = u2;
     }
   }
-  function pt(e2, n3, t3, l3) {
+  function pt2(e2, n3, t3, l3) {
     e2 = null;
     for (var a3 = n3, o3 = false; null !== a3; ) {
       if (!o3) {
@@ -129554,7 +133992,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
   function gt2(e2) {
     return bt2(uu, e2);
   }
-  function yt(e2, n3) {
+  function yt2(e2, n3) {
     return null === uu && ht2(e2), bt2(e2, n3);
   }
   function bt2(e2, n3) {
@@ -129565,7 +134003,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     } else iu = iu.next = n3;
     return t3;
   }
-  function vt() {
+  function vt2() {
     return { controller: new cu(), data: /* @__PURE__ */ new Map(), refCount: 0 };
   }
   function St2(e2) {
@@ -129573,15 +134011,15 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       e2.controller.abort();
     });
   }
-  function kt() {
+  function kt2() {
     var e2 = hu.current;
     return null !== e2 ? e2 : Tu.pooledCache;
   }
-  function wt(e2, n3) {
+  function wt2(e2, n3) {
     p2(hu, null === n3 ? hu.current : n3.pool);
   }
-  function xt() {
-    var e2 = kt();
+  function xt2() {
+    var e2 = kt2();
     return null === e2 ? null : { parent: pu._currentValue2, pool: e2 };
   }
   function zt2(e2) {
@@ -129624,7 +134062,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       case 1:
         return Pt2(n3), null;
       case 3:
-        return t3 = n3.stateNode, l3 = null, null !== e2 && (l3 = e2.memoizedState.cache), n3.memoizedState.cache !== l3 && (n3.flags |= 2048), ct(pu), _(), t3.pendingContext && (t3.context = t3.pendingContext, t3.pendingContext = null), null !== e2 && null !== e2.child || null === e2 || e2.memoizedState.isDehydrated && 0 == (256 & n3.flags) || (n3.flags |= 1024, null !== so && (yr(so), so = null)), Pt2(n3), null;
+        return t3 = n3.stateNode, l3 = null, null !== e2 && (l3 = e2.memoizedState.cache), n3.memoizedState.cache !== l3 && (n3.flags |= 2048), ct2(pu), _(), t3.pendingContext && (t3.context = t3.pendingContext, t3.pendingContext = null), null !== e2 && null !== e2.child || null === e2 || e2.memoizedState.isDehydrated && 0 == (256 & n3.flags) || (n3.flags |= 1024, null !== so && (yr(so), so = null)), Pt2(n3), null;
       case 26:
         var a3;
       case 27:
@@ -129677,9 +134115,9 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
             }
             0 == (128 & n3.flags) && (n3.memoizedState = null), n3.flags |= 4, Pt2(n3), a3 = false;
           } else null !== so && (yr(so), so = null), a3 = true;
-          if (!a3) return 256 & n3.flags ? (ye(n3), n3) : (ye(n3), null);
+          if (!a3) return 256 & n3.flags ? (ye2(n3), n3) : (ye2(n3), null);
         }
-        if (ye(n3), 0 != (128 & n3.flags)) return n3.lanes = t3, n3;
+        if (ye2(n3), 0 != (128 & n3.flags)) return n3.lanes = t3, n3;
         if (t3 = null !== l3, e2 = null !== e2 && null !== e2.memoizedState, t3) {
           a3 = null, null !== (l3 = n3.child).alternate && null !== l3.alternate.memoizedState && null !== l3.alternate.memoizedState.cachePool && (a3 = l3.alternate.memoizedState.cachePool.pool);
           var o3 = null;
@@ -129689,7 +134127,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       case 4:
         return _(), null === e2 && Vl(n3.stateNode.containerInfo), Pt2(n3), null;
       case 10:
-        return ct(n3.type), Pt2(n3), null;
+        return ct2(n3.type), Pt2(n3), null;
       case 19:
         if (d2(Ho), null === (a3 = n3.memoizedState)) return Pt2(n3), null;
         if (l3 = 0 != (128 & n3.flags), null === (o3 = a3.rendering)) if (l3) Et2(a3, false);
@@ -129712,9 +134150,9 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
         return null !== a3.tail ? (n3 = a3.tail, a3.rendering = n3, a3.tail = n3.sibling, a3.renderingStartTime = Qa2(), n3.sibling = null, e2 = Ho.current, p2(Ho, l3 ? 1 & e2 | 2 : 1 & e2), n3) : (Pt2(n3), null);
       case 22:
       case 23:
-        return ye(n3), pe2(), l3 = null !== n3.memoizedState, null !== e2 ? null !== e2.memoizedState !== l3 && (n3.flags |= 8192) : l3 && (n3.flags |= 8192), l3 ? 0 != (536870912 & t3) && 0 == (128 & n3.flags) && (Pt2(n3), 6 & n3.subtreeFlags && (n3.flags |= 8192)) : Pt2(n3), null !== (t3 = n3.updateQueue) && Ct2(n3, t3.retryQueue), t3 = null, null !== e2 && null !== e2.memoizedState && null !== e2.memoizedState.cachePool && (t3 = e2.memoizedState.cachePool.pool), l3 = null, null !== n3.memoizedState && null !== n3.memoizedState.cachePool && (l3 = n3.memoizedState.cachePool.pool), l3 !== t3 && (n3.flags |= 2048), null !== e2 && d2(hu), null;
+        return ye2(n3), pe2(), l3 = null !== n3.memoizedState, null !== e2 ? null !== e2.memoizedState !== l3 && (n3.flags |= 8192) : l3 && (n3.flags |= 8192), l3 ? 0 != (536870912 & t3) && 0 == (128 & n3.flags) && (Pt2(n3), 6 & n3.subtreeFlags && (n3.flags |= 8192)) : Pt2(n3), null !== (t3 = n3.updateQueue) && Ct2(n3, t3.retryQueue), t3 = null, null !== e2 && null !== e2.memoizedState && null !== e2.memoizedState.cachePool && (t3 = e2.memoizedState.cachePool.pool), l3 = null, null !== n3.memoizedState && null !== n3.memoizedState.cachePool && (l3 = n3.memoizedState.cachePool.pool), l3 !== t3 && (n3.flags |= 2048), null !== e2 && d2(hu), null;
       case 24:
-        return t3 = null, null !== e2 && (t3 = e2.memoizedState.cache), n3.memoizedState.cache !== t3 && (n3.flags |= 2048), ct(pu), Pt2(n3), null;
+        return t3 = null, null !== e2 && (t3 = e2.memoizedState.cache), n3.memoizedState.cache !== t3 && (n3.flags |= 2048), ct2(pu), Pt2(n3), null;
       case 25:
         return null;
     }
@@ -129725,25 +134163,25 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       case 1:
         return 65536 & (e2 = n3.flags) ? (n3.flags = -65537 & e2 | 128, n3) : null;
       case 3:
-        return ct(pu), _(), 0 != (65536 & (e2 = n3.flags)) && 0 == (128 & e2) ? (n3.flags = -65537 & e2 | 128, n3) : null;
+        return ct2(pu), _(), 0 != (65536 & (e2 = n3.flags)) && 0 == (128 & e2) ? (n3.flags = -65537 & e2 | 128, n3) : null;
       case 26:
       case 27:
       case 5:
         return T2(n3), null;
       case 13:
-        if (ye(n3), null !== (e2 = n3.memoizedState) && null !== e2.dehydrated && null === n3.alternate) throw Error(r2(340));
+        if (ye2(n3), null !== (e2 = n3.memoizedState) && null !== e2.dehydrated && null === n3.alternate) throw Error(r2(340));
         return 65536 & (e2 = n3.flags) ? (n3.flags = -65537 & e2 | 128, n3) : null;
       case 19:
         return d2(Ho), null;
       case 4:
         return _(), null;
       case 10:
-        return ct(n3.type), null;
+        return ct2(n3.type), null;
       case 22:
       case 23:
-        return ye(n3), pe2(), null !== e2 && d2(hu), 65536 & (e2 = n3.flags) ? (n3.flags = -65537 & e2 | 128, n3) : null;
+        return ye2(n3), pe2(), null !== e2 && d2(hu), 65536 & (e2 = n3.flags) ? (n3.flags = -65537 & e2 | 128, n3) : null;
       case 24:
-        return ct(pu), null;
+        return ct2(pu), null;
       default:
         return null;
     }
@@ -129751,7 +134189,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
   function Tt2(e2, n3) {
     switch (E2(n3), n3.tag) {
       case 3:
-        ct(pu), _();
+        ct2(pu), _();
         break;
       case 26:
       case 27:
@@ -129762,20 +134200,20 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
         _();
         break;
       case 13:
-        ye(n3);
+        ye2(n3);
         break;
       case 19:
         d2(Ho);
         break;
       case 10:
-        ct(n3.type);
+        ct2(n3.type);
         break;
       case 22:
       case 23:
-        ye(n3), pe2(), null !== e2 && d2(hu);
+        ye2(n3), pe2(), null !== e2 && d2(hu);
         break;
       case 24:
-        ct(pu);
+        ct2(pu);
     }
   }
   function Nt2(e2, n3) {
@@ -129797,7 +134235,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       jr(n3, n3.return, e3);
     }
   }
-  function Lt(e2, n3, t3) {
+  function Lt2(e2, n3, t3) {
     try {
       var r3 = n3.updateQueue, l3 = null !== r3 ? r3.lastEffect : null;
       if (null !== l3) {
@@ -129862,7 +134300,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       jr(e2, n3, t4);
     }
   }
-  function Ft(e2, n3) {
+  function Ft2(e2, n3) {
     var t3 = e2.ref, r3 = e2.refCleanup;
     if (null !== t3) if ("function" == typeof r3) try {
       r3();
@@ -129878,7 +134316,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     }
     else t3.current = null;
   }
-  function Mt(e2) {
+  function Mt2(e2) {
     var n3 = e2.type, t3 = e2.memoizedProps, r3 = e2.stateNode;
     try {
       ia2(r3, n3, t3, e2);
@@ -129919,10 +134357,10 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       case 0:
       case 11:
       case 15:
-        Kt(e2, t3), 4 & r3 && Nt2(5, t3);
+        Kt2(e2, t3), 4 & r3 && Nt2(5, t3);
         break;
       case 1:
-        if (Kt(e2, t3), 4 & r3) if (e2 = t3.stateNode, null === n3) try {
+        if (Kt2(e2, t3), 4 & r3) if (e2 = t3.stateNode, null === n3) try {
           e2.componentDidMount();
         } catch (e3) {
           jr(t3, t3.return, e3);
@@ -129939,7 +134377,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
         64 & r3 && Ut2(t3), 512 & r3 && It2(t3, t3.return);
         break;
       case 3:
-        if (Kt(e2, t3), 64 & r3 && null !== (r3 = t3.updateQueue)) {
+        if (Kt2(e2, t3), 64 & r3 && null !== (r3 = t3.updateQueue)) {
           if (e2 = null, null !== t3.child) switch (t3.child.tag) {
             case 27:
             case 5:
@@ -129958,25 +134396,25 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       case 26:
       case 27:
       case 5:
-        Kt(e2, t3), null === n3 && 4 & r3 && Mt(t3), 512 & r3 && It2(t3, t3.return);
+        Kt2(e2, t3), null === n3 && 4 & r3 && Mt2(t3), 512 & r3 && It2(t3, t3.return);
         break;
       case 12:
       case 13:
       default:
-        Kt(e2, t3);
+        Kt2(e2, t3);
         break;
       case 22:
         if (!(l3 = null !== t3.memoizedState || gu)) {
           n3 = null !== n3 && null !== n3.memoizedState || yu;
           var a3 = gu, o3 = yu;
-          gu = l3, (yu = n3) && !o3 ? Zt2(e2, t3, 0 != (8772 & t3.subtreeFlags)) : Kt(e2, t3), gu = a3, yu = o3;
+          gu = l3, (yu = n3) && !o3 ? Zt2(e2, t3, 0 != (8772 & t3.subtreeFlags)) : Kt2(e2, t3), gu = a3, yu = o3;
         }
-        512 & r3 && ("manual" === t3.memoizedProps.mode ? It2(t3, t3.return) : Ft(t3, t3.return));
+        512 & r3 && ("manual" === t3.memoizedProps.mode ? It2(t3, t3.return) : Ft2(t3, t3.return));
     }
   }
-  function Ot(e2) {
+  function Ot2(e2) {
     var n3 = e2.alternate;
-    null !== n3 && (e2.alternate = null, Ot(n3)), e2.child = null, e2.deletions = null, e2.sibling = null, 5 === e2.tag && null !== (n3 = e2.stateNode) && Jl(n3), e2.stateNode = null, e2.return = null, e2.dependencies = null, e2.memoizedProps = null, e2.memoizedState = null, e2.pendingProps = null, e2.stateNode = null, e2.updateQueue = null;
+    null !== n3 && (e2.alternate = null, Ot2(n3)), e2.child = null, e2.deletions = null, e2.sibling = null, 5 === e2.tag && null !== (n3 = e2.stateNode) && Jl(n3), e2.stateNode = null, e2.return = null, e2.dependencies = null, e2.memoizedProps = null, e2.memoizedState = null, e2.pendingProps = null, e2.stateNode = null, e2.updateQueue = null;
   }
   function Bt2(e2, n3, t3) {
     for (t3 = t3.child; null !== t3; ) Vt(e2, n3, t3), t3 = t3.sibling;
@@ -129987,7 +134425,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       case 27:
         var r3, l3;
       case 5:
-        yu || Ft(t3, n3);
+        yu || Ft2(t3, n3);
       case 6:
         if (r3 = wu, l3 = xu, wu = null, Bt2(e2, n3, t3), xu = l3, null !== (wu = r3)) if (xu) try {
           pa2(wu, t3.stateNode);
@@ -130010,16 +134448,16 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       case 11:
       case 14:
       case 15:
-        yu || Lt(2, t3, n3), yu || Lt(4, t3, n3), Bt2(e2, n3, t3);
+        yu || Lt2(2, t3, n3), yu || Lt2(4, t3, n3), Bt2(e2, n3, t3);
         break;
       case 1:
-        yu || (Ft(t3, n3), "function" == typeof (r3 = t3.stateNode).componentWillUnmount && Dt2(t3, n3, r3)), Bt2(e2, n3, t3);
+        yu || (Ft2(t3, n3), "function" == typeof (r3 = t3.stateNode).componentWillUnmount && Dt2(t3, n3, r3)), Bt2(e2, n3, t3);
         break;
       case 21:
         Bt2(e2, n3, t3);
         break;
       case 22:
-        Ft(t3, n3), yu = (r3 = yu) || null !== t3.memoizedState, Bt2(e2, n3, t3), yu = r3;
+        Ft2(t3, n3), yu = (r3 = yu) || null !== t3.memoizedState, Bt2(e2, n3, t3), yu = r3;
         break;
       default:
         Bt2(e2, n3, t3);
@@ -130043,7 +134481,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       t3.has(n4) || (t3.add(n4), n4.then(r3, r3));
     });
   }
-  function qt(e2, n3) {
+  function qt2(e2, n3) {
     var t3 = n3.deletions;
     if (null !== t3) for (var l3 = 0; l3 < t3.length; l3++) {
       var a3 = t3[l3], o3 = e2, u2 = n3, i3 = u2;
@@ -130072,17 +134510,17 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       case 11:
       case 14:
       case 15:
-        qt(n3, e2), Gt2(e2), 4 & l3 && (Lt(3, e2, e2.return), Nt2(3, e2), Lt(5, e2, e2.return));
+        qt2(n3, e2), Gt2(e2), 4 & l3 && (Lt2(3, e2, e2.return), Nt2(3, e2), Lt2(5, e2, e2.return));
         break;
       case 1:
-        qt(n3, e2), Gt2(e2), 512 & l3 && null !== t3 && Ft(t3, t3.return), 64 & l3 && gu && null !== (e2 = e2.updateQueue) && null !== (l3 = e2.callbacks) && (t3 = e2.shared.hiddenCallbacks, e2.shared.hiddenCallbacks = null === t3 ? l3 : t3.concat(l3));
+        qt2(n3, e2), Gt2(e2), 512 & l3 && null !== t3 && Ft2(t3, t3.return), 64 & l3 && gu && null !== (e2 = e2.updateQueue) && null !== (l3 = e2.callbacks) && (t3 = e2.shared.hiddenCallbacks, e2.shared.hiddenCallbacks = null === t3 ? l3 : t3.concat(l3));
         break;
       case 26:
         var a3;
       case 27:
         var o3;
       case 5:
-        if (qt(n3, e2), Gt2(e2), 512 & l3 && null !== t3 && Ft(t3, t3.return), 32 & e2.flags) {
+        if (qt2(n3, e2), Gt2(e2), 512 & l3 && null !== t3 && Ft2(t3, t3.return), 32 & e2.flags) {
           n3 = e2.stateNode;
           try {
             ma2(n3);
@@ -130099,7 +134537,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
         }(e2, n3 = e2.memoizedProps, null !== t3 ? t3.memoizedProps : n3), 1024 & l3 && (bu = true);
         break;
       case 6:
-        if (qt(n3, e2), Gt2(e2), 4 & l3 && Ol) {
+        if (qt2(n3, e2), Gt2(e2), 4 & l3 && Ol) {
           if (null === e2.stateNode) throw Error(r2(162));
           l3 = e2.memoizedProps, t3 = null !== t3 ? t3.memoizedProps : l3, n3 = e2.stateNode;
           try {
@@ -130110,19 +134548,19 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
         }
         break;
       case 3:
-        qt(n3, e2), Gt2(e2), bu && (bu = false, Jt2(e2));
+        qt2(n3, e2), Gt2(e2), bu && (bu = false, Jt2(e2));
         break;
       case 4:
       case 12:
-        qt(n3, e2), Gt2(e2);
+        qt2(n3, e2), Gt2(e2);
         break;
       case 13:
-        qt(n3, e2), Gt2(e2), 8192 & e2.child.flags && null !== e2.memoizedState != (null !== t3 && null !== t3.memoizedState) && (qu = Qa2()), 4 & l3 && null !== (l3 = e2.updateQueue) && (e2.updateQueue = null, $t2(e2, l3));
+        qt2(n3, e2), Gt2(e2), 8192 & e2.child.flags && null !== e2.memoizedState != (null !== t3 && null !== t3.memoizedState) && (qu = Qa2()), 4 & l3 && null !== (l3 = e2.updateQueue) && (e2.updateQueue = null, $t2(e2, l3));
         break;
       case 22:
-        512 & l3 && null !== t3 && Ft(t3, t3.return), a3 = null !== e2.memoizedState;
+        512 & l3 && null !== t3 && Ft2(t3, t3.return), a3 = null !== e2.memoizedState;
         var u2 = null !== t3 && null !== t3.memoizedState, i3 = gu, s3 = yu;
-        if (gu = i3 || a3, yu = s3 || u2, qt(n3, e2), yu = s3, gu = i3, Gt2(e2), (n3 = e2.stateNode)._current = e2, n3._visibility &= -3, n3._visibility |= 2 & n3._pendingVisibility, 8192 & l3 && (n3._visibility = a3 ? -2 & n3._visibility : 1 | n3._visibility, a3 && (n3 = gu || yu, null === t3 || u2 || n3 || Xt2(e2)), null === e2.memoizedProps || "manual" !== e2.memoizedProps.mode)) {
+        if (gu = i3 || a3, yu = s3 || u2, qt2(n3, e2), yu = s3, gu = i3, Gt2(e2), (n3 = e2.stateNode)._current = e2, n3._visibility &= -3, n3._visibility |= 2 & n3._pendingVisibility, 8192 & l3 && (n3._visibility = a3 ? -2 & n3._visibility : 1 | n3._visibility, a3 && (n3 = gu || yu, null === t3 || u2 || n3 || Xt2(e2)), null === e2.memoizedProps || "manual" !== e2.memoizedProps.mode)) {
           e: if (t3 = null, Ol) for (n3 = e2; ; ) {
             if (5 === n3.tag || Ea2 || Ra2) {
               if (null === t3) {
@@ -130158,12 +134596,12 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
         4 & l3 && null !== (l3 = e2.updateQueue) && null !== (t3 = l3.retryQueue) && (l3.retryQueue = null, $t2(e2, t3));
         break;
       case 19:
-        qt(n3, e2), Gt2(e2), 4 & l3 && null !== (l3 = e2.updateQueue) && (e2.updateQueue = null, $t2(e2, l3));
+        qt2(n3, e2), Gt2(e2), 4 & l3 && null !== (l3 = e2.updateQueue) && (e2.updateQueue = null, $t2(e2, l3));
         break;
       case 21:
         break;
       default:
-        qt(n3, e2), Gt2(e2);
+        qt2(n3, e2), Gt2(e2);
     }
   }
   function Gt2(e2) {
@@ -130209,7 +134647,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       Jt2(n3), 5 === n3.tag && 1024 & n3.flags && la2(n3.stateNode), e2 = e2.sibling;
     }
   }
-  function Kt(e2, n3) {
+  function Kt2(e2, n3) {
     if (8772 & n3.subtreeFlags) for (n3 = n3.child; null !== n3; ) Qt2(e2, n3.alternate, n3), n3 = n3.sibling;
   }
   function Xt2(e2) {
@@ -130220,20 +134658,20 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
         case 11:
         case 14:
         case 15:
-          Lt(4, n3, n3.return), Xt2(n3);
+          Lt2(4, n3, n3.return), Xt2(n3);
           break;
         case 1:
-          Ft(n3, n3.return);
+          Ft2(n3, n3.return);
           var t3 = n3.stateNode;
           "function" == typeof t3.componentWillUnmount && Dt2(n3, n3.return, t3), Xt2(n3);
           break;
         case 26:
         case 27:
         case 5:
-          Ft(n3, n3.return), Xt2(n3);
+          Ft2(n3, n3.return), Xt2(n3);
           break;
         case 22:
-          Ft(n3, n3.return), null === n3.memoizedState && Xt2(n3);
+          Ft2(n3, n3.return), null === n3.memoizedState && Xt2(n3);
           break;
         default:
           Xt2(n3);
@@ -130270,7 +134708,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
         case 26:
         case 27:
         case 5:
-          Zt2(l3, a3, t3), t3 && null === r3 && 4 & o3 && Mt(a3), It2(a3, a3.return);
+          Zt2(l3, a3, t3), t3 && null === r3 && 4 & o3 && Mt2(a3), It2(a3, a3.return);
           break;
         case 12:
         case 13:
@@ -130415,7 +134853,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       case 0:
       case 11:
       case 15:
-        sr(e2), 2048 & e2.flags && Lt(9, e2, e2.return);
+        sr(e2), 2048 & e2.flags && Lt2(9, e2, e2.return);
         break;
       case 3:
       case 12:
@@ -130441,7 +134879,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
         case 0:
         case 11:
         case 15:
-          Lt(8, n3, n3.return), fr(n3);
+          Lt2(8, n3, n3.return), fr(n3);
           break;
         case 22:
           4 & (t3 = n3.stateNode)._visibility && (t3._visibility &= -5, fr(n3));
@@ -130459,7 +134897,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
         case 0:
         case 11:
         case 15:
-          Lt(8, t3, n3);
+          Lt2(8, t3, n3);
           break;
         case 23:
         case 22:
@@ -130474,7 +134912,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
       if (null !== (r3 = t3.child)) r3.return = t3, Su = r3;
       else e: for (t3 = e2; null !== Su; ) {
         var l3 = (r3 = Su).sibling, a3 = r3.return;
-        if (Ot(r3), r3 === t3) {
+        if (Ot2(r3), r3 === t3) {
           Su = null;
           break e;
         }
@@ -130764,7 +135202,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     try {
       if (function(e3, n4, t4, l4, a3) {
         if (t4.flags |= 32768, null !== l4 && "object" == typeof l4 && "function" == typeof l4.then) {
-          if (null !== (n4 = t4.alternate) && pt(n4, t4, a3, true), null !== (t4 = Mo.current)) {
+          if (null !== (n4 = t4.alternate) && pt2(n4, t4, a3, true), null !== (t4 = Mo.current)) {
             switch (t4.tag) {
               case 13:
                 return null === Wo ? Pr() : null === t4.alternate && 0 === Wu && (Wu = 3), t4.flags &= -257, t4.flags |= 65536, t4.lanes = a3, l4 === Ro ? t4.flags |= 16384 : (null === (n4 = t4.updateQueue) ? t4.updateQueue = /* @__PURE__ */ new Set([l4]) : n4.add(l4), Ar(e3, l4, a3)), false;
@@ -131092,7 +135530,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
   }, Xo = { readContext: gt2, use: Ne2, useCallback: ve2, useContext: ve2, useEffect: ve2, useImperativeHandle: ve2, useLayoutEffect: ve2, useInsertionEffect: ve2, useMemo: ve2, useReducer: ve2, useRef: ve2, useState: ve2, useDebugValue: ve2, useDeferredValue: ve2, useTransition: ve2, useSyncExternalStore: ve2, useId: ve2 };
   Xo.useCacheRefresh = ve2, Xo.useMemoCache = ve2, Xo.useHostTransitionStatus = ve2, Xo.useFormState = ve2, Xo.useActionState = ve2, Xo.useOptimistic = ve2;
   var Zo = { readContext: gt2, use: Ne2, useCallback: function(e2, n3) {
-    return _e().memoizedState = [e2, void 0 === n3 ? null : n3], e2;
+    return _e2().memoizedState = [e2, void 0 === n3 ? null : n3], e2;
   }, useContext: gt2, useEffect: un, useImperativeHandle: function(e2, n3, t3) {
     t3 = null != t3 ? t3.concat([e2]) : null, an(4194308, 4, dn.bind(null, n3, e2), t3);
   }, useLayoutEffect: function(e2, n3) {
@@ -131100,7 +135538,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
   }, useInsertionEffect: function(e2, n3) {
     an(4, 2, e2, n3);
   }, useMemo: function(e2, n3) {
-    var t3 = _e();
+    var t3 = _e2();
     n3 = void 0 === n3 ? null : n3;
     var r3 = e2();
     if ($o) {
@@ -131113,7 +135551,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     }
     return t3.memoizedState = [r3, n3], r3;
   }, useReducer: function(e2, n3, t3) {
-    var r3 = _e();
+    var r3 = _e2();
     if (void 0 !== t3) {
       var l3 = t3(n3);
       if ($o) {
@@ -131127,29 +135565,29 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
     } else l3 = n3;
     return r3.memoizedState = r3.baseState = l3, e2 = { pending: null, lanes: 0, dispatch: null, lastRenderedReducer: e2, lastRenderedState: l3 }, r3.queue = e2, e2 = e2.dispatch = zn.bind(null, Ao, e2), [r3.memoizedState, e2];
   }, useRef: function(e2) {
-    return e2 = { current: e2 }, _e().memoizedState = e2;
+    return e2 = { current: e2 }, _e2().memoizedState = e2;
   }, useState: function(e2) {
     var n3 = (e2 = Oe2(e2)).queue, t3 = Cn.bind(null, Ao, n3);
     return n3.dispatch = t3, [e2.memoizedState, t3];
   }, useDebugValue: mn, useDeferredValue: function(e2, n3) {
-    return yn(_e(), e2, n3);
+    return yn(_e2(), e2, n3);
   }, useTransition: function() {
     var e2 = Oe2(false);
-    return e2 = vn.bind(null, Ao, e2.queue, true, false), _e().memoizedState = e2, [false, e2];
+    return e2 = vn.bind(null, Ao, e2.queue, true, false), _e2().memoizedState = e2, [false, e2];
   }, useSyncExternalStore: function(e2, n3, t3) {
-    var l3 = Ao, a3 = _e();
+    var l3 = Ao, a3 = _e2();
     if (t3 = n3(), null === Tu) throw Error(r2(349));
     0 != (60 & Lu) || We2(l3, n3, t3), a3.memoizedState = t3;
     var o3 = { value: t3, getSnapshot: n3 };
     return a3.queue = o3, un(je2.bind(null, l3, o3, e2), [e2]), l3.flags |= 2048, rn2(9, He2.bind(null, l3, o3, t3, n3), { destroy: void 0 }, null), t3;
   }, useId: function() {
-    var e2 = _e(), n3 = Tu.identifierPrefix;
+    var e2 = _e2(), n3 = Tu.identifierPrefix;
     return n3 = ":" + n3 + "r" + (Jo++).toString(32) + ":", e2.memoizedState = n3;
   }, useCacheRefresh: function() {
-    return _e().memoizedState = xn.bind(null, Ao);
+    return _e2().memoizedState = xn.bind(null, Ao);
   } };
   Zo.useMemoCache = Le2, Zo.useHostTransitionStatus = Sn, Zo.useFormState = Xe2, Zo.useActionState = Xe2, Zo.useOptimistic = function(e2) {
-    var n3 = _e();
+    var n3 = _e2();
     n3.memoizedState = n3.baseState = e2;
     var t3 = { pending: null, lanes: 0, dispatch: null, lastRenderedReducer: null, lastRenderedState: null };
     return n3.queue = t3, n3 = Pn.bind(null, Ao, true, t3), t3.dispatch = n3, [e2, n3];
@@ -131236,7 +135674,7 @@ a$2.exports = (l$2 || (l$2 = 1, (s$2 = o$2).exports = function(n22) {
   var _u = "function" == typeof WeakMap ? WeakMap : Map, Ru = 0, Tu = null, Nu = null, Lu = 0, Uu = 0, Du = null, Iu = false, Fu = false, Mu = 0, Wu = 0, Hu = 0, ju = 0, Au = 0, Qu = 0, Ou = 0, Bu = null, Vu = null, $u = false, qu = 0, Yu = 1 / 0, Gu = null, Ju = null, Ku = false, Xu = null, Zu = 0, ei2 = 0, ni2 = null, ti2 = 0, ri2 = null;
   return al2.createContainer = function(e2, n3, r3, l3, a3, o3, u2, i3, s3, c3) {
     return function(e3, n4, r4, l4, a4, o4, u3, i4, s4, c4, f3, d3) {
-      return e3 = new nl2(e3, n4, r4, u3, i4, s4, c4, null), n4 = 1, true === o4 && (n4 |= 24), o4 = t2(3, null, null, n4), e3.current = o4, o4.stateNode = e3, (n4 = vt()).refCount++, e3.pooledCache = n4, n4.refCount++, o4.memoizedState = { element: l4, isDehydrated: r4, cache: n4 }, V2(o4), e3;
+      return e3 = new nl2(e3, n4, r4, u3, i4, s4, c4, null), n4 = 1, true === o4 && (n4 |= 24), o4 = t2(3, null, null, n4), e3.current = o4, o4.stateNode = e3, (n4 = vt2()).refCount++, e3.pooledCache = n4, n4.refCount++, o4.memoizedState = { element: l4, isDehydrated: r4, cache: n4 }, V2(o4), e3;
     }(e2, n3, false, null, 0, l3, o3, u2, i3, s3);
   }, al2.flushSyncWork = function() {
     return 0 != (6 & Ru) || (W2(0), false);
@@ -131736,7 +136174,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
       a3 = u2;
     }
   }
-  function j(e2, n3, t3, l3) {
+  function j2(e2, n3, t3, l3) {
     e2 = null;
     for (var a3 = n3, o3 = false; null !== a3; ) {
       if (!o3) {
@@ -131791,7 +136229,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
       e2.controller.abort();
     });
   }
-  function $() {
+  function $2() {
   }
   function V2(e2) {
     e2 !== Do && null === e2.next && (null === Do ? Uo = Do = e2 : Do = Do.next = e2), Fo = true, Io || (Io = true, Ga2(eo, Y2));
@@ -131904,13 +136342,13 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
     return "fulfilled" === (e2 = e2.status) || "rejected" === e2;
   }
   function ae2(e2, n3, t3) {
-    switch (void 0 === (t3 = e2[t3]) ? e2.push(n3) : t3 !== n3 && (n3.then($, $), n3 = t3), n3.status) {
+    switch (void 0 === (t3 = e2[t3]) ? e2.push(n3) : t3 !== n3 && (n3.then($2, $2), n3 = t3), n3.status) {
       case "fulfilled":
         return n3.value;
       case "rejected":
         throw ie2(e2 = n3.reason), e2;
       default:
-        if ("string" == typeof n3.status) n3.then($, $);
+        if ("string" == typeof n3.status) n3.then($2, $2);
         else {
           if (null !== (e2 = Wu) && 100 < e2.shellSuspendCounter) throw Error(r2(482));
           (e2 = n3).status = "pending", e2.then(function(e3) {
@@ -132172,7 +136610,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
         var o3 = r3.pending;
         null === o3 ? l3.next = l3 : (l3.next = o3.next, o3.next = l3), r3.pending = l3;
       }
-      0 !== a3 && ye(t3, l3, a3);
+      0 !== a3 && ye2(t3, l3, a3);
     }
   }
   function me2(e2, n3, t3, r3) {
@@ -132184,7 +136622,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
   function ge2(e2, n3) {
     return me2(e2, null, null, n3), be2(e2);
   }
-  function ye(e2, n3, t3) {
+  function ye2(e2, n3, t3) {
     e2.lanes |= t3;
     var r3 = e2.alternate;
     null !== r3 && (r3.lanes |= t3);
@@ -132210,17 +136648,17 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
     if (null === r3) return null;
     if (r3 = r3.shared, 0 != (2 & Mu)) {
       var l3 = r3.pending;
-      return null === l3 ? n3.next = n3 : (n3.next = l3.next, l3.next = n3), r3.pending = n3, n3 = be2(e2), ye(e2, null, t3), n3;
+      return null === l3 ? n3.next = n3 : (n3.next = l3.next, l3.next = n3), r3.pending = n3, n3 = be2(e2), ye2(e2, null, t3), n3;
     }
     return me2(e2, r3, n3, t3), be2(e2);
   }
-  function ze(e2, n3, t3) {
+  function ze2(e2, n3, t3) {
     if (null !== (n3 = n3.updateQueue) && (n3 = n3.shared, 0 != (4194048 & t3))) {
       var r3 = n3.lanes;
       t3 |= r3 &= e2.pendingLanes, n3.lanes = t3, b2(e2, t3);
     }
   }
-  function xe(e2, n3) {
+  function xe2(e2, n3) {
     var t3 = e2.updateQueue, r3 = e2.alternate;
     if (null !== r3 && t3 === (r3 = r3.updateQueue)) {
       var l3 = null, a3 = null;
@@ -132292,7 +136730,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
     if ("function" != typeof e2) throw Error(r2(191, e2));
     e2.call(n3);
   }
-  function _e(e2, n3) {
+  function _e2(e2, n3) {
     var t3 = e2.callbacks;
     if (null !== t3) for (e2.callbacks = null, e2 = 0; e2 < t3.length; e2++) Pe2(t3[e2], n3);
   }
@@ -132753,7 +137191,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
         case 24:
         case 3:
           var t3 = kr(), r3 = we2(n3, e2 = ke2(t3), t3);
-          return null !== r3 && (zr(r3, 0, t3), ze(r3, n3, t3)), n3 = { cache: Q2() }, void (e2.payload = n3);
+          return null !== r3 && (zr(r3, 0, t3), ze2(r3, n3, t3)), n3 = { cache: Q2() }, void (e2.payload = n3);
       }
       n3 = n3.return;
     }
@@ -132837,7 +137275,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
       nt2(e2, n3);
     }, t3;
   }
-  function lt(e2) {
+  function lt2(e2) {
     return (e2 = ke2(e2)).tag = 3, e2;
   }
   function at2(e2, n3, t3, r3) {
@@ -132890,7 +137328,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
     }
     return gt2(e2, n3, t3, r3, l3);
   }
-  function ct(e2, n3, t3, r3) {
+  function ct2(e2, n3, t3, r3) {
     var l3 = r3.children, a3 = null !== e2 ? e2.memoizedState : null;
     if (null === e2 && null === n3.stateNode && (n3.stateNode = { _visibility: 1, _pendingMarkers: null, _retryCache: null, _transitions: null }), "hidden" === r3.mode) {
       if (0 != (128 & n3.flags)) {
@@ -132910,13 +137348,13 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
   }
   function ft2(e2, n3, t3, r3, l3) {
     var a3 = ee2();
-    return a3 = null === a3 ? null : { parent: Lo._currentValue2, pool: a3 }, n3.memoizedState = { baseLanes: t3, cachePool: a3 }, null !== e2 && ne2(0, null), Re2(), De2(n3), null !== e2 && j(e2, n3, r3, true), n3.childLanes = l3, null;
+    return a3 = null === a3 ? null : { parent: Lo._currentValue2, pool: a3 }, n3.memoizedState = { baseLanes: t3, cachePool: a3 }, null !== e2 && ne2(0, null), Re2(), De2(n3), null !== e2 && j2(e2, n3, r3, true), n3.childLanes = l3, null;
   }
-  function pt(e2, n3) {
+  function pt2(e2, n3) {
     return (n3 = zt2({ mode: n3.mode, children: n3.children }, e2.mode)).ref = e2.ref, e2.child = n3, n3.return = e2, n3;
   }
   function mt2(e2, n3, t3) {
-    return Xo(n3, e2.child, null, t3), (e2 = pt(n3, n3.pendingProps)).flags |= 2, Fe2(n3), n3.memoizedState = null, e2;
+    return Xo(n3, e2.child, null, t3), (e2 = pt2(n3, n3.pendingProps)).flags |= 2, Fe2(n3), n3.memoizedState = null, e2;
   }
   function ht2(e2, n3) {
     var t3 = n3.ref;
@@ -132929,7 +137367,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
   function gt2(e2, n3, t3, r3, l3) {
     return H2(n3), t3 = Oe2(e2, n3, t3, r3, void 0, l3), r3 = Be2(), null === e2 || Pu ? (n3.flags |= 1, ot2(e2, n3, t3, l3), n3.child) : ($e2(e2, n3, l3), _t2(e2, n3, l3));
   }
-  function yt(e2, n3, t3, r3, l3, a3) {
+  function yt2(e2, n3, t3, r3, l3, a3) {
     return H2(n3), n3.updateQueue = null, t3 = We2(n3, r3, t3, l3), Me2(e2), r3 = Be2(), null === e2 || Pu ? (n3.flags |= 1, ot2(e2, n3, t3, a3), n3.child) : ($e2(e2, n3, a3), _t2(e2, n3, a3));
   }
   function bt2(e2, n3, t3, r3, l3) {
@@ -132953,38 +137391,38 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
     }
     return a3 = r3, ht2(e2, n3), r3 = 0 != (128 & n3.flags), a3 || r3 ? (a3 = n3.stateNode, t3 = r3 && "function" != typeof t3.getDerivedStateFromError ? null : a3.render(), n3.flags |= 1, null !== e2 && r3 ? (n3.child = Xo(n3, e2.child, null, l3), n3.child = Xo(n3, null, t3, l3)) : ot2(e2, n3, t3, l3), n3.memoizedState = a3.state, e2 = n3.child) : e2 = _t2(e2, n3, l3), e2;
   }
-  function vt(e2) {
+  function vt2(e2) {
     return { baseLanes: e2, cachePool: te2() };
   }
   function St2(e2, n3, t3) {
     return e2 = null !== e2 ? e2.childLanes & ~t3 : 0, n3 && (e2 |= ni2), e2;
   }
-  function kt(e2, n3, t3) {
+  function kt2(e2, n3, t3) {
     var l3, a3 = n3.pendingProps, o3 = false, u2 = 0 != (128 & n3.flags);
     if ((l3 = u2) || (l3 = (null === e2 || null !== e2.memoizedState) && 0 != (2 & su.current)), l3 && (o3 = true, n3.flags &= -129), l3 = 0 != (32 & n3.flags), n3.flags &= -33, null === e2) {
       var i3 = a3.children;
-      return a3 = a3.fallback, o3 ? (Ie2(), i3 = zt2({ mode: "hidden", children: i3 }, o3 = n3.mode), a3 = ul2(a3, o3, t3, null), i3.return = n3, a3.return = n3, i3.sibling = a3, n3.child = i3, (a3 = n3.child).memoizedState = vt(t3), a3.childLanes = St2(e2, l3, t3), n3.memoizedState = _u, dt2(null, a3)) : (Le2(n3), wt(n3, i3));
+      return a3 = a3.fallback, o3 ? (Ie2(), i3 = zt2({ mode: "hidden", children: i3 }, o3 = n3.mode), a3 = ul2(a3, o3, t3, null), i3.return = n3, a3.return = n3, i3.sibling = a3, n3.child = i3, (a3 = n3.child).memoizedState = vt2(t3), a3.childLanes = St2(e2, l3, t3), n3.memoizedState = _u, dt2(null, a3)) : (Le2(n3), wt2(n3, i3));
     }
     var s3, c3 = e2.memoizedState;
     if (null !== c3 && null !== (i3 = c3.dehydrated)) {
-      if (u2) 256 & n3.flags ? (Le2(n3), n3.flags &= -257, n3 = xt(e2, n3, t3)) : null !== n3.memoizedState ? (Ie2(), n3.child = e2.child, n3.flags |= 128, n3 = null) : (Ie2(), i3 = a3.fallback, o3 = n3.mode, a3 = zt2({ mode: "visible", children: a3.children }, o3), (i3 = ul2(i3, o3, t3, null)).flags |= 2, a3.return = n3, i3.return = n3, a3.sibling = i3, n3.child = a3, Xo(n3, e2.child, null, t3), (a3 = n3.child).memoizedState = vt(t3), a3.childLanes = St2(e2, l3, t3), n3.memoizedState = _u, n3 = dt2(null, a3));
-      else if (Le2(n3), _a2(i3)) l3 = Ta2(i3).digest, (a3 = Error(r2(419))).stack = "", a3.digest = l3, s3 = { value: a3, source: null, stack: null }, null === Eo ? Eo = [s3] : Eo.push(s3), n3 = xt(e2, n3, t3);
-      else if (Pu || j(e2, n3, t3, false), l3 = 0 != (t3 & e2.childLanes), Pu || l3) {
+      if (u2) 256 & n3.flags ? (Le2(n3), n3.flags &= -257, n3 = xt2(e2, n3, t3)) : null !== n3.memoizedState ? (Ie2(), n3.child = e2.child, n3.flags |= 128, n3 = null) : (Ie2(), i3 = a3.fallback, o3 = n3.mode, a3 = zt2({ mode: "visible", children: a3.children }, o3), (i3 = ul2(i3, o3, t3, null)).flags |= 2, a3.return = n3, i3.return = n3, a3.sibling = i3, n3.child = a3, Xo(n3, e2.child, null, t3), (a3 = n3.child).memoizedState = vt2(t3), a3.childLanes = St2(e2, l3, t3), n3.memoizedState = _u, n3 = dt2(null, a3));
+      else if (Le2(n3), _a2(i3)) l3 = Ta2(i3).digest, (a3 = Error(r2(419))).stack = "", a3.digest = l3, s3 = { value: a3, source: null, stack: null }, null === Eo ? Eo = [s3] : Eo.push(s3), n3 = xt2(e2, n3, t3);
+      else if (Pu || j2(e2, n3, t3, false), l3 = 0 != (t3 & e2.childLanes), Pu || l3) {
         if (null !== (l3 = Wu) && 0 !== (a3 = v2(l3, t3)) && a3 !== c3.retryLane) throw c3.retryLane = a3, ge2(e2, a3), zr(l3, 0, a3), Cu;
-        Pa2(i3) || Ur(), n3 = xt(e2, n3, t3);
-      } else Pa2(i3) ? (n3.flags |= 192, n3.child = e2.child, n3 = null) : (e2 = c3.treeContext, (n3 = wt(n3, a3.children)).flags |= 4096);
+        Pa2(i3) || Ur(), n3 = xt2(e2, n3, t3);
+      } else Pa2(i3) ? (n3.flags |= 192, n3.child = e2.child, n3 = null) : (e2 = c3.treeContext, (n3 = wt2(n3, a3.children)).flags |= 4096);
       return n3;
     }
-    return o3 ? (Ie2(), i3 = a3.fallback, o3 = n3.mode, u2 = (c3 = e2.child).sibling, (a3 = ll2(c3, { mode: "hidden", children: a3.children })).subtreeFlags = 65011712 & c3.subtreeFlags, null !== u2 ? i3 = ll2(u2, i3) : (i3 = ul2(i3, o3, t3, null)).flags |= 2, i3.return = n3, a3.return = n3, a3.sibling = i3, n3.child = a3, dt2(null, a3), a3 = n3.child, null === (i3 = e2.child.memoizedState) ? i3 = vt(t3) : (null !== (o3 = i3.cachePool) ? (c3 = Lo._currentValue2, o3 = o3.parent !== c3 ? { parent: c3, pool: c3 } : o3) : o3 = te2(), i3 = { baseLanes: i3.baseLanes | t3, cachePool: o3 }), a3.memoizedState = i3, a3.childLanes = St2(e2, l3, t3), n3.memoizedState = _u, dt2(e2.child, a3)) : (Le2(n3), e2 = (t3 = e2.child).sibling, (t3 = ll2(t3, { mode: "visible", children: a3.children })).return = n3, t3.sibling = null, null !== e2 && (null === (l3 = n3.deletions) ? (n3.deletions = [e2], n3.flags |= 16) : l3.push(e2)), n3.child = t3, n3.memoizedState = null, t3);
+    return o3 ? (Ie2(), i3 = a3.fallback, o3 = n3.mode, u2 = (c3 = e2.child).sibling, (a3 = ll2(c3, { mode: "hidden", children: a3.children })).subtreeFlags = 65011712 & c3.subtreeFlags, null !== u2 ? i3 = ll2(u2, i3) : (i3 = ul2(i3, o3, t3, null)).flags |= 2, i3.return = n3, a3.return = n3, a3.sibling = i3, n3.child = a3, dt2(null, a3), a3 = n3.child, null === (i3 = e2.child.memoizedState) ? i3 = vt2(t3) : (null !== (o3 = i3.cachePool) ? (c3 = Lo._currentValue2, o3 = o3.parent !== c3 ? { parent: c3, pool: c3 } : o3) : o3 = te2(), i3 = { baseLanes: i3.baseLanes | t3, cachePool: o3 }), a3.memoizedState = i3, a3.childLanes = St2(e2, l3, t3), n3.memoizedState = _u, dt2(e2.child, a3)) : (Le2(n3), e2 = (t3 = e2.child).sibling, (t3 = ll2(t3, { mode: "visible", children: a3.children })).return = n3, t3.sibling = null, null !== e2 && (null === (l3 = n3.deletions) ? (n3.deletions = [e2], n3.flags |= 16) : l3.push(e2)), n3.child = t3, n3.memoizedState = null, t3);
   }
-  function wt(e2, n3) {
+  function wt2(e2, n3) {
     return (n3 = zt2({ mode: "visible", children: n3 }, e2.mode)).return = e2, e2.child = n3;
   }
   function zt2(e2, n3) {
     return (e2 = t2(22, e2, null, n3)).lanes = 0, e2;
   }
-  function xt(e2, n3, t3) {
-    return Xo(n3, e2.child, null, t3), (e2 = wt(n3, n3.pendingProps.children)).flags |= 2, n3.memoizedState = null, e2;
+  function xt2(e2, n3, t3) {
+    return Xo(n3, e2.child, null, t3), (e2 = wt2(n3, n3.pendingProps.children)).flags |= 2, n3.memoizedState = null, e2;
   }
   function Et2(e2, n3, t3) {
     e2.lanes |= n3;
@@ -133040,7 +137478,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
   function _t2(e2, n3, t3) {
     if (null !== e2 && (n3.dependencies = e2.dependencies), Xu |= n3.lanes, 0 == (t3 & n3.childLanes)) {
       if (null === e2) return null;
-      if (j(e2, n3, t3, false), 0 == (t3 & n3.childLanes)) return null;
+      if (j2(e2, n3, t3, false), 0 == (t3 & n3.childLanes)) return null;
     }
     if (null !== e2 && n3.child !== e2.child) throw Error(r2(153));
     if (null !== n3.child) {
@@ -133075,19 +137513,19 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
             break;
           case 13:
             var r3 = n4.memoizedState;
-            if (null !== r3) return null !== r3.dehydrated ? (Le2(n4), n4.flags |= 128, null) : 0 != (t4 & n4.child.childLanes) ? kt(e3, n4, t4) : (Le2(n4), null !== (e3 = _t2(e3, n4, t4)) ? e3.sibling : null);
+            if (null !== r3) return null !== r3.dehydrated ? (Le2(n4), n4.flags |= 128, null) : 0 != (t4 & n4.child.childLanes) ? kt2(e3, n4, t4) : (Le2(n4), null !== (e3 = _t2(e3, n4, t4)) ? e3.sibling : null);
             Le2(n4);
             break;
           case 19:
             var l4 = 0 != (128 & e3.flags);
-            if ((r3 = 0 != (t4 & n4.childLanes)) || (j(e3, n4, t4, false), r3 = 0 != (t4 & n4.childLanes)), l4) {
+            if ((r3 = 0 != (t4 & n4.childLanes)) || (j2(e3, n4, t4, false), r3 = 0 != (t4 & n4.childLanes)), l4) {
               if (r3) return Pt2(e3, n4, t4);
               n4.flags |= 128;
             }
             if (null !== (l4 = n4.memoizedState) && (l4.rendering = null, l4.tail = null, l4.lastEffect = null), s2(su, su.current), r3) break;
             return null;
           case 22:
-            return n4.lanes = 0, ct(e3, n4, t4, n4.pendingProps);
+            return n4.lanes = 0, ct2(e3, n4, t4, n4.pendingProps);
           case 24:
             U2(0, Lo, e3.memoizedState.cache);
         }
@@ -133134,7 +137572,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
       case 6:
         return null;
       case 13:
-        return kt(e2, n3, t3);
+        return kt2(e2, n3, t3);
       case 4:
         return _(n3, n3.stateNode.containerInfo), l3 = n3.pendingProps, null === e2 ? n3.child = Xo(n3, null, l3, t3) : ot2(e2, n3, l3, t3), n3.child;
       case 11:
@@ -133157,7 +137595,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
       case 31:
         return function(e3, n4, t4) {
           var l4 = n4.pendingProps, a3 = 0 != (128 & n4.flags);
-          if (n4.flags &= -129, null === e3) return pt(n4, l4);
+          if (n4.flags &= -129, null === e3) return pt2(n4, l4);
           var o4 = e3.memoizedState;
           if (null !== o4) {
             var u3 = o4.dehydrated;
@@ -133166,16 +137604,16 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
               if (null === n4.memoizedState) throw Error(r2(558));
               n4.child = e3.child, n4.flags |= 128, n4 = null;
             }
-            else if (Pu || j(e3, n4, t4, false), a3 = 0 != (t4 & e3.childLanes), Pu || a3) {
+            else if (Pu || j2(e3, n4, t4, false), a3 = 0 != (t4 & e3.childLanes), Pu || a3) {
               if (null !== (l4 = Wu) && 0 !== (u3 = v2(l4, t4)) && u3 !== o4.retryLane) throw o4.retryLane = u3, ge2(e3, u3), zr(l4, 0, u3), Cu;
               Ur(), n4 = mt2(e3, n4, t4);
-            } else e3 = o4.treeContext, (n4 = pt(n4, l4)).flags |= 4096;
+            } else e3 = o4.treeContext, (n4 = pt2(n4, l4)).flags |= 4096;
             return n4;
           }
           return (e3 = ll2(e3.child, { mode: l4.mode, children: l4.children })).ref = n4.ref, n4.child = e3, e3.return = n4, e3;
         }(e2, n3, t3);
       case 22:
-        return ct(e2, n3, t3, n3.pendingProps);
+        return ct2(e2, n3, t3, n3.pendingProps);
       case 24:
         return H2(n3), l3 = O2(Lo), null === e2 ? (null === (o3 = ee2()) && (o3 = Wu, u2 = Q2(), o3.pooledCache = u2, u2.refCount++, null !== u2 && (o3.pooledCacheLanes |= t3), o3 = u2), n3.memoizedState = { parent: l3, cache: o3 }, ve2(n3), U2(0, Lo, o3)) : (0 != (e2.lanes & t3) && (Se2(e2, n3), Ce2(n3, null, null, t3), Ee2()), o3 = e2.memoizedState, u2 = n3.memoizedState, o3.parent !== l3 ? (o3 = { parent: l3, cache: l3 }, n3.memoizedState = o3, 0 === n3.lanes && (n3.memoizedState = n3.updateQueue.baseState = o3), U2(0, Lo, l3)) : (l3 = u2.cache, U2(0, Lo, l3), l3 !== o3.cache && F2(n3, [Lo], t3, true))), ot2(e2, n3, n3.pendingProps.children, t3), n3.child;
       case 29:
@@ -133186,7 +137624,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
   function Nt2(e2) {
     e2.flags |= 4;
   }
-  function Lt(e2, n3, t3, r3, l3) {
+  function Lt2(e2, n3, t3, r3, l3) {
     if (0 != (32 & e2.mode) && (null === t3 ? ta2(n3, r3) : ra2(n3, t3, r3))) {
       if (e2.flags |= 16777216, (335544128 & l3) === l3 || la2(n3, r3)) if (aa2(e2.stateNode, n3, r3)) e2.flags |= 8192;
       else {
@@ -133218,7 +137656,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
     else for (l3 = e2.child; null !== l3; ) t3 |= l3.lanes | l3.childLanes, r3 |= l3.subtreeFlags, r3 |= l3.flags, l3.return = e2, l3 = l3.sibling;
     return e2.subtreeFlags |= r3, e2.childLanes = t3, n3;
   }
-  function Ft(e2, n3, t3) {
+  function Ft2(e2, n3, t3) {
     var l3 = n3.pendingProps;
     switch (P2(n3), n3.tag) {
       case 16:
@@ -133264,7 +137702,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
             }
           }(u2, n3, false), n3.stateNode = u2, Wl(u2, a3, l3, o3) && Nt2(n3);
         }
-        return It2(n3), Lt(n3, n3.type, null === e2 ? null : e2.memoizedProps, n3.pendingProps, t3), null;
+        return It2(n3), Lt2(n3, n3.type, null === e2 ? null : e2.memoizedProps, n3.pendingProps, t3), null;
       case 6:
         if (e2 && null != n3.stateNode) (t3 = e2.memoizedProps) !== l3 && Nt2(n3);
         else {
@@ -133415,7 +137853,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
       Jr(n3, n3.return, e3);
     }
   }
-  function Ot(e2, n3, t3) {
+  function Ot2(e2, n3, t3) {
     try {
       var r3 = n3.updateQueue, l3 = null !== r3 ? r3.lastEffect : null;
       if (null !== l3) {
@@ -133441,12 +137879,12 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
       Jr(n3, n3.return, e3);
     }
   }
-  function Mt(e2) {
+  function Mt2(e2) {
     var n3 = e2.updateQueue;
     if (null !== n3) {
       var t3 = e2.stateNode;
       try {
-        _e(n3, t3);
+        _e2(n3, t3);
       } catch (n4) {
         Jr(e2, e2.return, n4);
       }
@@ -133506,7 +137944,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
   function Vt(e2) {
     return 5 === e2.tag || 3 === e2.tag || 4 === e2.tag;
   }
-  function qt(e2) {
+  function qt2(e2) {
     e: for (; ; ) {
       for (; null === e2.sibling; ) {
         if (null === e2.return || Vt(e2.return)) return null;
@@ -133553,7 +137991,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
             Jr(t3, t3.return, e3);
           }
         }
-        64 & r3 && Mt(t3), 512 & r3 && Qt2(t3, t3.return);
+        64 & r3 && Mt2(t3), 512 & r3 && Qt2(t3, t3.return);
         break;
       case 3:
         if (ar(e2, t3), 64 & r3 && null !== (r3 = t3.updateQueue)) {
@@ -133566,7 +138004,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
               e2 = t3.child.stateNode;
           }
           try {
-            _e(r3, e2);
+            _e2(r3, e2);
           } catch (e3) {
             Jr(t3, t3.return, e3);
           }
@@ -133605,9 +138043,9 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
       case 30:
     }
   }
-  function Kt(e2) {
+  function Kt2(e2) {
     var n3 = e2.alternate;
-    null !== n3 && (e2.alternate = null, Kt(n3)), e2.child = null, e2.deletions = null, e2.sibling = null, 5 === e2.tag && null !== (n3 = e2.stateNode) && na(n3), e2.stateNode = null, e2.return = null, e2.dependencies = null, e2.memoizedProps = null, e2.memoizedState = null, e2.pendingProps = null, e2.stateNode = null, e2.updateQueue = null;
+    null !== n3 && (e2.alternate = null, Kt2(n3)), e2.child = null, e2.deletions = null, e2.sibling = null, 5 === e2.tag && null !== (n3 = e2.stateNode) && na(n3), e2.stateNode = null, e2.return = null, e2.dependencies = null, e2.memoizedProps = null, e2.memoizedState = null, e2.pendingProps = null, e2.stateNode = null, e2.updateQueue = null;
   }
   function Xt2(e2, n3, t3) {
     for (t3 = t3.child; null !== t3; ) Zt2(e2, n3, t3), t3 = t3.sibling;
@@ -133641,7 +138079,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
       case 11:
       case 14:
       case 15:
-        Ot(2, t3, n3), Ru || Ot(4, t3, n3), Xt2(e2, n3, t3);
+        Ot2(2, t3, n3), Ru || Ot2(4, t3, n3), Xt2(e2, n3, t3);
         break;
       case 1:
         Ru || (Bt2(t3, n3), "function" == typeof (r3 = t3.stateNode).componentWillUnmount && Wt2(t3, n3, r3)), Xt2(e2, n3, t3);
@@ -133707,7 +138145,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
       case 11:
       case 14:
       case 15:
-        nr(n3, e2), rr(e2), 4 & l3 && (Ot(3, e2, e2.return), Ht2(3, e2), Ot(5, e2, e2.return));
+        nr(n3, e2), rr(e2), 4 & l3 && (Ot2(3, e2, e2.return), Ht2(3, e2), Ot2(5, e2, e2.return));
         break;
       case 1:
         nr(n3, e2), rr(e2), 512 & l3 && (Ru || null === t3 || Bt2(t3, t3.return)), 64 & l3 && Tu && null !== (e2 = e2.updateQueue) && null !== (l3 = e2.callbacks) && (t3 = e2.shared.hiddenCallbacks, e2.shared.hiddenCallbacks = null === t3 ? l3 : t3.concat(l3));
@@ -133831,12 +138269,12 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
             case 27:
             case 5:
               var a3 = t3.stateNode;
-              32 & t3.flags && (ka2(a3), t3.flags &= -33), Gt2(e2, qt(e2), a3);
+              32 & t3.flags && (ka2(a3), t3.flags &= -33), Gt2(e2, qt2(e2), a3);
               break;
             case 3:
             case 4:
               var o3 = t3.stateNode.containerInfo;
-              Yt2(e2, qt(e2), o3);
+              Yt2(e2, qt2(e2), o3);
               break;
             default:
               throw Error(r2(161));
@@ -133866,7 +138304,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
         case 11:
         case 14:
         case 15:
-          Ot(4, n3, n3.return), or(n3);
+          Ot2(4, n3, n3.return), or(n3);
           break;
         case 1:
           Bt2(n3, n3.return);
@@ -133911,7 +138349,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
               Jr(r3, r3.return, e3);
             }
           }
-          t3 && 64 & o3 && Mt(a3), Qt2(a3, a3.return);
+          t3 && 64 & o3 && Mt2(a3), Qt2(a3, a3.return);
           break;
         case 27:
         case 26:
@@ -134067,7 +138505,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
       case 0:
       case 11:
       case 15:
-        yr(e2), 2048 & e2.flags && Ot(9, e2, e2.return);
+        yr(e2), 2048 & e2.flags && Ot2(9, e2, e2.return);
         break;
       case 3:
       case 12:
@@ -134093,7 +138531,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
         case 0:
         case 11:
         case 15:
-          Ot(8, n3, n3.return), vr(n3);
+          Ot2(8, n3, n3.return), vr(n3);
           break;
         case 22:
           2 & (t3 = n3.stateNode)._visibility && (t3._visibility &= -3, vr(n3));
@@ -134111,7 +138549,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
         case 0:
         case 11:
         case 15:
-          Ot(8, t3, n3);
+          Ot2(8, t3, n3);
           break;
         case 23:
         case 22:
@@ -134126,7 +138564,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
       if (null !== (r3 = t3.child)) r3.return = t3, Uu = r3;
       else e: for (t3 = e2; null !== Uu; ) {
         var l3 = (r3 = Uu).sibling, a3 = r3.return;
-        if (Kt(r3), r3 === t3) {
+        if (Kt2(r3), r3 === t3) {
           Uu = null;
           break e;
         }
@@ -134405,10 +138843,10 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
     switch (n3.tag) {
       case 15:
       case 0:
-        n3 = yt(t3, n3, n3.pendingProps, n3.type, void 0, Bu);
+        n3 = yt2(t3, n3, n3.pendingProps, n3.type, void 0, Bu);
         break;
       case 11:
-        n3 = yt(t3, n3, n3.pendingProps, n3.type.render, n3.ref, Bu);
+        n3 = yt2(t3, n3, n3.pendingProps, n3.type.render, n3.ref, Bu);
         break;
       case 5:
         Ve2(n3);
@@ -134423,7 +138861,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
     try {
       if (function(e3, n4, t4, l4, a4) {
         if (t4.flags |= 32768, null !== l4 && "object" == typeof l4 && "function" == typeof l4.then) {
-          if (null !== (n4 = t4.alternate) && j(n4, t4, a4, true), null !== (t4 = uu.current)) {
+          if (null !== (n4 = t4.alternate) && j2(n4, t4, a4, true), null !== (t4 = uu.current)) {
             switch (t4.tag) {
               case 31:
               case 13:
@@ -134441,9 +138879,9 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
         do {
           switch (t4.tag) {
             case 3:
-              return t4.flags |= 65536, e3 = a4 & -a4, t4.lanes |= e3, xe(t4, e3 = rt2(t4.stateNode, l4, e3)), false;
+              return t4.flags |= 65536, e3 = a4 & -a4, t4.lanes |= e3, xe2(t4, e3 = rt2(t4.stateNode, l4, e3)), false;
             case 1:
-              if (n4 = t4.type, o3 = t4.stateNode, 0 == (128 & t4.flags) && ("function" == typeof n4.getDerivedStateFromError || null !== o3 && "function" == typeof o3.componentDidCatch && (null === ci2 || !ci2.has(o3)))) return t4.flags |= 65536, a4 &= -a4, t4.lanes |= a4, at2(a4 = lt(a4), e3, t4, l4), xe(t4, a4), false;
+              if (n4 = t4.type, o3 = t4.stateNode, 0 == (128 & t4.flags) && ("function" == typeof n4.getDerivedStateFromError || null !== o3 && "function" == typeof o3.componentDidCatch && (null === ci2 || !ci2.has(o3)))) return t4.flags |= 65536, a4 &= -a4, t4.lanes |= a4, at2(a4 = lt2(a4), e3, t4, l4), xe2(t4, a4), false;
           }
           t4 = t4.return;
         } while (null !== t4);
@@ -134460,7 +138898,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
     do {
       if (0 != (32768 & n3.flags)) return void Mr(n3, qu);
       e2 = n3.return;
-      var t3 = Ft(n3.alternate, n3, Ju);
+      var t3 = Ft2(n3.alternate, n3, Ju);
       if (null !== t3) return void (Qu = t3);
       if (null !== (n3 = n3.sibling)) return void (Qu = n3);
       Qu = n3 = e2;
@@ -134650,7 +139088,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
       if (1 === n3.tag) {
         var r3 = n3.stateNode;
         if ("function" == typeof n3.type.getDerivedStateFromError || "function" == typeof r3.componentDidCatch && (null === ci2 || !ci2.has(r3))) {
-          e2 = C2(t3, e2), null !== (r3 = we2(n3, t3 = lt(2), 2)) && (at2(t3, r3, n3, e2), g2(r3, 2), V2(r3));
+          e2 = C2(t3, e2), null !== (r3 = we2(n3, t3 = lt2(2), 2)) && (at2(t3, r3, n3, e2), g2(r3, 2), V2(r3));
           break;
         }
       }
@@ -134766,7 +139204,7 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
   function dl2(e2, n3, t3, r3, l3, a3) {
     l3 = function(e3) {
       return e3 ? e3 = Wa2 : Wa2;
-    }(l3), null === r3.context ? r3.context = l3 : r3.pendingContext = l3, (r3 = ke2(n3)).payload = { element: t3 }, null !== (a3 = void 0 === a3 ? null : a3) && (r3.callback = a3), null !== (t3 = we2(e2, r3, n3)) && (zr(t3, 0, n3), ze(t3, e2, n3));
+    }(l3), null === r3.context ? r3.context = l3 : r3.pendingContext = l3, (r3 = ke2(n3)).payload = { element: t3 }, null !== (a3 = void 0 === a3 ? null : a3) && (r3.callback = a3), null !== (t3 = we2(e2, r3, n3)) && (zr(t3, 0, n3), ze2(t3, e2, n3));
   }
   var fl2 = {}, pl2 = React, ml2 = u$1, hl2 = Object.assign, gl2 = Symbol.for("react.element"), yl = Symbol.for("react.transitional.element"), bl2 = Symbol.for("react.portal"), vl = Symbol.for("react.fragment"), Sl = Symbol.for("react.strict_mode"), kl2 = Symbol.for("react.profiler"), wl = Symbol.for("react.consumer"), zl = Symbol.for("react.context"), xl = Symbol.for("react.forward_ref"), El = Symbol.for("react.suspense"), Cl = Symbol.for("react.suspense_list"), Pl = Symbol.for("react.memo"), _l = Symbol.for("react.lazy"), Tl = Symbol.for("react.activity"), Rl = Symbol.for("react.memo_cache_sentinel"), Nl = Symbol.iterator, Ll = Symbol.for("react.client.reference"), Ul = Array.isArray, Dl = pl2.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, Il = n22.getPublicInstance, Fl = n22.getRootHostContext, jl2 = n22.getChildHostContext, Al = n22.prepareForCommit, Hl = n22.resetAfterCommit, Ol = n22.createInstance, Ml = n22.appendInitialChild, Wl = n22.finalizeInitialChildren, Ql = n22.shouldSetTextContent, Bl = n22.createTextInstance, $l = null, Vl = null, ql2 = n22.noTimeout, Yl = true, Gl = null, Jl = null, Kl = n22.setCurrentUpdatePriority, Xl = n22.getCurrentUpdatePriority, Zl = n22.resolveUpdatePriority;
   n22.trackSchedulerEvent, n22.resolveEventType, n22.resolveEventTimeStamp;
@@ -134898,15 +139336,15 @@ a$1.exports = (l$1 || (l$1 = 1, (s$1 = o$1).exports = function(n22) {
   var Eu = { enqueueSetState: function(e2, n3, t3) {
     e2 = e2._reactInternals;
     var r3 = kr(), l3 = ke2(r3);
-    l3.payload = n3, null != t3 && (l3.callback = t3), null !== (n3 = we2(e2, l3, r3)) && (zr(n3, 0, r3), ze(n3, e2, r3));
+    l3.payload = n3, null != t3 && (l3.callback = t3), null !== (n3 = we2(e2, l3, r3)) && (zr(n3, 0, r3), ze2(n3, e2, r3));
   }, enqueueReplaceState: function(e2, n3, t3) {
     e2 = e2._reactInternals;
     var r3 = kr(), l3 = ke2(r3);
-    l3.tag = 1, l3.payload = n3, null != t3 && (l3.callback = t3), null !== (n3 = we2(e2, l3, r3)) && (zr(n3, 0, r3), ze(n3, e2, r3));
+    l3.tag = 1, l3.payload = n3, null != t3 && (l3.callback = t3), null !== (n3 = we2(e2, l3, r3)) && (zr(n3, 0, r3), ze2(n3, e2, r3));
   }, enqueueForceUpdate: function(e2, n3) {
     e2 = e2._reactInternals;
     var t3 = kr(), r3 = ke2(t3);
-    r3.tag = 2, null != n3 && (r3.callback = n3), null !== (n3 = we2(e2, r3, t3)) && (zr(n3, 0, t3), ze(n3, e2, t3));
+    r3.tag = 2, null != n3 && (r3.callback = n3), null !== (n3 = we2(e2, r3, t3)) && (zr(n3, 0, t3), ze2(n3, e2, t3));
   } }, Cu = Error(r2(461)), Pu = false, _u = { dehydrated: null, treeContext: null, retryLane: 0, hydrationErrors: null }, Tu = false, Ru = false, Nu = false, Lu = "function" == typeof WeakSet ? WeakSet : Set, Uu = null, Du = null, Iu = false, Fu = null, ju = 8192, Au = { getCacheForType: function(e2) {
     var n3 = O2(Lo), t3 = n3.data.get(e2);
     return void 0 === t3 && (t3 = e2(), n3.data.set(e2, t3)), t3;
@@ -135204,7 +139642,7 @@ var i, a = { exports: {} }, u = l(n);
     }
     return null;
   }
-  var R2 = r2.getPublicInstance, I2 = r2.getRootHostContext, M2 = r2.getChildHostContext, F2 = r2.prepareForCommit, Q2 = r2.resetAfterCommit, D2 = r2.createInstance, W2 = r2.appendInitialChild, j = r2.finalizeInitialChildren, O2 = r2.prepareUpdate, B2 = r2.shouldSetTextContent, H2 = r2.createTextInstance, A2 = null, L2 = null, $ = r2.noTimeout, q2 = true, V2 = null, K2 = r2.appendChild, G2 = r2.appendChildToContainer, Y2 = r2.commitTextUpdate, J2 = null, X2 = r2.commitUpdate, Z2 = r2.insertBefore, ee2 = null, te2 = r2.removeChild, ne2 = r2.removeChildFromContainer, re2 = r2.resetTextContent, le2 = null, ie2 = null, ae2 = null, ue2 = null, oe2 = null, fe2 = null, ce2 = /^(.*)[\\\/]/;
+  var R2 = r2.getPublicInstance, I2 = r2.getRootHostContext, M2 = r2.getChildHostContext, F2 = r2.prepareForCommit, Q2 = r2.resetAfterCommit, D2 = r2.createInstance, W2 = r2.appendInitialChild, j2 = r2.finalizeInitialChildren, O2 = r2.prepareUpdate, B2 = r2.shouldSetTextContent, H2 = r2.createTextInstance, A2 = null, L2 = null, $2 = r2.noTimeout, q2 = true, V2 = null, K2 = r2.appendChild, G2 = r2.appendChildToContainer, Y2 = r2.commitTextUpdate, J2 = null, X2 = r2.commitUpdate, Z2 = r2.insertBefore, ee2 = null, te2 = r2.removeChild, ne2 = r2.removeChildFromContainer, re2 = r2.resetTextContent, le2 = null, ie2 = null, ae2 = null, ue2 = null, oe2 = null, fe2 = null, ce2 = /^(.*)[\\\/]/;
   function se2(e2) {
     var t2 = "";
     do {
@@ -135232,7 +139670,7 @@ var i, a = { exports: {} }, u = l(n);
   function he2(e2, t2) {
     pe2++, de2[pe2] = e2.current, e2.current = t2;
   }
-  var ge2 = {}, be2 = { current: ge2 }, ye = { current: false }, ve2 = ge2;
+  var ge2 = {}, be2 = { current: ge2 }, ye2 = { current: false }, ve2 = ge2;
   function Te2(e2, t2) {
     var n3 = e2.type.contextTypes;
     if (!n3) return ge2;
@@ -135242,18 +139680,18 @@ var i, a = { exports: {} }, u = l(n);
     for (l3 in n3) i2[l3] = t2[l3];
     return r3 && ((e2 = e2.stateNode).__reactInternalMemoizedUnmaskedChildContext = t2, e2.__reactInternalMemoizedMaskedChildContext = i2), i2;
   }
-  function xe(e2) {
+  function xe2(e2) {
     return null != (e2 = e2.childContextTypes);
   }
   function Ee2(e2) {
-    me2(ye), me2(be2);
+    me2(ye2), me2(be2);
   }
   function ke2(e2) {
-    me2(ye), me2(be2);
+    me2(ye2), me2(be2);
   }
   function Se2(e2, t2, n3) {
     if (be2.current !== ge2) throw Error(f2(168));
-    he2(be2, t2), he2(ye, n3);
+    he2(be2, t2), he2(ye2, n3);
   }
   function Ce2(e2, t2, n3) {
     var r3 = e2.stateNode;
@@ -135263,14 +139701,14 @@ var i, a = { exports: {} }, u = l(n);
   }
   function we2(e2) {
     var t2 = e2.stateNode;
-    return t2 = t2 && t2.__reactInternalMemoizedMergedChildContext || ge2, ve2 = be2.current, he2(be2, t2), he2(ye, ye.current), true;
+    return t2 = t2 && t2.__reactInternalMemoizedMergedChildContext || ge2, ve2 = be2.current, he2(be2, t2), he2(ye2, ye2.current), true;
   }
-  function ze(e2, t2, n3) {
+  function ze2(e2, t2, n3) {
     var r3 = e2.stateNode;
     if (!r3) throw Error(f2(169));
-    n3 ? (t2 = Ce2(e2, t2, ve2), r3.__reactInternalMemoizedMergedChildContext = t2, me2(ye), me2(be2), he2(be2, t2)) : me2(ye), he2(ye, n3);
+    n3 ? (t2 = Ce2(e2, t2, ve2), r3.__reactInternalMemoizedMergedChildContext = t2, me2(ye2), me2(be2), he2(be2, t2)) : me2(ye2), he2(ye2, n3);
   }
-  var Pe2 = o2.unstable_runWithPriority, _e = o2.unstable_scheduleCallback, Ne2 = o2.unstable_cancelCallback, Ue2 = o2.unstable_shouldYield, Re2 = o2.unstable_requestPaint, Ie2 = o2.unstable_now, Me2 = o2.unstable_getCurrentPriorityLevel, Fe2 = o2.unstable_ImmediatePriority, Qe2 = o2.unstable_UserBlockingPriority, De2 = o2.unstable_NormalPriority, We2 = o2.unstable_LowPriority, je2 = o2.unstable_IdlePriority, Oe2 = {}, Be2 = void 0 !== Re2 ? Re2 : function() {
+  var Pe2 = o2.unstable_runWithPriority, _e2 = o2.unstable_scheduleCallback, Ne2 = o2.unstable_cancelCallback, Ue2 = o2.unstable_shouldYield, Re2 = o2.unstable_requestPaint, Ie2 = o2.unstable_now, Me2 = o2.unstable_getCurrentPriorityLevel, Fe2 = o2.unstable_ImmediatePriority, Qe2 = o2.unstable_UserBlockingPriority, De2 = o2.unstable_NormalPriority, We2 = o2.unstable_LowPriority, je2 = o2.unstable_IdlePriority, Oe2 = {}, Be2 = void 0 !== Re2 ? Re2 : function() {
   }, He2 = null, Ae2 = null, Le2 = false, $e2 = Ie2(), qe2 = 1e4 > $e2 ? Ie2 : function() {
     return Ie2() - $e2;
   };
@@ -135310,10 +139748,10 @@ var i, a = { exports: {} }, u = l(n);
     return e2 = Ke2(e2), Pe2(e2, t2);
   }
   function Ye2(e2, t2, n3) {
-    return e2 = Ke2(e2), _e(e2, t2, n3);
+    return e2 = Ke2(e2), _e2(e2, t2, n3);
   }
   function Je2(e2) {
-    return null === He2 ? (He2 = [e2], Ae2 = _e(Fe2, Ze2)) : He2.push(e2), Oe2;
+    return null === He2 ? (He2 = [e2], Ae2 = _e2(Fe2, Ze2)) : He2.push(e2), Oe2;
   }
   function Xe2() {
     if (null !== Ae2) {
@@ -135337,7 +139775,7 @@ var i, a = { exports: {} }, u = l(n);
           }
         }), He2 = null;
       } catch (t3) {
-        throw null !== He2 && (He2 = He2.slice(e2 + 1)), _e(Fe2, Xe2), t3;
+        throw null !== He2 && (He2 = He2.slice(e2 + 1)), _e2(Fe2, Xe2), t3;
       } finally {
         Le2 = false;
       }
@@ -135350,7 +139788,7 @@ var i, a = { exports: {} }, u = l(n);
   var nt2 = "function" == typeof Object.is ? Object.is : function(e2, t2) {
     return e2 === t2 && (0 !== e2 || 1 / e2 == 1 / t2) || e2 != e2 && t2 != t2;
   }, rt2 = Object.prototype.hasOwnProperty;
-  function lt(e2, t2) {
+  function lt2(e2, t2) {
     if (nt2(e2, t2)) return true;
     if ("object" != typeof e2 || null === e2 || "object" != typeof t2 || null === t2) return false;
     var n3 = Object.keys(e2), r3 = Object.keys(t2);
@@ -135363,7 +139801,7 @@ var i, a = { exports: {} }, u = l(n);
     return t2;
   }
   var at2 = { current: null }, ut2 = null, ot2 = null, ft2 = null;
-  function ct() {
+  function ct2() {
     ft2 = ot2 = ut2 = null;
   }
   function st2(e2, t2) {
@@ -135374,7 +139812,7 @@ var i, a = { exports: {} }, u = l(n);
     var t2 = at2.current;
     me2(at2), (e2 = e2.type._context)._currentValue2 = t2;
   }
-  function pt(e2, t2) {
+  function pt2(e2, t2) {
     for (; null !== e2; ) {
       var n3 = e2.alternate;
       if (e2.childExpirationTime < t2) e2.childExpirationTime = t2, null !== n3 && n3.childExpirationTime < t2 && (n3.childExpirationTime = t2);
@@ -135399,30 +139837,30 @@ var i, a = { exports: {} }, u = l(n);
   function bt2(e2) {
     return { baseState: e2, firstUpdate: null, lastUpdate: null, firstCapturedUpdate: null, lastCapturedUpdate: null, firstEffect: null, lastEffect: null, firstCapturedEffect: null, lastCapturedEffect: null };
   }
-  function yt(e2) {
+  function yt2(e2) {
     return { baseState: e2.baseState, firstUpdate: e2.firstUpdate, lastUpdate: e2.lastUpdate, firstCapturedUpdate: null, lastCapturedUpdate: null, firstEffect: null, lastEffect: null, firstCapturedEffect: null, lastCapturedEffect: null };
   }
-  function vt(e2, t2) {
+  function vt2(e2, t2) {
     return { expirationTime: e2, suspenseConfig: t2, tag: 0, payload: null, callback: null, next: null, nextEffect: null };
   }
   function Tt2(e2, t2) {
     null === e2.lastUpdate ? e2.firstUpdate = e2.lastUpdate = t2 : (e2.lastUpdate.next = t2, e2.lastUpdate = t2);
   }
-  function xt(e2, t2) {
+  function xt2(e2, t2) {
     var n3 = e2.alternate;
     if (null === n3) {
       var r3 = e2.updateQueue, l3 = null;
       null === r3 && (r3 = e2.updateQueue = bt2(e2.memoizedState));
-    } else r3 = e2.updateQueue, l3 = n3.updateQueue, null === r3 ? null === l3 ? (r3 = e2.updateQueue = bt2(e2.memoizedState), l3 = n3.updateQueue = bt2(n3.memoizedState)) : r3 = e2.updateQueue = yt(l3) : null === l3 && (l3 = n3.updateQueue = yt(r3));
+    } else r3 = e2.updateQueue, l3 = n3.updateQueue, null === r3 ? null === l3 ? (r3 = e2.updateQueue = bt2(e2.memoizedState), l3 = n3.updateQueue = bt2(n3.memoizedState)) : r3 = e2.updateQueue = yt2(l3) : null === l3 && (l3 = n3.updateQueue = yt2(r3));
     null === l3 || r3 === l3 ? Tt2(r3, t2) : null === r3.lastUpdate || null === l3.lastUpdate ? (Tt2(r3, t2), Tt2(l3, t2)) : (Tt2(r3, t2), l3.lastUpdate = t2);
   }
   function Et2(e2, t2) {
     var n3 = e2.updateQueue;
-    null === (n3 = null === n3 ? e2.updateQueue = bt2(e2.memoizedState) : kt(e2, n3)).lastCapturedUpdate ? n3.firstCapturedUpdate = n3.lastCapturedUpdate = t2 : (n3.lastCapturedUpdate.next = t2, n3.lastCapturedUpdate = t2);
+    null === (n3 = null === n3 ? e2.updateQueue = bt2(e2.memoizedState) : kt2(e2, n3)).lastCapturedUpdate ? n3.firstCapturedUpdate = n3.lastCapturedUpdate = t2 : (n3.lastCapturedUpdate.next = t2, n3.lastCapturedUpdate = t2);
   }
-  function kt(e2, t2) {
+  function kt2(e2, t2) {
     var n3 = e2.alternate;
-    return null !== n3 && t2 === n3.updateQueue && (t2 = e2.updateQueue = yt(t2)), t2;
+    return null !== n3 && t2 === n3.updateQueue && (t2 = e2.updateQueue = yt2(t2)), t2;
   }
   function St2(e2, t2, n3, r3, i2, a3) {
     switch (n3.tag) {
@@ -135440,7 +139878,7 @@ var i, a = { exports: {} }, u = l(n);
   }
   function Ct2(e2, t2, n3, r3, l3) {
     gt2 = false;
-    for (var i2 = (t2 = kt(e2, t2)).baseState, a3 = null, u2 = 0, o3 = t2.firstUpdate, f3 = i2; null !== o3; ) {
+    for (var i2 = (t2 = kt2(e2, t2)).baseState, a3 = null, u2 = 0, o3 = t2.firstUpdate, f3 = i2; null !== o3; ) {
       var c3 = o3.expirationTime;
       c3 < l3 ? (null === a3 && (a3 = o3, i2 = f3), u2 < c3 && (u2 = c3)) : (El(c3, o3.suspenseConfig), f3 = St2(e2, 0, o3, f3, n3, r3), null !== o3.callback && (e2.effectTag |= 32, o3.nextEffect = null, null === t2.lastEffect ? t2.firstEffect = t2.lastEffect = o3 : (t2.lastEffect.nextEffect = o3, t2.lastEffect = o3))), o3 = o3.next;
     }
@@ -135450,7 +139888,7 @@ var i, a = { exports: {} }, u = l(n);
     }
     null === a3 && (t2.lastUpdate = null), null === c3 ? t2.lastCapturedUpdate = null : e2.effectTag |= 32, null === a3 && null === c3 && (i2 = f3), t2.baseState = i2, t2.firstUpdate = a3, t2.firstCapturedUpdate = c3, kl2(u2), e2.expirationTime = u2, e2.memoizedState = f3;
   }
-  function wt(e2, t2, n3) {
+  function wt2(e2, t2, n3) {
     null !== t2.firstCapturedUpdate && (null !== t2.lastUpdate && (t2.lastUpdate.next = t2.firstCapturedUpdate, t2.lastUpdate = t2.lastCapturedUpdate), t2.firstCapturedUpdate = t2.lastCapturedUpdate = null), zt2(t2.firstEffect, n3), t2.firstEffect = t2.lastEffect = null, zt2(t2.firstCapturedEffect, n3), t2.firstCapturedEffect = t2.lastCapturedEffect = null;
   }
   function zt2(e2, t2) {
@@ -135474,31 +139912,31 @@ var i, a = { exports: {} }, u = l(n);
   }, enqueueSetState: function(e2, t2, n3) {
     e2 = e2._reactInternalFiber;
     var r3 = cl2(), l3 = Pt2.suspense;
-    (l3 = vt(r3 = sl2(r3, e2, l3), l3)).payload = t2, null != n3 && (l3.callback = n3), xt(e2, l3), dl2(e2, r3);
+    (l3 = vt2(r3 = sl2(r3, e2, l3), l3)).payload = t2, null != n3 && (l3.callback = n3), xt2(e2, l3), dl2(e2, r3);
   }, enqueueReplaceState: function(e2, t2, n3) {
     e2 = e2._reactInternalFiber;
     var r3 = cl2(), l3 = Pt2.suspense;
-    (l3 = vt(r3 = sl2(r3, e2, l3), l3)).tag = 1, l3.payload = t2, null != n3 && (l3.callback = n3), xt(e2, l3), dl2(e2, r3);
+    (l3 = vt2(r3 = sl2(r3, e2, l3), l3)).tag = 1, l3.payload = t2, null != n3 && (l3.callback = n3), xt2(e2, l3), dl2(e2, r3);
   }, enqueueForceUpdate: function(e2, t2) {
     e2 = e2._reactInternalFiber;
     var n3 = cl2(), r3 = Pt2.suspense;
-    (r3 = vt(n3 = sl2(n3, e2, r3), r3)).tag = 2, null != t2 && (r3.callback = t2), xt(e2, r3), dl2(e2, n3);
+    (r3 = vt2(n3 = sl2(n3, e2, r3), r3)).tag = 2, null != t2 && (r3.callback = t2), xt2(e2, r3), dl2(e2, n3);
   } };
   function Rt2(e2, t2, n3, r3, l3, i2, a3) {
-    return "function" == typeof (e2 = e2.stateNode).shouldComponentUpdate ? e2.shouldComponentUpdate(r3, i2, a3) : !(t2.prototype && t2.prototype.isPureReactComponent && lt(n3, r3) && lt(l3, i2));
+    return "function" == typeof (e2 = e2.stateNode).shouldComponentUpdate ? e2.shouldComponentUpdate(r3, i2, a3) : !(t2.prototype && t2.prototype.isPureReactComponent && lt2(n3, r3) && lt2(l3, i2));
   }
   function It2(e2, t2, n3) {
     var r3 = false, l3 = ge2, i2 = t2.contextType;
-    return "object" == typeof i2 && null !== i2 ? i2 = ht2(i2) : (l3 = xe(t2) ? ve2 : be2.current, i2 = (r3 = null != (r3 = t2.contextTypes)) ? Te2(e2, l3) : ge2), t2 = new t2(n3, i2), e2.memoizedState = null !== t2.state && void 0 !== t2.state ? t2.state : null, t2.updater = Ut2, e2.stateNode = t2, t2._reactInternalFiber = e2, r3 && ((e2 = e2.stateNode).__reactInternalMemoizedUnmaskedChildContext = l3, e2.__reactInternalMemoizedMaskedChildContext = i2), t2;
+    return "object" == typeof i2 && null !== i2 ? i2 = ht2(i2) : (l3 = xe2(t2) ? ve2 : be2.current, i2 = (r3 = null != (r3 = t2.contextTypes)) ? Te2(e2, l3) : ge2), t2 = new t2(n3, i2), e2.memoizedState = null !== t2.state && void 0 !== t2.state ? t2.state : null, t2.updater = Ut2, e2.stateNode = t2, t2._reactInternalFiber = e2, r3 && ((e2 = e2.stateNode).__reactInternalMemoizedUnmaskedChildContext = l3, e2.__reactInternalMemoizedMaskedChildContext = i2), t2;
   }
-  function Mt(e2, t2, n3, r3) {
+  function Mt2(e2, t2, n3, r3) {
     e2 = t2.state, "function" == typeof t2.componentWillReceiveProps && t2.componentWillReceiveProps(n3, r3), "function" == typeof t2.UNSAFE_componentWillReceiveProps && t2.UNSAFE_componentWillReceiveProps(n3, r3), t2.state !== e2 && Ut2.enqueueReplaceState(t2, t2.state, null);
   }
-  function Ft(e2, t2, n3, r3) {
+  function Ft2(e2, t2, n3, r3) {
     var l3 = e2.stateNode;
     l3.props = n3, l3.state = e2.memoizedState, l3.refs = _t2;
     var i2 = t2.contextType;
-    "object" == typeof i2 && null !== i2 ? l3.context = ht2(i2) : (i2 = xe(t2) ? ve2 : be2.current, l3.context = Te2(e2, i2)), null !== (i2 = e2.updateQueue) && (Ct2(e2, i2, n3, l3, r3), l3.state = e2.memoizedState), "function" == typeof (i2 = t2.getDerivedStateFromProps) && (Nt2(e2, t2, i2, n3), l3.state = e2.memoizedState), "function" == typeof t2.getDerivedStateFromProps || "function" == typeof l3.getSnapshotBeforeUpdate || "function" != typeof l3.UNSAFE_componentWillMount && "function" != typeof l3.componentWillMount || (t2 = l3.state, "function" == typeof l3.componentWillMount && l3.componentWillMount(), "function" == typeof l3.UNSAFE_componentWillMount && l3.UNSAFE_componentWillMount(), t2 !== l3.state && Ut2.enqueueReplaceState(l3, l3.state, null), null !== (i2 = e2.updateQueue) && (Ct2(e2, i2, n3, l3, r3), l3.state = e2.memoizedState)), "function" == typeof l3.componentDidMount && (e2.effectTag |= 4);
+    "object" == typeof i2 && null !== i2 ? l3.context = ht2(i2) : (i2 = xe2(t2) ? ve2 : be2.current, l3.context = Te2(e2, i2)), null !== (i2 = e2.updateQueue) && (Ct2(e2, i2, n3, l3, r3), l3.state = e2.memoizedState), "function" == typeof (i2 = t2.getDerivedStateFromProps) && (Nt2(e2, t2, i2, n3), l3.state = e2.memoizedState), "function" == typeof t2.getDerivedStateFromProps || "function" == typeof l3.getSnapshotBeforeUpdate || "function" != typeof l3.UNSAFE_componentWillMount && "function" != typeof l3.componentWillMount || (t2 = l3.state, "function" == typeof l3.componentWillMount && l3.componentWillMount(), "function" == typeof l3.UNSAFE_componentWillMount && l3.UNSAFE_componentWillMount(), t2 !== l3.state && Ut2.enqueueReplaceState(l3, l3.state, null), null !== (i2 = e2.updateQueue) && (Ct2(e2, i2, n3, l3, r3), l3.state = e2.memoizedState)), "function" == typeof l3.componentDidMount && (e2.effectTag |= 4);
   }
   var Qt2 = Array.isArray;
   function Dt2(e2, t2, n3) {
@@ -135695,23 +140133,23 @@ var i, a = { exports: {} }, u = l(n);
       return n3(e3, r4);
     };
   }
-  var Ot = jt2(true), Bt2 = jt2(false), Ht2 = {}, At2 = { current: Ht2 }, Lt = { current: Ht2 }, $t2 = { current: Ht2 };
-  function qt(e2) {
+  var Ot2 = jt2(true), Bt2 = jt2(false), Ht2 = {}, At2 = { current: Ht2 }, Lt2 = { current: Ht2 }, $t2 = { current: Ht2 };
+  function qt2(e2) {
     if (e2 === Ht2) throw Error(f2(174));
     return e2;
   }
   function Vt(e2, t2) {
-    he2($t2, t2), he2(Lt, e2), he2(At2, Ht2), t2 = I2(t2), me2(At2), he2(At2, t2);
+    he2($t2, t2), he2(Lt2, e2), he2(At2, Ht2), t2 = I2(t2), me2(At2), he2(At2, t2);
   }
-  function Kt(e2) {
-    me2(At2), me2(Lt), me2($t2);
+  function Kt2(e2) {
+    me2(At2), me2(Lt2), me2($t2);
   }
   function Gt2(e2) {
-    var t2 = qt($t2.current), n3 = qt(At2.current);
-    n3 !== (t2 = M2(n3, e2.type, t2)) && (he2(Lt, e2), he2(At2, t2));
+    var t2 = qt2($t2.current), n3 = qt2(At2.current);
+    n3 !== (t2 = M2(n3, e2.type, t2)) && (he2(Lt2, e2), he2(At2, t2));
   }
   function Yt2(e2) {
-    Lt.current === e2 && (me2(At2), me2(Lt));
+    Lt2.current === e2 && (me2(At2), me2(Lt2));
   }
   var Jt2 = { current: 0 };
   function Xt2(e2) {
@@ -135955,7 +140393,7 @@ var i, a = { exports: {} }, u = l(n);
     }, [e2, n3]), n3];
   } }, jn = c2.ReactCurrentOwner, On = false;
   function Bn(e2, t2, n3, r3) {
-    t2.child = null === e2 ? Bt2(t2, null, n3, r3) : Ot(t2, e2.child, n3, r3);
+    t2.child = null === e2 ? Bt2(t2, null, n3, r3) : Ot2(t2, e2.child, n3, r3);
   }
   function Hn(e2, t2, n3, r3, l3) {
     n3 = n3.render;
@@ -135967,46 +140405,46 @@ var i, a = { exports: {} }, u = l(n);
       var a3 = n3.type;
       return "function" != typeof a3 || Hl(a3) || void 0 !== a3.defaultProps || null !== n3.compare || void 0 !== n3.defaultProps ? ((e2 = Ll(n3.type, null, r3, null, t2.mode, i2)).ref = t2.ref, e2.return = t2, t2.child = e2) : (t2.tag = 15, t2.type = a3, Ln(e2, t2, a3, r3, l3, i2));
     }
-    return a3 = e2.child, l3 < i2 && (l3 = a3.memoizedProps, (n3 = null !== (n3 = n3.compare) ? n3 : lt)(l3, r3) && e2.ref === t2.ref) ? ir(e2, t2, i2) : (t2.effectTag |= 1, (e2 = Al(a3, r3)).ref = t2.ref, e2.return = t2, t2.child = e2);
+    return a3 = e2.child, l3 < i2 && (l3 = a3.memoizedProps, (n3 = null !== (n3 = n3.compare) ? n3 : lt2)(l3, r3) && e2.ref === t2.ref) ? ir(e2, t2, i2) : (t2.effectTag |= 1, (e2 = Al(a3, r3)).ref = t2.ref, e2.return = t2, t2.child = e2);
   }
   function Ln(e2, t2, n3, r3, l3, i2) {
-    return null !== e2 && lt(e2.memoizedProps, r3) && e2.ref === t2.ref && (On = false, l3 < i2) ? ir(e2, t2, i2) : qn(e2, t2, n3, r3, i2);
+    return null !== e2 && lt2(e2.memoizedProps, r3) && e2.ref === t2.ref && (On = false, l3 < i2) ? ir(e2, t2, i2) : qn(e2, t2, n3, r3, i2);
   }
   function $n(e2, t2) {
     var n3 = t2.ref;
     (null === e2 && null !== n3 || null !== e2 && e2.ref !== n3) && (t2.effectTag |= 128);
   }
   function qn(e2, t2, n3, r3, l3) {
-    var i2 = xe(n3) ? ve2 : be2.current;
+    var i2 = xe2(n3) ? ve2 : be2.current;
     return i2 = Te2(t2, i2), mt2(t2, l3), n3 = yn(e2, t2, n3, r3, i2, l3), null === e2 || On ? (t2.effectTag |= 1, Bn(e2, t2, n3, l3), t2.child) : (t2.updateQueue = e2.updateQueue, t2.effectTag &= -517, e2.expirationTime <= l3 && (e2.expirationTime = 0), ir(e2, t2, l3));
   }
   function Vn(e2, t2, n3, r3, l3) {
-    if (xe(n3)) {
+    if (xe2(n3)) {
       var i2 = true;
       we2(t2);
     } else i2 = false;
-    if (mt2(t2, l3), null === t2.stateNode) null !== e2 && (e2.alternate = null, t2.alternate = null, t2.effectTag |= 2), It2(t2, n3, r3), Ft(t2, n3, r3, l3), r3 = true;
+    if (mt2(t2, l3), null === t2.stateNode) null !== e2 && (e2.alternate = null, t2.alternate = null, t2.effectTag |= 2), It2(t2, n3, r3), Ft2(t2, n3, r3, l3), r3 = true;
     else if (null === e2) {
       var a3 = t2.stateNode, u2 = t2.memoizedProps;
       a3.props = u2;
       var o3 = a3.context, f3 = n3.contextType;
-      f3 = "object" == typeof f3 && null !== f3 ? ht2(f3) : Te2(t2, f3 = xe(n3) ? ve2 : be2.current);
+      f3 = "object" == typeof f3 && null !== f3 ? ht2(f3) : Te2(t2, f3 = xe2(n3) ? ve2 : be2.current);
       var c3 = n3.getDerivedStateFromProps, s3 = "function" == typeof c3 || "function" == typeof a3.getSnapshotBeforeUpdate;
-      s3 || "function" != typeof a3.UNSAFE_componentWillReceiveProps && "function" != typeof a3.componentWillReceiveProps || (u2 !== r3 || o3 !== f3) && Mt(t2, a3, r3, f3), gt2 = false;
+      s3 || "function" != typeof a3.UNSAFE_componentWillReceiveProps && "function" != typeof a3.componentWillReceiveProps || (u2 !== r3 || o3 !== f3) && Mt2(t2, a3, r3, f3), gt2 = false;
       var d3 = t2.memoizedState;
       o3 = a3.state = d3;
       var p3 = t2.updateQueue;
-      null !== p3 && (Ct2(t2, p3, r3, a3, l3), o3 = t2.memoizedState), u2 !== r3 || d3 !== o3 || ye.current || gt2 ? ("function" == typeof c3 && (Nt2(t2, n3, c3, r3), o3 = t2.memoizedState), (u2 = gt2 || Rt2(t2, n3, u2, r3, d3, o3, f3)) ? (s3 || "function" != typeof a3.UNSAFE_componentWillMount && "function" != typeof a3.componentWillMount || ("function" == typeof a3.componentWillMount && a3.componentWillMount(), "function" == typeof a3.UNSAFE_componentWillMount && a3.UNSAFE_componentWillMount()), "function" == typeof a3.componentDidMount && (t2.effectTag |= 4)) : ("function" == typeof a3.componentDidMount && (t2.effectTag |= 4), t2.memoizedProps = r3, t2.memoizedState = o3), a3.props = r3, a3.state = o3, a3.context = f3, r3 = u2) : ("function" == typeof a3.componentDidMount && (t2.effectTag |= 4), r3 = false);
-    } else a3 = t2.stateNode, u2 = t2.memoizedProps, a3.props = t2.type === t2.elementType ? u2 : it2(t2.type, u2), o3 = a3.context, f3 = "object" == typeof (f3 = n3.contextType) && null !== f3 ? ht2(f3) : Te2(t2, f3 = xe(n3) ? ve2 : be2.current), (s3 = "function" == typeof (c3 = n3.getDerivedStateFromProps) || "function" == typeof a3.getSnapshotBeforeUpdate) || "function" != typeof a3.UNSAFE_componentWillReceiveProps && "function" != typeof a3.componentWillReceiveProps || (u2 !== r3 || o3 !== f3) && Mt(t2, a3, r3, f3), gt2 = false, o3 = t2.memoizedState, d3 = a3.state = o3, null !== (p3 = t2.updateQueue) && (Ct2(t2, p3, r3, a3, l3), d3 = t2.memoizedState), u2 !== r3 || o3 !== d3 || ye.current || gt2 ? ("function" == typeof c3 && (Nt2(t2, n3, c3, r3), d3 = t2.memoizedState), (c3 = gt2 || Rt2(t2, n3, u2, r3, o3, d3, f3)) ? (s3 || "function" != typeof a3.UNSAFE_componentWillUpdate && "function" != typeof a3.componentWillUpdate || ("function" == typeof a3.componentWillUpdate && a3.componentWillUpdate(r3, d3, f3), "function" == typeof a3.UNSAFE_componentWillUpdate && a3.UNSAFE_componentWillUpdate(r3, d3, f3)), "function" == typeof a3.componentDidUpdate && (t2.effectTag |= 4), "function" == typeof a3.getSnapshotBeforeUpdate && (t2.effectTag |= 256)) : ("function" != typeof a3.componentDidUpdate || u2 === e2.memoizedProps && o3 === e2.memoizedState || (t2.effectTag |= 4), "function" != typeof a3.getSnapshotBeforeUpdate || u2 === e2.memoizedProps && o3 === e2.memoizedState || (t2.effectTag |= 256), t2.memoizedProps = r3, t2.memoizedState = d3), a3.props = r3, a3.state = d3, a3.context = f3, r3 = c3) : ("function" != typeof a3.componentDidUpdate || u2 === e2.memoizedProps && o3 === e2.memoizedState || (t2.effectTag |= 4), "function" != typeof a3.getSnapshotBeforeUpdate || u2 === e2.memoizedProps && o3 === e2.memoizedState || (t2.effectTag |= 256), r3 = false);
+      null !== p3 && (Ct2(t2, p3, r3, a3, l3), o3 = t2.memoizedState), u2 !== r3 || d3 !== o3 || ye2.current || gt2 ? ("function" == typeof c3 && (Nt2(t2, n3, c3, r3), o3 = t2.memoizedState), (u2 = gt2 || Rt2(t2, n3, u2, r3, d3, o3, f3)) ? (s3 || "function" != typeof a3.UNSAFE_componentWillMount && "function" != typeof a3.componentWillMount || ("function" == typeof a3.componentWillMount && a3.componentWillMount(), "function" == typeof a3.UNSAFE_componentWillMount && a3.UNSAFE_componentWillMount()), "function" == typeof a3.componentDidMount && (t2.effectTag |= 4)) : ("function" == typeof a3.componentDidMount && (t2.effectTag |= 4), t2.memoizedProps = r3, t2.memoizedState = o3), a3.props = r3, a3.state = o3, a3.context = f3, r3 = u2) : ("function" == typeof a3.componentDidMount && (t2.effectTag |= 4), r3 = false);
+    } else a3 = t2.stateNode, u2 = t2.memoizedProps, a3.props = t2.type === t2.elementType ? u2 : it2(t2.type, u2), o3 = a3.context, f3 = "object" == typeof (f3 = n3.contextType) && null !== f3 ? ht2(f3) : Te2(t2, f3 = xe2(n3) ? ve2 : be2.current), (s3 = "function" == typeof (c3 = n3.getDerivedStateFromProps) || "function" == typeof a3.getSnapshotBeforeUpdate) || "function" != typeof a3.UNSAFE_componentWillReceiveProps && "function" != typeof a3.componentWillReceiveProps || (u2 !== r3 || o3 !== f3) && Mt2(t2, a3, r3, f3), gt2 = false, o3 = t2.memoizedState, d3 = a3.state = o3, null !== (p3 = t2.updateQueue) && (Ct2(t2, p3, r3, a3, l3), d3 = t2.memoizedState), u2 !== r3 || o3 !== d3 || ye2.current || gt2 ? ("function" == typeof c3 && (Nt2(t2, n3, c3, r3), d3 = t2.memoizedState), (c3 = gt2 || Rt2(t2, n3, u2, r3, o3, d3, f3)) ? (s3 || "function" != typeof a3.UNSAFE_componentWillUpdate && "function" != typeof a3.componentWillUpdate || ("function" == typeof a3.componentWillUpdate && a3.componentWillUpdate(r3, d3, f3), "function" == typeof a3.UNSAFE_componentWillUpdate && a3.UNSAFE_componentWillUpdate(r3, d3, f3)), "function" == typeof a3.componentDidUpdate && (t2.effectTag |= 4), "function" == typeof a3.getSnapshotBeforeUpdate && (t2.effectTag |= 256)) : ("function" != typeof a3.componentDidUpdate || u2 === e2.memoizedProps && o3 === e2.memoizedState || (t2.effectTag |= 4), "function" != typeof a3.getSnapshotBeforeUpdate || u2 === e2.memoizedProps && o3 === e2.memoizedState || (t2.effectTag |= 256), t2.memoizedProps = r3, t2.memoizedState = d3), a3.props = r3, a3.state = d3, a3.context = f3, r3 = c3) : ("function" != typeof a3.componentDidUpdate || u2 === e2.memoizedProps && o3 === e2.memoizedState || (t2.effectTag |= 4), "function" != typeof a3.getSnapshotBeforeUpdate || u2 === e2.memoizedProps && o3 === e2.memoizedState || (t2.effectTag |= 256), r3 = false);
     return Kn(e2, t2, n3, r3, i2, l3);
   }
   function Kn(e2, t2, n3, r3, l3, i2) {
     $n(e2, t2);
     var a3 = 0 != (64 & t2.effectTag);
-    if (!r3 && !a3) return l3 && ze(t2, n3, false), ir(e2, t2, i2);
+    if (!r3 && !a3) return l3 && ze2(t2, n3, false), ir(e2, t2, i2);
     r3 = t2.stateNode, jn.current = t2;
     var u2 = a3 && "function" != typeof n3.getDerivedStateFromError ? null : r3.render();
-    return t2.effectTag |= 1, null !== e2 && a3 ? (t2.child = Ot(t2, e2.child, null, i2), t2.child = Ot(t2, null, u2, i2)) : Bn(e2, t2, u2, i2), t2.memoizedState = r3.state, l3 && ze(t2, n3, true), t2.child;
+    return t2.effectTag |= 1, null !== e2 && a3 ? (t2.child = Ot2(t2, e2.child, null, i2), t2.child = Ot2(t2, null, u2, i2)) : Bn(e2, t2, u2, i2), t2.memoizedState = r3.state, l3 && ze2(t2, n3, true), t2.child;
   }
   function Gn(e2) {
     var t2 = e2.stateNode;
@@ -136027,18 +140465,18 @@ var i, a = { exports: {} }, u = l(n);
         if (i2 = i2.fallback, (n3 = Al(e2, e2.pendingProps)).return = t2, 0 == (2 & t2.mode) && (u2 = null !== t2.memoizedState ? t2.child.child : t2.child) !== e2.child) for (n3.child = u2; null !== u2; ) u2.return = n3, u2 = u2.sibling;
         return (l3 = Al(l3, i2, l3.expirationTime)).return = t2, n3.sibling = l3, n3.childExpirationTime = 0, t2.memoizedState = er, t2.child = n3, l3;
       }
-      return n3 = Ot(t2, e2.child, i2.children, n3), t2.memoizedState = null, t2.child = n3;
+      return n3 = Ot2(t2, e2.child, i2.children, n3), t2.memoizedState = null, t2.child = n3;
     }
     if (e2 = e2.child, u2) {
       if (u2 = i2.fallback, (i2 = $l(null, l3, 0, null)).return = t2, i2.child = e2, null !== e2 && (e2.return = i2), 0 == (2 & t2.mode)) for (e2 = null !== t2.memoizedState ? t2.child.child : t2.child, i2.child = e2; null !== e2; ) e2.return = i2, e2 = e2.sibling;
       return (n3 = $l(u2, l3, n3, null)).return = t2, i2.sibling = n3, n3.effectTag |= 2, i2.childExpirationTime = 0, t2.memoizedState = er, t2.child = i2, n3;
     }
-    return t2.memoizedState = null, t2.child = Ot(t2, e2, i2.children, n3);
+    return t2.memoizedState = null, t2.child = Ot2(t2, e2, i2.children, n3);
   }
   function nr(e2, t2) {
     e2.expirationTime < t2 && (e2.expirationTime = t2);
     var n3 = e2.alternate;
-    null !== n3 && n3.expirationTime < t2 && (n3.expirationTime = t2), pt(e2.return, t2);
+    null !== n3 && n3.expirationTime < t2 && (n3.expirationTime = t2), pt2(e2.return, t2);
   }
   function rr(e2, t2, n3, r3, l3, i2) {
     var a3 = e2.memoizedState;
@@ -136118,11 +140556,11 @@ var i, a = { exports: {} }, u = l(n);
   function or(e2) {
     switch (e2.tag) {
       case 1:
-        xe(e2.type) && Ee2();
+        xe2(e2.type) && Ee2();
         var t2 = e2.effectTag;
         return 4096 & t2 ? (e2.effectTag = -4097 & t2 | 64, e2) : null;
       case 3:
-        if (Kt(), ke2(), 0 != (64 & (t2 = e2.effectTag))) throw Error(f2(285));
+        if (Kt2(), ke2(), 0 != (64 & (t2 = e2.effectTag))) throw Error(f2(285));
         return e2.effectTag = -4097 & t2 | 64, e2;
       case 5:
         return Yt2(e2), null;
@@ -136131,7 +140569,7 @@ var i, a = { exports: {} }, u = l(n);
       case 19:
         return me2(Jt2), null;
       case 4:
-        return Kt(), null;
+        return Kt2(), null;
       case 10:
         return dt2(e2), null;
       default:
@@ -136158,7 +140596,7 @@ var i, a = { exports: {} }, u = l(n);
   }, Jn = function() {
   }, Xn = function(e2, t2, n3, r3, l3) {
     if ((e2 = e2.memoizedProps) !== r3) {
-      var i2 = t2.stateNode, a3 = qt(At2.current);
+      var i2 = t2.stateNode, a3 = qt2(At2.current);
       n3 = O2(i2, n3, e2, r3, l3, a3), (t2.updateQueue = n3) && ar(t2);
     }
   }, Zn = function(e2, t2, n3, r3) {
@@ -136450,14 +140888,14 @@ var i, a = { exports: {} }, u = l(n);
   }
   var kr = "function" == typeof WeakMap ? WeakMap : Map;
   function Sr(e2, t2, n3) {
-    (n3 = vt(n3, null)).tag = 3, n3.payload = { element: null };
+    (n3 = vt2(n3, null)).tag = 3, n3.payload = { element: null };
     var r3 = t2.value;
     return n3.callback = function() {
       el2 || (el2 = true, tl2 = r3), sr(e2, t2);
     }, n3;
   }
   function Cr(e2, t2, n3) {
-    (n3 = vt(n3, null)).tag = 3;
+    (n3 = vt2(n3, null)).tag = 3;
     var r3 = e2.type.getDerivedStateFromError;
     if ("function" == typeof r3) {
       var l3 = t2.value;
@@ -136557,7 +140995,7 @@ var i, a = { exports: {} }, u = l(n);
         } catch (t3) {
           Tl(e2, t3);
         }
-        if (ct(), Or2 = r3, Pr.current = l3, Lr === Fr) throw t2 = $r, vl(e2, n3), Yl(e2, n3), hl2(e2), t2;
+        if (ct2(), Or2 = r3, Pr.current = l3, Lr === Fr) throw t2 = $r, vl(e2, n3), Yl(e2, n3), hl2(e2), t2;
         if (null === Hr) switch (l3 = e2.finishedWork = e2.current.alternate, e2.finishedExpirationTime = n3, r3 = Lr, Br = null, r3) {
           case Mr:
           case Fr:
@@ -136633,7 +141071,7 @@ var i, a = { exports: {} }, u = l(n);
         } catch (t3) {
           Tl(e2, t3);
         }
-        if (ct(), Or2 = n3, Pr.current = r3, Lr === Fr) throw n3 = $r, vl(e2, t2), Yl(e2, t2), hl2(e2), n3;
+        if (ct2(), Or2 = n3, Pr.current = r3, Lr === Fr) throw n3 = $r, vl(e2, t2), Yl(e2, t2), hl2(e2), n3;
         if (null !== Hr) throw Error(f2(261));
         e2.finishedWork = e2.current.alternate, e2.finishedExpirationTime = t2, Br = null, _l(e2), hl2(e2);
       }
@@ -136653,7 +141091,7 @@ var i, a = { exports: {} }, u = l(n);
   function vl(e2, t2) {
     e2.finishedWork = null, e2.finishedExpirationTime = 0;
     var n3 = e2.timeoutHandle;
-    if (n3 !== $ && (e2.timeoutHandle = $, L2(n3)), null !== Hr) for (n3 = Hr.return; null !== n3; ) {
+    if (n3 !== $2 && (e2.timeoutHandle = $2, L2(n3)), null !== Hr) for (n3 = Hr.return; null !== n3; ) {
       var r3 = n3;
       switch (r3.tag) {
         case 1:
@@ -136661,13 +141099,13 @@ var i, a = { exports: {} }, u = l(n);
           null != l3 && Ee2();
           break;
         case 3:
-          Kt(), ke2();
+          Kt2(), ke2();
           break;
         case 5:
           Yt2(r3);
           break;
         case 4:
-          Kt();
+          Kt2();
           break;
         case 13:
         case 19:
@@ -136683,7 +141121,7 @@ var i, a = { exports: {} }, u = l(n);
   function Tl(e2, t2) {
     for (; ; ) {
       try {
-        if (ct(), vn(), null === Hr || null === Hr.return) return Lr = Fr, $r = t2, null;
+        if (ct2(), vn(), null === Hr || null === Hr.return) return Lr = Fr, $r = t2, null;
         e: {
           var n3 = e2, r3 = Hr.return, l3 = Hr, i2 = t2;
           if (t2 = Ar, l3.effectTag |= 2048, l3.firstEffect = l3.lastEffect = null, null !== i2 && "object" == typeof i2 && "function" == typeof i2.then) {
@@ -136707,8 +141145,8 @@ var i, a = { exports: {} }, u = l(n);
                 if (0 == (2 & o3.mode)) {
                   if (o3.effectTag |= 64, l3.effectTag &= -2981, 1 === l3.tag) if (null === l3.alternate) l3.tag = 17;
                   else {
-                    var m3 = vt(1073741823, null);
-                    m3.tag = 2, xt(l3, m3);
+                    var m3 = vt2(1073741823, null);
+                    m3.tag = 2, xt2(l3, m3);
                   }
                   l3.expirationTime = 1073741823;
                   break e;
@@ -136795,26 +141233,26 @@ var i, a = { exports: {} }, u = l(n);
               break;
             case 1:
             case 17:
-              xe(t2.type) && Ee2();
+              xe2(t2.type) && Ee2();
               break;
             case 3:
-              Kt(), ke2(), (l3 = t2.stateNode).pendingContext && (l3.context = l3.pendingContext, l3.pendingContext = null), null === n3 || n3.child, Jn(t2);
+              Kt2(), ke2(), (l3 = t2.stateNode).pendingContext && (l3.context = l3.pendingContext, l3.pendingContext = null), null === n3 || n3.child, Jn(t2);
               break;
             case 5:
               Yt2(t2);
-              var i2 = qt($t2.current);
+              var i2 = qt2($t2.current);
               if (r3 = t2.type, null !== n3 && null != t2.stateNode) Xn(n3, t2, r3, l3, i2), n3.ref !== t2.ref && (t2.effectTag |= 128);
               else if (l3) {
-                n3 = qt(At2.current);
+                n3 = qt2(At2.current);
                 var a3 = D2(r3, l3, i2, n3, t2);
-                Yn(a3, t2, false, false), t2.stateNode = a3, j(a3, r3, l3, i2, n3) && ar(t2), null !== t2.ref && (t2.effectTag |= 128);
+                Yn(a3, t2, false, false), t2.stateNode = a3, j2(a3, r3, l3, i2, n3) && ar(t2), null !== t2.ref && (t2.effectTag |= 128);
               } else if (null === t2.stateNode) throw Error(f2(166));
               break;
             case 6:
               if (n3 && null != t2.stateNode) Zn(n3, t2, n3.memoizedProps, l3);
               else {
                 if ("string" != typeof l3 && null === t2.stateNode) throw Error(f2(166));
-                n3 = qt($t2.current), i2 = qt(At2.current), t2.stateNode = H2(l3, n3, i2, t2);
+                n3 = qt2($t2.current), i2 = qt2(At2.current), t2.stateNode = H2(l3, n3, i2, t2);
               }
               break;
             case 13:
@@ -136825,7 +141263,7 @@ var i, a = { exports: {} }, u = l(n);
               l3 = null !== l3, i2 = false, null === n3 ? t2.memoizedProps.fallback : (i2 = null !== (r3 = n3.memoizedState), l3 || null === r3 || null !== (r3 = n3.child.sibling) && (null !== (a3 = t2.firstEffect) ? (t2.firstEffect = r3, r3.nextEffect = a3) : (t2.firstEffect = t2.lastEffect = r3, r3.nextEffect = null), r3.effectTag = 8)), l3 && !i2 && 0 != (2 & t2.mode) && (null === n3 && true !== t2.memoizedProps.unstable_avoidThisFallback || 0 != (1 & Jt2.current) ? Lr === Mr && (Lr = Dr) : (Lr !== Mr && Lr !== Dr || (Lr = Wr), 0 !== Gr && null !== Br && (Yl(Br, Ar), Jl(Br, Gr)))), (l3 || i2) && (t2.effectTag |= 4);
               break;
             case 4:
-              Kt(), Jn(t2);
+              Kt2(), Jn(t2);
               break;
             case 10:
               dt2(t2);
@@ -136962,7 +141400,7 @@ var i, a = { exports: {} }, u = l(n);
                     b3.componentDidUpdate(y3, g2.memoizedState, b3.__reactInternalSnapshotBeforeUpdate);
                   }
                   var v3 = c3.updateQueue;
-                  null !== v3 && wt(0, v3, b3);
+                  null !== v3 && wt2(0, v3, b3);
                   break;
                 case 3:
                   var T3 = c3.updateQueue;
@@ -136974,7 +141412,7 @@ var i, a = { exports: {} }, u = l(n);
                       case 1:
                         a3 = c3.child.stateNode;
                     }
-                    wt(0, T3, a3);
+                    wt2(0, T3, a3);
                   }
                   break;
                 case 5:
@@ -137055,7 +141493,7 @@ var i, a = { exports: {} }, u = l(n);
     return Or2 = t2, Xe2(), true;
   }
   function Ml(e2, t2, n3) {
-    xt(e2, t2 = Sr(e2, t2 = fr(n3, t2), 1073741823)), null !== (e2 = pl2(e2, 1073741823)) && hl2(e2);
+    xt2(e2, t2 = Sr(e2, t2 = fr(n3, t2), 1073741823)), null !== (e2 = pl2(e2, 1073741823)) && hl2(e2);
   }
   function Fl(e2, t2) {
     if (3 === e2.tag) Ml(e2, e2, t2);
@@ -137067,7 +141505,7 @@ var i, a = { exports: {} }, u = l(n);
       if (1 === n3.tag) {
         var r3 = n3.stateNode;
         if ("function" == typeof n3.type.getDerivedStateFromError || "function" == typeof r3.componentDidCatch && (null === nl2 || !nl2.has(r3))) {
-          xt(n3, e2 = Cr(n3, e2 = fr(t2, e2), 1073741823)), null !== (n3 = pl2(n3, 1073741823)) && hl2(n3);
+          xt2(n3, e2 = Cr(n3, e2 = fr(t2, e2), 1073741823)), null !== (n3 = pl2(n3, 1073741823)) && hl2(n3);
           break;
         }
       }
@@ -137086,7 +141524,7 @@ var i, a = { exports: {} }, u = l(n);
     var r3 = t2.expirationTime;
     if (null !== e2) {
       var l3 = t2.pendingProps;
-      if (e2.memoizedProps !== l3 || ye.current) On = true;
+      if (e2.memoizedProps !== l3 || ye2.current) On = true;
       else {
         if (r3 < n3) {
           switch (On = false, t2.tag) {
@@ -137097,7 +141535,7 @@ var i, a = { exports: {} }, u = l(n);
               if (Gt2(t2), 4 & t2.mode && 1 !== n3 && null(t2.type, l3)) return t2.expirationTime = t2.childExpirationTime = 1, null;
               break;
             case 1:
-              xe(t2.type) && we2(t2);
+              xe2(t2.type) && we2(t2);
               break;
             case 4:
               Vt(t2, t2.stateNode.containerInfo);
@@ -137124,13 +141562,13 @@ var i, a = { exports: {} }, u = l(n);
     switch (t2.expirationTime = 0, t2.tag) {
       case 2:
         if (r3 = t2.type, null !== e2 && (e2.alternate = null, t2.alternate = null, t2.effectTag |= 2), e2 = t2.pendingProps, l3 = Te2(t2, be2.current), mt2(t2, n3), l3 = yn(null, t2, r3, e2, l3, n3), t2.effectTag |= 1, "object" == typeof l3 && null !== l3 && "function" == typeof l3.render && void 0 === l3.$$typeof) {
-          if (t2.tag = 1, vn(), xe(r3)) {
+          if (t2.tag = 1, vn(), xe2(r3)) {
             var i2 = true;
             we2(t2);
           } else i2 = false;
           t2.memoizedState = null !== l3.state && void 0 !== l3.state ? l3.state : null;
           var a3 = r3.getDerivedStateFromProps;
-          "function" == typeof a3 && Nt2(t2, r3, a3, e2), l3.updater = Ut2, t2.stateNode = l3, l3._reactInternalFiber = t2, Ft(t2, r3, e2, n3), t2 = Kn(null, t2, r3, true, i2, n3);
+          "function" == typeof a3 && Nt2(t2, r3, a3, e2), l3.updater = Ut2, t2.stateNode = l3, l3._reactInternalFiber = t2, Ft2(t2, r3, e2, n3), t2 = Kn(null, t2, r3, true, i2, n3);
         } else t2.tag = 0, Bn(null, t2, l3, n3), t2 = t2.child;
         return t2;
       case 16:
@@ -137189,7 +141627,7 @@ var i, a = { exports: {} }, u = l(n);
       case 13:
         return tr(e2, t2, n3);
       case 4:
-        return Vt(t2, t2.stateNode.containerInfo), r3 = t2.pendingProps, null === e2 ? t2.child = Ot(t2, null, r3, n3) : Bn(e2, t2, r3, n3), t2.child;
+        return Vt(t2, t2.stateNode.containerInfo), r3 = t2.pendingProps, null === e2 ? t2.child = Ot2(t2, null, r3, n3) : Bn(e2, t2, r3, n3), t2.child;
       case 11:
         return r3 = t2.type, l3 = t2.pendingProps, Hn(e2, t2, r3, l3 = t2.elementType === r3 ? l3 : it2(r3, l3), n3);
       case 7:
@@ -137202,7 +141640,7 @@ var i, a = { exports: {} }, u = l(n);
           if (r3 = t2.type._context, l3 = t2.pendingProps, a3 = t2.memoizedProps, st2(t2, i2 = l3.value), null !== a3) {
             var u2 = a3.value;
             if (0 == (i2 = nt2(u2, i2) ? 0 : 0 | ("function" == typeof r3._calculateChangedBits ? r3._calculateChangedBits(u2, i2) : 1073741823))) {
-              if (a3.children === l3.children && !ye.current) {
+              if (a3.children === l3.children && !ye2.current) {
                 t2 = ir(e2, t2, n3);
                 break e;
               }
@@ -137212,7 +141650,7 @@ var i, a = { exports: {} }, u = l(n);
                 a3 = u2.child;
                 for (var c3 = o3.firstContext; null !== c3; ) {
                   if (c3.context === r3 && 0 != (c3.observedBits & i2)) {
-                    1 === u2.tag && ((c3 = vt(n3, null)).tag = 2, xt(u2, c3)), u2.expirationTime < n3 && (u2.expirationTime = n3), null !== (c3 = u2.alternate) && c3.expirationTime < n3 && (c3.expirationTime = n3), pt(u2.return, n3), o3.expirationTime < n3 && (o3.expirationTime = n3);
+                    1 === u2.tag && ((c3 = vt2(n3, null)).tag = 2, xt2(u2, c3)), u2.expirationTime < n3 && (u2.expirationTime = n3), null !== (c3 = u2.alternate) && c3.expirationTime < n3 && (c3.expirationTime = n3), pt2(u2.return, n3), o3.expirationTime < n3 && (o3.expirationTime = n3);
                     break;
                   }
                   c3 = c3.next;
@@ -137243,7 +141681,7 @@ var i, a = { exports: {} }, u = l(n);
       case 15:
         return Ln(e2, t2, t2.type, t2.pendingProps, r3, n3);
       case 17:
-        return r3 = t2.type, l3 = t2.pendingProps, l3 = t2.elementType === r3 ? l3 : it2(r3, l3), null !== e2 && (e2.alternate = null, t2.alternate = null, t2.effectTag |= 2), t2.tag = 1, xe(r3) ? (e2 = true, we2(t2)) : e2 = false, mt2(t2, n3), It2(t2, r3, l3), Ft(t2, r3, l3, n3), Kn(null, t2, r3, true, e2, n3);
+        return r3 = t2.type, l3 = t2.pendingProps, l3 = t2.elementType === r3 ? l3 : it2(r3, l3), null !== e2 && (e2.alternate = null, t2.alternate = null, t2.effectTag |= 2), t2.tag = 1, xe2(r3) ? (e2 = true, we2(t2)) : e2 = false, mt2(t2, n3), It2(t2, r3, l3), Ft2(t2, r3, l3, n3), Kn(null, t2, r3, true, e2, n3);
       case 19:
         return lr(e2, t2, n3);
     }
@@ -137314,7 +141752,7 @@ var i, a = { exports: {} }, u = l(n);
     return (t2 = Bl(4, null !== e2.children ? e2.children : [], e2.key, t2)).expirationTime = n3, t2.stateNode = { containerInfo: e2.containerInfo, pendingChildren: null, implementation: e2.implementation }, t2;
   }
   function Kl(e2, t2, n3) {
-    this.tag = t2, this.current = null, this.containerInfo = e2, this.pingCache = this.pendingChildren = null, this.finishedExpirationTime = 0, this.finishedWork = null, this.timeoutHandle = $, this.pendingContext = this.context = null, this.hydrate = n3, this.callbackNode = null, this.callbackPriority = 90, this.lastExpiredTime = this.lastPingedTime = this.nextKnownPendingLevel = this.lastSuspendedTime = this.firstSuspendedTime = this.firstPendingTime = 0;
+    this.tag = t2, this.current = null, this.containerInfo = e2, this.pingCache = this.pendingChildren = null, this.finishedExpirationTime = 0, this.finishedWork = null, this.timeoutHandle = $2, this.pendingContext = this.context = null, this.hydrate = n3, this.callbackNode = null, this.callbackPriority = 90, this.lastExpiredTime = this.lastPingedTime = this.nextKnownPendingLevel = this.lastSuspendedTime = this.firstSuspendedTime = this.firstPendingTime = 0;
   }
   function Gl(e2, t2) {
     var n3 = e2.firstSuspendedTime;
@@ -137362,7 +141800,7 @@ var i, a = { exports: {} }, u = l(n);
               u2 = u2.stateNode.context;
               break t;
             case 1:
-              if (xe(u2.type)) {
+              if (xe2(u2.type)) {
                 u2 = u2.stateNode.__reactInternalMemoizedMergedChildContext;
                 break t;
               }
@@ -137373,14 +141811,14 @@ var i, a = { exports: {} }, u = l(n);
       }
       if (1 === n3.tag) {
         var o3 = n3.type;
-        if (xe(o3)) {
+        if (xe2(o3)) {
           n3 = Ce2(n3, o3, u2);
           break e;
         }
       }
       n3 = u2;
     } else n3 = ge2;
-    return null === t2.context ? t2.context = n3 : t2.pendingContext = n3, (t2 = vt(i2, a3)).payload = { element: e2 }, null !== (r3 = void 0 === r3 ? null : r3) && (t2.callback = r3), xt(l3, t2), dl2(l3, i2), i2;
+    return null === t2.context ? t2.context = n3 : t2.pendingContext = n3, (t2 = vt2(i2, a3)).payload = { element: e2 }, null !== (r3 = void 0 === r3 ? null : r3) && (t2.callback = r3), xt2(l3, t2), dl2(l3, i2), i2;
   }, batchedEventUpdates: function(e2, t2) {
     var n3 = Or2;
     Or2 |= 2;
@@ -137853,7 +142291,7 @@ const styles = StyleSheet.create({
     color: "#333"
   }
 });
-function Field$1({ label, value: value2 }) {
+function Field$2({ label, value: value2 }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles.row, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles.label, children: label }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles.value, children: value2 })
@@ -137868,31 +142306,32 @@ function PaymentReceiptPdf({ data: data2 }) {
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles.section, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles.sectionTitle, children: "Receipt Details" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Receipt No", value: data2.receiptNo }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Payment Date", value: formatDate(data2.paymentDate) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Generated Date", value: formatDate(data2.generatedAt.slice(0, 10)) })
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Receipt No", value: data2.receiptNo }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Payment Date", value: formatDate(data2.paymentDate) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Generated Date", value: formatDate(data2.generatedAt.slice(0, 10)) })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles.twoColumn, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(View, { style: styles.column, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles.section, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles.sectionTitle, children: "Student Details" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Student Name", value: data2.student.fullName }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Phone", value: data2.student.phone }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Course Type", value: formatCourseType(data2.student.courseType) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Enrollment Date", value: formatDate(data2.student.enrollmentDate) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Learning Licence No", value: data2.student.learningLicenceNo || "-" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Driving Licence No", value: data2.student.drivingLicenceNo || "-" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Student Name", value: data2.student.fullName }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Phone", value: data2.student.phone }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Course Type", value: formatCourseType(data2.student.courseType) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Enrollment Date", value: formatDate(data2.student.enrollmentDate) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Course Start Date", value: formatDate(data2.student.courseStartDate || data2.student.enrollmentDate) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Learning Licence No", value: data2.student.learningLicenceNo || "-" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Driving Licence No", value: data2.student.drivingLicenceNo || "-" })
       ] }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles.column, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles.section, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles.sectionTitle, children: "Payment Details" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Amount Paid", value: formatCurrency(data2.amount) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Notes", value: data2.notes || "-" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Amount Paid", value: formatCurrency(data2.amount) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Notes", value: data2.notes || "-" })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles.section, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles.sectionTitle, children: "Fee Summary" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Total Fee", value: formatCurrency(data2.fee.totalAmount) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Total Paid", value: formatCurrency(data2.fee.paidAmount) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Balance", value: formatCurrency(data2.fee.balance) })
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Total Fee", value: formatCurrency(data2.fee.totalAmount) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Total Paid", value: formatCurrency(data2.fee.paidAmount) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Balance", value: formatCurrency(data2.fee.balance) })
         ] })
       ] })
     ] }),
@@ -137951,8 +142390,11 @@ const receiptService = {
         phone: student.phone,
         courseType: student.courseType,
         learningLicenceNo: student.learningLicenceNo,
+        llIssueDate: student.llIssueDate,
+        llExpiryDate: student.llExpiryDate,
         drivingLicenceNo: student.drivingLicenceNo,
-        enrollmentDate: student.enrollmentDate
+        enrollmentDate: student.enrollmentDate,
+        courseStartDate: student.courseStartDate ?? student.enrollmentDate
       },
       branch: {
         id: branch.id,
@@ -138084,12 +142526,17 @@ const fallbackClassTypes = {
     "Test Practice",
     "Night Drive",
     "A2Z Workshop Class"
+  ],
+  HV: [
+    "Theory",
+    "Vehicle Controls",
+    "Yard Practice",
+    "Road Practice",
+    "Reverse / Parking",
+    "Gradient Start",
+    "Load Safety",
+    "Test Practice"
   ]
-};
-const courseParts$1 = {
-  "2W": ["2W"],
-  "4W": ["4W"],
-  both: ["2W", "4W"]
 };
 function emptySlots(slotCount = 30) {
   return Array.from({ length: slotCount }, (_, index2) => ({
@@ -138220,28 +142667,33 @@ const sessionService = {
     if (!payload.classType.trim()) throw new Error("Class type is required.");
     const session = await getDocument(collections.sessions, sessionId);
     if (!session) throw new Error("Unable to load training card.");
-    const normalized = normalizeSession(session.id, session);
-    await assertCanAccessSession(normalized);
-    const nextSlot = getNextEmptySlot(normalized.slots);
-    if (!nextSlot) throw new Error("All allowed sessions are already completed.");
-    const slots = normalized.slots.map(
-      (slot) => slot.slotNo === nextSlot.slotNo ? {
-        ...slot,
-        date: payload.date,
-        classType: payload.classType.trim(),
-        vehicle: payload.vehicle?.trim() ?? "",
-        instructor: payload.instructor?.trim() ?? "",
-        notes: payload.notes?.trim() ?? ""
-      } : slot
-    );
-    await updateDoc(doc(db, collections.sessions, sessionId), {
-      slots,
-      updatedAt: serverTimestamp()
+    await assertCanAccessSession(normalizeSession(session.id, session));
+    return runTransaction(db, async (transaction) => {
+      const sessionRef = doc(db, collections.sessions, sessionId);
+      const snapshot = await transaction.get(sessionRef);
+      if (!snapshot.exists()) throw new Error("Unable to load training card.");
+      const normalized = normalizeSession(snapshot.id, snapshot.data());
+      const nextSlot = getNextEmptySlot(normalized.slots);
+      if (!nextSlot) throw new Error("All allowed sessions are already completed.");
+      const slots = normalized.slots.map(
+        (slot) => slot.slotNo === nextSlot.slotNo ? {
+          ...slot,
+          date: payload.date,
+          classType: payload.classType.trim(),
+          vehicle: payload.vehicle?.trim() ?? "",
+          instructor: payload.instructor?.trim() ?? "",
+          notes: payload.notes?.trim() ?? ""
+        } : slot
+      );
+      transaction.update(sessionRef, {
+        slots,
+        updatedAt: serverTimestamp()
+      });
+      return {
+        ...normalized,
+        slots
+      };
     });
-    return {
-      ...normalized,
-      slots
-    };
   },
   async getClassTypes(branchId, courseType) {
     const classTypes = await getCollection(collections.classTypes, [
@@ -138257,7 +142709,7 @@ const sessionService = {
       snapshot.docs.map((item) => item.data().courseType)
     );
     await Promise.all(
-      courseParts$1[student.courseType].map(
+      COURSE_PARTS[student.courseType].map(
         (courseType) => existingCourses.has(courseType) ? Promise.resolve() : sessionService.createEmptySessionCard(student.id, student.branchId, courseType)
       )
     );
@@ -138443,6 +142895,10 @@ async function assertCanManageStudent(studentId) {
   }
   return student;
 }
+async function getFeeByStudentId(studentId) {
+  const fees = await getCollection(collections.fees, [where("studentId", "==", studentId)]);
+  return fees[0] ?? null;
+}
 function calculateTrainingEntitlement(student, extensions = [], courseType) {
   const baseSessions = Number(student.baseSessionCount ?? defaultBaseSessions);
   const baseDays = Number(student.baseDurationDays ?? student.durationDays ?? defaultBaseDays);
@@ -138492,10 +142948,14 @@ const courseExtensionService = {
     if (payload.extraSessions <= 0 && payload.extraDays <= 0) {
       throw new Error("Add at least one extra session or extra day.");
     }
+    if (payload.amount > 0 && !useSyncStore.getState().isOnline) {
+      throw new Error("Internet is required to add paid extensions and generate receipt numbers.");
+    }
     const student = await assertCanManageStudent(payload.studentId);
     if (student.branchId !== payload.branchId) {
       throw new Error("Extension branch must match the student branch.");
     }
+    const receiptNo = payload.amount > 0 ? await receiptNumberService.getNextReceiptNumber() : null;
     const docRef = await addDoc(collection(db, collections.courseExtensions), {
       studentId: payload.studentId,
       branchId: payload.branchId,
@@ -138509,10 +142969,39 @@ const courseExtensionService = {
     });
     const created = await getDocument(collections.courseExtensions, docRef.id);
     if (!created) throw new Error("Extension was created but could not be loaded.");
+    if (payload.amount > 0 && receiptNo) {
+      const fee = await getFeeByStudentId(payload.studentId);
+      if (!fee) throw new Error("Extension was created but fee details could not be loaded.");
+      await runTransaction(db, async (transaction) => {
+        const feeRef = doc(db, collections.fees, fee.id);
+        const feeSnapshot = await transaction.get(feeRef);
+        if (!feeSnapshot.exists()) throw new Error("Extension was created but fee details could not be loaded.");
+        const currentFee = recalculateFee$1({
+          id: feeSnapshot.id,
+          ...feeSnapshot.data()
+        });
+        const installment = {
+          receiptNo,
+          amount: payload.amount,
+          date: payload.paymentDate,
+          notes: payload.notes?.trim() || `Course extension - ${payload.courseType}`,
+          createdAt: (/* @__PURE__ */ new Date()).toISOString()
+        };
+        const nextInstallments = [...currentFee.installments, installment];
+        const totalAmount = Number(currentFee.totalAmount) + payload.amount;
+        const paidAmount = nextInstallments.reduce((total, item) => total + Number(item.amount), 0);
+        transaction.update(feeRef, {
+          totalAmount,
+          installments: nextInstallments,
+          paidAmount,
+          balance: totalAmount - paidAmount
+        });
+      });
+    }
     if (student.status !== "dropped") {
       await updateDoc(doc(db, collections.students, student.id), { status: "extended" });
     }
-    return created;
+    return { extension: created, receiptNo };
   }
 };
 function TrainingCard({ studentId, branchId, courseType }) {
@@ -138621,6 +143110,125 @@ function TrainingCard({ studentId, branchId, courseType }) {
     ) : null
   ] });
 }
+function AddExtensionModal({
+  open,
+  student,
+  defaultCourseType,
+  onClose,
+  onSaved
+}) {
+  const isOnline = useSyncStore((state2) => state2.isOnline);
+  const [courseType, setCourseType] = reactExports.useState(student?.courseType ?? "4W");
+  const [extraSessions, setExtraSessions] = reactExports.useState("1");
+  const [extraDays, setExtraDays] = reactExports.useState("0");
+  const [amount, setAmount] = reactExports.useState("");
+  const [paymentDate, setPaymentDate] = reactExports.useState((/* @__PURE__ */ new Date()).toISOString().slice(0, 10));
+  const [notes, setNotes] = reactExports.useState("");
+  const [errorMessage, setErrorMessage] = reactExports.useState("");
+  const [isSaving, setIsSaving] = reactExports.useState(false);
+  reactExports.useEffect(() => {
+    if (!open || !student) return;
+    setCourseType(defaultCourseType ?? student.courseType);
+    setExtraSessions("1");
+    setExtraDays("0");
+    setAmount("");
+    setPaymentDate((/* @__PURE__ */ new Date()).toISOString().slice(0, 10));
+    setNotes("");
+    setErrorMessage("");
+  }, [defaultCourseType, open, student]);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setErrorMessage("");
+    const parsedSessions = Number(extraSessions);
+    const parsedDays = Number(extraDays);
+    const parsedAmount = Number(amount || 0);
+    if (!student) return;
+    if (!Number.isFinite(parsedSessions) || parsedSessions < 0) {
+      setErrorMessage("Extra sessions cannot be negative.");
+      return;
+    }
+    if (!Number.isFinite(parsedDays) || parsedDays < 0) {
+      setErrorMessage("Extra days cannot be negative.");
+      return;
+    }
+    if (parsedSessions <= 0 && parsedDays <= 0) {
+      setErrorMessage("Add at least one extra session or extra day.");
+      return;
+    }
+    if (!Number.isFinite(parsedAmount) || parsedAmount < 0) {
+      setErrorMessage("Amount cannot be negative.");
+      return;
+    }
+    if (parsedAmount > 0 && !isOnline) {
+      setErrorMessage("Internet is required to add paid extensions and generate receipt numbers.");
+      return;
+    }
+    if (!paymentDate) {
+      setErrorMessage("Payment date is required.");
+      return;
+    }
+    setIsSaving(true);
+    try {
+      const result = await courseExtensionService.createExtension({
+        studentId: student.id,
+        branchId: student.branchId,
+        courseType,
+        extraSessions: parsedSessions,
+        extraDays: parsedDays,
+        amount: parsedAmount,
+        paymentDate,
+        notes
+      });
+      onSaved(
+        result.receiptNo ? `Course extension added successfully. Receipt No: ${result.receiptNo}` : "Course extension added successfully."
+      );
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Unable to add course extension.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Dialog, { open, onOpenChange: (nextOpen) => !nextOpen && onClose(), children: open ? /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogContent, { onClose, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogHeader, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(DialogTitle, { children: "Add Course Extension" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(DialogDescription, { children: "Record extra paid sessions or extra days after the original course." })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "space-y-4", onSubmit: handleSubmit, children: [
+      !isOnline ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "warning", children: "You can add free extra sessions offline. Paid extensions need internet for receipt numbers." }) : null,
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-4 sm:grid-cols-2", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-course", children: "Course" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Select$1, { id: "extension-course", value: courseType, onChange: (event) => setCourseType(event.target.value), children: STUDENT_COURSE_OPTIONS.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: option.value, children: option.label }, option.value)) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-payment-date", children: "Payment Date" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-payment-date", type: "date", value: paymentDate, onChange: (event) => setPaymentDate(event.target.value) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-sessions", children: "Extra Sessions" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-sessions", type: "number", min: "0", value: extraSessions, onChange: (event) => setExtraSessions(event.target.value) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-days", children: "Extra Days" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-days", type: "number", min: "0", value: extraDays, onChange: (event) => setExtraDays(event.target.value) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2 sm:col-span-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-amount", children: "Amount Paid" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-amount", type: "number", min: "0", value: amount, onChange: (event) => setAmount(event.target.value) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2 sm:col-span-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-notes", children: "Notes" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Textarea, { id: "extension-notes", value: notes, onChange: (event) => setNotes(event.target.value) })
+        ] })
+      ] }),
+      errorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: errorMessage }) : null,
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-end gap-2", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", variant: "outline", onClick: onClose, children: "Cancel" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "submit", disabled: isSaving || !student, children: isSaving ? "Saving..." : "Add Extension" })
+      ] })
+    ] })
+  ] }) : null });
+}
 function Tabs({ children }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children });
 }
@@ -138672,9 +143280,8 @@ function StudentDetails({ student, onFeeChanged, onStudentChanged }) {
   const [extensions, setExtensions] = reactExports.useState(student.extensions ?? []);
   const [entitlement, setEntitlement] = reactExports.useState(student.trainingEntitlement ?? null);
   const [extensionModalOpen, setExtensionModalOpen] = reactExports.useState(false);
-  const hasTwoWheeler = student.courseType === "2W" || student.courseType === "both";
-  const hasFourWheeler = student.courseType === "4W" || student.courseType === "both";
-  const isThirtyDaysCompleted = student.status === "ongoing" && student.daysRemaining < 0;
+  const courseParts = COURSE_PARTS[student.courseType];
+  const isThirtyDaysCompleted = (student.status === "ongoing" || student.status === "extended") && student.daysRemaining < 0;
   const loadExtensions = async () => {
     try {
       const rows = await courseExtensionService.getExtensionsByStudent(student.id);
@@ -138756,6 +143363,7 @@ function StudentDetails({ student, onFeeChanged, onStudentChanged }) {
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { title: "Timeline", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(Info$1, { label: "Enrollment Date", value: formatDate(student.enrollmentDate) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Info$1, { label: "Course Start Date", value: formatDate(student.courseStartDate) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(Info$1, { label: "Base Completion Date", value: formatDate(student.expiryDate) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(Info$1, { label: "Base Days Remaining", value: student.daysRemaining >= 0 ? String(student.daysRemaining) : "Completed" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(Info$1, { label: "Allowed Sessions", value: String(entitlement?.allowedSessions ?? student.baseSessionCount ?? 30) }),
@@ -138787,16 +143395,12 @@ function StudentDetails({ student, onFeeChanged, onStudentChanged }) {
           onError: setErrorMessage
         }
       ) }) : null,
-      activeTab === "attendance" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(TabsContent, { children: [
-        hasTwoWheeler ? /* @__PURE__ */ jsxRuntimeExports.jsx(TrainingCard, { studentId: student.id, branchId: student.branchId, courseType: "2W" }) : null,
-        hasFourWheeler ? /* @__PURE__ */ jsxRuntimeExports.jsx(TrainingCard, { studentId: student.id, branchId: student.branchId, courseType: "4W" }) : null
-      ] }) : null,
-      activeTab === "driving-test" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(TabsContent, { children: [
-        hasTwoWheeler ? /* @__PURE__ */ jsxRuntimeExports.jsx(DrivingTestCard, { studentId: student.id, branchId: student.branchId, courseType: "2W", onStudentPassed: onStudentChanged }) : null,
-        hasFourWheeler ? /* @__PURE__ */ jsxRuntimeExports.jsx(DrivingTestCard, { studentId: student.id, branchId: student.branchId, courseType: "4W", onStudentPassed: onStudentChanged }) : null
-      ] }) : null,
+      activeTab === "attendance" ? /* @__PURE__ */ jsxRuntimeExports.jsx(TabsContent, { children: courseParts.map((courseType) => /* @__PURE__ */ jsxRuntimeExports.jsx(TrainingCard, { studentId: student.id, branchId: student.branchId, courseType }, courseType)) }) : null,
+      activeTab === "driving-test" ? /* @__PURE__ */ jsxRuntimeExports.jsx(TabsContent, { children: courseParts.map((courseType) => /* @__PURE__ */ jsxRuntimeExports.jsx(DrivingTestCard, { studentId: student.id, branchId: student.branchId, courseType }, courseType)) }) : null,
       activeTab === "licence" ? /* @__PURE__ */ jsxRuntimeExports.jsx(TabsContent, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { title: "Licence Details", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(Info$1, { label: "Learning Licence No", value: student.learningLicenceNo || "-" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Info$1, { label: "LL Issue Date", value: student.llIssueDate ? formatDate(student.llIssueDate) : "-" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Info$1, { label: "LL Expiry Date", value: student.llExpiryDate ? formatDate(student.llExpiryDate) : "-" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(Info$1, { label: "Driving Licence No", value: student.drivingLicenceNo || "-" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(Info$1, { label: "DL Issue Date", value: student.dlIssueDate ? formatDate(student.dlIssueDate) : "-" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(Info$1, { label: "DL Expiry Date", value: student.dlExpiryDate ? formatDate(student.dlExpiryDate) : "-" })
@@ -138839,11 +143443,15 @@ function StudentDetails({ student, onFeeChanged, onStudentChanged }) {
         open: extensionModalOpen,
         student,
         onClose: () => setExtensionModalOpen(false),
-        onSaved: () => {
+        onSaved: (nextMessage) => {
           setExtensionModalOpen(false);
-          setMessage("Course extension added successfully.");
+          setMessage(nextMessage);
           setErrorMessage("");
           void loadExtensions();
+          void feeService.getFeeByStudentId(student.id).then((nextFee) => {
+            if (nextFee) setFee(nextFee);
+          });
+          onFeeChanged?.();
           onStudentChanged?.();
         }
       }
@@ -138887,115 +143495,6 @@ function ExtensionsTab({
       ] }) })
     ] })
   ] });
-}
-function AddExtensionModal({
-  open,
-  student,
-  onClose,
-  onSaved
-}) {
-  const [courseType, setCourseType] = reactExports.useState(student.courseType);
-  const [extraSessions, setExtraSessions] = reactExports.useState("1");
-  const [extraDays, setExtraDays] = reactExports.useState("0");
-  const [amount, setAmount] = reactExports.useState("");
-  const [paymentDate, setPaymentDate] = reactExports.useState((/* @__PURE__ */ new Date()).toISOString().slice(0, 10));
-  const [notes, setNotes] = reactExports.useState("");
-  const [errorMessage, setErrorMessage] = reactExports.useState("");
-  const [isSaving, setIsSaving] = reactExports.useState(false);
-  reactExports.useEffect(() => {
-    if (!open) return;
-    setCourseType(student.courseType);
-    setExtraSessions("1");
-    setExtraDays("0");
-    setAmount("");
-    setPaymentDate((/* @__PURE__ */ new Date()).toISOString().slice(0, 10));
-    setNotes("");
-    setErrorMessage("");
-  }, [open, student.courseType]);
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setErrorMessage("");
-    const parsedSessions = Number(extraSessions);
-    const parsedDays = Number(extraDays);
-    const parsedAmount = Number(amount || 0);
-    if (!Number.isFinite(parsedSessions) || parsedSessions < 0) {
-      setErrorMessage("Extra sessions cannot be negative.");
-      return;
-    }
-    if (!Number.isFinite(parsedDays) || parsedDays < 0) {
-      setErrorMessage("Extra days cannot be negative.");
-      return;
-    }
-    if (parsedSessions <= 0 && parsedDays <= 0) {
-      setErrorMessage("Add at least one extra session or extra day.");
-      return;
-    }
-    if (!Number.isFinite(parsedAmount) || parsedAmount < 0) {
-      setErrorMessage("Amount cannot be negative.");
-      return;
-    }
-    setIsSaving(true);
-    try {
-      await courseExtensionService.createExtension({
-        studentId: student.id,
-        branchId: student.branchId,
-        courseType,
-        extraSessions: parsedSessions,
-        extraDays: parsedDays,
-        amount: parsedAmount,
-        paymentDate,
-        notes
-      });
-      onSaved();
-    } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Unable to add course extension.");
-    } finally {
-      setIsSaving(false);
-    }
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(Dialog, { open, onOpenChange: (nextOpen) => !nextOpen && onClose(), children: open ? /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogContent, { onClose, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogHeader, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(DialogTitle, { children: "Add Course Extension" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(DialogDescription, { children: "Record extra paid sessions or extra days after the original course." })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "space-y-4", onSubmit: handleSubmit, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-4 sm:grid-cols-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-course", children: "Course" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(Select$1, { id: "extension-course", value: courseType, onChange: (event) => setCourseType(event.target.value), children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "2W", children: "2W" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "4W", children: "4W" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "both", children: "Both" })
-          ] })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-payment-date", children: "Payment Date" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-payment-date", type: "date", value: paymentDate, onChange: (event) => setPaymentDate(event.target.value) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-sessions", children: "Extra Sessions" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-sessions", type: "number", min: "0", value: extraSessions, onChange: (event) => setExtraSessions(event.target.value) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-days", children: "Extra Days" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-days", type: "number", min: "0", value: extraDays, onChange: (event) => setExtraDays(event.target.value) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2 sm:col-span-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-amount", children: "Amount Paid" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-amount", type: "number", min: "0", value: amount, onChange: (event) => setAmount(event.target.value) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2 sm:col-span-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-notes", children: "Notes" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Textarea, { id: "extension-notes", value: notes, onChange: (event) => setNotes(event.target.value) })
-        ] })
-      ] }),
-      errorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: errorMessage }) : null,
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-end gap-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", variant: "outline", onClick: onClose, children: "Cancel" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "submit", disabled: isSaving, children: isSaving ? "Saving..." : "Add Extension" })
-      ] })
-    ] })
-  ] }) : null });
 }
 function FeeTab({
   feeSummary,
@@ -139053,45 +143552,624 @@ function Info$1({ label, value: value2 }) {
     /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-medium", children: value2 })
   ] });
 }
-const createStoreImpl = (createState) => {
-  let state2;
-  const listeners3 = /* @__PURE__ */ new Set();
-  const setState = (partial, replace) => {
-    const nextState = typeof partial === "function" ? partial(state2) : partial;
-    if (!Object.is(nextState, state2)) {
-      const previousState = state2;
-      state2 = (replace != null ? replace : typeof nextState !== "object" || nextState === null) ? nextState : Object.assign({}, state2, nextState);
-      listeners3.forEach((listener) => listener(state2, previousState));
-    }
-  };
-  const getState = () => state2;
-  const getInitialState = () => initialState;
-  const subscribe = (listener) => {
-    listeners3.add(listener);
-    return () => listeners3.delete(listener);
-  };
-  const api = { setState, getState, getInitialState, subscribe };
-  const initialState = state2 = createState(setState, getState, api);
-  return api;
-};
-const createStore = (createState) => createState ? createStoreImpl(createState) : createStoreImpl;
-const identity = (arg) => arg;
-function useStore(api, selector = identity) {
-  const slice4 = React.useSyncExternalStore(
-    api.subscribe,
-    React.useCallback(() => selector(api.getState()), [api, selector]),
-    React.useCallback(() => selector(api.getInitialState()), [api, selector])
-  );
-  React.useDebugValue(slice4);
-  return slice4;
+function addDays(date, days) {
+  const nextDate = /* @__PURE__ */ new Date(`${date}T00:00:00`);
+  nextDate.setDate(nextDate.getDate() + days);
+  return nextDate.toISOString().slice(0, 10);
 }
-const createImpl = (createState) => {
-  const api = createStore(createState);
-  const useBoundStore = (selector) => useStore(api, selector);
-  Object.assign(useBoundStore, api);
-  return useBoundStore;
+function getDaysRemaining(expiryDate) {
+  const expiry = /* @__PURE__ */ new Date(`${expiryDate}T00:00:00`);
+  const today2 = /* @__PURE__ */ new Date();
+  today2.setHours(0, 0, 0, 0);
+  return Math.ceil((expiry.getTime() - today2.getTime()) / 864e5);
+}
+function calculateStudentExpiryDate(startDate, durationDays = 30) {
+  return addDays(startDate, durationDays);
+}
+function getCourseStartDate(student) {
+  return student.courseStartDate || student.enrollmentDate;
+}
+function isWithinNextDays(targetDate, days) {
+  const remaining = getDaysRemaining(targetDate);
+  return remaining >= 0 && remaining <= days;
+}
+function isPastDate(date) {
+  return getDaysRemaining(date) < 0;
+}
+function getMonthStartAndEnd(month, year) {
+  const paddedMonth = String(month).padStart(2, "0");
+  const end2 = new Date(year, month, 0);
+  return {
+    startDate: `${year}-${paddedMonth}-01`,
+    endDate: `${year}-${paddedMonth}-${String(end2.getDate()).padStart(2, "0")}`
+  };
+}
+function isDateInMonthYear(date, month, year) {
+  if (!date) return false;
+  const { startDate, endDate } = getMonthStartAndEnd(month, year);
+  return date >= startDate && date <= endDate;
+}
+function deriveStudentStatus(student) {
+  if (student.status === "dropped") return "dropped";
+  if (student.drivingLicenceNo?.trim()) return "passed";
+  if (student.status === "extended") return "extended";
+  return "ongoing";
+}
+const searchableStudentFields = ["fullName", "phone", "learningLicenceNo", "drivingLicenceNo"];
+function emptySessionSlots() {
+  return Array.from({ length: 30 }, (_, index2) => ({
+    slotNo: index2 + 1,
+    date: null,
+    classType: ""
+  }));
+}
+function emptyTestAttempts() {
+  return Array.from({ length: 3 }, (_, index2) => ({
+    attemptNo: index2 + 1,
+    date: null,
+    result: "pending",
+    notes: ""
+  }));
+}
+function normalizeSearch(value2) {
+  return value2.trim().toLowerCase();
+}
+function normalizeSearchToken(value2) {
+  return value2.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase().replace(/\s+/g, " ");
+}
+function addPrefixes(tokens, value2) {
+  const normalized = normalizeSearchToken(value2);
+  if (!normalized) return;
+  const compact2 = normalized.replace(/[^a-z0-9]/g, "");
+  const candidates = /* @__PURE__ */ new Set([
+    normalized.replace(/[^a-z0-9 ]/g, ""),
+    compact2,
+    ...normalized.split(" ").map((part) => part.replace(/[^a-z0-9]/g, ""))
+  ]);
+  candidates.forEach((candidate) => {
+    if (!candidate) return;
+    const maxLength = Math.min(candidate.length, 40);
+    for (let index2 = 1; index2 <= maxLength; index2 += 1) {
+      tokens.add(candidate.slice(0, index2));
+    }
+  });
+}
+function createStudentSearchTokens(student) {
+  const tokens = /* @__PURE__ */ new Set();
+  searchableStudentFields.forEach((field) => addPrefixes(tokens, student[field] ?? ""));
+  return Array.from(tokens).slice(0, 300);
+}
+function matchesCourseFilter(student, courseType) {
+  if (!courseType || courseType === "all") return true;
+  if (courseType === "both") return student.courseType === "both";
+  return COURSE_PARTS[student.courseType].includes(courseType);
+}
+function getCourseConstraint(courseType) {
+  if (!courseType || courseType === "all") return [];
+  if (courseType === "both") return [where("courseType", "==", "both")];
+  return [where("courseType", "in", courseType === "HV" ? ["HV"] : [courseType, "both"])];
+}
+function getServerSort(sortField, sortDirection = "desc") {
+  if (sortField === "courseStartDate") return [orderBy("courseStartDate", sortDirection), orderBy(documentId(), sortDirection)];
+  if (sortField === "enrollmentDate") return [orderBy("enrollmentDate", sortDirection), orderBy(documentId(), sortDirection)];
+  return [orderBy("enrollmentDate", "desc"), orderBy(documentId(), "desc")];
+}
+function sortPageRows(rows, sortField, sortDirection = "desc") {
+  if (sortField !== "balance" && sortField !== "daysRemaining") return rows;
+  const direction = sortDirection === "asc" ? 1 : -1;
+  return [...rows].sort((left, right) => {
+    const leftValue = sortField === "balance" ? left.balance : left.daysRemaining;
+    const rightValue = sortField === "balance" ? right.balance : right.daysRemaining;
+    return (leftValue - rightValue) * direction;
+  });
+}
+function getMissingIndexMessage(error) {
+  const message = error instanceof Error ? error.message : "";
+  return message.toLowerCase().includes("index") ? "Student list needs a database index. Please contact admin." : "Unable to load students. Please check your connection and try again.";
+}
+function isMissingIndexError(error) {
+  const message = error instanceof Error ? error.message : "";
+  return message.toLowerCase().includes("index");
+}
+async function getStudentFee(studentId) {
+  const fees = await getCollection(collections.fees, [where("studentId", "==", studentId)]);
+  const fee = fees[0];
+  if (!fee) return null;
+  const installments = Array.isArray(fee.installments) ? fee.installments : [];
+  const paidAmount = installments.length ? installments.reduce((total, installment) => total + Number(installment.amount), 0) : Number(fee.paidAmount ?? 0);
+  return {
+    ...fee,
+    branchId: fee.branchId ?? "",
+    installments,
+    paidAmount,
+    balance: Number(fee.totalAmount) - paidAmount
+  };
+}
+async function getStudentFees(studentIds) {
+  if (studentIds.length === 0) return /* @__PURE__ */ new Map();
+  const chunks = Array.from(
+    { length: Math.ceil(studentIds.length / 30) },
+    (_, index2) => studentIds.slice(index2 * 30, index2 * 30 + 30)
+  );
+  const rows = (await Promise.all(
+    chunks.map((chunk) => getCollection(collections.fees, [where("studentId", "in", chunk)]))
+  )).flat();
+  return new Map(
+    rows.map((fee) => {
+      const installments = Array.isArray(fee.installments) ? fee.installments : [];
+      const paidAmount = installments.length ? installments.reduce((total, installment) => total + Number(installment.amount), 0) : Number(fee.paidAmount ?? 0);
+      return [
+        fee.studentId,
+        {
+          ...fee,
+          branchId: fee.branchId ?? "",
+          installments,
+          paidAmount,
+          balance: Number(fee.totalAmount) - paidAmount
+        }
+      ];
+    })
+  );
+}
+async function attachFeeAndBranch(student, branches) {
+  const fee = await getStudentFee(student.id);
+  return attachFeeAndBranchWithFee(student, branches, fee);
+}
+async function attachFeeAndBranchWithFee(student, branches, fee) {
+  const totalAmount = Number(fee?.totalAmount ?? 0);
+  const paidAmount = Number(fee?.paidAmount ?? 0);
+  const balance = Number(fee?.balance ?? Math.max(totalAmount - paidAmount, 0));
+  const durationDays = student.baseDurationDays ?? student.durationDays ?? 30;
+  const courseStartDate = getCourseStartDate(student);
+  const expiryDate = calculateStudentExpiryDate(courseStartDate, durationDays);
+  return {
+    ...student,
+    status: deriveStudentStatus(student),
+    durationDays,
+    baseSessionCount: student.baseSessionCount ?? 30,
+    baseDurationDays: durationDays,
+    courseStartDate,
+    branchName: branches.find((branch) => branch.id === student.branchId)?.name,
+    totalAmount,
+    paidAmount,
+    balance,
+    expiryDate,
+    daysRemaining: getDaysRemaining(expiryDate),
+    fee
+  };
+}
+async function existingCourseDocs(collectionName, studentId) {
+  return getCollection(collectionName, [where("studentId", "==", studentId)]);
+}
+const studentService = {
+  async getStudentsPage(filters = {}) {
+    try {
+      const { profile } = await authService.getCurrentUser();
+      const effectiveBranchId2 = profile?.role === "staff" ? profile.branchId : filters.branchId;
+      const pageSize = filters.pageSize ?? 50;
+      const pageNumber = filters.pageNumber ?? 1;
+      const search = normalizeSearchToken(filters.search ?? "");
+      const constraints = [
+        ...effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : [],
+        ...getCourseConstraint(filters.courseType),
+        ...filters.status && filters.status !== "all" ? [where("status", "==", filters.status)] : [],
+        ...search ? [where("searchTokens", "array-contains", search)] : [],
+        ...getServerSort(filters.sortField, filters.sortDirection),
+        ...filters.cursor ? [startAfter(filters.cursor)] : [],
+        limit(pageSize + 1)
+      ];
+      const [snapshot, branches] = await Promise.all([
+        getDocs(query(collection(db, collections.students), ...constraints)),
+        effectiveBranchId2 ? getDocument(collections.branches, effectiveBranchId2).then((branch) => branch ? [branch] : []) : getCollection(collections.branches)
+      ]);
+      const pageDocs = snapshot.docs.slice(0, pageSize);
+      const hasNextPage = snapshot.docs.length > pageSize;
+      const students = pageDocs.map((item) => ({ id: item.id, ...item.data() }));
+      const feesByStudent = await getStudentFees(students.map((student) => student.id));
+      const rows = await Promise.all(
+        students.map((student) => attachFeeAndBranchWithFee(student, branches, feesByStudent.get(student.id) ?? null))
+      );
+      const sortedRows = sortPageRows(rows, filters.sortField, filters.sortDirection);
+      const startItem = rows.length === 0 ? 0 : (pageNumber - 1) * pageSize + 1;
+      const endItem = rows.length === 0 ? 0 : startItem + rows.length - 1;
+      return {
+        rows: sortedRows,
+        pageInfo: {
+          hasNextPage,
+          nextCursor: hasNextPage ? pageDocs[pageDocs.length - 1] ?? null : null,
+          startItem,
+          endItem
+        }
+      };
+    } catch (error) {
+      if (isMissingIndexError(error)) {
+        return studentService.getStudentsPageFallback(filters);
+      }
+      throw new Error(getMissingIndexMessage(error));
+    }
+  },
+  async getStudentsPageFallback(filters = {}) {
+    const { profile } = await authService.getCurrentUser();
+    const effectiveBranchId2 = profile?.role === "staff" ? profile.branchId : filters.branchId;
+    const pageSize = filters.pageSize ?? 50;
+    const pageNumber = filters.pageNumber ?? 1;
+    const search = normalizeSearchToken(filters.search ?? "");
+    const constraints = [
+      ...effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : [],
+      orderBy("enrollmentDate", "desc"),
+      ...filters.cursor ? [startAfter(filters.cursor)] : [],
+      limit(pageSize * 5 + 1)
+    ];
+    const [snapshot, branches] = await Promise.all([
+      getDocs(query(collection(db, collections.students), ...constraints)),
+      effectiveBranchId2 ? getDocument(collections.branches, effectiveBranchId2).then((branch) => branch ? [branch] : []) : getCollection(collections.branches)
+    ]);
+    const visibleDocs = snapshot.docs.filter((item) => {
+      const student = { id: item.id, ...item.data() };
+      if (!matchesCourseFilter(student, filters.courseType)) return false;
+      if (filters.status && filters.status !== "all" && deriveStudentStatus(student) !== filters.status) return false;
+      if (search && !(Array.isArray(student.searchTokens) && student.searchTokens.includes(search))) return false;
+      return true;
+    });
+    const pageDocs = visibleDocs.slice(0, pageSize);
+    const students = pageDocs.map((item) => ({ id: item.id, ...item.data() }));
+    const feesByStudent = await getStudentFees(students.map((student) => student.id));
+    const rows = await Promise.all(
+      students.map((student) => attachFeeAndBranchWithFee(student, branches, feesByStudent.get(student.id) ?? null))
+    );
+    const sortedRows = sortPageRows(rows, filters.sortField, filters.sortDirection);
+    const startItem = rows.length === 0 ? 0 : (pageNumber - 1) * pageSize + 1;
+    const endItem = rows.length === 0 ? 0 : startItem + rows.length - 1;
+    return {
+      rows: sortedRows,
+      pageInfo: {
+        hasNextPage: snapshot.docs.length > pageSize * 5 || visibleDocs.length > pageSize,
+        nextCursor: snapshot.docs.length > 0 ? snapshot.docs[Math.min(snapshot.docs.length, pageSize * 5) - 1] ?? null : null,
+        startItem,
+        endItem
+      }
+    };
+  },
+  async getStudents(filters = {}) {
+    const { profile } = await authService.getCurrentUser();
+    const effectiveBranchId2 = profile?.role === "staff" ? profile.branchId : filters.branchId;
+    const constraints = [
+      ...effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : [],
+      orderBy("enrollmentDate", "desc")
+    ];
+    const [studentsRaw, branches] = await Promise.all([
+      getCollection(collections.students, constraints),
+      effectiveBranchId2 ? getDocument(collections.branches, effectiveBranchId2).then((branch) => branch ? [branch] : []) : getCollection(collections.branches)
+    ]);
+    const search = normalizeSearch(filters.search ?? "");
+    const courseFilteredStudents = studentsRaw.filter((student) => matchesCourseFilter(student, filters.courseType));
+    const students = search ? courseFilteredStudents.filter(
+      (student) => [student.fullName, student.phone, student.learningLicenceNo ?? "", student.drivingLicenceNo ?? ""].some((value2) => value2.toLowerCase().includes(search))
+    ) : courseFilteredStudents;
+    const studentsWithFee = await Promise.all(students.map((student) => attachFeeAndBranch(student, branches)));
+    return filters.status && filters.status !== "all" ? studentsWithFee.filter((student) => student.status === filters.status) : studentsWithFee;
+  },
+  subscribeStudents(filters = {}, onNext, onError) {
+    let isActive = true;
+    let cleanup = () => void 0;
+    let latestStudents = [];
+    let latestFees = [];
+    let latestBranches = [];
+    let studentsLoaded = false;
+    let feesLoaded = false;
+    let branchesLoaded = false;
+    const emit4 = async () => {
+      if (!isActive) return;
+      if (!studentsLoaded || !feesLoaded || !branchesLoaded) return;
+      const search = normalizeSearch(filters.search ?? "");
+      const courseFilteredStudents = latestStudents.filter((student) => matchesCourseFilter(student, filters.courseType));
+      const students = search ? courseFilteredStudents.filter(
+        (student) => [student.fullName, student.phone, student.learningLicenceNo ?? "", student.drivingLicenceNo ?? ""].some(
+          (value2) => value2.toLowerCase().includes(search)
+        )
+      ) : courseFilteredStudents;
+      const feesByStudent = new Map(latestFees.map((fee) => [fee.studentId, fee]));
+      const rows = await Promise.all(
+        students.map((student) => attachFeeAndBranchWithFee(student, latestBranches, feesByStudent.get(student.id) ?? null))
+      );
+      const filtered = filters.status && filters.status !== "all" ? rows.filter((student) => student.status === filters.status) : rows;
+      if (isActive) onNext(filtered);
+    };
+    void authService.getCurrentUser().then(({ profile }) => {
+      if (!isActive) return;
+      const effectiveBranchId2 = profile?.role === "staff" ? profile.branchId : filters.branchId;
+      const queryKey = `branch=${effectiveBranchId2 ?? "all"}`;
+      const studentConstraints = [
+        ...effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : [],
+        orderBy("enrollmentDate", "desc")
+      ];
+      const scopedByBranch = effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : [];
+      const unsubscribers = [
+        subscribeCollection(
+          collections.students,
+          studentConstraints,
+          ({ rows }) => {
+            studentsLoaded = true;
+            latestStudents = rows;
+            void emit4();
+          },
+          onError,
+          `students:${queryKey}`
+        ),
+        subscribeCollection(
+          collections.fees,
+          scopedByBranch,
+          ({ rows }) => {
+            feesLoaded = true;
+            latestFees = rows;
+            void emit4();
+          },
+          onError,
+          `fees:${effectiveBranchId2 ?? "all"}`
+        ),
+        subscribeCollection(
+          collections.branches,
+          [],
+          ({ rows }) => {
+            branchesLoaded = true;
+            latestBranches = effectiveBranchId2 ? rows.filter((branch) => branch.id === effectiveBranchId2) : rows;
+            void emit4();
+          },
+          onError,
+          "branches:all"
+        )
+      ];
+      cleanup = () => unsubscribers.forEach((unsubscribe) => unsubscribe());
+    });
+    return () => {
+      isActive = false;
+      cleanup();
+    };
+  },
+  async getStudentById(studentId) {
+    const student = await getDocument(collections.students, studentId);
+    const branches = student ? await getDocument(collections.branches, student.branchId).then((branch) => branch ? [branch] : []) : [];
+    return student ? attachFeeAndBranch(student, branches) : null;
+  },
+  async getStudentsByBranch(branchId) {
+    return getCollection(collections.students, [where("branchId", "==", branchId)]);
+  },
+  async createStudent(payload) {
+    if (payload.totalAmount <= 0) throw new Error("Total fee must be greater than 0.");
+    const studentRef = doc(collection(db, collections.students));
+    const feeRef = doc(collection(db, collections.fees));
+    const batch = writeBatch(db);
+    const studentData = {
+      branchId: payload.branchId,
+      fullName: payload.fullName.trim(),
+      phone: payload.phone.trim(),
+      courseType: payload.courseType,
+      enrollmentDate: payload.enrollmentDate,
+      courseStartDate: payload.courseStartDate || null,
+      learningLicenceNo: payload.learningLicenceNo?.trim() ?? "",
+      llIssueDate: payload.llIssueDate || null,
+      llExpiryDate: payload.llExpiryDate || null,
+      drivingLicenceNo: payload.drivingLicenceNo?.trim() ?? "",
+      dlIssueDate: payload.dlIssueDate || null,
+      dlExpiryDate: payload.dlExpiryDate || null,
+      status: deriveStudentStatus({ drivingLicenceNo: payload.drivingLicenceNo }),
+      durationDays: 30,
+      baseSessionCount: 30,
+      baseDurationDays: 30,
+      completedAt: null,
+      searchTokens: createStudentSearchTokens({
+        fullName: payload.fullName,
+        phone: payload.phone,
+        learningLicenceNo: payload.learningLicenceNo ?? "",
+        drivingLicenceNo: payload.drivingLicenceNo ?? ""
+      }),
+      createdAt: createdAt()
+    };
+    const feeData = {
+      studentId: studentRef.id,
+      branchId: payload.branchId,
+      totalAmount: payload.totalAmount,
+      installments: [],
+      paidAmount: 0,
+      balance: payload.totalAmount,
+      createdAt: createdAt()
+    };
+    batch.set(studentRef, studentData);
+    batch.set(feeRef, feeData);
+    COURSE_PARTS[payload.courseType].forEach((course) => {
+      batch.set(doc(collection(db, collections.sessions)), {
+        studentId: studentRef.id,
+        courseType: course,
+        branchId: payload.branchId,
+        slots: emptySessionSlots(),
+        createdAt: serverTimestamp()
+      });
+      batch.set(doc(collection(db, collections.drivingTests)), {
+        studentId: studentRef.id,
+        courseType: course,
+        branchId: payload.branchId,
+        attempts: emptyTestAttempts(),
+        createdAt: serverTimestamp()
+      });
+    });
+    const commit = batch.commit();
+    if (useSyncStore.getState().isOnline) {
+      await commit;
+    } else {
+      void commit.catch((error) => console.error("Student creation sync failed:", error));
+    }
+    return attachFeeAndBranchWithFee(
+      { id: studentRef.id, ...studentData, createdAt: (/* @__PURE__ */ new Date()).toISOString() },
+      [],
+      {
+        id: feeRef.id,
+        studentId: studentRef.id,
+        branchId: payload.branchId,
+        totalAmount: payload.totalAmount,
+        installments: [],
+        paidAmount: 0,
+        balance: payload.totalAmount,
+        createdAt: (/* @__PURE__ */ new Date()).toISOString()
+      }
+    );
+  },
+  async updateStudent(studentId, payload) {
+    const existingStudent = await getDocument(collections.students, studentId);
+    if (!existingStudent) throw new Error("Student not found.");
+    const nextBranchId = payload.branchId ?? existingStudent.branchId;
+    const nextCourseType = payload.courseType ?? existingStudent.courseType;
+    const updatePayload = {};
+    if (payload.fullName !== void 0) updatePayload.fullName = payload.fullName.trim();
+    if (payload.phone !== void 0) updatePayload.phone = payload.phone.trim();
+    if (payload.enrollmentDate !== void 0) updatePayload.enrollmentDate = payload.enrollmentDate;
+    if (payload.courseStartDate !== void 0) updatePayload.courseStartDate = payload.courseStartDate || null;
+    if (payload.courseType !== void 0) updatePayload.courseType = payload.courseType;
+    if (payload.learningLicenceNo !== void 0) updatePayload.learningLicenceNo = payload.learningLicenceNo.trim();
+    if (payload.llIssueDate !== void 0) updatePayload.llIssueDate = payload.llIssueDate || null;
+    if (payload.llExpiryDate !== void 0) updatePayload.llExpiryDate = payload.llExpiryDate || null;
+    if (payload.drivingLicenceNo !== void 0) updatePayload.drivingLicenceNo = payload.drivingLicenceNo.trim();
+    if (payload.dlIssueDate !== void 0) updatePayload.dlIssueDate = payload.dlIssueDate || null;
+    if (payload.dlExpiryDate !== void 0) updatePayload.dlExpiryDate = payload.dlExpiryDate || null;
+    if (payload.branchId !== void 0) updatePayload.branchId = payload.branchId;
+    updatePayload.status = deriveStudentStatus({
+      status: existingStudent.status,
+      drivingLicenceNo: payload.drivingLicenceNo ?? existingStudent.drivingLicenceNo
+    });
+    updatePayload.searchTokens = createStudentSearchTokens({
+      fullName: payload.fullName ?? existingStudent.fullName,
+      phone: payload.phone ?? existingStudent.phone,
+      learningLicenceNo: payload.learningLicenceNo ?? existingStudent.learningLicenceNo ?? "",
+      drivingLicenceNo: payload.drivingLicenceNo ?? existingStudent.drivingLicenceNo ?? ""
+    });
+    await updateDoc(doc(db, collections.students, studentId), updatePayload);
+    if (payload.totalAmount !== void 0 || payload.branchId !== void 0) {
+      const fee = await getStudentFee(studentId);
+      if (!fee) throw new Error("Fee record was not found for this student.");
+      const totalAmount = payload.totalAmount ?? Number(fee.totalAmount);
+      if (totalAmount <= 0) throw new Error("Total fee must be greater than 0.");
+      const paidAmount = Number(fee.paidAmount ?? 0);
+      await updateDoc(doc(db, collections.fees, fee.id), {
+        branchId: nextBranchId,
+        totalAmount,
+        paidAmount,
+        balance: totalAmount - paidAmount
+      });
+    }
+    if (payload.branchId !== void 0) {
+      await studentService.updateRelatedDocBranch(studentId, payload.branchId);
+    }
+    await studentService.ensureCourseRelatedDocs(studentId, nextBranchId, nextCourseType);
+  },
+  async deleteStudent(studentId) {
+    await updateDoc(doc(db, collections.students, studentId), { status: "dropped" });
+  },
+  getStudentFee,
+  async createInitialStudentRelatedDocs(studentId, branchId, courseType, totalAmount) {
+    const batch = writeBatch(db);
+    batch.set(doc(collection(db, collections.fees)), {
+      studentId,
+      branchId,
+      totalAmount,
+      installments: [],
+      paidAmount: 0,
+      balance: totalAmount,
+      createdAt: serverTimestamp()
+    });
+    COURSE_PARTS[courseType].forEach((course) => {
+      batch.set(doc(collection(db, collections.sessions)), {
+        studentId,
+        courseType: course,
+        branchId,
+        slots: emptySessionSlots(),
+        createdAt: serverTimestamp()
+      });
+      batch.set(doc(collection(db, collections.drivingTests)), {
+        studentId,
+        courseType: course,
+        branchId,
+        attempts: emptyTestAttempts(),
+        createdAt: serverTimestamp()
+      });
+    });
+    await batch.commit();
+  },
+  async ensureCourseRelatedDocs(studentId, branchId, courseType) {
+    const [sessions, tests] = await Promise.all([
+      existingCourseDocs(collections.sessions, studentId),
+      existingCourseDocs(collections.drivingTests, studentId)
+    ]);
+    const existingSessionCourses = new Set(sessions.map((session) => session.courseType));
+    const existingTestCourses = new Set(tests.map((test) => test.courseType));
+    const batch = writeBatch(db);
+    let hasWrites = false;
+    COURSE_PARTS[courseType].forEach((course) => {
+      if (!existingSessionCourses.has(course)) {
+        batch.set(doc(collection(db, collections.sessions)), {
+          studentId,
+          courseType: course,
+          branchId,
+          slots: emptySessionSlots(),
+          createdAt: serverTimestamp()
+        });
+        hasWrites = true;
+      }
+      if (!existingTestCourses.has(course)) {
+        batch.set(doc(collection(db, collections.drivingTests)), {
+          studentId,
+          courseType: course,
+          branchId,
+          attempts: emptyTestAttempts(),
+          createdAt: serverTimestamp()
+        });
+        hasWrites = true;
+      }
+    });
+    if (hasWrites) {
+      await batch.commit();
+    }
+  },
+  async updateRelatedDocBranch(studentId, branchId) {
+    const batch = writeBatch(db);
+    const [sessions, tests] = await Promise.all([
+      getDocs(query(collection(db, collections.sessions), where("studentId", "==", studentId))),
+      getDocs(query(collection(db, collections.drivingTests), where("studentId", "==", studentId)))
+    ]);
+    sessions.docs.forEach((snapshot) => batch.update(snapshot.ref, { branchId }));
+    tests.docs.forEach((snapshot) => batch.update(snapshot.ref, { branchId }));
+    if (!sessions.empty || !tests.empty) {
+      await batch.commit();
+    }
+  },
+  async updateStudentStatus(studentId, status) {
+    await updateDoc(doc(db, collections.students, studentId), { status });
+  },
+  async backfillStudentSearchTokens(batchSize = 300, cursor) {
+    const snapshot = await getDocs(query(
+      collection(db, collections.students),
+      orderBy(documentId(), "asc"),
+      ...cursor ? [startAfter(cursor)] : [],
+      limit(batchSize + 1)
+    ));
+    const docs = snapshot.docs.slice(0, batchSize);
+    const batch = writeBatch(db);
+    let writes = 0;
+    docs.forEach((item) => {
+      const student = { id: item.id, ...item.data() };
+      const nextTokens = createStudentSearchTokens(student);
+      const currentTokens = Array.isArray(student.searchTokens) ? student.searchTokens : [];
+      if (nextTokens.join("|") === currentTokens.join("|")) return;
+      batch.update(item.ref, { searchTokens: nextTokens });
+      writes += 1;
+    });
+    if (writes > 0) await batch.commit();
+    return {
+      updated: writes,
+      scanned: docs.length,
+      nextCursor: snapshot.docs.length > batchSize ? docs[docs.length - 1] ?? null : null,
+      hasNextPage: snapshot.docs.length > batchSize
+    };
+  }
 };
-const create = (createState) => createState ? createImpl(createState) : createImpl;
 function branchNameMap(branches) {
   return new Map(branches.map((branch) => [branch.id, branch.name]));
 }
@@ -139129,7 +144207,12 @@ async function getAlertData(filters) {
     getCollection(collections.fees, [...branchId ? [where("branchId", "==", branchId)] : []]),
     getCollection(collections.drivingTests, [...branchId ? [where("branchId", "==", branchId)] : []])
   ]);
-  return { branches, students, fees, drivingTests };
+  return {
+    branches,
+    students: students.map((student) => ({ ...student, status: deriveStudentStatus(student) })),
+    fees,
+    drivingTests
+  };
 }
 function baseAlert(student, branches) {
   return {
@@ -139144,34 +144227,37 @@ function baseAlert(student, branches) {
 function hasPassedDrivingTest(tests) {
   return tests.some((test) => test.attempts?.some((attempt) => attempt.result === "pass"));
 }
+function isActiveTrainingStudent(student) {
+  return student.status === "ongoing" || student.status === "extended";
+}
 const alertService = {
   async getThirtyDayCompletedAlerts(filters) {
     const { branches, students } = await getAlertData(filters);
     const branchesById = branchNameMap(branches);
-    return students.filter((student) => student.status === "ongoing").map((student) => ({
+    return students.filter(isActiveTrainingStudent).map((student) => ({
       student,
-      completionDate: calculateStudentExpiryDate(student.enrollmentDate, student.durationDays ?? 30)
+      completionDate: calculateStudentExpiryDate(getCourseStartDate(student), student.durationDays ?? 30)
     })).filter(({ completionDate }) => isPastDate(completionDate)).map(({ student, completionDate }) => ({
       id: `thirty-days-completed-${student.id}`,
       type: "thirty_days_completed",
       severity: "danger",
       ...baseAlert(student, branchesById),
-      message: `30 days completed for ${student.fullName}.`,
+      message: `Training period completed for ${student.fullName}.`,
       createdFromDate: completionDate
     }));
   },
   async getNearCompletionAlerts(filters) {
     const { branches, students } = await getAlertData(filters);
     const branchesById = branchNameMap(branches);
-    return students.filter((student) => student.status === "ongoing").map((student) => ({
+    return students.filter(isActiveTrainingStudent).map((student) => ({
       student,
-      completionDate: calculateStudentExpiryDate(student.enrollmentDate, student.durationDays ?? 30)
+      completionDate: calculateStudentExpiryDate(getCourseStartDate(student), student.durationDays ?? 30)
     })).filter(({ completionDate }) => isWithinNextDays(completionDate, 5)).map(({ student, completionDate }) => ({
       id: `near-completion-${student.id}`,
       type: "near_completion",
       severity: "warning",
       ...baseAlert(student, branchesById),
-      message: `${student.fullName}'s 30-day training period is ending soon.`,
+      message: `${student.fullName}'s training period is ending soon.`,
       createdFromDate: completionDate
     }));
   },
@@ -139212,9 +144298,9 @@ const alertService = {
     drivingTests.forEach((test) => {
       testsByStudent.set(test.studentId, [...testsByStudent.get(test.studentId) ?? [], test]);
     });
-    return students.filter((student) => student.status === "ongoing").map((student) => ({
+    return students.filter(isActiveTrainingStudent).map((student) => ({
       student,
-      completionDate: calculateStudentExpiryDate(student.enrollmentDate, student.durationDays ?? 30)
+      completionDate: calculateStudentExpiryDate(getCourseStartDate(student), student.durationDays ?? 30)
     })).filter(({ student, completionDate }) => isPastDate(completionDate) && !hasPassedDrivingTest(testsByStudent.get(student.id) ?? [])).map(({ student, completionDate }) => ({
       id: `driving-test-pending-${student.id}`,
       type: "driving_test_pending",
@@ -139349,6 +144435,48 @@ function AlertPanel({
     ] }) : null })
   ] });
 }
+function CachedDataNotice() {
+  const isOnline = useSyncStore((state2) => state2.isOnline);
+  const isFromCache = useSyncStore((state2) => state2.isFromCache);
+  const hasPendingWrites = useSyncStore((state2) => state2.hasPendingWrites);
+  if (hasPendingWrites) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "warning", className: "mb-4", children: "Some changes are saved locally and will sync when Firebase confirms them." });
+  }
+  if (!isOnline) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "warning", className: "mb-4", children: "You are offline. Showing locally cached data where available." });
+  }
+  if (isFromCache) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { className: "mb-4", children: "Showing cached data while the latest Firebase data loads." });
+  }
+  return null;
+}
+function SyncStatusBadge() {
+  const isOnline = useSyncStore((state2) => state2.isOnline);
+  const isFromCache = useSyncStore((state2) => state2.isFromCache);
+  const hasPendingWrites = useSyncStore((state2) => state2.hasPendingWrites);
+  if (!isOnline) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Badge, { variant: "warning", className: "gap-1.5", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(CloudOff, { className: "h-3.5 w-3.5", "aria-hidden": "true" }),
+      "Offline"
+    ] });
+  }
+  if (hasPendingWrites) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Badge, { variant: "warning", className: "gap-1.5", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { className: "h-3.5 w-3.5", "aria-hidden": "true" }),
+      "Syncing"
+    ] });
+  }
+  if (isFromCache) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Badge, { variant: "secondary", className: "gap-1.5", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Cloud, { className: "h-3.5 w-3.5", "aria-hidden": "true" }),
+      "Cached"
+    ] });
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Badge, { variant: "success", className: "gap-1.5", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Cloud, { className: "h-3.5 w-3.5", "aria-hidden": "true" }),
+    "Online"
+  ] });
+}
 function friendlyError(error) {
   if (error instanceof Error) return error;
   return new Error("Something went wrong. Please try again.");
@@ -139365,6 +144493,15 @@ async function attachBranch(profile) {
 const settingsService = {
   async getBranches() {
     return getCollection(collections.branches, [orderBy("createdAt", "desc")]);
+  },
+  subscribeBranches(onNext, onError) {
+    return subscribeCollection(
+      collections.branches,
+      [orderBy("createdAt", "desc")],
+      ({ rows }) => onNext(rows),
+      onError,
+      "branches:createdAt-desc"
+    );
   },
   async getBranchById(branchId) {
     return getDocument(collections.branches, branchId);
@@ -139409,9 +144546,11 @@ const settingsService = {
   async createStaffProfile(payload) {
     if (!payload.id.trim()) throw new Error("Auth User ID is required.");
     if (!payload.fullName.trim()) throw new Error("Full name is required.");
+    if (!payload.phone.trim()) throw new Error("Mobile number is required.");
     if (!payload.branchId) throw new Error("Branch is required.");
     await setDoc(doc(db, collections.users, payload.id.trim()), {
       fullName: payload.fullName.trim(),
+      phone: payload.phone.trim(),
       role: "staff",
       branchId: payload.branchId,
       createdAt: createdAt()
@@ -139419,9 +144558,11 @@ const settingsService = {
   },
   async updateStaffProfile(profileId, payload) {
     if (!payload.fullName.trim()) throw new Error("Full name is required.");
+    if (!payload.phone.trim()) throw new Error("Mobile number is required.");
     if (!payload.branchId) throw new Error("Branch is required.");
     await updateDoc(doc(db, collections.users, profileId), {
       fullName: payload.fullName.trim(),
+      phone: payload.phone.trim(),
       role: "staff",
       branchId: payload.branchId
     });
@@ -139480,6 +144621,7 @@ function MainLayout() {
   const fetchAlerts = useAlertStore((state2) => state2.fetchAlerts);
   const setHasShownLoginPopup = useAlertStore((state2) => state2.setHasShownLoginPopup);
   const clearAlerts = useAlertStore((state2) => state2.clearAlerts);
+  const setOnlineStatus = useSyncStore((state2) => state2.setOnlineStatus);
   const [branches, setBranches] = reactExports.useState([]);
   const [alertsOpen, setAlertsOpen] = reactExports.useState(false);
   const [importantDialogOpen, setImportantDialogOpen] = reactExports.useState(false);
@@ -139495,23 +144637,17 @@ function MainLayout() {
     };
   }, [branchId, profile]);
   const urgentAlerts = alerts.filter((alert) => alert.severity === "danger");
-  const loadBranches = reactExports.useCallback(async () => {
-    try {
-      if (profile?.role === "staff") {
-        if (!profile.branchId) {
-          setBranches([]);
-          return;
-        }
-        const branch = await settingsService.getBranchById(profile.branchId);
-        setBranches(branch ? [branch] : []);
-        return;
-      }
-      const data2 = await settingsService.getBranches();
-      setBranches([...data2].sort((a2, b2) => a2.name.localeCompare(b2.name)));
-    } catch (error) {
-      console.error("Failed to load branches:", error);
-    }
-  }, [profile]);
+  reactExports.useEffect(() => {
+    setOnlineStatus(navigator.onLine);
+    const handleOnline = () => setOnlineStatus(true);
+    const handleOffline = () => setOnlineStatus(false);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, [setOnlineStatus]);
   reactExports.useEffect(() => {
     if (!profile) {
       return;
@@ -139523,12 +144659,18 @@ function MainLayout() {
     }
   }, [profile, setBranchId]);
   reactExports.useEffect(() => {
-    void loadBranches();
-    window.addEventListener("branches-changed", loadBranches);
-    return () => {
-      window.removeEventListener("branches-changed", loadBranches);
-    };
-  }, [loadBranches]);
+    const unsubscribe = settingsService.subscribeBranches(
+      (data2) => {
+        const scopedBranches = profile?.role === "staff" && profile.branchId ? data2.filter((branch) => branch.id === profile.branchId) : data2;
+        setBranches([...scopedBranches].sort((a2, b2) => a2.name.localeCompare(b2.name)));
+      },
+      (error) => {
+        console.error("Failed to load branches:", error);
+        setBranches([]);
+      }
+    );
+    return unsubscribe;
+  }, [profile?.branchId, profile?.role]);
   reactExports.useEffect(() => {
     if (alertFilters) {
       void fetchAlerts(alertFilters);
@@ -139610,6 +144752,7 @@ function MainLayout() {
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "truncate text-xs text-muted-foreground", children: "Use the sidebar for daily work: students, attendance, payments, and expenses." })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(SyncStatusBadge, {}),
           isOwner ? /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "select",
             {
@@ -139666,7 +144809,10 @@ function MainLayout() {
           ] }) })
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "flex-1 p-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Outlet, {}) })
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "flex-1 p-6", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CachedDataNotice, {}),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Outlet, {})
+      ] })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       Dialog,
@@ -139737,7 +144883,7 @@ function getFriendlyErrorMessage(error, fallback = "Something went wrong") {
   }
   return message || fallback;
 }
-function AccountPage({ forceChange = false }) {
+function AccountPage() {
   const user = useAuthStore((state2) => state2.user);
   const profile = useAuthStore((state2) => state2.profile);
   const restoreSession = useAuthStore((state2) => state2.restoreSession);
@@ -139794,7 +144940,6 @@ function AccountPage({ forceChange = false }) {
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "mx-auto max-w-xl space-y-5", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(PageHeader, { title: "Account", description: user?.email ?? "Manage your profile and password." }),
-    forceChange ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "warning", children: "Please change your temporary password before continuing." }) : null,
     message ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "success", children: message }) : null,
     errorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: errorMessage }) : null,
     /* @__PURE__ */ jsxRuntimeExports.jsxs(Card, { children: [
@@ -139862,6 +145007,1174 @@ function Info({ label, value: value2 }) {
     /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-sm font-medium", children: value2 })
   ] });
 }
+function createLazyMeasurementsView(count2, flat, getItemKey) {
+  const cache2 = new Array(count2);
+  return new Proxy(cache2, {
+    get(target, prop, receiver) {
+      if (typeof prop === "string") {
+        const c2 = prop.charCodeAt(0);
+        if (c2 >= 48 && c2 <= 57) {
+          const i2 = +prop;
+          if (Number.isInteger(i2) && i2 >= 0 && i2 < count2) {
+            let v2 = target[i2];
+            if (!v2) {
+              const s2 = flat[i2 * 2];
+              v2 = target[i2] = {
+                index: i2,
+                key: getItemKey(i2),
+                start: s2,
+                size: flat[i2 * 2 + 1],
+                end: s2 + flat[i2 * 2 + 1],
+                lane: 0
+              };
+            }
+            return v2;
+          }
+        }
+        if (prop === "length") return count2;
+      }
+      return Reflect.get(target, prop, receiver);
+    }
+  });
+}
+function memo(getDeps, fn, opts2) {
+  let deps = opts2.initialDeps ?? [];
+  let result;
+  let isInitial = true;
+  function memoizedFunction() {
+    const newDeps = getDeps();
+    const depsChanged = newDeps.length !== deps.length || newDeps.some((dep, index2) => deps[index2] !== dep);
+    if (!depsChanged) {
+      return result;
+    }
+    deps = newDeps;
+    result = fn(...newDeps);
+    if ((opts2 == null ? void 0 : opts2.onChange) && !(isInitial && opts2.skipInitialOnChange)) {
+      opts2.onChange(result);
+    }
+    isInitial = false;
+    return result;
+  }
+  memoizedFunction.updateDeps = (newDeps) => {
+    deps = newDeps;
+  };
+  return memoizedFunction;
+}
+function notUndefined(value2, msg2) {
+  if (value2 === void 0) {
+    throw new Error(`Unexpected undefined${""}`);
+  } else {
+    return value2;
+  }
+}
+const approxEqual = (a2, b2) => Math.abs(a2 - b2) < 1.01;
+const debounce = (targetWindow, fn, ms) => {
+  let timeoutId;
+  return function(...args) {
+    targetWindow.clearTimeout(timeoutId);
+    timeoutId = targetWindow.setTimeout(() => fn.apply(this, args), ms);
+  };
+};
+let _isIOSResult;
+const isIOSWebKit = () => {
+  if (_isIOSResult !== void 0) return _isIOSResult;
+  if (typeof navigator === "undefined") return _isIOSResult = false;
+  if (/iP(hone|od|ad)/.test(navigator.userAgent)) return _isIOSResult = true;
+  const mtp = navigator.maxTouchPoints;
+  return _isIOSResult = navigator.platform === "MacIntel" && mtp !== void 0 && mtp > 0;
+};
+const getRect = (element) => {
+  const { offsetWidth, offsetHeight } = element;
+  return { width: offsetWidth, height: offsetHeight };
+};
+const defaultKeyExtractor = (index2) => index2;
+const defaultRangeExtractor = (range2) => {
+  const start2 = Math.max(range2.startIndex - range2.overscan, 0);
+  const end2 = Math.min(range2.endIndex + range2.overscan, range2.count - 1);
+  const len = end2 - start2 + 1;
+  const arr = new Array(len);
+  for (let i2 = 0; i2 < len; i2++) {
+    arr[i2] = start2 + i2;
+  }
+  return arr;
+};
+const observeElementRect = (instance, cb2) => {
+  const element = instance.scrollElement;
+  if (!element) {
+    return;
+  }
+  const targetWindow = instance.targetWindow;
+  if (!targetWindow) {
+    return;
+  }
+  const handler = (rect) => {
+    const { width, height: height2 } = rect;
+    cb2({ width: Math.round(width), height: Math.round(height2) });
+  };
+  handler(getRect(element));
+  if (!targetWindow.ResizeObserver) {
+    return () => {
+    };
+  }
+  const observer = new targetWindow.ResizeObserver((entries) => {
+    const run = () => {
+      const entry = entries[0];
+      if (entry == null ? void 0 : entry.borderBoxSize) {
+        const box = entry.borderBoxSize[0];
+        if (box) {
+          handler({ width: box.inlineSize, height: box.blockSize });
+          return;
+        }
+      }
+      handler(getRect(element));
+    };
+    instance.options.useAnimationFrameWithResizeObserver ? requestAnimationFrame(run) : run();
+  });
+  observer.observe(element, { box: "border-box" });
+  return () => {
+    observer.unobserve(element);
+  };
+};
+const addEventListenerOptions = {
+  passive: true
+};
+const supportsScrollend = typeof window == "undefined" ? true : "onscrollend" in window;
+const observeOffset = (instance, cb2, readOffset) => {
+  const element = instance.scrollElement;
+  if (!element) {
+    return;
+  }
+  const targetWindow = instance.targetWindow;
+  if (!targetWindow) {
+    return;
+  }
+  const registerScrollendEvent = instance.options.useScrollendEvent && supportsScrollend;
+  let offset2 = 0;
+  const fallback = registerScrollendEvent ? null : debounce(
+    targetWindow,
+    () => cb2(offset2, false),
+    instance.options.isScrollingResetDelay
+  );
+  const createHandler = (isScrolling) => () => {
+    offset2 = readOffset(element);
+    fallback == null ? void 0 : fallback();
+    cb2(offset2, isScrolling);
+  };
+  const handler = createHandler(true);
+  const endHandler = createHandler(false);
+  element.addEventListener("scroll", handler, addEventListenerOptions);
+  if (registerScrollendEvent) {
+    element.addEventListener("scrollend", endHandler, addEventListenerOptions);
+  }
+  return () => {
+    element.removeEventListener("scroll", handler);
+    if (registerScrollendEvent) {
+      element.removeEventListener("scrollend", endHandler);
+    }
+  };
+};
+const observeElementOffset = (instance, cb2) => observeOffset(instance, cb2, (el2) => {
+  const { horizontal, isRtl } = instance.options;
+  return horizontal ? el2.scrollLeft * (isRtl && -1 || 1) : el2.scrollTop;
+});
+const measureElement = (element, entry, instance) => {
+  if (entry == null ? void 0 : entry.borderBoxSize) {
+    const box = entry.borderBoxSize[0];
+    if (box) {
+      const size = Math.round(
+        box[instance.options.horizontal ? "inlineSize" : "blockSize"]
+      );
+      return size;
+    }
+  }
+  return element[instance.options.horizontal ? "offsetWidth" : "offsetHeight"];
+};
+const scrollWithAdjustments = (offset2, {
+  adjustments = 0,
+  behavior
+}, instance) => {
+  var _a2, _b2;
+  (_b2 = (_a2 = instance.scrollElement) == null ? void 0 : _a2.scrollTo) == null ? void 0 : _b2.call(_a2, {
+    [instance.options.horizontal ? "left" : "top"]: offset2 + adjustments,
+    behavior
+  });
+};
+const elementScroll = scrollWithAdjustments;
+class Virtualizer {
+  constructor(opts2) {
+    this.unsubs = [];
+    this.scrollElement = null;
+    this.targetWindow = null;
+    this.isScrolling = false;
+    this.scrollState = null;
+    this.measurementsCache = [];
+    this._flatMeasurements = null;
+    this.itemSizeCache = /* @__PURE__ */ new Map();
+    this.itemSizeCacheVersion = 0;
+    this.laneAssignments = /* @__PURE__ */ new Map();
+    this.pendingMin = null;
+    this.prevLanes = void 0;
+    this.lanesChangedFlag = false;
+    this.lanesSettling = false;
+    this.scrollRect = null;
+    this.scrollOffset = null;
+    this.scrollDirection = null;
+    this.scrollAdjustments = 0;
+    this._iosDeferredAdjustment = 0;
+    this._iosTouching = false;
+    this._iosJustTouchEnded = false;
+    this._iosTouchEndTimerId = null;
+    this._intendedScrollOffset = null;
+    this.elementsCache = /* @__PURE__ */ new Map();
+    this.now = () => {
+      var _a2, _b2, _c;
+      return ((_c = (_b2 = (_a2 = this.targetWindow) == null ? void 0 : _a2.performance) == null ? void 0 : _b2.now) == null ? void 0 : _c.call(_b2)) ?? Date.now();
+    };
+    this.observer = /* @__PURE__ */ (() => {
+      let _ro = null;
+      const get14 = () => {
+        if (_ro) {
+          return _ro;
+        }
+        if (!this.targetWindow || !this.targetWindow.ResizeObserver) {
+          return null;
+        }
+        return _ro = new this.targetWindow.ResizeObserver((entries) => {
+          entries.forEach((entry) => {
+            const run = () => {
+              const node = entry.target;
+              const index2 = this.indexFromElement(node);
+              if (!node.isConnected) {
+                this.observer.unobserve(node);
+                for (const [cacheKey, cachedNode] of this.elementsCache) {
+                  if (cachedNode === node) {
+                    this.elementsCache.delete(cacheKey);
+                    break;
+                  }
+                }
+                return;
+              }
+              if (this.shouldMeasureDuringScroll(index2)) {
+                this.resizeItem(
+                  index2,
+                  this.options.measureElement(node, entry, this)
+                );
+              }
+            };
+            this.options.useAnimationFrameWithResizeObserver ? requestAnimationFrame(run) : run();
+          });
+        });
+      };
+      return {
+        disconnect: () => {
+          var _a2;
+          (_a2 = get14()) == null ? void 0 : _a2.disconnect();
+          _ro = null;
+        },
+        observe: (target) => {
+          var _a2;
+          return (_a2 = get14()) == null ? void 0 : _a2.observe(target, { box: "border-box" });
+        },
+        unobserve: (target) => {
+          var _a2;
+          return (_a2 = get14()) == null ? void 0 : _a2.unobserve(target);
+        }
+      };
+    })();
+    this.range = null;
+    this.setOptions = (opts22) => {
+      const merged = {
+        debug: false,
+        initialOffset: 0,
+        overscan: 1,
+        paddingStart: 0,
+        paddingEnd: 0,
+        scrollPaddingStart: 0,
+        scrollPaddingEnd: 0,
+        horizontal: false,
+        getItemKey: defaultKeyExtractor,
+        rangeExtractor: defaultRangeExtractor,
+        onChange: () => {
+        },
+        measureElement,
+        initialRect: { width: 0, height: 0 },
+        scrollMargin: 0,
+        gap: 0,
+        indexAttribute: "data-index",
+        initialMeasurementsCache: [],
+        lanes: 1,
+        isScrollingResetDelay: 150,
+        enabled: true,
+        isRtl: false,
+        useScrollendEvent: false,
+        useAnimationFrameWithResizeObserver: false,
+        laneAssignmentMode: "estimate"
+      };
+      for (const key in opts22) {
+        const v2 = opts22[key];
+        if (v2 !== void 0) merged[key] = v2;
+      }
+      this.options = merged;
+    };
+    this.notify = (sync) => {
+      var _a2, _b2;
+      (_b2 = (_a2 = this.options).onChange) == null ? void 0 : _b2.call(_a2, this, sync);
+    };
+    this.maybeNotify = memo(
+      () => {
+        this.calculateRange();
+        return [
+          this.isScrolling,
+          this.range ? this.range.startIndex : null,
+          this.range ? this.range.endIndex : null
+        ];
+      },
+      (isScrolling) => {
+        this.notify(isScrolling);
+      },
+      {
+        key: false,
+        debug: () => this.options.debug,
+        initialDeps: [
+          this.isScrolling,
+          this.range ? this.range.startIndex : null,
+          this.range ? this.range.endIndex : null
+        ]
+      }
+    );
+    this.cleanup = () => {
+      this.unsubs.filter(Boolean).forEach((d2) => d2());
+      this.unsubs = [];
+      this.observer.disconnect();
+      if (this.rafId != null && this.targetWindow) {
+        this.targetWindow.cancelAnimationFrame(this.rafId);
+        this.rafId = null;
+      }
+      this.scrollState = null;
+      this.scrollElement = null;
+      this.targetWindow = null;
+    };
+    this._didMount = () => {
+      return () => {
+        this.cleanup();
+      };
+    };
+    this._willUpdate = () => {
+      var _a2;
+      const scrollElement = this.options.enabled ? this.options.getScrollElement() : null;
+      if (this.scrollElement !== scrollElement) {
+        this.cleanup();
+        if (!scrollElement) {
+          this.maybeNotify();
+          return;
+        }
+        this.scrollElement = scrollElement;
+        if (this.scrollElement && "ownerDocument" in this.scrollElement) {
+          this.targetWindow = this.scrollElement.ownerDocument.defaultView;
+        } else {
+          this.targetWindow = ((_a2 = this.scrollElement) == null ? void 0 : _a2.window) ?? null;
+        }
+        this.elementsCache.forEach((cached) => {
+          this.observer.observe(cached);
+        });
+        this.unsubs.push(
+          this.options.observeElementRect(this, (rect) => {
+            this.scrollRect = rect;
+            this.maybeNotify();
+          })
+        );
+        this.unsubs.push(
+          this.options.observeElementOffset(this, (offset2, isScrolling) => {
+            if (this._intendedScrollOffset !== null && Math.abs(offset2 - this._intendedScrollOffset) < 1.5) {
+              offset2 = this._intendedScrollOffset;
+            }
+            this._intendedScrollOffset = null;
+            this.scrollAdjustments = 0;
+            this.scrollDirection = isScrolling ? this.getScrollOffset() < offset2 ? "forward" : "backward" : null;
+            this.scrollOffset = offset2;
+            this.isScrolling = isScrolling;
+            this._flushIosDeferredIfReady();
+            if (this.scrollState) {
+              this.scheduleScrollReconcile();
+            }
+            this.maybeNotify();
+          })
+        );
+        if ("addEventListener" in this.scrollElement) {
+          const scrollEl = this.scrollElement;
+          const onTouchStart = () => {
+            this._iosTouching = true;
+            this._iosJustTouchEnded = false;
+            if (this._iosTouchEndTimerId !== null && this.targetWindow != null) {
+              this.targetWindow.clearTimeout(this._iosTouchEndTimerId);
+              this._iosTouchEndTimerId = null;
+            }
+          };
+          const onTouchEnd = () => {
+            this._iosTouching = false;
+            if (!isIOSWebKit() || this.targetWindow == null) {
+              return;
+            }
+            this._iosJustTouchEnded = true;
+            this._iosTouchEndTimerId = this.targetWindow.setTimeout(() => {
+              this._iosJustTouchEnded = false;
+              this._iosTouchEndTimerId = null;
+              this._flushIosDeferredIfReady();
+            }, 150);
+          };
+          scrollEl.addEventListener(
+            "touchstart",
+            onTouchStart,
+            addEventListenerOptions
+          );
+          scrollEl.addEventListener(
+            "touchend",
+            onTouchEnd,
+            addEventListenerOptions
+          );
+          this.unsubs.push(() => {
+            scrollEl.removeEventListener("touchstart", onTouchStart);
+            scrollEl.removeEventListener("touchend", onTouchEnd);
+            if (this._iosTouchEndTimerId !== null && this.targetWindow != null) {
+              this.targetWindow.clearTimeout(this._iosTouchEndTimerId);
+              this._iosTouchEndTimerId = null;
+            }
+          });
+        }
+        this._scrollToOffset(this.getScrollOffset(), {
+          adjustments: void 0,
+          behavior: void 0
+        });
+      }
+    };
+    this._flushIosDeferredIfReady = () => {
+      if (this._iosDeferredAdjustment === 0) return;
+      if (this.isScrolling) return;
+      if (this._iosTouching) return;
+      if (this._iosJustTouchEnded) return;
+      const cur = this.getScrollOffset();
+      const max2 = this.getMaxScrollOffset();
+      if (cur < 0 || cur > max2) return;
+      const delta = this._iosDeferredAdjustment;
+      this._iosDeferredAdjustment = 0;
+      this._scrollToOffset(cur, {
+        adjustments: this.scrollAdjustments += delta,
+        behavior: void 0
+      });
+    };
+    this.rafId = null;
+    this.getSize = () => {
+      if (!this.options.enabled) {
+        this.scrollRect = null;
+        return 0;
+      }
+      this.scrollRect = this.scrollRect ?? this.options.initialRect;
+      return this.scrollRect[this.options.horizontal ? "width" : "height"];
+    };
+    this.getScrollOffset = () => {
+      if (!this.options.enabled) {
+        this.scrollOffset = null;
+        return 0;
+      }
+      this.scrollOffset = this.scrollOffset ?? (typeof this.options.initialOffset === "function" ? this.options.initialOffset() : this.options.initialOffset);
+      return this.scrollOffset;
+    };
+    this.getFurthestMeasurement = (measurements, index2) => {
+      const furthestMeasurementsFound = /* @__PURE__ */ new Map();
+      const furthestMeasurements = /* @__PURE__ */ new Map();
+      for (let m2 = index2 - 1; m2 >= 0; m2--) {
+        const measurement = measurements[m2];
+        if (furthestMeasurementsFound.has(measurement.lane)) {
+          continue;
+        }
+        const previousFurthestMeasurement = furthestMeasurements.get(
+          measurement.lane
+        );
+        if (previousFurthestMeasurement == null || measurement.end > previousFurthestMeasurement.end) {
+          furthestMeasurements.set(measurement.lane, measurement);
+        } else if (measurement.end < previousFurthestMeasurement.end) {
+          furthestMeasurementsFound.set(measurement.lane, true);
+        }
+        if (furthestMeasurementsFound.size === this.options.lanes) {
+          break;
+        }
+      }
+      return furthestMeasurements.size === this.options.lanes ? Array.from(furthestMeasurements.values()).sort((a2, b2) => {
+        if (a2.end === b2.end) {
+          return a2.index - b2.index;
+        }
+        return a2.end - b2.end;
+      })[0] : void 0;
+    };
+    this.getMeasurementOptions = memo(
+      () => [
+        this.options.count,
+        this.options.paddingStart,
+        this.options.scrollMargin,
+        this.options.getItemKey,
+        this.options.enabled,
+        this.options.lanes,
+        this.options.laneAssignmentMode
+      ],
+      (count2, paddingStart, scrollMargin, getItemKey, enabled, lanes, laneAssignmentMode) => {
+        const lanesChanged = this.prevLanes !== void 0 && this.prevLanes !== lanes;
+        if (lanesChanged) {
+          this.lanesChangedFlag = true;
+        }
+        this.prevLanes = lanes;
+        this.pendingMin = null;
+        return {
+          count: count2,
+          paddingStart,
+          scrollMargin,
+          getItemKey,
+          enabled,
+          lanes,
+          laneAssignmentMode
+        };
+      },
+      {
+        key: false
+      }
+    );
+    this.getMeasurements = memo(
+      () => [this.getMeasurementOptions(), this.itemSizeCacheVersion],
+      ({
+        count: count2,
+        paddingStart,
+        scrollMargin,
+        getItemKey,
+        enabled,
+        lanes,
+        laneAssignmentMode
+      }, _itemSizeCacheVersion) => {
+        const itemSizeCache = this.itemSizeCache;
+        if (!enabled) {
+          this.measurementsCache = [];
+          this.itemSizeCache.clear();
+          this.laneAssignments.clear();
+          return [];
+        }
+        if (this.laneAssignments.size > count2) {
+          for (const index2 of this.laneAssignments.keys()) {
+            if (index2 >= count2) {
+              this.laneAssignments.delete(index2);
+            }
+          }
+        }
+        if (this.lanesChangedFlag) {
+          this.lanesChangedFlag = false;
+          this.lanesSettling = true;
+          this.measurementsCache = [];
+          this.itemSizeCache.clear();
+          this.laneAssignments.clear();
+          this.pendingMin = null;
+        }
+        if (this.measurementsCache.length === 0 && !this.lanesSettling) {
+          this.measurementsCache = this.options.initialMeasurementsCache;
+          this.measurementsCache.forEach((item) => {
+            this.itemSizeCache.set(item.key, item.size);
+          });
+        }
+        const min2 = this.lanesSettling ? 0 : this.pendingMin ?? 0;
+        this.pendingMin = null;
+        if (this.lanesSettling && this.measurementsCache.length === count2) {
+          this.lanesSettling = false;
+        }
+        if (lanes === 1) {
+          const gap = this.options.gap;
+          const need = count2 * 2;
+          let flat = this._flatMeasurements;
+          if (!flat || flat.length < need) {
+            const next = new Float64Array(need);
+            if (flat && min2 > 0) next.set(flat.subarray(0, min2 * 2));
+            flat = next;
+            this._flatMeasurements = flat;
+          }
+          let runningStart;
+          if (min2 === 0) {
+            runningStart = paddingStart + scrollMargin;
+          } else {
+            const prevIdx = min2 - 1;
+            runningStart = flat[prevIdx * 2] + flat[prevIdx * 2 + 1] + gap;
+          }
+          for (let i2 = min2; i2 < count2; i2++) {
+            const key = getItemKey(i2);
+            const measuredSize = itemSizeCache.get(key);
+            const size = typeof measuredSize === "number" ? measuredSize : this.options.estimateSize(i2);
+            flat[i2 * 2] = runningStart;
+            flat[i2 * 2 + 1] = size;
+            runningStart += size + gap;
+          }
+          const view = createLazyMeasurementsView(count2, flat, getItemKey);
+          this.measurementsCache = view;
+          return view;
+        }
+        const measurements = this.measurementsCache.slice(0, min2);
+        const laneLastIndex = new Array(lanes).fill(
+          void 0
+        );
+        for (let m2 = 0; m2 < min2; m2++) {
+          const item = measurements[m2];
+          if (item) {
+            laneLastIndex[item.lane] = m2;
+          }
+        }
+        for (let i2 = min2; i2 < count2; i2++) {
+          const key = getItemKey(i2);
+          const cachedLane = this.laneAssignments.get(i2);
+          let lane;
+          let start2;
+          const shouldCacheLane = laneAssignmentMode === "estimate" || itemSizeCache.has(key);
+          if (cachedLane !== void 0 && this.options.lanes > 1) {
+            lane = cachedLane;
+            const prevIndex = laneLastIndex[lane];
+            const prevInLane = prevIndex !== void 0 ? measurements[prevIndex] : void 0;
+            start2 = prevInLane ? prevInLane.end + this.options.gap : paddingStart + scrollMargin;
+          } else {
+            const furthestMeasurement = this.options.lanes === 1 ? measurements[i2 - 1] : this.getFurthestMeasurement(measurements, i2);
+            start2 = furthestMeasurement ? furthestMeasurement.end + this.options.gap : paddingStart + scrollMargin;
+            lane = furthestMeasurement ? furthestMeasurement.lane : i2 % this.options.lanes;
+            if (this.options.lanes > 1 && shouldCacheLane) {
+              this.laneAssignments.set(i2, lane);
+            }
+          }
+          const measuredSize = itemSizeCache.get(key);
+          const size = typeof measuredSize === "number" ? measuredSize : this.options.estimateSize(i2);
+          const end2 = start2 + size;
+          measurements[i2] = {
+            index: i2,
+            start: start2,
+            size,
+            end: end2,
+            key,
+            lane
+          };
+          laneLastIndex[lane] = i2;
+        }
+        this.measurementsCache = measurements;
+        return measurements;
+      },
+      {
+        key: false,
+        debug: () => this.options.debug
+      }
+    );
+    this.calculateRange = memo(
+      () => [
+        this.getMeasurements(),
+        this.getSize(),
+        this.getScrollOffset(),
+        this.options.lanes
+      ],
+      (measurements, outerSize, scrollOffset, lanes) => {
+        return this.range = measurements.length > 0 && outerSize > 0 ? calculateRange({
+          measurements,
+          outerSize,
+          scrollOffset,
+          lanes,
+          // Pass the typed array so binary search + forward-walk can
+          // read start/end directly from Float64Array, skipping the
+          // Proxy traps that materialize a full VirtualItem per probe.
+          flat: lanes === 1 && this._flatMeasurements != null ? this._flatMeasurements : null
+        }) : null;
+      },
+      {
+        key: false,
+        debug: () => this.options.debug
+      }
+    );
+    this.getVirtualIndexes = memo(
+      () => {
+        let startIndex = null;
+        let endIndex = null;
+        const range2 = this.calculateRange();
+        if (range2) {
+          startIndex = range2.startIndex;
+          endIndex = range2.endIndex;
+        }
+        this.maybeNotify.updateDeps([this.isScrolling, startIndex, endIndex]);
+        return [
+          this.options.rangeExtractor,
+          this.options.overscan,
+          this.options.count,
+          startIndex,
+          endIndex
+        ];
+      },
+      (rangeExtractor, overscan, count2, startIndex, endIndex) => {
+        return startIndex === null || endIndex === null ? [] : rangeExtractor({
+          startIndex,
+          endIndex,
+          overscan,
+          count: count2
+        });
+      },
+      {
+        key: false,
+        debug: () => this.options.debug
+      }
+    );
+    this.indexFromElement = (node) => {
+      const attributeName = this.options.indexAttribute;
+      const indexStr = node.getAttribute(attributeName);
+      if (!indexStr) {
+        console.warn(
+          `Missing attribute name '${attributeName}={index}' on measured element.`
+        );
+        return -1;
+      }
+      return parseInt(indexStr, 10);
+    };
+    this.shouldMeasureDuringScroll = (index2) => {
+      var _a2;
+      if (!this.scrollState || this.scrollState.behavior !== "smooth") {
+        return true;
+      }
+      const scrollIndex = this.scrollState.index ?? ((_a2 = this.getVirtualItemForOffset(this.scrollState.lastTargetOffset)) == null ? void 0 : _a2.index);
+      if (scrollIndex !== void 0 && this.range) {
+        const bufferSize = Math.max(
+          this.options.overscan,
+          Math.ceil((this.range.endIndex - this.range.startIndex) / 2)
+        );
+        const minIndex = Math.max(0, scrollIndex - bufferSize);
+        const maxIndex = Math.min(
+          this.options.count - 1,
+          scrollIndex + bufferSize
+        );
+        return index2 >= minIndex && index2 <= maxIndex;
+      }
+      return true;
+    };
+    this.measureElement = (node) => {
+      if (!node) {
+        this.elementsCache.forEach((cached, key2) => {
+          if (!cached.isConnected) {
+            this.observer.unobserve(cached);
+            this.elementsCache.delete(key2);
+          }
+        });
+        return;
+      }
+      const index2 = this.indexFromElement(node);
+      const key = this.options.getItemKey(index2);
+      const prevNode = this.elementsCache.get(key);
+      if (prevNode !== node) {
+        if (prevNode) {
+          this.observer.unobserve(prevNode);
+        }
+        this.observer.observe(node);
+        this.elementsCache.set(key, node);
+      }
+      if ((!this.isScrolling || this.scrollState) && this.shouldMeasureDuringScroll(index2)) {
+        this.resizeItem(index2, this.options.measureElement(node, void 0, this));
+      }
+    };
+    this.resizeItem = (index2, size) => {
+      var _a2;
+      if (index2 < 0 || index2 >= this.options.count) return;
+      let cachedSize;
+      let itemStart;
+      let key;
+      const flat = this._flatMeasurements;
+      if (this.options.lanes === 1 && flat !== null) {
+        key = this.options.getItemKey(index2);
+        itemStart = flat[index2 * 2];
+        cachedSize = flat[index2 * 2 + 1];
+      } else {
+        const item = this.measurementsCache[index2];
+        if (!item) return;
+        key = item.key;
+        itemStart = item.start;
+        cachedSize = item.size;
+      }
+      const itemSize = this.itemSizeCache.get(key) ?? cachedSize;
+      const delta = size - itemSize;
+      if (delta !== 0) {
+        if (((_a2 = this.scrollState) == null ? void 0 : _a2.behavior) !== "smooth" && (this.shouldAdjustScrollPositionOnItemSizeChange !== void 0 ? this.shouldAdjustScrollPositionOnItemSizeChange(
+          // The callback expects a VirtualItem; build one lazily only
+          // when the consumer actually supplied a custom predicate.
+          this.measurementsCache[index2] ?? {
+            index: index2,
+            key,
+            start: itemStart,
+            size: cachedSize,
+            end: itemStart + cachedSize,
+            lane: 0
+          },
+          delta,
+          this
+        ) : (
+          // Default: adjust scrollTop only when the resize is an above-
+          // viewport item AND we're not actively scrolling backward.
+          // Adjusting during backward scroll fights the user's scroll
+          // direction and produces the "items jump while scrolling up"
+          // jank reported across many issues. Users who want the old
+          // behavior can pass shouldAdjustScrollPositionOnItemSizeChange.
+          itemStart < this.getScrollOffset() + this.scrollAdjustments && this.scrollDirection !== "backward"
+        ))) {
+          if (isIOSWebKit() && (this.isScrolling || this._iosTouching || this._iosJustTouchEnded)) {
+            this._iosDeferredAdjustment += delta;
+          } else {
+            this._scrollToOffset(this.getScrollOffset(), {
+              adjustments: this.scrollAdjustments += delta,
+              behavior: void 0
+            });
+          }
+        }
+        if (this.pendingMin === null || index2 < this.pendingMin) {
+          this.pendingMin = index2;
+        }
+        this.itemSizeCache.set(key, size);
+        this.itemSizeCacheVersion++;
+        this.notify(false);
+      }
+    };
+    this.getVirtualItems = memo(
+      () => [this.getVirtualIndexes(), this.getMeasurements()],
+      (indexes, measurements) => {
+        const virtualItems = [];
+        for (let k2 = 0, len = indexes.length; k2 < len; k2++) {
+          const i2 = indexes[k2];
+          const measurement = measurements[i2];
+          virtualItems.push(measurement);
+        }
+        return virtualItems;
+      },
+      {
+        key: false,
+        debug: () => this.options.debug
+      }
+    );
+    this.getVirtualItemForOffset = (offset2) => {
+      const measurements = this.getMeasurements();
+      if (measurements.length === 0) {
+        return void 0;
+      }
+      const flat = this._flatMeasurements;
+      const useFlat = this.options.lanes === 1 && flat != null;
+      const idx = findNearestBinarySearch(
+        0,
+        measurements.length - 1,
+        useFlat ? (i2) => flat[i2 * 2] : (i2) => notUndefined(measurements[i2]).start,
+        offset2
+      );
+      return notUndefined(measurements[idx]);
+    };
+    this.getMaxScrollOffset = () => {
+      if (!this.scrollElement) return 0;
+      if ("scrollHeight" in this.scrollElement) {
+        return this.options.horizontal ? this.scrollElement.scrollWidth - this.scrollElement.clientWidth : this.scrollElement.scrollHeight - this.scrollElement.clientHeight;
+      } else {
+        const doc2 = this.scrollElement.document.documentElement;
+        return this.options.horizontal ? doc2.scrollWidth - this.scrollElement.innerWidth : doc2.scrollHeight - this.scrollElement.innerHeight;
+      }
+    };
+    this.getOffsetForAlignment = (toOffset, align, itemSize = 0) => {
+      if (!this.scrollElement) return 0;
+      const size = this.getSize();
+      const scrollOffset = this.getScrollOffset();
+      if (align === "auto") {
+        align = toOffset >= scrollOffset + size ? "end" : "start";
+      }
+      if (align === "center") {
+        toOffset += (itemSize - size) / 2;
+      } else if (align === "end") {
+        toOffset -= size;
+      }
+      const maxOffset = this.getMaxScrollOffset();
+      return Math.max(Math.min(maxOffset, toOffset), 0);
+    };
+    this.getOffsetForIndex = (index2, align = "auto") => {
+      index2 = Math.max(0, Math.min(index2, this.options.count - 1));
+      const size = this.getSize();
+      const scrollOffset = this.getScrollOffset();
+      const item = this.measurementsCache[index2];
+      if (!item) return;
+      if (align === "auto") {
+        if (item.end >= scrollOffset + size - this.options.scrollPaddingEnd) {
+          align = "end";
+        } else if (item.start <= scrollOffset + this.options.scrollPaddingStart) {
+          align = "start";
+        } else {
+          return [scrollOffset, align];
+        }
+      }
+      if (align === "end" && index2 === this.options.count - 1) {
+        return [this.getMaxScrollOffset(), align];
+      }
+      const toOffset = align === "end" ? item.end + this.options.scrollPaddingEnd : item.start - this.options.scrollPaddingStart;
+      return [
+        this.getOffsetForAlignment(toOffset, align, item.size),
+        align
+      ];
+    };
+    this.scrollToOffset = (toOffset, { align = "start", behavior = "auto" } = {}) => {
+      const offset2 = this.getOffsetForAlignment(toOffset, align);
+      const now = this.now();
+      this.scrollState = {
+        index: null,
+        align,
+        behavior,
+        startedAt: now,
+        lastTargetOffset: offset2,
+        stableFrames: 0
+      };
+      this._scrollToOffset(offset2, { adjustments: void 0, behavior });
+      this.scheduleScrollReconcile();
+    };
+    this.scrollToIndex = (index2, {
+      align: initialAlign = "auto",
+      behavior = "auto"
+    } = {}) => {
+      index2 = Math.max(0, Math.min(index2, this.options.count - 1));
+      const offsetInfo = this.getOffsetForIndex(index2, initialAlign);
+      if (!offsetInfo) {
+        return;
+      }
+      const [offset2, align] = offsetInfo;
+      const now = this.now();
+      this.scrollState = {
+        index: index2,
+        align,
+        behavior,
+        startedAt: now,
+        lastTargetOffset: offset2,
+        stableFrames: 0
+      };
+      this._scrollToOffset(offset2, { adjustments: void 0, behavior });
+      this.scheduleScrollReconcile();
+    };
+    this.scrollBy = (delta, { behavior = "auto" } = {}) => {
+      const offset2 = this.getScrollOffset() + delta;
+      const now = this.now();
+      this.scrollState = {
+        index: null,
+        align: "start",
+        behavior,
+        startedAt: now,
+        lastTargetOffset: offset2,
+        stableFrames: 0
+      };
+      this._scrollToOffset(offset2, { adjustments: void 0, behavior });
+      this.scheduleScrollReconcile();
+    };
+    this.getTotalSize = () => {
+      var _a2;
+      const measurements = this.getMeasurements();
+      let end2;
+      if (measurements.length === 0) {
+        end2 = this.options.paddingStart;
+      } else if (this.options.lanes === 1) {
+        const lastIdx = measurements.length - 1;
+        const flat = this._flatMeasurements;
+        if (flat != null) {
+          end2 = flat[lastIdx * 2] + flat[lastIdx * 2 + 1];
+        } else {
+          end2 = ((_a2 = measurements[lastIdx]) == null ? void 0 : _a2.end) ?? 0;
+        }
+      } else {
+        const endByLane = Array(this.options.lanes).fill(null);
+        let endIndex = measurements.length - 1;
+        while (endIndex >= 0 && endByLane.some((val) => val === null)) {
+          const item = measurements[endIndex];
+          if (endByLane[item.lane] === null) {
+            endByLane[item.lane] = item.end;
+          }
+          endIndex--;
+        }
+        end2 = Math.max(...endByLane.filter((val) => val !== null));
+      }
+      return Math.max(
+        end2 - this.options.scrollMargin + this.options.paddingEnd,
+        0
+      );
+    };
+    this.takeSnapshot = () => {
+      const snapshot = [];
+      if (this.itemSizeCache.size === 0) return snapshot;
+      const m2 = this.getMeasurements();
+      for (const item of m2) {
+        if (item && this.itemSizeCache.has(item.key)) {
+          snapshot.push({
+            index: item.index,
+            key: item.key,
+            start: item.start,
+            size: item.size,
+            end: item.end,
+            lane: item.lane
+          });
+        }
+      }
+      return snapshot;
+    };
+    this._scrollToOffset = (offset2, {
+      adjustments,
+      behavior
+    }) => {
+      this._intendedScrollOffset = offset2 + (adjustments ?? 0);
+      this.options.scrollToFn(offset2, { behavior, adjustments }, this);
+    };
+    this.measure = () => {
+      this.pendingMin = null;
+      this.itemSizeCache.clear();
+      this.laneAssignments.clear();
+      this.itemSizeCacheVersion++;
+      this.notify(false);
+    };
+    this.setOptions(opts2);
+  }
+  scheduleScrollReconcile() {
+    if (!this.targetWindow) {
+      this.scrollState = null;
+      return;
+    }
+    if (this.rafId != null) return;
+    this.rafId = this.targetWindow.requestAnimationFrame(() => {
+      this.rafId = null;
+      this.reconcileScroll();
+    });
+  }
+  reconcileScroll() {
+    if (!this.scrollState) return;
+    const el2 = this.scrollElement;
+    if (!el2) return;
+    const MAX_RECONCILE_MS = 5e3;
+    if (this.now() - this.scrollState.startedAt > MAX_RECONCILE_MS) {
+      this.scrollState = null;
+      return;
+    }
+    const offsetInfo = this.scrollState.index != null ? this.getOffsetForIndex(this.scrollState.index, this.scrollState.align) : void 0;
+    const targetOffset = offsetInfo ? offsetInfo[0] : this.scrollState.lastTargetOffset;
+    const STABLE_FRAMES = 1;
+    const targetChanged = targetOffset !== this.scrollState.lastTargetOffset;
+    if (!targetChanged && approxEqual(targetOffset, this.getScrollOffset())) {
+      this.scrollState.stableFrames++;
+      if (this.scrollState.stableFrames >= STABLE_FRAMES) {
+        if (this.getScrollOffset() !== targetOffset) {
+          this._scrollToOffset(targetOffset, {
+            adjustments: void 0,
+            behavior: "auto"
+          });
+        }
+        this.scrollState = null;
+        return;
+      }
+    } else {
+      this.scrollState.stableFrames = 0;
+      if (targetChanged) {
+        const viewport = this.getSize() || 600;
+        const distance = Math.abs(targetOffset - this.getScrollOffset());
+        const keepSmooth = this.scrollState.behavior === "smooth" && distance > viewport;
+        this.scrollState.lastTargetOffset = targetOffset;
+        if (!keepSmooth) {
+          this.scrollState.behavior = "auto";
+        }
+        this._scrollToOffset(targetOffset, {
+          adjustments: void 0,
+          behavior: keepSmooth ? "smooth" : "auto"
+        });
+      }
+    }
+    this.scheduleScrollReconcile();
+  }
+}
+const findNearestBinarySearch = (low, high, getCurrentValue, value2) => {
+  while (low <= high) {
+    const middle = (low + high) / 2 | 0;
+    const currentValue = getCurrentValue(middle);
+    if (currentValue < value2) {
+      low = middle + 1;
+    } else if (currentValue > value2) {
+      high = middle - 1;
+    } else {
+      return middle;
+    }
+  }
+  if (low > 0) {
+    return low - 1;
+  } else {
+    return 0;
+  }
+};
+function calculateRange({
+  measurements,
+  outerSize,
+  scrollOffset,
+  lanes,
+  flat
+}) {
+  const lastIndex = measurements.length - 1;
+  const getStart = flat ? (index2) => flat[index2 * 2] : (index2) => measurements[index2].start;
+  const getEnd = flat ? (index2) => flat[index2 * 2] + flat[index2 * 2 + 1] : (index2) => measurements[index2].end;
+  if (measurements.length <= lanes) {
+    return {
+      startIndex: 0,
+      endIndex: lastIndex
+    };
+  }
+  let startIndex = findNearestBinarySearch(0, lastIndex, getStart, scrollOffset);
+  let endIndex = startIndex;
+  if (lanes === 1) {
+    while (endIndex < lastIndex && getEnd(endIndex) < scrollOffset + outerSize) {
+      endIndex++;
+    }
+  } else if (lanes > 1) {
+    const endPerLane = Array(lanes).fill(0);
+    while (endIndex < lastIndex && endPerLane.some((pos) => pos < scrollOffset + outerSize)) {
+      const item = measurements[endIndex];
+      endPerLane[item.lane] = item.end;
+      endIndex++;
+    }
+    const startPerLane = Array(lanes).fill(scrollOffset + outerSize);
+    while (startIndex >= 0 && startPerLane.some((pos) => pos >= scrollOffset)) {
+      const item = measurements[startIndex];
+      startPerLane[item.lane] = item.start;
+      startIndex--;
+    }
+    startIndex = Math.max(0, startIndex - startIndex % lanes);
+    endIndex = Math.min(lastIndex, endIndex + (lanes - 1 - endIndex % lanes));
+  }
+  return { startIndex, endIndex };
+}
+const useIsomorphicLayoutEffect = typeof document !== "undefined" ? reactExports.useLayoutEffect : reactExports.useEffect;
+function useVirtualizerBase({
+  useFlushSync = true,
+  ...options
+}) {
+  const rerender = reactExports.useReducer((x) => x + 1, 0)[1];
+  const resolvedOptions = {
+    ...options,
+    onChange: (instance2, sync) => {
+      var _a2;
+      if (useFlushSync && sync) {
+        reactDomExports.flushSync(rerender);
+      } else {
+        rerender();
+      }
+      (_a2 = options.onChange) == null ? void 0 : _a2.call(options, instance2, sync);
+    }
+  };
+  const [instance] = reactExports.useState(
+    () => new Virtualizer(resolvedOptions)
+  );
+  instance.setOptions(resolvedOptions);
+  useIsomorphicLayoutEffect(() => {
+    return instance._didMount();
+  }, []);
+  useIsomorphicLayoutEffect(() => {
+    return instance._willUpdate();
+  });
+  return instance;
+}
+function useVirtualizer(options) {
+  return useVirtualizerBase({
+    observeElementRect,
+    observeElementOffset,
+    scrollToFn: elementScroll,
+    ...options
+  });
+}
 function FilterBar({ children, className }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(Card, { className: "shadow-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CardContent, { className: cn("grid gap-3 p-4", className), children }) });
 }
@@ -139871,11 +146184,6 @@ function SearchInput({ className, ...props }) {
     /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { className: cn("pl-9", className), ...props })
   ] });
 }
-const courseParts = {
-  "2W": ["2W"],
-  "4W": ["4W"],
-  both: ["2W", "4W"]
-};
 async function getEffectiveBranchId$2(filters) {
   const { profile } = await authService.getCurrentUser();
   if (profile?.role === "staff") {
@@ -139910,6 +146218,29 @@ function matchesSearch(student, search) {
 function completedCount(session) {
   return session.slots.filter((slot) => slot.date && slot.classType).length;
 }
+function getSelectedDateMetadata(session, selectedDate) {
+  if (!selectedDate) {
+    return {
+      isMarkedOnSelectedDate: false,
+      selectedDateSessionCount: 0,
+      selectedDateClassTypes: []
+    };
+  }
+  const selectedDateSlots = session.slots.filter((slot) => slot.date === selectedDate && slot.classType.trim());
+  return {
+    isMarkedOnSelectedDate: selectedDateSlots.length > 0,
+    selectedDateSessionCount: selectedDateSlots.length,
+    selectedDateClassTypes: Array.from(new Set(selectedDateSlots.map((slot) => slot.classType).filter(Boolean)))
+  };
+}
+function matchesView(row, view) {
+  if (!view || view === "all") return true;
+  if (view === "pending") return !row.isCompleted && !row.isMarkedOnSelectedDate;
+  if (view === "marked") return row.isMarkedOnSelectedDate;
+  if (view === "completed") return row.isCompleted;
+  if (view === "extension_needed") return row.isCompleted;
+  return true;
+}
 const attendanceService = {
   async getAttendanceRows(filters) {
     const branchId = await getEffectiveBranchId$2(filters);
@@ -139928,9 +146259,9 @@ const attendanceService = {
     );
     const courseFilter = filters.courseType && filters.courseType !== "all" ? filters.courseType : null;
     const rows = [];
-    const students = studentsRaw.filter((student) => student.status === "ongoing" || student.status === "extended").filter((student) => matchesSearch(student, filters.search)).sort((a2, b2) => a2.fullName.localeCompare(b2.fullName));
+    const students = studentsRaw.map((student) => ({ ...student, status: deriveStudentStatus(student) })).filter((student) => student.status === "ongoing" || student.status === "extended").filter((student) => matchesSearch(student, filters.search)).sort((a2, b2) => a2.fullName.localeCompare(b2.fullName));
     for (const student of students) {
-      const courses = courseParts[student.courseType].filter((courseType) => !courseFilter || courseType === courseFilter);
+      const courses = COURSE_PARTS[student.courseType].filter((courseType) => !courseFilter || courseType === courseFilter);
       for (const courseType of courses) {
         const sessionKey = `${student.id}-${courseType}`;
         const session = sessionsByStudentAndCourse.get(sessionKey) ?? await sessionService.createEmptySessionCard(student.id, student.branchId, courseType);
@@ -139939,6 +146270,7 @@ const attendanceService = {
         const completedSessions = completedCount(sessionWithCapacity);
         const nextSlot = getNextEmptySlot(sessionWithCapacity.slots);
         const lastSlot = getLastCompletedSession(sessionWithCapacity.slots);
+        const selectedDateMetadata = getSelectedDateMetadata(sessionWithCapacity, filters.selectedDate);
         rows.push({
           studentId: student.id,
           studentName: student.fullName,
@@ -139953,11 +146285,126 @@ const attendanceService = {
           nextSessionNo: nextSlot?.slotNo ?? null,
           lastClassType: lastSlot?.classType || void 0,
           lastSessionDate: lastSlot?.date ?? void 0,
+          ...selectedDateMetadata,
           isCompleted: completedSessions >= entitlement.allowedSessions || !nextSlot
         });
       }
     }
-    return rows;
+    return rows.filter((row) => matchesView(row, filters.view));
+  },
+  subscribeAttendanceRows(filters, onNext, onError) {
+    let isActive = true;
+    let cleanup = () => void 0;
+    let latestBranches = [];
+    let latestStudents = [];
+    let latestSessions = [];
+    let latestExtensions = [];
+    let branchesLoaded = false;
+    let studentsLoaded = false;
+    let sessionsLoaded = false;
+    let extensionsLoaded = false;
+    const emit4 = async () => {
+      if (!isActive) return;
+      if (!branchesLoaded || !studentsLoaded || !sessionsLoaded || !extensionsLoaded) return;
+      const branchNames = new Map(latestBranches.map((branch) => [branch.id, branch.name]));
+      const sessionsByStudentAndCourse = new Map(
+        latestSessions.map((session) => [`${session.studentId}-${session.courseType}`, session])
+      );
+      const extensionsByStudent = /* @__PURE__ */ new Map();
+      latestExtensions.forEach((extension) => {
+        extensionsByStudent.set(extension.studentId, [...extensionsByStudent.get(extension.studentId) ?? [], extension]);
+      });
+      const courseFilter = filters.courseType && filters.courseType !== "all" ? filters.courseType : null;
+      const students = latestStudents.map((student) => ({ ...student, status: deriveStudentStatus(student) })).filter((student) => student.status === "ongoing" || student.status === "extended").filter((student) => matchesSearch(student, filters.search)).sort((a2, b2) => a2.fullName.localeCompare(b2.fullName));
+      const rows = [];
+      for (const student of students) {
+        const courses = COURSE_PARTS[student.courseType].filter((courseType) => !courseFilter || courseType === courseFilter);
+        for (const courseType of courses) {
+          const entitlement = calculateTrainingEntitlement(student, extensionsByStudent.get(student.id) ?? [], courseType);
+          const sessionKey = `${student.id}-${courseType}`;
+          const session = sessionsByStudentAndCourse.get(sessionKey) ?? await sessionService.createEmptySessionCard(student.id, student.branchId, courseType, entitlement.allowedSessions);
+          const sessionWithCapacity = session.slots.length < entitlement.allowedSessions ? await sessionService.ensureSessionCapacity(session.id, entitlement.allowedSessions) : session;
+          const completedSessions = completedCount(sessionWithCapacity);
+          const nextSlot = getNextEmptySlot(sessionWithCapacity.slots);
+          const lastSlot = getLastCompletedSession(sessionWithCapacity.slots);
+          const selectedDateMetadata = getSelectedDateMetadata(sessionWithCapacity, filters.selectedDate);
+          rows.push({
+            studentId: student.id,
+            studentName: student.fullName,
+            phone: student.phone,
+            branchId: student.branchId,
+            branchName: branchNames.get(student.branchId),
+            courseType,
+            sessionId: sessionWithCapacity.id,
+            completedSessions,
+            allowedSessions: entitlement.allowedSessions,
+            remainingSessions: Math.max(entitlement.allowedSessions - completedSessions, 0),
+            nextSessionNo: nextSlot?.slotNo ?? null,
+            lastClassType: lastSlot?.classType || void 0,
+            lastSessionDate: lastSlot?.date ?? void 0,
+            ...selectedDateMetadata,
+            isCompleted: completedSessions >= entitlement.allowedSessions || !nextSlot
+          });
+        }
+      }
+      if (isActive) onNext(rows.filter((row) => matchesView(row, filters.view)));
+    };
+    void getEffectiveBranchId$2(filters).then((branchId) => {
+      if (!isActive) return;
+      const branchScoped = branchId ? [where("branchId", "==", branchId)] : [];
+      const queryKey = `branch=${branchId ?? "all"}`;
+      const unsubscribers = [
+        subscribeCollection(
+          collections.branches,
+          [],
+          ({ rows }) => {
+            branchesLoaded = true;
+            latestBranches = branchId ? rows.filter((branch) => branch.id === branchId) : rows;
+            void emit4();
+          },
+          onError,
+          "branches:all"
+        ),
+        subscribeCollection(
+          collections.students,
+          branchScoped,
+          ({ rows }) => {
+            studentsLoaded = true;
+            latestStudents = rows;
+            void emit4();
+          },
+          onError,
+          `students:attendance:${queryKey}`
+        ),
+        subscribeCollection(
+          collections.sessions,
+          branchScoped,
+          ({ rows }) => {
+            sessionsLoaded = true;
+            latestSessions = rows;
+            void emit4();
+          },
+          onError,
+          `sessions:attendance:${branchId ?? "all"}`
+        ),
+        subscribeCollection(
+          collections.courseExtensions,
+          branchScoped,
+          ({ rows }) => {
+            extensionsLoaded = true;
+            latestExtensions = rows;
+            void emit4();
+          },
+          onError,
+          `extensions:attendance:${branchId ?? "all"}`
+        )
+      ];
+      cleanup = () => unsubscribers.forEach((unsubscribe) => unsubscribe());
+    });
+    return () => {
+      isActive = false;
+      cleanup();
+    };
   },
   async markAttendance(sessionId, payload, allowedSessions) {
     if (allowedSessions) {
@@ -139966,49 +146413,135 @@ const attendanceService = {
     await sessionService.quickMarkNextSession(sessionId, payload);
   }
 };
+const useReferenceDataStore = create((set5) => ({
+  classTypes: {},
+  setClassTypes: (key, values) => set5((current) => ({
+    classTypes: {
+      ...current.classTypes,
+      [key]: values
+    }
+  }))
+}));
 const today$4 = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
+const viewOptions = [
+  { value: "all", label: "All" },
+  { value: "pending", label: "Pending" },
+  { value: "marked", label: "Marked" },
+  { value: "completed", label: "Completed" },
+  { value: "extension_needed", label: "Extension Needed" }
+];
 function AttendancePage() {
   const profile = useAuthStore((state2) => state2.profile);
   const selectedBranchId = useAppStore((state2) => state2.branchId);
   const [date, setDate] = reactExports.useState(today$4);
   const [courseType, setCourseType] = reactExports.useState("all");
   const [search, setSearch] = reactExports.useState("");
-  const [rows, setRows] = reactExports.useState([]);
-  const [classTypes, setClassTypes] = reactExports.useState({});
+  const [debouncedSearch, setDebouncedSearch] = reactExports.useState("");
+  const [view, setView] = reactExports.useState("all");
+  const [allRows, setAllRows] = reactExports.useState([]);
+  const classTypes = useReferenceDataStore((state2) => state2.classTypes);
+  const setClassTypes = useReferenceDataStore((state2) => state2.setClassTypes);
   const [forms, setForms] = reactExports.useState({});
   const [savingRows, setSavingRows] = reactExports.useState({});
+  const [selectedRows, setSelectedRows] = reactExports.useState({});
   const [expandedRows, setExpandedRows] = reactExports.useState({});
+  const [extensionTarget, setExtensionTarget] = reactExports.useState(null);
+  const [pendingMark, setPendingMark] = reactExports.useState(null);
+  const [isBulkSaving, setIsBulkSaving] = reactExports.useState(false);
   const [isLoading, setIsLoading] = reactExports.useState(true);
   const [message, setMessage] = reactExports.useState("");
   const [errorMessage, setErrorMessage] = reactExports.useState("");
+  const parentRef = reactExports.useRef(null);
+  const ownerNeedsBranch = profile?.role === "owner" && !selectedBranchId;
+  const staffNeedsBranch = profile?.role === "staff" && !profile.branchId;
+  const effectiveBranchId2 = profile?.role === "staff" ? profile.branchId ?? void 0 : selectedBranchId ?? void 0;
   const filters = reactExports.useMemo(() => {
-    if (!profile) return null;
+    if (!profile || ownerNeedsBranch || staffNeedsBranch || !effectiveBranchId2) return null;
     return {
       role: profile.role,
       userBranchId: profile.branchId ?? void 0,
-      branchId: profile.role === "owner" ? selectedBranchId ?? "all" : profile.branchId ?? void 0,
+      branchId: effectiveBranchId2,
       courseType,
-      search
+      search: debouncedSearch,
+      selectedDate: date
     };
-  }, [courseType, profile, search, selectedBranchId]);
+  }, [courseType, date, debouncedSearch, effectiveBranchId2, ownerNeedsBranch, profile, staffNeedsBranch]);
+  const rows = reactExports.useMemo(() => allRows.filter((row) => matchesAttendanceView(row, view)), [allRows, view]);
+  const summary = reactExports.useMemo(() => getAttendanceSummary(allRows), [allRows]);
+  const selectedRowEntries = reactExports.useMemo(
+    () => rows.filter((row) => selectedRows[getRowKey(row)] && !row.isCompleted),
+    [rows, selectedRows]
+  );
+  const selectedCourseType = selectedRowEntries[0]?.courseType ?? null;
+  const selectedCourseMixed = selectedRowEntries.some((row) => row.courseType !== selectedCourseType);
+  const bulkClassOptions = reactExports.useMemo(() => {
+    if (!selectedCourseType) return [];
+    const keys = Array.from(new Set(selectedRowEntries.map((row) => `${row.branchId}-${row.courseType}`)));
+    return Array.from(new Set(keys.flatMap((key) => classTypes[key] ?? [])));
+  }, [classTypes, selectedCourseType, selectedRowEntries]);
+  const bulkForm = forms.bulk ?? emptyRowForm(date, bulkClassOptions[0] ?? "");
+  const virtualizer = useVirtualizer({
+    count: rows.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: (index2) => expandedRows[getRowKey(rows[index2])] ? 285 : 116,
+    overscan: 8
+  });
+  reactExports.useEffect(() => {
+    const timer = window.setTimeout(() => setDebouncedSearch(search), 300);
+    return () => window.clearTimeout(timer);
+  }, [search]);
   const loadAttendance = reactExports.useCallback(async () => {
-    if (!filters) return;
+    if (!filters) {
+      setAllRows([]);
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(true);
     setErrorMessage("");
     try {
       const data2 = await attendanceService.getAttendanceRows(filters);
-      setRows(data2);
+      setAllRows(data2);
     } catch (error) {
       console.error("Failed to load attendance:", error);
       setErrorMessage(getFriendlyErrorMessage(error, "Unable to load attendance. Please check your connection and try again."));
-      setRows([]);
     } finally {
       setIsLoading(false);
     }
   }, [filters]);
   reactExports.useEffect(() => {
-    void loadAttendance();
-  }, [loadAttendance]);
+    if (!filters) {
+      setAllRows([]);
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(true);
+    setErrorMessage("");
+    const unsubscribe = attendanceService.subscribeAttendanceRows(
+      filters,
+      (data2) => {
+        setAllRows(data2);
+        setIsLoading(false);
+      },
+      (error) => {
+        console.error("Failed to load attendance:", error);
+        setErrorMessage(getFriendlyErrorMessage(error, "Unable to load attendance. Please check your connection and try again."));
+        setIsLoading(false);
+      }
+    );
+    return unsubscribe;
+  }, [filters]);
+  reactExports.useEffect(() => {
+    setSelectedRows({});
+    setExpandedRows({});
+  }, [courseType, date, debouncedSearch, effectiveBranchId2, view]);
+  reactExports.useEffect(() => {
+    if (!message && !errorMessage) return;
+    const timeoutId = window.setTimeout(() => {
+      setMessage("");
+      setErrorMessage("");
+    }, 4e3);
+    return () => window.clearTimeout(timeoutId);
+  }, [errorMessage, message]);
   reactExports.useEffect(() => {
     let isMounted = true;
     const loadClassTypes = async () => {
@@ -140023,38 +146556,42 @@ function AttendancePage() {
         })
       );
       if (!isMounted) return;
-      setClassTypes((current) => ({
-        ...current,
-        ...Object.fromEntries(entries)
-      }));
+      entries.forEach(([key, values]) => setClassTypes(key, values));
     };
     void loadClassTypes();
     return () => {
       isMounted = false;
     };
-  }, [classTypes, rows]);
+  }, [classTypes, rows, setClassTypes]);
   reactExports.useEffect(() => {
     setForms((current) => {
       const next = { ...current };
       rows.forEach((row) => {
         const rowKey = getRowKey(row);
         const classTypeKey = `${row.branchId}-${row.courseType}`;
-        const defaultClassType = classTypes[classTypeKey]?.[0] ?? "";
+        const defaultClassType = row.lastClassType || classTypes[classTypeKey]?.[0] || "";
         if (!next[rowKey]) {
-          next[rowKey] = { date, classType: defaultClassType, vehicle: "", instructor: "", notes: "" };
-        } else if (!next[rowKey].classType && defaultClassType) {
-          next[rowKey] = { ...next[rowKey], classType: defaultClassType };
-        } else if (!next[rowKey].date) {
-          next[rowKey] = { ...next[rowKey], date };
+          next[rowKey] = emptyRowForm(date, defaultClassType);
+        } else {
+          next[rowKey] = {
+            ...next[rowKey],
+            date: next[rowKey].date || date,
+            classType: next[rowKey].classType || defaultClassType
+          };
         }
       });
+      next.bulk = {
+        ...next.bulk ?? emptyRowForm(date, bulkClassOptions[0] ?? ""),
+        date: next.bulk?.date || date,
+        classType: next.bulk?.classType || bulkClassOptions[0] || ""
+      };
       return next;
     });
-  }, [classTypes, date, rows]);
+  }, [bulkClassOptions, classTypes, date, rows]);
   const updateForm = (rowKey, patch) => {
     setForms((current) => ({
       ...current,
-      [rowKey]: { ...current[rowKey] ?? emptyRowForm(), ...patch }
+      [rowKey]: { ...current[rowKey] ?? emptyRowForm(date), ...patch }
     }));
   };
   const toggleRow = (rowKey) => {
@@ -140063,108 +146600,284 @@ function AttendancePage() {
       [rowKey]: !current[rowKey]
     }));
   };
-  const handleMarkPresent = async (row) => {
+  const toggleSelected = (row) => {
+    if (row.isCompleted) return;
     const rowKey = getRowKey(row);
-    const form = forms[rowKey];
+    const selectedCourse = selectedRowEntries[0]?.courseType;
+    if (!selectedRows[rowKey] && selectedCourse && selectedCourse !== row.courseType) {
+      setErrorMessage("Bulk attendance can include only one course at a time.");
+      return;
+    }
+    setSelectedRows((current) => ({
+      ...current,
+      [rowKey]: !current[rowKey]
+    }));
+  };
+  const buildPayload = (row, form) => {
     const classTypeKey = `${row.branchId}-${row.courseType}`;
-    const selectedClassType = form?.classType || classTypes[classTypeKey]?.[0] || "";
-    setMessage("");
-    setErrorMessage("");
+    const selectedClassType = form?.classType || row.lastClassType || classTypes[classTypeKey]?.[0] || "";
     const selectedDate = form?.date || date;
     if (!selectedDate) {
       setErrorMessage("Date is required.");
-      setExpandedRows((current) => ({ ...current, [rowKey]: true }));
-      return;
+      return null;
     }
     if (!selectedClassType) {
       setErrorMessage("Class type is required.");
-      setExpandedRows((current) => ({ ...current, [rowKey]: true }));
-      return;
+      return null;
     }
-    setSavingRows((current) => ({ ...current, [rowKey]: true }));
+    return {
+      date: selectedDate,
+      classType: selectedClassType,
+      vehicle: form?.vehicle,
+      instructor: form?.instructor,
+      notes: form?.notes
+    };
+  };
+  const markRows = async (targetRows, payload) => {
+    targetRows.forEach((row) => {
+      const rowKey = getRowKey(row);
+      setSavingRows((current) => ({ ...current, [rowKey]: true }));
+    });
     try {
-      const payload = {
-        date: selectedDate,
-        classType: selectedClassType,
-        vehicle: form?.vehicle,
-        instructor: form?.instructor,
-        notes: form?.notes
-      };
-      await attendanceService.markAttendance(row.sessionId, payload, row.allowedSessions);
-      setMessage("Attendance marked successfully.");
-      updateForm(rowKey, { date: selectedDate, vehicle: "", instructor: "", notes: "" });
+      await Promise.all(targetRows.map((row) => attendanceService.markAttendance(row.sessionId, payload, row.allowedSessions)));
+      setMessage(targetRows.length === 1 ? "Attendance marked successfully." : `${targetRows.length} attendance records marked successfully.`);
+      setSelectedRows({});
+      targetRows.forEach((row) => updateForm(getRowKey(row), { date: payload.date, vehicle: "", instructor: "", notes: "" }));
       await loadAttendance();
     } catch (error) {
       setErrorMessage(getFriendlyErrorMessage(error, "Unable to mark attendance. Please try again."));
     } finally {
-      setSavingRows((current) => ({ ...current, [rowKey]: false }));
+      targetRows.forEach((row) => {
+        const rowKey = getRowKey(row);
+        setSavingRows((current) => ({ ...current, [rowKey]: false }));
+      });
+      setIsBulkSaving(false);
     }
   };
-  const hasActiveFilters = courseType !== "all" || Boolean(search.trim());
+  const handleMarkPresent = async (row) => {
+    const rowKey = getRowKey(row);
+    const payload = buildPayload(row, forms[rowKey]);
+    if (!payload) {
+      setExpandedRows((current) => ({ ...current, [rowKey]: true }));
+      return;
+    }
+    setMessage("");
+    setErrorMessage("");
+    if (row.isMarkedOnSelectedDate && payload.date === date) {
+      setPendingMark({ type: "single", row, payload });
+      return;
+    }
+    await markRows([row], payload);
+  };
+  const handleBulkMark = async () => {
+    const targetRows = selectedRowEntries.filter((row) => !row.isCompleted);
+    if (targetRows.length === 0) {
+      setErrorMessage("Select at least one pending attendance row.");
+      return;
+    }
+    if (selectedCourseMixed) {
+      setErrorMessage("Bulk attendance can include only one course at a time.");
+      return;
+    }
+    const payload = buildPayload(targetRows[0], bulkForm);
+    if (!payload) return;
+    setMessage("");
+    setErrorMessage("");
+    setIsBulkSaving(true);
+    const duplicateRows = targetRows.filter((row) => row.isMarkedOnSelectedDate && payload.date === date);
+    if (duplicateRows.length > 0) {
+      setPendingMark({ type: "bulk", rows: targetRows, payload });
+      return;
+    }
+    await markRows(targetRows, payload);
+  };
+  const handleConfirmPendingMark = async () => {
+    const target = pendingMark;
+    setPendingMark(null);
+    if (!target) return;
+    if (target.type === "single") {
+      await markRows([target.row], target.payload);
+    } else {
+      await markRows(target.rows, target.payload);
+    }
+  };
+  const handleExtensionSaved = async (nextMessage) => {
+    setExtensionTarget(null);
+    setMessage(nextMessage);
+    setErrorMessage("");
+    await loadAttendance();
+  };
+  const hasActiveFilters = courseType !== "all" || Boolean(debouncedSearch.trim()) || view !== "all";
+  const duplicateCount = pendingMark?.type === "single" ? 1 : pendingMark?.rows.filter((row) => row.isMarkedOnSelectedDate).length ?? 0;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "space-y-5", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       PageHeader,
       {
         title: "Attendance",
         description: "Mark training sessions on the dates students actually attend.",
-        actions: /* @__PURE__ */ jsxRuntimeExports.jsxs(Button, { type: "button", variant: "outline", onClick: () => void loadAttendance(), disabled: isLoading, children: [
+        actions: /* @__PURE__ */ jsxRuntimeExports.jsxs(Button, { type: "button", variant: "outline", onClick: () => void loadAttendance(), disabled: isLoading || ownerNeedsBranch || staffNeedsBranch, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
           "Refresh"
         ] })
       }
     ),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(FilterBar, { className: "md:grid-cols-[180px_160px_minmax(240px,1fr)]", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "attendance-date", children: "Date" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "attendance-date", type: "date", value: date, onChange: (event) => setDate(event.target.value) })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "attendance-course", children: "Course" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(Select$1, { id: "attendance-course", value: courseType, onChange: (event) => setCourseType(event.target.value), children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "all", children: "All" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "2W", children: "2W" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "4W", children: "4W" })
+    ownerNeedsBranch ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+      EmptyState,
+      {
+        title: "Select a branch to mark attendance.",
+        description: "Attendance is branch-specific for production safety. Choose a branch from the branch selector first."
+      }
+    ) : staffNeedsBranch ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+      EmptyState,
+      {
+        title: "Your staff profile is not assigned to a branch.",
+        description: "Ask the owner to edit your staff profile and select a branch before marking attendance."
+      }
+    ) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(FilterBar, { className: "md:grid-cols-[180px_160px_minmax(240px,1fr)]", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "attendance-date", children: "Date" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "attendance-date", type: "date", value: date, onChange: (event) => setDate(event.target.value) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "attendance-course", children: "Course" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(Select$1, { id: "attendance-course", value: courseType, onChange: (event) => setCourseType(event.target.value), children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "all", children: "All" }),
+            TRAINING_COURSE_OPTIONS.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: option.value, children: option.label }, option.value))
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "attendance-search", children: "Search" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            SearchInput,
+            {
+              id: "attendance-search",
+              value: search,
+              onChange: (event) => setSearch(event.target.value),
+              placeholder: "Search by student name or phone"
+            }
+          )
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "attendance-search", children: "Search" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          SearchInput,
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-3 sm:grid-cols-2 xl:grid-cols-5", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Total Visible", value: summary.total }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Pending", value: summary.pending }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Marked", value: summary.marked }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Completed", value: summary.completed }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Extension Needed", value: summary.extensionNeeded })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2", children: viewOptions.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Button,
+        {
+          type: "button",
+          size: "sm",
+          variant: view === option.value ? "default" : "outline",
+          onClick: () => setView(option.value),
+          children: option.label
+        },
+        option.value
+      )) }),
+      selectedRowEntries.length > 0 ? /* @__PURE__ */ jsxRuntimeExports.jsxs(Card, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CardHeader, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(CardTitle, { className: "text-lg", children: [
+          "Bulk Attendance (",
+          selectedRowEntries.length,
+          ")"
+        ] }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(CardContent, { className: "grid gap-3 md:grid-cols-2 xl:grid-cols-[160px_220px_1fr_1fr_1fr_170px]", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Date", htmlFor: "bulk-date", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "bulk-date", type: "date", value: bulkForm.date, onChange: (event) => updateForm("bulk", { date: event.target.value }) }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Class Type", htmlFor: "bulk-class", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Select$1, { id: "bulk-class", value: bulkForm.classType, onChange: (event) => updateForm("bulk", { classType: event.target.value }), children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: "Select class" }),
+            bulkClassOptions.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: option, children: option }, option))
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Vehicle", htmlFor: "bulk-vehicle", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "bulk-vehicle", value: bulkForm.vehicle, placeholder: "Optional", onChange: (event) => updateForm("bulk", { vehicle: event.target.value }) }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Instructor", htmlFor: "bulk-instructor", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "bulk-instructor", value: bulkForm.instructor, placeholder: "Optional", onChange: (event) => updateForm("bulk", { instructor: event.target.value }) }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Notes", htmlFor: "bulk-notes", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "bulk-notes", value: bulkForm.notes, placeholder: "Optional", onChange: (event) => updateForm("bulk", { notes: event.target.value }) }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-end gap-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", onClick: () => void handleBulkMark(), disabled: isBulkSaving, children: isBulkSaving ? "Saving..." : "Mark Selected" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", variant: "outline", onClick: () => setSelectedRows({}), children: "Clear" })
+          ] })
+        ] })
+      ] }) : null,
+      message ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "success", children: message }) : null,
+      errorMessage && rows.length > 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: errorMessage }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", size: "sm", variant: "outline", onClick: () => void loadAttendance(), disabled: isLoading, children: "Retry" })
+      ] }) }) : null,
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Card, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CardHeader, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(CardTitle, { className: "text-lg", children: "Training Sessions" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CardContent, { children: isLoading && rows.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(PageLoader, { label: "Loading attendance..." }) : errorMessage && rows.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmptyState, { title: "Unable to load attendance.", description: errorMessage, actionLabel: "Retry", onAction: () => void loadAttendance() }) : rows.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmptyState, { title: hasActiveFilters ? "No students match the selected filters." : "No students available for attendance." }) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
           {
-            id: "attendance-search",
-            value: search,
-            onChange: (event) => setSearch(event.target.value),
-            placeholder: "Search by student name or phone"
+            ref: parentRef,
+            className: `h-[640px] overflow-auto pr-2 ${isLoading ? "opacity-60" : ""}`,
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative w-full", style: { height: `${virtualizer.getTotalSize()}px` }, children: virtualizer.getVirtualItems().map((virtualRow) => {
+              const row = rows[virtualRow.index];
+              const rowKey = getRowKey(row);
+              const form = forms[rowKey] ?? emptyRowForm(date);
+              const classTypeOptions = classTypes[`${row.branchId}-${row.courseType}`] ?? [];
+              const isSaving = Boolean(savingRows[rowKey]);
+              const isSelected = Boolean(selectedRows[rowKey]);
+              return /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  ref: virtualizer.measureElement,
+                  "data-index": virtualRow.index,
+                  className: "absolute left-0 top-0 w-full pb-2",
+                  style: { transform: `translateY(${virtualRow.start}px)` },
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    AttendanceChecklistItem,
+                    {
+                      row,
+                      rowKeyValue: rowKey,
+                      form,
+                      classTypeOptions,
+                      isSaving,
+                      isExpanded: Boolean(expandedRows[rowKey]),
+                      isSelected,
+                      onToggle: () => toggleRow(rowKey),
+                      onToggleSelected: () => toggleSelected(row),
+                      onUpdateForm: updateForm,
+                      onMarkPresent: () => void handleMarkPresent(row),
+                      onQuickMark: () => void handleMarkPresent(row),
+                      onExtend: () => setExtensionTarget(row)
+                    }
+                  )
+                },
+                rowKey
+              );
+            }) })
           }
-        )
+        ) })
       ] })
     ] }),
-    message ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "success", children: message }) : null,
-    errorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: errorMessage }) : null,
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(Card, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(CardHeader, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(CardTitle, { className: "text-lg", children: "Training Sessions" }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(CardContent, { children: isLoading ? /* @__PURE__ */ jsxRuntimeExports.jsx(PageLoader, { label: "Loading attendance..." }) : rows.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmptyState, { title: hasActiveFilters ? "No students match the selected filters." : "No students available for attendance." }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-2", children: rows.map((row) => {
-        const rowKey = getRowKey(row);
-        const form = forms[rowKey] ?? { date, classType: "", vehicle: "", instructor: "", notes: "" };
-        const classTypeOptions = classTypes[`${row.branchId}-${row.courseType}`] ?? [];
-        const isSaving = Boolean(savingRows[rowKey]);
-        return /* @__PURE__ */ jsxRuntimeExports.jsx(
-          AttendanceChecklistItem,
-          {
-            row,
-            rowKeyValue: rowKey,
-            form,
-            classTypeOptions,
-            isSaving,
-            isExpanded: Boolean(expandedRows[rowKey]),
-            onToggle: () => toggleRow(rowKey),
-            onUpdateForm: updateForm,
-            onMarkPresent: () => void handleMarkPresent(row)
-          },
-          rowKey
-        );
-      }) }) })
-    ] })
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AddExtensionModal,
+      {
+        open: extensionTarget !== null,
+        student: extensionTarget ? {
+          id: extensionTarget.studentId,
+          branchId: extensionTarget.branchId,
+          courseType: extensionTarget.courseType
+        } : null,
+        defaultCourseType: extensionTarget?.courseType,
+        onClose: () => setExtensionTarget(null),
+        onSaved: (nextMessage) => void handleExtensionSaved(nextMessage)
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ConfirmDialog,
+      {
+        open: pendingMark !== null,
+        title: "Duplicate Attendance Date",
+        description: `${duplicateCount} selected attendance ${duplicateCount === 1 ? "row already has" : "rows already have"} a session on ${formatDate(date)}. Mark another session anyway?`,
+        confirmLabel: "Mark Anyway",
+        onCancel: () => {
+          setPendingMark(null);
+          setIsBulkSaving(false);
+        },
+        onConfirm: () => void handleConfirmPendingMark()
+      }
+    )
   ] });
 }
 function AttendanceChecklistItem({
@@ -140174,30 +146887,50 @@ function AttendanceChecklistItem({
   classTypeOptions,
   isSaving,
   isExpanded,
+  isSelected,
   onToggle,
+  onToggleSelected,
   onUpdateForm,
-  onMarkPresent
+  onMarkPresent,
+  onQuickMark,
+  onExtend
 }) {
   const progressPercent = Math.min(100, Math.round(row.completedSessions / row.allowedSessions * 100));
-  const lastClass = row.lastClassType ? `${row.lastClassType}${row.lastSessionDate ? ` · ${formatDate(row.lastSessionDate)}` : ""}` : "-";
+  const lastClass = row.lastClassType ? `${row.lastClassType}${row.lastSessionDate ? ` - ${formatDate(row.lastSessionDate)}` : ""}` : "-";
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "overflow-hidden rounded-lg border bg-surface shadow-sm transition-colors hover:border-primary/30", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      "button",
+      "div",
       {
-        type: "button",
-        className: "grid w-full gap-3 px-4 py-3 text-left transition-colors hover:bg-blue-50/50 lg:grid-cols-[minmax(240px,1.4fr)_140px_150px_170px_40px]",
+        role: "button",
+        tabIndex: 0,
+        className: "grid w-full gap-3 px-4 py-3 text-left transition-colors hover:bg-blue-50/50 lg:grid-cols-[36px_minmax(240px,1.4fr)_140px_150px_170px_190px_40px]",
         onClick: onToggle,
+        onKeyDown: (event) => {
+          if (event.key === "Enter" || event.key === " ") onToggle();
+        },
         "aria-expanded": isExpanded,
         children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center", onClick: (event) => event.stopPropagation(), children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              type: "checkbox",
+              className: "h-4 w-4 accent-primary",
+              checked: isSelected,
+              disabled: row.isCompleted || isSaving,
+              onChange: onToggleSelected,
+              "aria-label": `Select ${row.studentName}`
+            }
+          ) }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "min-w-0", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap items-center gap-2", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "truncate text-base font-semibold text-main-text", children: row.studentName }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(Badge, { variant: "info", children: row.courseType }),
+              row.isMarkedOnSelectedDate ? /* @__PURE__ */ jsxRuntimeExports.jsx(Badge, { variant: "success", children: "Marked" }) : null,
               row.isCompleted ? /* @__PURE__ */ jsxRuntimeExports.jsx(StatusBadge, { status: "completed" }) : null
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-1 text-sm text-muted-foreground", children: [
               formatPhoneNumber(row.phone),
-              " · ",
+              " - ",
               row.branchName ?? row.branchId
             ] })
           ] }),
@@ -140220,82 +146953,78 @@ function AttendanceChecklistItem({
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "min-w-0", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted-foreground", children: "Last Class" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 truncate font-medium text-main-text", children: lastClass })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 truncate font-medium text-main-text", children: lastClass }),
+            row.selectedDateSessionCount > 0 ? /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-1 truncate text-xs text-success", children: [
+              row.selectedDateSessionCount,
+              " on selected date"
+            ] }) : null
           ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap items-center gap-2 lg:justify-end", onClick: (event) => event.stopPropagation(), children: !row.isCompleted ? /* @__PURE__ */ jsxRuntimeExports.jsxs(Button, { type: "button", size: "sm", onClick: onQuickMark, disabled: isSaving, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
+            isSaving ? "Saving..." : "Quick Mark"
+          ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(Button, { type: "button", size: "sm", variant: "outline", onClick: onExtend, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(CirclePlus, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
+            "Extend"
+          ] }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center justify-end", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { className: `h-5 w-5 text-muted-foreground transition-transform ${isExpanded ? "rotate-180" : ""}`, "aria-hidden": "true" }) })
         ]
       }
     ),
     isExpanded ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "border-t bg-surface p-4", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-4 xl:grid-cols-[1fr_170px]", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-3 md:grid-cols-2 2xl:grid-cols-5", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: `${rowKeyValue}-date`, children: "Session Date *" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            Input,
-            {
-              id: `${rowKeyValue}-date`,
-              type: "date",
-              value: form.date,
-              onChange: (event) => onUpdateForm(rowKeyValue, { date: event.target.value }),
-              disabled: row.isCompleted || isSaving
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: `${rowKeyValue}-class-type`, children: "Class Type *" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            Select$1,
-            {
-              id: `${rowKeyValue}-class-type`,
-              value: form.classType,
-              onChange: (event) => onUpdateForm(rowKeyValue, { classType: event.target.value }),
-              disabled: row.isCompleted || isSaving,
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: "Select class" }),
-                classTypeOptions.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: option, children: option }, option))
-              ]
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: `${rowKeyValue}-vehicle`, children: "Vehicle" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            Input,
-            {
-              id: `${rowKeyValue}-vehicle`,
-              value: form.vehicle,
-              placeholder: "Optional",
-              onChange: (event) => onUpdateForm(rowKeyValue, { vehicle: event.target.value }),
-              disabled: row.isCompleted || isSaving
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: `${rowKeyValue}-instructor`, children: "Instructor" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            Input,
-            {
-              id: `${rowKeyValue}-instructor`,
-              value: form.instructor,
-              placeholder: "Optional",
-              onChange: (event) => onUpdateForm(rowKeyValue, { instructor: event.target.value }),
-              disabled: row.isCompleted || isSaving
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2 md:col-span-2 2xl:col-span-1", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: `${rowKeyValue}-notes`, children: "Notes" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            Input,
-            {
-              id: `${rowKeyValue}-notes`,
-              value: form.notes,
-              placeholder: "Optional",
-              onChange: (event) => onUpdateForm(rowKeyValue, { notes: event.target.value }),
-              disabled: row.isCompleted || isSaving
-            }
-          )
-        ] })
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Session Date *", htmlFor: `${rowKeyValue}-date`, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Input,
+          {
+            id: `${rowKeyValue}-date`,
+            type: "date",
+            value: form.date,
+            onChange: (event) => onUpdateForm(rowKeyValue, { date: event.target.value }),
+            disabled: row.isCompleted || isSaving
+          }
+        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Class Type *", htmlFor: `${rowKeyValue}-class-type`, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          Select$1,
+          {
+            id: `${rowKeyValue}-class-type`,
+            value: form.classType,
+            onChange: (event) => onUpdateForm(rowKeyValue, { classType: event.target.value }),
+            disabled: row.isCompleted || isSaving,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: "Select class" }),
+              classTypeOptions.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: option, children: option }, option))
+            ]
+          }
+        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Vehicle", htmlFor: `${rowKeyValue}-vehicle`, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Input,
+          {
+            id: `${rowKeyValue}-vehicle`,
+            value: form.vehicle,
+            placeholder: "Optional",
+            onChange: (event) => onUpdateForm(rowKeyValue, { vehicle: event.target.value }),
+            disabled: row.isCompleted || isSaving
+          }
+        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Instructor", htmlFor: `${rowKeyValue}-instructor`, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Input,
+          {
+            id: `${rowKeyValue}-instructor`,
+            value: form.instructor,
+            placeholder: "Optional",
+            onChange: (event) => onUpdateForm(rowKeyValue, { instructor: event.target.value }),
+            disabled: row.isCompleted || isSaving
+          }
+        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$1, { label: "Notes", htmlFor: `${rowKeyValue}-notes`, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Input,
+          {
+            id: `${rowKeyValue}-notes`,
+            value: form.notes,
+            placeholder: "Optional",
+            onChange: (event) => onUpdateForm(rowKeyValue, { notes: event.target.value }),
+            disabled: row.isCompleted || isSaving
+          }
+        ) })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col justify-end gap-2 xl:items-stretch", children: [
         row.lastClassType && !row.isCompleted ? /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -140311,18 +147040,53 @@ function AttendanceChecklistItem({
         /* @__PURE__ */ jsxRuntimeExports.jsxs(Button, { type: "button", onClick: onMarkPresent, disabled: row.isCompleted || isSaving, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
           row.isCompleted ? "Completed" : isSaving ? "Saving..." : "Mark Present"
-        ] })
+        ] }),
+        row.isCompleted ? /* @__PURE__ */ jsxRuntimeExports.jsxs(Button, { type: "button", variant: "secondary", onClick: onExtend, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CirclePlus, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
+          "Add Extension"
+        ] }) : null
       ] })
     ] }) }) : null
   ] });
 }
+function SummaryCard({ label, value: value2 }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Card, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(CardContent, { className: "p-4", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted-foreground", children: label }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-2xl font-semibold text-main-text", children: value2 })
+  ] }) });
+}
+function Field$1({ label, htmlFor, children }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor, children: label }),
+    children
+  ] });
+}
+function getAttendanceSummary(rows) {
+  return rows.reduce(
+    (summary, row) => ({
+      total: summary.total + 1,
+      pending: summary.pending + (!row.isCompleted && !row.isMarkedOnSelectedDate ? 1 : 0),
+      marked: summary.marked + (row.isMarkedOnSelectedDate ? 1 : 0),
+      completed: summary.completed + (row.isCompleted ? 1 : 0),
+      extensionNeeded: summary.extensionNeeded + (row.isCompleted ? 1 : 0)
+    }),
+    { total: 0, pending: 0, marked: 0, completed: 0, extensionNeeded: 0 }
+  );
+}
+function matchesAttendanceView(row, view) {
+  if (view === "pending") return !row.isCompleted && !row.isMarkedOnSelectedDate;
+  if (view === "marked") return row.isMarkedOnSelectedDate;
+  if (view === "completed") return row.isCompleted;
+  if (view === "extension_needed") return row.isCompleted;
+  return true;
+}
 function getRowKey(row) {
   return `${row.sessionId}-${row.courseType}`;
 }
-function emptyRowForm() {
+function emptyRowForm(dateValue = today$4, classType = "") {
   return {
-    date: today$4,
-    classType: "",
+    date: dateValue,
+    classType,
     vehicle: "",
     instructor: "",
     notes: ""
@@ -140398,7 +147162,9 @@ async function getVisibleData(branchId) {
   const feesByStudent = new Map(feesRaw.map((fee) => [fee.studentId, normalizeFee$2(fee)]));
   const students = studentsRaw.map((student) => ({
     ...student,
+    status: deriveStudentStatus(student),
     durationDays: student.durationDays ?? 30,
+    courseStartDate: getCourseStartDate(student),
     branchName: branchNames.get(student.branchId),
     fee: feesByStudent.get(student.id) ?? null
   }));
@@ -140423,29 +147189,39 @@ function expenseTotal(expenses, categories) {
     0
   );
 }
-const dashboardService = {
-  async getDashboardSummary(filters) {
-    const branchId = await getEffectiveBranchId$1(filters);
-    const { students, fees, expenses } = await getVisibleData(branchId);
-    const today2 = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
-    const totalFeeCollected = fees.reduce((total, fee) => total + Number(fee.paidAmount ?? 0), 0);
-    const todayCollections = fees.reduce(
-      (total, fee) => total + fee.installments.reduce((feeTotal, installment) => feeTotal + (installment.date === today2 ? Number(installment.amount ?? 0) : 0), 0),
-      0
-    );
-    const pendingFeeBalance = fees.reduce((total, fee) => total + Number(fee.balance ?? 0), 0);
-    const totalExpenses = expenses.reduce((total, expense) => total + Number(expense.amount ?? 0), 0);
-    const todayExpenses = expenses.reduce(
-      (total, expense) => total + ((expense.date ?? expense.expenseDate) === today2 ? Number(expense.amount ?? 0) : 0),
-      0
-    );
-    const fuelTotal = expenseTotal(expenses, ["fuel"]);
-    const maintenanceTotal = expenseTotal(expenses, ["maintenance"]);
-    const salaryTotal = expenseTotal(expenses, ["salary"]);
-    const rentElectricityTotal = expenseTotal(expenses, ["room_rent", "electricity"]);
-    const challanTotal = expenseTotal(expenses, ["learning_challan", "driving_test_challan"]);
-    const otherTotal = expenseTotal(expenses, ["other"]);
-    return {
+function buildVisibleData(branchId, branchesRaw, studentsRaw, feesRaw, expensesRaw) {
+  const branches = branchId ? branchesRaw.filter((branch) => branch.id === branchId) : branchesRaw;
+  const branchNames = getBranchNameMap(branches);
+  const fees = feesRaw.map(normalizeFee$2);
+  const feesByStudent = new Map(fees.map((fee) => [fee.studentId, fee]));
+  const students = studentsRaw.map((student) => ({
+    ...student,
+    status: deriveStudentStatus(student),
+    durationDays: student.durationDays ?? 30,
+    courseStartDate: getCourseStartDate(student),
+    branchName: branchNames.get(student.branchId),
+    fee: feesByStudent.get(student.id) ?? null
+  }));
+  return { branches, students, fees, expenses: expensesRaw };
+}
+function computeDashboardData(data2) {
+  const { branches, students, fees, expenses } = data2;
+  const today2 = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
+  const branchNames = getBranchNameMap(branches);
+  const totalFeeCollected = fees.reduce((total, fee) => total + Number(fee.paidAmount ?? 0), 0);
+  const todayCollections = fees.reduce(
+    (total, fee) => total + fee.installments.reduce((feeTotal, installment) => feeTotal + (installment.date === today2 ? Number(installment.amount ?? 0) : 0), 0),
+    0
+  );
+  const pendingFeeBalance = fees.reduce((total, fee) => total + Number(fee.balance ?? 0), 0);
+  const totalExpenses = expenses.reduce((total, expense) => total + Number(expense.amount ?? 0), 0);
+  const todayExpenses = expenses.reduce(
+    (total, expense) => total + ((expense.date ?? expense.expenseDate) === today2 ? Number(expense.amount ?? 0) : 0),
+    0
+  );
+  const studentsById = new Map(students.map((student) => [student.id, student]));
+  return {
+    summary: {
       totalStudents: students.length,
       ongoingStudents: students.filter((student) => student.status === "ongoing" || student.status === "extended").length,
       passedStudents: students.filter((student) => student.status === "passed").length,
@@ -140455,19 +147231,15 @@ const dashboardService = {
       pendingFeeBalance,
       totalExpenses,
       todayExpenses,
-      fuelTotal,
-      maintenanceTotal,
-      salaryTotal,
-      rentElectricityTotal,
-      challanTotal,
-      otherTotal,
+      fuelTotal: expenseTotal(expenses, ["fuel"]),
+      maintenanceTotal: expenseTotal(expenses, ["maintenance"]),
+      salaryTotal: expenseTotal(expenses, ["salary"]),
+      rentElectricityTotal: expenseTotal(expenses, ["room_rent", "electricity"]),
+      challanTotal: expenseTotal(expenses, ["learning_challan", "driving_test_challan"]),
+      otherTotal: expenseTotal(expenses, ["other"]),
       netAmount: totalFeeCollected - totalExpenses
-    };
-  },
-  async getPendingFeeStudents(filters) {
-    const branchId = await getEffectiveBranchId$1(filters);
-    const { students } = await getVisibleData(branchId);
-    return students.map((student) => ({
+    },
+    pendingFees: students.map((student) => ({
       studentId: student.id,
       fullName: student.fullName,
       phone: student.phone,
@@ -140477,13 +147249,10 @@ const dashboardService = {
       totalAmount: Number(student.fee?.totalAmount ?? 0),
       paidAmount: Number(student.fee?.paidAmount ?? 0),
       balance: Number(student.fee?.balance ?? 0)
-    })).filter((student) => student.balance > 0).sort((a2, b2) => b2.balance - a2.balance).slice(0, 10);
-  },
-  async getThirtyDayAlerts(filters) {
-    const branchId = await getEffectiveBranchId$1(filters);
-    const { students } = await getVisibleData(branchId);
-    return students.filter((student) => student.status === "ongoing").map((student) => {
-      const completionDate = calculateStudentExpiryDate(student.enrollmentDate, student.durationDays ?? 30);
+    })).filter((student) => student.balance > 0).sort((a2, b2) => b2.balance - a2.balance).slice(0, 10),
+    thirtyDayAlerts: students.filter((student) => student.status === "ongoing" || student.status === "extended").map((student) => {
+      const courseStartDate = getCourseStartDate(student);
+      const completionDate = calculateStudentExpiryDate(courseStartDate, student.durationDays ?? 30);
       const daysRemaining = getDaysRemaining(completionDate);
       return {
         studentId: student.id,
@@ -140493,18 +147262,13 @@ const dashboardService = {
         branchName: student.branchName,
         courseType: student.courseType,
         enrollmentDate: student.enrollmentDate,
+        courseStartDate,
         completionDate,
         daysRemaining,
         alertType: isPastDate(completionDate) ? "completed" : "near_completion"
       };
-    }).filter((student) => student.alertType === "completed" || isWithinNextDays(student.completionDate, 5)).sort((a2, b2) => a2.daysRemaining - b2.daysRemaining);
-  },
-  async getRecentPayments(filters) {
-    const branchId = await getEffectiveBranchId$1(filters);
-    const { branches, students, fees } = await getVisibleData(branchId);
-    const branchNames = getBranchNameMap(branches);
-    const studentsById = new Map(students.map((student) => [student.id, student]));
-    return fees.flatMap((fee) => {
+    }).filter((student) => student.alertType === "completed" || isWithinNextDays(student.completionDate, 5)).sort((a2, b2) => a2.daysRemaining - b2.daysRemaining),
+    recentPayments: fees.flatMap((fee) => {
       const student = studentsById.get(fee.studentId);
       if (!student) return [];
       return fee.installments.map((installment) => ({
@@ -140516,13 +147280,8 @@ const dashboardService = {
         amount: Number(installment.amount ?? 0),
         date: installment.date
       }));
-    }).sort((a2, b2) => b2.date.localeCompare(a2.date)).slice(0, 5);
-  },
-  async getRecentExpenses(filters) {
-    const branchId = await getEffectiveBranchId$1(filters);
-    const { branches, expenses } = await getVisibleData(branchId);
-    const branchNames = getBranchNameMap(branches);
-    return expenses.map((expense) => ({
+    }).sort((a2, b2) => b2.date.localeCompare(a2.date)).slice(0, 5),
+    recentExpenses: expenses.map((expense) => ({
       id: expense.id,
       branchId: expense.branchId,
       branchName: branchNames.get(expense.branchId),
@@ -140530,7 +147289,101 @@ const dashboardService = {
       amount: Number(expense.amount ?? 0),
       date: expense.date ?? expense.expenseDate,
       notes: expense.notes
-    })).sort((a2, b2) => b2.date.localeCompare(a2.date)).slice(0, 5);
+    })).sort((a2, b2) => b2.date.localeCompare(a2.date)).slice(0, 5)
+  };
+}
+const dashboardService = {
+  async getDashboardSummary(filters) {
+    const branchId = await getEffectiveBranchId$1(filters);
+    return computeDashboardData(await getVisibleData(branchId)).summary;
+  },
+  async getPendingFeeStudents(filters) {
+    const branchId = await getEffectiveBranchId$1(filters);
+    return computeDashboardData(await getVisibleData(branchId)).pendingFees;
+  },
+  async getThirtyDayAlerts(filters) {
+    const branchId = await getEffectiveBranchId$1(filters);
+    return computeDashboardData(await getVisibleData(branchId)).thirtyDayAlerts;
+  },
+  async getRecentPayments(filters) {
+    const branchId = await getEffectiveBranchId$1(filters);
+    return computeDashboardData(await getVisibleData(branchId)).recentPayments;
+  },
+  async getRecentExpenses(filters) {
+    const branchId = await getEffectiveBranchId$1(filters);
+    return computeDashboardData(await getVisibleData(branchId)).recentExpenses;
+  },
+  subscribeDashboardData(filters, onNext, onError) {
+    let isActive = true;
+    let cleanup = () => void 0;
+    let latestBranches = [];
+    let latestStudents = [];
+    let latestFees = [];
+    let latestExpenses = [];
+    let branchesLoaded = false;
+    let studentsLoaded = false;
+    let feesLoaded = false;
+    let expensesLoaded = false;
+    const emit4 = (branchId) => {
+      if (!isActive || !branchesLoaded || !studentsLoaded || !feesLoaded || !expensesLoaded) return;
+      onNext(computeDashboardData(buildVisibleData(branchId, latestBranches, latestStudents, latestFees, latestExpenses)));
+    };
+    void getEffectiveBranchId$1(filters).then((branchId) => {
+      if (!isActive) return;
+      const branchScoped = branchId ? [where("branchId", "==", branchId)] : [];
+      const scopeKey = `branch=${branchId ?? "all"}`;
+      const unsubscribers = [
+        subscribeCollection(
+          collections.branches,
+          [],
+          ({ rows }) => {
+            branchesLoaded = true;
+            latestBranches = rows;
+            emit4(branchId);
+          },
+          onError,
+          "branches:all"
+        ),
+        subscribeCollection(
+          collections.students,
+          branchScoped,
+          ({ rows }) => {
+            studentsLoaded = true;
+            latestStudents = rows;
+            emit4(branchId);
+          },
+          onError,
+          `students:dashboard:${scopeKey}`
+        ),
+        subscribeCollection(
+          collections.fees,
+          branchScoped,
+          ({ rows }) => {
+            feesLoaded = true;
+            latestFees = rows;
+            emit4(branchId);
+          },
+          onError,
+          `fees:dashboard:${scopeKey}`
+        ),
+        subscribeCollection(
+          collections.expenses,
+          branchScoped,
+          ({ rows }) => {
+            expensesLoaded = true;
+            latestExpenses = rows;
+            emit4(branchId);
+          },
+          onError,
+          `expenses:dashboard:${scopeKey}`
+        )
+      ];
+      cleanup = () => unsubscribers.forEach((unsubscribe) => unsubscribe());
+    });
+    return () => {
+      isActive = false;
+      cleanup();
+    };
   }
 };
 const emptySummary$2 = {
@@ -140610,8 +147463,27 @@ function DashboardPage() {
     }
   }, [alertFilters, fetchAlerts, filters]);
   reactExports.useEffect(() => {
-    void loadDashboard();
-  }, [loadDashboard]);
+    if (!filters) return;
+    setIsLoading(true);
+    setErrorMessage("");
+    const unsubscribe = dashboardService.subscribeDashboardData(
+      filters,
+      (data2) => {
+        setDashboard(data2);
+        setIsLoading(false);
+      },
+      (error) => {
+        console.error("Failed to load dashboard:", error);
+        setErrorMessage(getFriendlyErrorMessage(error, "Unable to load dashboard. Please check your connection and try again."));
+        setDashboard(emptyDashboard);
+        setIsLoading(false);
+      }
+    );
+    if (alertFilters) {
+      void fetchAlerts(alertFilters);
+    }
+    return unsubscribe;
+  }, [alertFilters, fetchAlerts, filters]);
   const handleViewStudent = async (studentId) => {
     setIsStudentLoading(true);
     setErrorMessage("");
@@ -140664,7 +147536,7 @@ function DashboardPage() {
         /* @__PURE__ */ jsxRuntimeExports.jsx(StatCard, { label: "Pending Fees", value: formatCurrency(summary.pendingFeeBalance), tone: summary.pendingFeeBalance > 0 ? "danger" : "good" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(StatCard, { label: "Today's Collections", value: formatCurrency(summary.todayCollections), helper: "Payments dated today", tone: "good" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(StatCard, { label: "Today's Expenses", value: formatCurrency(summary.todayExpenses), helper: "Expenses dated today", tone: "danger" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(StatCard, { label: "30-Day Alerts", value: String(alertCounts.completed), tone: alertCounts.completed > 0 ? "warning" : "default" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(StatCard, { label: "Training Alerts", value: String(alertCounts.completed), tone: alertCounts.completed > 0 ? "warning" : "default" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(StatCard, { label: "Net Amount", value: formatCurrency(summary.netAmount), tone: summary.netAmount >= 0 ? "good" : "danger" })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-3 md:grid-cols-2 xl:grid-cols-4", children: [
@@ -140776,14 +147648,14 @@ function ThirtyDayAlertsTable({
   isStudentLoading
 }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(Card, { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(CardHeader, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(CardTitle, { className: "text-lg", children: "30-Day Training Alerts" }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(CardHeader, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(CardTitle, { className: "text-lg", children: "Training Completion Alerts" }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(CardContent, { children: students.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmptyState, { title: "No training completion alerts." }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-x-auto rounded-md border", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Table, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(TableHeader, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(TableRow, { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Student Name" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Phone" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Branch" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Course" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Enrollment Date" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Course Start Date" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Completion Date" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Days Left / Overdue" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Status" }),
@@ -140794,10 +147666,10 @@ function ThirtyDayAlertsTable({
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: student.phone }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: student.branchName ?? "-" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: formatCourseType(student.courseType) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: formatDate(student.enrollmentDate) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: formatDate(student.courseStartDate) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: formatDate(student.completionDate) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: formatDays(student.daysRemaining) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Badge, { variant: student.alertType === "completed" ? "warning" : "secondary", children: student.alertType === "completed" ? "30 Days Completed" : "Near Completion" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Badge, { variant: student.alertType === "completed" ? "warning" : "secondary", children: student.alertType === "completed" ? "Training Completed" : "Near Completion" }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
           Button,
           {
@@ -141024,6 +147896,98 @@ const expenseService = {
       return true;
     });
     return Promise.all(filtered.map(attachNames));
+  },
+  subscribeExpenses(filters = {}, onNext, onError) {
+    let isActive = true;
+    let cleanup = () => void 0;
+    let latestExpenses = [];
+    let latestBranches = [];
+    let latestStaff = [];
+    let latestStudents = [];
+    let expensesLoaded = false;
+    let branchesLoaded = false;
+    let staffLoaded = false;
+    let studentsLoaded = false;
+    const emit4 = () => {
+      if (!isActive) return;
+      if (!expensesLoaded || !branchesLoaded || !staffLoaded || !studentsLoaded) return;
+      const branchesById = new Map(latestBranches.map((branch) => [branch.id, branch]));
+      const staffById = new Map(latestStaff.map((staff) => [staff.id, staff]));
+      const studentsById = new Map(latestStudents.map((student) => [student.id, student]));
+      const rows = latestExpenses.map(normalizeExpense).filter((expense) => {
+        if (filters.fromDate && expense.date < filters.fromDate) return false;
+        if (filters.toDate && expense.date > filters.toDate) return false;
+        return true;
+      }).map((expense) => ({
+        ...expense,
+        branch: branchesById.get(expense.branchId) ?? null,
+        staffName: expense.staffId ? staffById.get(expense.staffId)?.fullName ?? "" : "",
+        studentName: expense.studentId ? studentsById.get(expense.studentId)?.fullName ?? "" : ""
+      }));
+      onNext(rows);
+    };
+    void getEffectiveBranchId(filters.branchId).then((effectiveBranchId2) => {
+      if (!isActive) return;
+      const expenseConstraints = [
+        ...effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : [],
+        ...filters.category && filters.category !== "all" ? [where("category", "==", filters.category)] : [],
+        orderBy("date", "desc"),
+        orderBy("createdAt", "desc")
+      ];
+      const branchScoped = effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : [];
+      const queryKey = `branch=${effectiveBranchId2 ?? "all"}|category=${filters.category ?? "all"}`;
+      const unsubscribers = [
+        subscribeCollection(
+          collections.expenses,
+          expenseConstraints,
+          ({ rows }) => {
+            expensesLoaded = true;
+            latestExpenses = rows;
+            emit4();
+          },
+          onError,
+          `expenses:${queryKey}`
+        ),
+        subscribeCollection(
+          collections.branches,
+          [],
+          ({ rows }) => {
+            branchesLoaded = true;
+            latestBranches = effectiveBranchId2 ? rows.filter((branch) => branch.id === effectiveBranchId2) : rows;
+            emit4();
+          },
+          onError,
+          "branches:all"
+        ),
+        subscribeCollection(
+          collections.users,
+          [where("role", "==", "staff"), ...branchScoped],
+          ({ rows }) => {
+            staffLoaded = true;
+            latestStaff = rows;
+            emit4();
+          },
+          onError,
+          `staff:${effectiveBranchId2 ?? "all"}`
+        ),
+        subscribeCollection(
+          collections.students,
+          branchScoped,
+          ({ rows }) => {
+            studentsLoaded = true;
+            latestStudents = rows;
+            emit4();
+          },
+          onError,
+          `students:expense-names:${effectiveBranchId2 ?? "all"}`
+        )
+      ];
+      cleanup = () => unsubscribers.forEach((unsubscribe) => unsubscribe());
+    });
+    return () => {
+      isActive = false;
+      cleanup();
+    };
   },
   async createExpense(payload) {
     const effectiveBranchId2 = await getEffectiveBranchId(payload.branchId);
@@ -141382,32 +148346,47 @@ function ExpensesPage() {
       )
     );
   }, [expenses, search]);
-  const loadExpenses = reactExports.useCallback(async () => {
+  reactExports.useEffect(() => {
     setIsLoading(true);
     setErrorMessage("");
-    try {
-      const [rows, nextSummary] = await Promise.all([
-        expenseService.getExpenses(filters),
-        expenseService.getExpenseSummary(filters)
-      ]);
-      setExpenses(rows);
-      setSummary(nextSummary);
-    } catch {
-      setErrorMessage("Unable to load expenses. Please check your connection and try again.");
-      setExpenses([]);
-      setSummary(emptySummary);
-    } finally {
-      setIsLoading(false);
-    }
+    const unsubscribe = expenseService.subscribeExpenses(
+      filters,
+      (rows) => {
+        const nextSummary = rows.reduce(
+          (current, expense) => {
+            const amount = Number(expense.amount ?? 0);
+            current.totalExpenses += amount;
+            if (expense.category === "fuel") current.fuelTotal += amount;
+            if (expense.category === "maintenance") current.maintenanceTotal += amount;
+            if (expense.category === "salary") current.salaryTotal += amount;
+            if (expense.category === "electricity") current.electricityTotal += amount;
+            if (expense.category === "room_rent") current.roomRentTotal += amount;
+            if (expense.category === "learning_challan") current.learningChallanTotal += amount;
+            if (expense.category === "driving_test_challan") current.drivingTestChallanTotal += amount;
+            if (expense.category === "other") current.otherTotal += amount;
+            current.challanTotal = current.learningChallanTotal + current.drivingTestChallanTotal;
+            current.rentElectricityTotal = current.roomRentTotal + current.electricityTotal;
+            return current;
+          },
+          { ...emptySummary }
+        );
+        setExpenses(rows);
+        setSummary(nextSummary);
+        setIsLoading(false);
+      },
+      () => {
+        setErrorMessage("Unable to load expenses. Please check your connection and try again.");
+        setExpenses([]);
+        setSummary(emptySummary);
+        setIsLoading(false);
+      }
+    );
+    return unsubscribe;
   }, [filters]);
-  reactExports.useEffect(() => {
-    void loadExpenses();
-  }, [loadExpenses]);
   const handleSaved = async (successMessage) => {
     setModalState(null);
     setMessage(successMessage);
     setErrorMessage("");
-    await loadExpenses();
   };
   const handleDelete = async () => {
     if (!deleteTarget) return;
@@ -141417,7 +148396,6 @@ function ExpensesPage() {
       await expenseService.deleteExpense(deleteTarget.id);
       setDeleteTarget(null);
       setMessage("Expense deleted successfully.");
-      await loadExpenses();
     } catch {
       setDeleteTarget(null);
       setErrorMessage("Unable to delete expense.");
@@ -141613,6 +148591,7 @@ function downloadBlob$1(blob, fileName) {
 const today$2 = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
 function PaymentsPage() {
   const profile = useAuthStore((state2) => state2.profile);
+  const isOnline = useSyncStore((state2) => state2.isOnline);
   const selectedBranchId = useAppStore((state2) => state2.branchId);
   const [search, setSearch] = reactExports.useState("");
   const [students, setStudents] = reactExports.useState([]);
@@ -141637,27 +148616,39 @@ function PaymentsPage() {
     };
   }, [profile, selectedBranchId]);
   const loadData = reactExports.useCallback(async () => {
-    setIsLoading(true);
     setErrorMessage("");
     try {
-      const [studentRows, payments] = await Promise.all([
-        studentService.getStudents({ branchId: activeBranchId, search }),
-        dashboardFilters ? dashboardService.getRecentPayments(dashboardFilters) : Promise.resolve([])
-      ]);
-      setStudents(studentRows.filter((student) => student.status === "ongoing" && student.balance > 0));
+      const payments = dashboardFilters ? await dashboardService.getRecentPayments(dashboardFilters) : [];
       setRecentPayments(payments);
     } catch (error) {
       console.error("Failed to load payments:", error);
       setErrorMessage(getFriendlyErrorMessage(error, "Unable to load payments. Please check your connection and try again."));
-      setStudents([]);
       setRecentPayments([]);
-    } finally {
-      setIsLoading(false);
     }
-  }, [activeBranchId, dashboardFilters, search]);
+  }, [dashboardFilters]);
   reactExports.useEffect(() => {
     void loadData();
   }, [loadData]);
+  reactExports.useEffect(() => {
+    setIsLoading(true);
+    setErrorMessage("");
+    const unsubscribe = studentService.subscribeStudents(
+      { branchId: activeBranchId, search },
+      (studentRows) => {
+        setStudents(
+          studentRows.filter((student) => (student.status === "ongoing" || student.status === "extended") && student.balance > 0)
+        );
+        setIsLoading(false);
+      },
+      (error) => {
+        console.error("Failed to load payment students:", error);
+        setErrorMessage(getFriendlyErrorMessage(error, "Unable to load payments. Please check your connection and try again."));
+        setStudents([]);
+        setIsLoading(false);
+      }
+    );
+    return unsubscribe;
+  }, [activeBranchId, search]);
   const handleSelectStudent = (student) => {
     setSelectedStudent(student);
     setAmount(student.balance > 0 ? String(student.balance) : "");
@@ -141673,6 +148664,7 @@ function PaymentsPage() {
     setLastReceiptNo("");
     setReceiptStudent(null);
     const parsedAmount = Number(amount);
+    if (!isOnline) return setErrorMessage("Internet is required to record payments and generate receipt numbers.");
     if (!selectedStudent) return setErrorMessage("Select a student first.");
     if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) return setErrorMessage("Amount must be greater than 0.");
     if (parsedAmount > selectedStudent.balance) return setErrorMessage("Amount cannot exceed balance.");
@@ -141704,6 +148696,7 @@ function PaymentsPage() {
     /* @__PURE__ */ jsxRuntimeExports.jsx(PageHeader, { title: "Payments", description: "Record fee installments and send receipts quickly." }),
     message ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "success", children: message }) : null,
     errorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: errorMessage }) : null,
+    !isOnline ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "warning", children: "Payments need internet because receipt numbers are generated online." }) : null,
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-5 xl:grid-cols-[minmax(320px,420px)_1fr]", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs(Card, { className: "shadow-sm", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(CardHeader, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(CardTitle, { className: "text-lg", children: "Select Student" }) }),
@@ -141790,18 +148783,18 @@ function PaymentsPage() {
             /* @__PURE__ */ jsxRuntimeExports.jsxs(FilterBar, { className: "md:grid-cols-2", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "payment-amount", children: "Amount *" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "payment-amount", type: "number", min: "1", value: amount, onChange: (event) => setAmount(event.target.value), disabled: !selectedStudent || isSaving })
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "payment-amount", type: "number", min: "1", value: amount, onChange: (event) => setAmount(event.target.value), disabled: !selectedStudent || isSaving || !isOnline })
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "payment-date", children: "Payment Date *" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "payment-date", type: "date", value: paymentDate, onChange: (event) => setPaymentDate(event.target.value), disabled: !selectedStudent || isSaving })
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "payment-date", type: "date", value: paymentDate, onChange: (event) => setPaymentDate(event.target.value), disabled: !selectedStudent || isSaving || !isOnline })
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2 md:col-span-2", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsxs(Label, { htmlFor: "payment-notes", children: [
                   "Notes ",
                   /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-muted-foreground", children: "(optional)" })
                 ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Textarea, { id: "payment-notes", value: notes, onChange: (event) => setNotes(event.target.value), disabled: !selectedStudent || isSaving })
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Textarea, { id: "payment-notes", value: notes, onChange: (event) => setNotes(event.target.value), disabled: !selectedStudent || isSaving || !isOnline })
               ] })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap items-center justify-between gap-2", children: [
@@ -141814,7 +148807,7 @@ function PaymentsPage() {
                 /* @__PURE__ */ jsxRuntimeExports.jsx(MessageCircle, { className: "mr-1 inline h-4 w-4", "aria-hidden": "true" }),
                 "Receipt actions appear after saving."
               ] }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs(Button, { type: "submit", disabled: !selectedStudent || isSaving, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(Button, { type: "submit", disabled: !selectedStudent || isSaving || !isOnline, children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(Save, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
                 isSaving ? "Saving..." : "Save Payment"
               ] })
@@ -142186,9 +149179,12 @@ const exportService = {
       { header: "Phone", accessor: "phone" },
       { header: "Course", accessor: (row) => formatCourseType(row.courseType) },
       { header: "Enrollment Date", accessor: "enrollmentDate" },
-      { header: "30-Day Completion Date", accessor: "completionDate" },
+      { header: "Course Start Date", accessor: "courseStartDate" },
+      { header: "Completion Date", accessor: "completionDate" },
       { header: "Status", accessor: (row) => formatStudentStatus(row.status) },
       { header: "Learning Licence No", accessor: (row) => row.learningLicenceNo ?? "" },
+      { header: "LL Issue Date", accessor: (row) => row.llIssueDate ?? "" },
+      { header: "LL Expiry Date", accessor: (row) => row.llExpiryDate ?? "" },
       { header: "Driving Licence No", accessor: (row) => row.drivingLicenceNo ?? "" }
     ]);
     downloadCsvFile(csv, `student-report-${reportSuffix(month, year)}.csv`);
@@ -142206,16 +149202,20 @@ const exportService = {
     const feesByStudent = new Map(feesRaw.map((fee) => [fee.studentId, normalizeFee$1(fee)]));
     const rows = students.map((student) => {
       const fee = feesByStudent.get(student.id);
-      const completionDate = calculateStudentExpiryDate(student.enrollmentDate, student.durationDays ?? 30);
+      const courseStartDate = getCourseStartDate(student);
+      const completionDate = calculateStudentExpiryDate(courseStartDate, student.durationDays ?? 30);
       return {
         branch: branchName(branches, student.branchId),
         studentName: student.fullName,
         phone: student.phone,
         course: formatCourseType(student.courseType),
         enrollmentDate: student.enrollmentDate,
+        courseStartDate,
         completionDate,
-        status: formatStudentStatus(student.status),
+        status: formatStudentStatus(deriveStudentStatus(student)),
         learningLicenceNo: student.learningLicenceNo ?? "",
+        llIssueDate: student.llIssueDate ?? "",
+        llExpiryDate: student.llExpiryDate ?? "",
         drivingLicenceNo: student.drivingLicenceNo ?? "",
         dlIssueDate: student.dlIssueDate ?? "",
         dlExpiryDate: student.dlExpiryDate ?? "",
@@ -142230,9 +149230,12 @@ const exportService = {
       { header: "Phone", accessor: "phone" },
       { header: "Course", accessor: "course" },
       { header: "Enrollment Date", accessor: "enrollmentDate" },
-      { header: "30-Day Completion Date", accessor: "completionDate" },
+      { header: "Course Start Date", accessor: "courseStartDate" },
+      { header: "Completion Date", accessor: "completionDate" },
       { header: "Status", accessor: "status" },
       { header: "Learning Licence No", accessor: "learningLicenceNo" },
+      { header: "LL Issue Date", accessor: "llIssueDate" },
+      { header: "LL Expiry Date", accessor: "llExpiryDate" },
       { header: "Driving Licence No", accessor: "drivingLicenceNo" },
       { header: "DL Issue Date", accessor: "dlIssueDate" },
       { header: "DL Expiry Date", accessor: "dlExpiryDate" },
@@ -142417,6 +149420,7 @@ const staffAccountService = {
       const credential = await createUserWithEmailAndPassword(secondaryAuth, payload.email.trim(), payload.password);
       const profile = {
         fullName: payload.fullName.trim(),
+        phone: payload.phone.trim(),
         role: "staff",
         branchId: payload.branchId,
         createdAt: createdAt()
@@ -142438,9 +149442,11 @@ const staffAccountService = {
   },
   async updateStaffProfile(profileId, payload) {
     if (!payload.fullName.trim()) throw new Error("Full name is required.");
+    if (!payload.phone.trim()) throw new Error("Mobile number is required.");
     if (!payload.branchId) throw new Error("Branch is required.");
     await updateDoc(doc(db, collections.users, profileId), {
       fullName: payload.fullName.trim(),
+      phone: payload.phone.trim(),
       branchId: payload.branchId,
       role: "staff"
     });
@@ -142519,6 +149525,7 @@ function StaffManagement() {
       isLoading ? /* @__PURE__ */ jsxRuntimeExports.jsx(PageLoader, { label: "Loading staff users..." }) : staffProfiles.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmptyState, { title: "No staff users found." }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-x-auto rounded-md border", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Table, { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableHeader, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(TableRow, { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Staff Name" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Mobile" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Role" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Branch" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Created" }),
@@ -142526,6 +149533,7 @@ function StaffManagement() {
         ] }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableBody, { children: staffProfiles.map((staff) => /* @__PURE__ */ jsxRuntimeExports.jsxs(TableRow, { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { className: "font-medium", children: staff.fullName }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: formatPhoneNumber(staff.phone) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Badge, { variant: "secondary", children: "staff" }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: staff.branch?.name ?? "-" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: formatDateTime(staff.createdAt) }),
@@ -142601,15 +149609,29 @@ function CreateStaffForm({
   onSaved
 }) {
   const [fullName, setFullName] = reactExports.useState("");
+  const [phone, setPhone] = reactExports.useState("");
   const [email, setEmail] = reactExports.useState("");
   const [password, setPassword] = reactExports.useState("");
   const [branchId, setBranchId] = reactExports.useState(branches[0]?.id ?? "");
   const [errorMessage, setErrorMessage] = reactExports.useState("");
   const [isSaving, setIsSaving] = reactExports.useState(false);
+  const fullNameInputRef = reactExports.useRef(null);
+  reactExports.useEffect(() => {
+    if (branches.length === 0) return;
+    const hasSelectedBranch = branches.some((branch) => branch.id === branchId);
+    if (!hasSelectedBranch) {
+      setBranchId(branches[0].id);
+    }
+  }, [branchId, branches]);
+  reactExports.useEffect(() => {
+    fullNameInputRef.current?.focus();
+  }, []);
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorMessage("");
     if (!fullName.trim()) return setErrorMessage("Full name is required.");
+    if (!phone.trim()) return setErrorMessage("Mobile number is required.");
+    if (phone.replace(/\D/g, "").length < 10) return setErrorMessage("Mobile number must have at least 10 digits.");
     if (!email.trim()) return setErrorMessage("Email is required.");
     if (!password || password.length < 8) return setErrorMessage("Temporary password must be at least 8 characters.");
     if (!branchId) return setErrorMessage("Branch is required.");
@@ -142617,6 +149639,7 @@ function CreateStaffForm({
     try {
       await staffAccountService.createStaffUser({
         fullName,
+        phone,
         email,
         password,
         branchId
@@ -142631,7 +149654,19 @@ function CreateStaffForm({
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "space-y-5", onSubmit: handleSubmit, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "staff-name", children: "Full Name" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "staff-name", value: fullName, onChange: (event) => setFullName(event.target.value) })
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Input,
+        {
+          id: "staff-name",
+          ref: fullNameInputRef,
+          value: fullName,
+          onChange: (event) => setFullName(event.target.value)
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "staff-phone", children: "Mobile Number" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "staff-phone", value: phone, onChange: (event) => setPhone(event.target.value) })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "staff-email", children: "Email" }),
@@ -142651,7 +149686,7 @@ function CreateStaffForm({
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(BranchSelect, { branches, branchId, onBranchChange: setBranchId }),
     errorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: errorMessage }) : null,
-    /* @__PURE__ */ jsxRuntimeExports.jsx(FormActions, { onCancel, isSaving, saveLabel: "Create Staff Account" })
+    /* @__PURE__ */ jsxRuntimeExports.jsx(FormActions, { onCancel, isSaving: isSaving || branches.length === 0, saveLabel: "Create Staff Account" })
   ] });
 }
 function EditStaffForm({
@@ -142661,6 +149696,7 @@ function EditStaffForm({
   onSaved
 }) {
   const [fullName, setFullName] = reactExports.useState(staff.fullName ?? "");
+  const [phone, setPhone] = reactExports.useState(staff.phone ?? "");
   const [branchId, setBranchId] = reactExports.useState(staff.branchId);
   const [errorMessage, setErrorMessage] = reactExports.useState("");
   const [isSaving, setIsSaving] = reactExports.useState(false);
@@ -142668,10 +149704,12 @@ function EditStaffForm({
     event.preventDefault();
     setErrorMessage("");
     if (!fullName.trim()) return setErrorMessage("Full name is required.");
+    if (!phone.trim()) return setErrorMessage("Mobile number is required.");
+    if (phone.replace(/\D/g, "").length < 10) return setErrorMessage("Mobile number must have at least 10 digits.");
     if (!branchId) return setErrorMessage("Branch is required.");
     setIsSaving(true);
     try {
-      await staffAccountService.updateStaffProfile(staff.id, { fullName, branchId });
+      await staffAccountService.updateStaffProfile(staff.id, { fullName, phone, branchId });
       onSaved("Staff profile saved successfully.");
     } catch (error) {
       setErrorMessage(getFriendlyErrorMessage(error, "Could not save staff profile."));
@@ -142683,6 +149721,10 @@ function EditStaffForm({
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "edit-staff-name", children: "Full Name" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "edit-staff-name", value: fullName, onChange: (event) => setFullName(event.target.value) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "edit-staff-phone", children: "Mobile Number" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "edit-staff-phone", value: phone, onChange: (event) => setPhone(event.target.value) })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(BranchSelect, { branches, branchId, onBranchChange: setBranchId }),
     errorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: errorMessage }) : null,
@@ -142735,11 +149777,23 @@ function BranchSelect({
 }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "staff-branch", children: "Branch" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(Select$1, { id: "staff-branch", value: branchId, onChange: (event) => onBranchChange(event.target.value), children: [
-      branches.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: "No branches available" }) : null,
-      branches.map((branch) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: branch.id, children: branch.name }, branch.id))
-    ] })
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      Select$1,
+      {
+        id: "staff-branch",
+        value: branchId,
+        onChange: (event) => onBranchChange(event.target.value),
+        disabled: branches.length === 0,
+        children: [
+          branches.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: "No branches available" }) : null,
+          branches.map((branch) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: branch.id, children: formatBranchOption(branch) }, branch.id))
+        ]
+      }
+    )
   ] });
+}
+function formatBranchOption(branch) {
+  return branch.location ? `${branch.name} - ${branch.location}` : branch.name;
 }
 function FormActions({
   onCancel,
@@ -142753,17 +149807,70 @@ function FormActions({
 }
 function SettingsPage() {
   const profile = useAuthStore((state2) => state2.profile);
-  const [isSeeding, setIsSeeding] = reactExports.useState(false);
-  const [seedMessage, setSeedMessage] = reactExports.useState("");
-  const [seedErrorMessage, setSeedErrorMessage] = reactExports.useState("");
+  const [isBackfillingSearch, setIsBackfillingSearch] = reactExports.useState(false);
+  const [searchBackfillCursor, setSearchBackfillCursor] = reactExports.useState(null);
+  const [searchBackfillComplete, setSearchBackfillComplete] = reactExports.useState(false);
+  const [searchBackfillMessage, setSearchBackfillMessage] = reactExports.useState("");
+  const [searchBackfillErrorMessage, setSearchBackfillErrorMessage] = reactExports.useState("");
   if (profile?.role !== "owner") {
     return /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: "Access denied. Owner only." });
   }
+  const handleBackfillSearchTokens = async () => {
+    setIsBackfillingSearch(true);
+    setSearchBackfillMessage("");
+    setSearchBackfillErrorMessage("");
+    try {
+      const result = await studentService.backfillStudentSearchTokens(300, searchBackfillCursor);
+      setSearchBackfillCursor(result.nextCursor);
+      setSearchBackfillComplete(!result.hasNextPage);
+      setSearchBackfillMessage(
+        result.hasNextPage ? `Updated ${result.updated} of ${result.scanned} scanned students. Run the next batch to continue.` : `Search index backfill complete. Updated ${result.updated} of ${result.scanned} scanned students in the final batch.`
+      );
+    } catch (error) {
+      setSearchBackfillErrorMessage(error instanceof Error ? error.message : "Unable to backfill student search index.");
+    } finally {
+      setIsBackfillingSearch(false);
+    }
+  };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "space-y-5", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(PageHeader, { title: "Settings", description: "Manage branches, staff access, class setup, and backups." }),
-    null,
     /* @__PURE__ */ jsxRuntimeExports.jsx(BranchManagement, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(StaffManagement, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Card, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(CardHeader, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CardTitle, { className: "text-lg", children: "Student Search Index" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-sm text-muted-foreground", children: "Backfill existing students so prefix search works for older admissions." })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(CardContent, { className: "space-y-4", children: [
+        searchBackfillMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "success", children: searchBackfillMessage }) : null,
+        searchBackfillErrorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: searchBackfillErrorMessage }) : null,
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap gap-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            Button,
+            {
+              type: "button",
+              onClick: () => void handleBackfillSearchTokens(),
+              disabled: isBackfillingSearch || searchBackfillComplete,
+              children: isBackfillingSearch ? "Backfilling..." : searchBackfillComplete ? "Backfill Complete" : "Backfill Next Batch"
+            }
+          ),
+          searchBackfillComplete ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+            Button,
+            {
+              type: "button",
+              variant: "outline",
+              onClick: () => {
+                setSearchBackfillCursor(null);
+                setSearchBackfillComplete(false);
+                setSearchBackfillMessage("");
+                setSearchBackfillErrorMessage("");
+              },
+              children: "Reset Backfill"
+            }
+          ) : null
+        ] })
+      ] })
+    ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(Card, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs(CardHeader, { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(CardTitle, { className: "text-lg", children: "Class Type Management" }),
@@ -142784,11 +149891,15 @@ function StudentForm({ defaultBranchId, student, onCancel, onSaved }) {
   const [branchId, setBranchId] = reactExports.useState(student?.branchId ?? defaultBranchId ?? profile?.branchId ?? "");
   const [courseType, setCourseType] = reactExports.useState(student?.courseType ?? "4W");
   const [enrollmentDate, setEnrollmentDate] = reactExports.useState(student?.enrollmentDate ?? today);
+  const [courseStartDate, setCourseStartDate] = reactExports.useState(
+    student?.courseStartDate && student.courseStartDate !== student.enrollmentDate ? student.courseStartDate : ""
+  );
   const [learningLicenceNo, setLearningLicenceNo] = reactExports.useState(student?.learningLicenceNo ?? "");
+  const [llIssueDate, setLlIssueDate] = reactExports.useState(student?.llIssueDate ?? "");
+  const [llExpiryDate, setLlExpiryDate] = reactExports.useState(student?.llExpiryDate ?? "");
   const [drivingLicenceNo, setDrivingLicenceNo] = reactExports.useState(student?.drivingLicenceNo ?? "");
   const [dlIssueDate, setDlIssueDate] = reactExports.useState(student?.dlIssueDate ?? "");
   const [dlExpiryDate, setDlExpiryDate] = reactExports.useState(student?.dlExpiryDate ?? "");
-  const [status, setStatus] = reactExports.useState(student?.status ?? "ongoing");
   const [totalAmount, setTotalAmount] = reactExports.useState(String(student?.totalAmount ?? ""));
   const [errorMessage, setErrorMessage] = reactExports.useState("");
   const [isSaving, setIsSaving] = reactExports.useState(false);
@@ -142820,14 +149931,19 @@ function StudentForm({ defaultBranchId, student, onCancel, onSaved }) {
   }, [profile?.branchId, profile?.role]);
   const validate = () => {
     const parsedTotal = Number(totalAmount);
-    if (!fullName.trim()) return "Full name is required.";
-    if (!phone.trim()) return "Phone is required.";
-    if (phone.replace(/\D/g, "").length < 10) return "Phone number must have at least 10 digits.";
-    if (!branchId) return "Branch is required.";
-    if (!courseType) return "Course type is required.";
-    if (!enrollmentDate) return "Enrollment date is required.";
-    if (!status) return "Status is required.";
-    if (!Number.isFinite(parsedTotal) || parsedTotal <= 0) return "Total fee must be greater than 0.";
+    if (!student) {
+      if (!fullName.trim()) return "Full name is required.";
+      if (!phone.trim()) return "Phone is required.";
+      if (phone.replace(/\D/g, "").length < 10) return "Phone number must have at least 10 digits.";
+      if (!branchId) return "Branch is required.";
+      if (!courseType) return "Course type is required.";
+      if (!enrollmentDate) return "Enrollment date is required.";
+      if (courseStartDate && courseStartDate < enrollmentDate) return "Course start date cannot be before enrollment date.";
+      if (!Number.isFinite(parsedTotal) || parsedTotal <= 0) return "Total fee must be greater than 0.";
+    }
+    if (llIssueDate && llExpiryDate && llExpiryDate < llIssueDate) {
+      return "Learning licence expiry date cannot be before issue date.";
+    }
     if (dlIssueDate && dlExpiryDate && dlExpiryDate < dlIssueDate) {
       return "Driving licence expiry date cannot be before issue date.";
     }
@@ -142843,23 +149959,25 @@ function StudentForm({ defaultBranchId, student, onCancel, onSaved }) {
     }
     setIsSaving(true);
     try {
-      const commonPayload = {
-        fullName,
-        phone,
-        enrollmentDate,
-        courseType,
-        learningLicenceNo,
-        drivingLicenceNo,
-        dlIssueDate: dlIssueDate || null,
-        dlExpiryDate: dlExpiryDate || null,
-        status,
-        branchId,
-        totalAmount: Number(totalAmount)
-      };
       if (student) {
-        await studentService.updateStudent(student.id, commonPayload);
+        await studentService.updateStudent(student.id, {
+          learningLicenceNo,
+          llIssueDate: llIssueDate || null,
+          llExpiryDate: llExpiryDate || null,
+          drivingLicenceNo,
+          dlIssueDate: dlIssueDate || null,
+          dlExpiryDate: dlExpiryDate || null
+        });
       } else {
-        await studentService.createStudent(commonPayload);
+        await studentService.createStudent({
+          fullName,
+          phone,
+          enrollmentDate,
+          courseStartDate: courseStartDate || null,
+          courseType,
+          branchId,
+          totalAmount: Number(totalAmount)
+        });
       }
       onSaved();
     } catch (error) {
@@ -142869,7 +149987,14 @@ function StudentForm({ defaultBranchId, student, onCancel, onSaved }) {
     }
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "space-y-5", onSubmit: handleSubmit, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(FormSection, { title: "Admission Details", className: "sm:grid-cols-2 lg:grid-cols-3", children: [
+    student ? /* @__PURE__ */ jsxRuntimeExports.jsxs(FormSection, { title: "Licence Details", className: "sm:grid-cols-2 lg:grid-cols-3", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Learning Licence No", htmlFor: "learning-licence", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "learning-licence", value: learningLicenceNo, onChange: (event) => setLearningLicenceNo(event.target.value) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Learning Licence Issue Date", htmlFor: "ll-issue-date", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "ll-issue-date", type: "date", value: llIssueDate ?? "", onChange: (event) => setLlIssueDate(event.target.value) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Learning Licence Expiry Date", htmlFor: "ll-expiry-date", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "ll-expiry-date", type: "date", value: llExpiryDate ?? "", onChange: (event) => setLlExpiryDate(event.target.value) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Driving Licence No", htmlFor: "driving-licence", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "driving-licence", value: drivingLicenceNo, onChange: (event) => setDrivingLicenceNo(event.target.value) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Driving Licence Issue Date", htmlFor: "dl-issue-date", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "dl-issue-date", type: "date", value: dlIssueDate ?? "", onChange: (event) => setDlIssueDate(event.target.value) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Driving Licence Expiry Date", htmlFor: "dl-expiry-date", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "dl-expiry-date", type: "date", value: dlExpiryDate ?? "", onChange: (event) => setDlExpiryDate(event.target.value) }) })
+    ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(FormSection, { title: "Admission Details", className: "sm:grid-cols-2 lg:grid-cols-3", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Full Name *", htmlFor: "full-name", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "full-name", value: fullName, onChange: (event) => setFullName(event.target.value) }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Phone *", htmlFor: "phone", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "phone", value: phone, onChange: (event) => setPhone(event.target.value) }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Branch *", htmlFor: "branch", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -142885,17 +150010,13 @@ function StudentForm({ defaultBranchId, student, onCancel, onSaved }) {
           ]
         }
       ) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Course Type *", htmlFor: "course-type", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Course Type *", htmlFor: "course-type", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         Select$1,
         {
           id: "course-type",
           value: courseType,
           onChange: (event) => setCourseType(event.target.value),
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "2W", children: "2W" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "4W", children: "4W" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "both", children: "Both" })
-          ]
+          children: STUDENT_COURSE_OPTIONS.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: option.value, children: option.label }, option.value))
         }
       ) }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Enrollment Date *", htmlFor: "enrollment-date", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -142905,6 +150026,15 @@ function StudentForm({ defaultBranchId, student, onCancel, onSaved }) {
           type: "date",
           value: enrollmentDate,
           onChange: (event) => setEnrollmentDate(event.target.value)
+        }
+      ) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Course Start Date", htmlFor: "course-start-date", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Input,
+        {
+          id: "course-start-date",
+          type: "date",
+          value: courseStartDate,
+          onChange: (event) => setCourseStartDate(event.target.value)
         }
       ) }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Total Fee *", htmlFor: "total-fee", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -142918,52 +150048,10 @@ function StudentForm({ defaultBranchId, student, onCancel, onSaved }) {
         }
       ) })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(FormSection, { title: "Licence Details", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Learning Licence No", htmlFor: "learning-licence", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-        Input,
-        {
-          id: "learning-licence",
-          value: learningLicenceNo,
-          onChange: (event) => setLearningLicenceNo(event.target.value)
-        }
-      ) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Driving Licence No", htmlFor: "driving-licence", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-        Input,
-        {
-          id: "driving-licence",
-          value: drivingLicenceNo,
-          onChange: (event) => setDrivingLicenceNo(event.target.value)
-        }
-      ) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "DL Issue Date", htmlFor: "dl-issue-date", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-        Input,
-        {
-          id: "dl-issue-date",
-          type: "date",
-          value: dlIssueDate ?? "",
-          onChange: (event) => setDlIssueDate(event.target.value)
-        }
-      ) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "DL Expiry Date", htmlFor: "dl-expiry-date", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-        Input,
-        {
-          id: "dl-expiry-date",
-          type: "date",
-          value: dlExpiryDate ?? "",
-          onChange: (event) => setDlExpiryDate(event.target.value)
-        }
-      ) })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(FormSection, { title: "Status", className: "sm:grid-cols-2", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Student Status *", htmlFor: "status", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Select$1, { id: "status", value: status, onChange: (event) => setStatus(event.target.value), children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "ongoing", children: "Ongoing" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "passed", children: "Passed" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "extended", children: "Extended" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "dropped", children: "Dropped" })
-    ] }) }) }),
     errorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: errorMessage }) : null,
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "sticky bottom-0 -mx-6 -mb-6 flex justify-end gap-2 border-t bg-white px-6 py-4", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", variant: "outline", onClick: onCancel, children: "Cancel" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "submit", disabled: isSaving, children: isSaving ? "Saving..." : "Save Student" })
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "submit", disabled: isSaving, children: isSaving ? "Saving..." : student ? "Save Licence Details" : "Save Student" })
     ] })
   ] });
 }
@@ -142988,35 +150076,100 @@ function StudentsPage() {
   const selectedBranchId = useAppStore((state2) => state2.branchId);
   const [students, setStudents] = reactExports.useState([]);
   const [searchTerm, setSearchTerm] = reactExports.useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = reactExports.useState("");
   const [courseFilter, setCourseFilter] = reactExports.useState("all");
   const [statusFilter, setStatusFilter] = reactExports.useState("all");
+  const [sortOption, setSortOption] = reactExports.useState({ field: "enrollmentDate", direction: "desc" });
+  const [pageNumber, setPageNumber] = reactExports.useState(1);
+  const [pageCursors, setPageCursors] = reactExports.useState([null]);
+  const [cursorKey, setCursorKey] = reactExports.useState("");
+  const [hasNextPage, setHasNextPage] = reactExports.useState(false);
+  const [pageRange, setPageRange] = reactExports.useState({ startItem: 0, endItem: 0 });
   const [modalState, setModalState] = reactExports.useState(null);
+  const [expandedRows, setExpandedRows] = reactExports.useState({});
   const [isLoading, setIsLoading] = reactExports.useState(true);
   const [errorMessage, setErrorMessage] = reactExports.useState("");
   const [successMessage, setSuccessMessage] = reactExports.useState("");
   const activeBranchId = profile?.role === "staff" ? profile.branchId : selectedBranchId;
-  const hasActiveFilters = Boolean(searchTerm.trim()) || courseFilter !== "all" || statusFilter !== "all";
+  const queryKey = reactExports.useMemo(
+    () => JSON.stringify([activeBranchId ?? "all", courseFilter, debouncedSearchTerm.trim(), statusFilter, sortOption.field, sortOption.direction]),
+    [activeBranchId, courseFilter, debouncedSearchTerm, sortOption.direction, sortOption.field, statusFilter]
+  );
+  const hasActiveFilters = Boolean(debouncedSearchTerm.trim()) || courseFilter !== "all" || statusFilter !== "all";
+  const pageSize = 50;
+  const activeFilterDescription = reactExports.useMemo(
+    () => getActiveFilterDescription(debouncedSearchTerm, courseFilter, statusFilter),
+    [courseFilter, debouncedSearchTerm, statusFilter]
+  );
+  const resultSummary = pageRange.startItem ? `Showing ${pageRange.startItem}-${pageRange.endItem}${hasNextPage ? " - More results available" : ""}` : hasActiveFilters ? "No matching students" : "No students yet";
+  const pageCursor = cursorKey === queryKey ? pageCursors[pageNumber - 1] ?? null : null;
+  reactExports.useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 300);
+    return () => window.clearTimeout(timer);
+  }, [searchTerm]);
+  reactExports.useEffect(() => {
+    setPageNumber(1);
+    setPageCursors([null]);
+    setCursorKey(queryKey);
+    setExpandedRows({});
+  }, [queryKey]);
   const loadStudents = reactExports.useCallback(async () => {
+    if (cursorKey !== queryKey) return;
     setIsLoading(true);
     setErrorMessage("");
     try {
-      const data2 = await studentService.getStudents({
+      const result = await studentService.getStudentsPage({
         branchId: activeBranchId,
         courseType: courseFilter,
         status: statusFilter,
-        search: searchTerm
+        search: debouncedSearchTerm,
+        sortField: sortOption.field,
+        sortDirection: sortOption.direction,
+        pageSize,
+        pageNumber,
+        cursor: pageCursor
       });
-      setStudents(data2);
-    } catch {
-      setErrorMessage("Unable to load students. Please check your connection and try again.");
+      setStudents(result.rows);
+      setHasNextPage(result.pageInfo.hasNextPage);
+      setPageRange({
+        startItem: result.pageInfo.startItem,
+        endItem: result.pageInfo.endItem
+      });
+      setPageCursors((current) => {
+        const next = current.slice(0, pageNumber);
+        if (result.pageInfo.nextCursor) next[pageNumber] = result.pageInfo.nextCursor;
+        return next;
+      });
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Unable to load students. Please check your connection and try again.");
+      setHasNextPage(false);
     } finally {
       setIsLoading(false);
     }
-  }, [activeBranchId, courseFilter, searchTerm, statusFilter]);
+  }, [
+    activeBranchId,
+    courseFilter,
+    cursorKey,
+    debouncedSearchTerm,
+    pageCursor,
+    pageNumber,
+    queryKey,
+    sortOption.direction,
+    sortOption.field,
+    statusFilter
+  ]);
   reactExports.useEffect(() => {
     void loadStudents();
   }, [loadStudents]);
   const closeModal = () => setModalState(null);
+  const toggleExpanded = (studentId) => {
+    setExpandedRows((current) => ({
+      ...current,
+      [studentId]: !current[studentId]
+    }));
+  };
   const handleSaved = async (message) => {
     closeModal();
     setSuccessMessage(message);
@@ -143034,7 +150187,7 @@ function StudentsPage() {
       PageHeader,
       {
         title: "Students",
-        description: "Manage admissions, licence details, fees, and training status.",
+        description: "Manage admissions, licence details, fees, and derived training status.",
         actions: /* @__PURE__ */ jsxRuntimeExports.jsxs(
           Button,
           {
@@ -143053,9 +150206,15 @@ function StudentsPage() {
       }
     ),
     successMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "success", children: successMessage }) : null,
-    errorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: errorMessage.includes("next step") ? "default" : "destructive", children: errorMessage }) : null,
+    errorMessage && students.length > 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: errorMessage.includes("next step") ? "default" : "destructive", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: errorMessage }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Button, { type: "button", size: "sm", variant: "outline", onClick: () => void loadStudents(), disabled: isLoading, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { className: "mr-2 h-3.5 w-3.5", "aria-hidden": "true" }),
+        "Retry"
+      ] })
+    ] }) }) : null,
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs(FilterBar, { className: "md:grid-cols-[1fr_160px_160px_130px]", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(FilterBar, { className: "md:grid-cols-[1fr_160px_160px_180px_130px]", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           SearchInput,
           {
@@ -143066,9 +150225,7 @@ function StudentsPage() {
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsxs(Select$1, { value: courseFilter, onChange: (event) => setCourseFilter(event.target.value), children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "all", children: "All Courses" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "2W", children: "2W" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "4W", children: "4W" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "both", children: "Both" })
+          STUDENT_COURSE_OPTIONS.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: option.value, children: option.label }, option.value))
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs(Select$1, { value: statusFilter, onChange: (event) => setStatusFilter(event.target.value), children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "all", children: "All Status" }),
@@ -143077,6 +150234,16 @@ function StudentsPage() {
           /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "extended", children: "Extended" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "dropped", children: "Dropped" })
         ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(Select$1, { value: `${sortOption.field}:${sortOption.direction}`, onChange: (event) => setSortOption(parseSortOption(event.target.value)), children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "enrollmentDate:desc", children: "Enrollment Newest" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "enrollmentDate:asc", children: "Enrollment Oldest" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "courseStartDate:desc", children: "Course Start Newest" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "courseStartDate:asc", children: "Course Start Oldest" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "balance:desc", children: "Balance High-Low" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "balance:asc", children: "Balance Low-High" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "daysRemaining:asc", children: "Days Remaining Low-High" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "daysRemaining:desc", children: "Days Remaining High-Low" })
+        ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           Button,
           {
@@ -143084,81 +150251,158 @@ function StudentsPage() {
             variant: "outline",
             onClick: () => {
               setSearchTerm("");
+              setDebouncedSearchTerm("");
               setCourseFilter("all");
               setStatusFilter("all");
+              setSortOption({ field: "enrollmentDate", direction: "desc" });
             },
             children: "Clear"
           }
         )
       ] }),
-      isLoading ? /* @__PURE__ */ jsxRuntimeExports.jsx(PageLoader, { label: "Loading students..." }) : students.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-3 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: resultSummary }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            Button,
+            {
+              type: "button",
+              size: "sm",
+              variant: "outline",
+              onClick: () => setPageNumber((current) => Math.max(1, current - 1)),
+              disabled: isLoading || pageNumber === 1,
+              children: "Previous"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "min-w-16 text-center", children: [
+            "Page ",
+            pageNumber
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            Button,
+            {
+              type: "button",
+              size: "sm",
+              variant: "outline",
+              onClick: () => setPageNumber((current) => current + 1),
+              disabled: isLoading || !hasNextPage,
+              children: "Next"
+            }
+          )
+        ] })
+      ] }),
+      isLoading && students.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(PageLoader, { label: "Loading students..." }) : errorMessage && students.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(
         EmptyState,
         {
-          title: hasActiveFilters ? "No students match the selected filters." : "No students found. Add your first student."
+          title: "Unable to load students.",
+          description: errorMessage,
+          actionLabel: "Retry",
+          onAction: () => void loadStudents()
         }
-      ) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-x-auto rounded-md border", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Table, { children: [
+      ) : students.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmptyState,
+        {
+          title: hasActiveFilters ? "No students match the selected filters." : "No students found. Add your first student.",
+          description: hasActiveFilters ? activeFilterDescription : void 0
+        }
+      ) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `overflow-x-auto rounded-md border ${isLoading ? "opacity-60" : ""}`, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Table, { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(TableHeader, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(TableRow, { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Student" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(SortLabel, { label: "Student" }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Course" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Training" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Licence" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { className: "text-right", children: "Total Fee" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { className: "text-right", children: "Paid" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { className: "text-right", children: "Balance" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { className: "w-[260px]", children: "Actions" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            SortHeader,
+            {
+              label: "Training",
+              active: sortOption.field === "courseStartDate" || sortOption.field === "daysRemaining",
+              direction: sortOption.direction,
+              onClick: () => setSortOption(toggleSort(sortOption, sortOption.field === "courseStartDate" ? "daysRemaining" : "courseStartDate"))
+            }
+          ) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { className: "text-right", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            SortHeader,
+            {
+              label: "Balance",
+              active: sortOption.field === "balance",
+              direction: sortOption.direction,
+              onClick: () => setSortOption(toggleSort(sortOption, "balance"))
+            }
+          ) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { className: "w-[260px]", children: "Actions" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { className: "w-10" })
         ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(TableBody, { children: students.map((student) => /* @__PURE__ */ jsxRuntimeExports.jsxs(TableRow, { className: "h-14", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(TableCell, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", className: "text-left font-semibold text-primary hover:underline", onClick: () => setModalState({ type: "view", student }), children: student.fullName }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted-foreground", children: formatPhoneNumber(student.phone) })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-start gap-1", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Badge, { variant: "secondary", children: formatCourseType(student.courseType) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(StatusBadge, { status: student.status })
-          ] }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(TableCell, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm", children: formatDate(student.enrollmentDate) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs text-muted-foreground", children: [
-              "Base date ",
-              formatDate(student.expiryDate)
-            ] }),
-            student.status === "ongoing" && student.daysRemaining < 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(StatusBadge, { status: "thirty_days_completed" }) : null
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(TableCell, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm", children: [
-              "LL: ",
-              student.learningLicenceNo || "-"
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs text-muted-foreground", children: [
-              "DL: ",
-              student.drivingLicenceNo || "-"
-            ] })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { className: "text-right", children: formatCurrency(student.totalAmount) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { className: "text-right", children: formatCurrency(student.paidAmount) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { className: "text-right font-semibold text-danger", children: formatCurrency(student.balance) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap gap-2", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", size: "sm", variant: "outline", onClick: () => setModalState({ type: "view", student }), children: "View" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", size: "sm", variant: "ghost", onClick: () => setModalState({ type: "edit", student }), children: "Edit" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              Button,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(TableBody, { children: students.map((student) => {
+          const isExpanded = Boolean(expandedRows[student.id]);
+          return /* @__PURE__ */ jsxRuntimeExports.jsxs(reactExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              TableRow,
               {
-                type: "button",
-                size: "sm",
-                variant: "secondary",
-                onClick: () => setModalState({ type: "payment", student }),
-                children: "Payment"
+                className: "h-14 cursor-pointer hover:bg-blue-50/50",
+                onClick: () => toggleExpanded(student.id),
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs(TableCell, { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold text-main-text", children: student.fullName }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted-foreground", children: formatPhoneNumber(student.phone) })
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-start gap-1", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(Badge, { variant: "secondary", children: formatCourseType(student.courseType) }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(StatusBadge, { status: student.status })
+                  ] }) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs(TableCell, { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm", children: formatDate(student.courseStartDate) }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs text-muted-foreground", children: [
+                      "Completion ",
+                      formatDate(student.expiryDate)
+                    ] }),
+                    (student.status === "ongoing" || student.status === "extended") && student.daysRemaining < 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(StatusBadge, { status: "thirty_days_completed" }) : null
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { className: "text-right font-semibold text-danger", children: formatCurrency(student.balance) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap gap-2", onClick: (event) => event.stopPropagation(), children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", size: "sm", variant: "outline", onClick: () => setModalState({ type: "view", student }), children: "View" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", size: "sm", variant: "ghost", onClick: () => setModalState({ type: "edit", student }), children: "Edit" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      Button,
+                      {
+                        type: "button",
+                        size: "sm",
+                        variant: "secondary",
+                        onClick: () => setModalState({ type: "payment", student }),
+                        children: "Payment"
+                      }
+                    )
+                  ] }) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { className: "text-right", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    ChevronDown,
+                    {
+                      className: `ml-auto h-4 w-4 text-muted-foreground transition-transform ${isExpanded ? "rotate-180" : ""}`,
+                      "aria-hidden": "true"
+                    }
+                  ) })
+                ]
               }
-            )
-          ] }) })
-        ] }, student.id)) })
+            ),
+            isExpanded ? /* @__PURE__ */ jsxRuntimeExports.jsx(TableRow, { className: "bg-muted/20", children: /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { colSpan: 6, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-4 py-3 sm:grid-cols-2 lg:grid-cols-4", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Detail, { label: "Branch", value: student.branchName ?? "-" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Detail, { label: "Enrollment Date", value: formatDate(student.enrollmentDate) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Detail, { label: "Course Start Date", value: formatDate(student.courseStartDate) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Detail, { label: "Total Fee", value: formatCurrency(student.totalAmount) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Detail, { label: "Paid", value: formatCurrency(student.paidAmount) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Detail, { label: "Balance", value: formatCurrency(student.balance) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Detail, { label: "Learning Licence", value: student.learningLicenceNo || "-" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Detail, { label: "LL Issue Date", value: student.llIssueDate ? formatDate(student.llIssueDate) : "-" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Detail, { label: "LL Expiry Date", value: student.llExpiryDate ? formatDate(student.llExpiryDate) : "-" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Detail, { label: "Driving Licence", value: student.drivingLicenceNo || "-" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Detail, { label: "DL Issue Date", value: student.dlIssueDate ? formatDate(student.dlIssueDate) : "-" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Detail, { label: "DL Expiry Date", value: student.dlExpiryDate ? formatDate(student.dlExpiryDate) : "-" })
+            ] }) }) }) : null
+          ] }, student.id);
+        }) })
       ] }) })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(Dialog, { open: modalState !== null, onOpenChange: (open) => !open && closeModal(), children: [
       modalState?.type === "add" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogContent, { className: "max-w-4xl", onClose: closeModal, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogHeader, { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(DialogTitle, { children: "Add Student" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(DialogDescription, { children: "Enter admission, licence, and fee details." })
+          /* @__PURE__ */ jsxRuntimeExports.jsx(DialogDescription, { children: "Enter admission and fee details." })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           StudentForm,
@@ -143171,8 +150415,8 @@ function StudentsPage() {
       ] }) : null,
       modalState?.type === "edit" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogContent, { className: "max-w-4xl", onClose: closeModal, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogHeader, { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(DialogTitle, { children: "Edit Student" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(DialogDescription, { children: "Update admission, licence, status, or fee details." })
+          /* @__PURE__ */ jsxRuntimeExports.jsx(DialogTitle, { children: "Edit Licence Details" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(DialogDescription, { children: "Update learning licence and driving licence details." })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           StudentForm,
@@ -143214,6 +150458,43 @@ function StudentsPage() {
     )
   ] });
 }
+function parseSortOption(value2) {
+  const [field, direction] = value2.split(":");
+  return { field, direction };
+}
+function toggleSort(current, field) {
+  if (current.field !== field) return { field, direction: field === "balance" ? "desc" : "asc" };
+  return { field, direction: current.direction === "asc" ? "desc" : "asc" };
+}
+function getActiveFilterDescription(search, course, status) {
+  const values = [
+    search.trim() ? `Search: "${search.trim()}"` : "",
+    course !== "all" ? `Course: ${formatCourseType(course)}` : "",
+    status !== "all" ? `Status: ${status}` : ""
+  ].filter(Boolean);
+  return values.length ? values.join(" - ") : "Try changing the filters or search term.";
+}
+function SortLabel({ label }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: label });
+}
+function SortHeader({
+  label,
+  active,
+  direction,
+  onClick
+}) {
+  const Icon2 = direction === "asc" ? ArrowUp : ArrowDown;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { type: "button", className: "inline-flex items-center gap-1 font-medium text-main-text", onClick, children: [
+    label,
+    active ? /* @__PURE__ */ jsxRuntimeExports.jsx(Icon2, { className: "h-3.5 w-3.5", "aria-hidden": "true" }) : null
+  ] });
+}
+function Detail({ label, value: value2 }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted-foreground", children: label }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-sm font-medium text-main-text", children: value2 })
+  ] });
+}
 function effectiveBranchId(filters) {
   return filters.branchId && filters.branchId !== "all" ? filters.branchId : void 0;
 }
@@ -143250,7 +150531,7 @@ async function getBaseData(branchId) {
   ]);
   return {
     branches,
-    students,
+    students: students.map((student) => ({ ...student, status: deriveStudentStatus(student) })),
     fees: feesRaw.map(normalizeFee)
   };
 }
@@ -143330,7 +150611,10 @@ const reportService = {
     ]);
     const branchesById = nameMap(branches, (branch) => branch.name);
     const staffById = nameMap(staffProfiles, (profile) => profile.fullName);
-    const studentsById = nameMap(students, (student) => student.fullName);
+    const studentsById = nameMap(
+      students.map((student) => ({ ...student, status: deriveStudentStatus(student) })),
+      (student) => student.fullName
+    );
     const rows = expensesRaw.map((expense) => ({ ...expense, date: expense.date ?? expense.expenseDate })).filter((expense) => isDateInMonthYear(expense.date, filters.month, filters.year)).sort((a2, b2) => b2.date.localeCompare(a2.date)).map((expense) => ({
       id: expense.id,
       date: expense.date,
@@ -143363,28 +150647,36 @@ const reportService = {
       getCollection(collections.students, [...branchId ? [where("branchId", "==", branchId)] : []])
     ]);
     const branchesById = nameMap(branches, (branch) => branch.name);
-    const rows = students.filter((student) => isDateInMonthYear(student.enrollmentDate, filters.month, filters.year)).sort((a2, b2) => b2.enrollmentDate.localeCompare(a2.enrollmentDate)).map((student) => ({
-      studentId: student.id,
-      branchId: student.branchId,
-      branchName: branchesById.get(student.branchId),
-      fullName: student.fullName,
-      phone: student.phone,
-      courseType: student.courseType,
-      enrollmentDate: student.enrollmentDate,
-      completionDate: calculateStudentExpiryDate(student.enrollmentDate, student.durationDays ?? 30),
-      status: student.status,
-      learningLicenceNo: student.learningLicenceNo,
-      drivingLicenceNo: student.drivingLicenceNo
-    }));
+    const derivedStudents = students.map((student) => ({ ...student, status: deriveStudentStatus(student) }));
+    const rows = derivedStudents.filter((student) => isDateInMonthYear(student.enrollmentDate, filters.month, filters.year)).sort((a2, b2) => b2.enrollmentDate.localeCompare(a2.enrollmentDate)).map((student) => {
+      const courseStartDate = getCourseStartDate(student);
+      return {
+        studentId: student.id,
+        branchId: student.branchId,
+        branchName: branchesById.get(student.branchId),
+        fullName: student.fullName,
+        phone: student.phone,
+        courseType: student.courseType,
+        enrollmentDate: student.enrollmentDate,
+        courseStartDate,
+        completionDate: calculateStudentExpiryDate(courseStartDate, student.durationDays ?? 30),
+        status: student.status,
+        learningLicenceNo: student.learningLicenceNo,
+        llIssueDate: student.llIssueDate,
+        llExpiryDate: student.llExpiryDate,
+        drivingLicenceNo: student.drivingLicenceNo
+      };
+    });
     return {
       newAdmissionsCount: rows.length,
-      ongoingCount: students.filter((student) => student.status === "ongoing").length,
-      passedCount: students.filter((student) => student.status === "passed").length,
-      droppedCount: students.filter((student) => student.status === "dropped").length,
-      thirtyDaysCompletedCount: students.filter(
-        (student) => student.status === "ongoing" && isPastDate(calculateStudentExpiryDate(student.enrollmentDate, student.durationDays ?? 30))
+      ongoingCount: derivedStudents.filter((student) => student.status === "ongoing" || student.status === "extended").length,
+      passedCount: derivedStudents.filter((student) => student.status === "passed").length,
+      droppedCount: derivedStudents.filter((student) => student.status === "dropped").length,
+      thirtyDaysCompletedCount: derivedStudents.filter(
+        (student) => (student.status === "ongoing" || student.status === "extended") && isPastDate(calculateStudentExpiryDate(getCourseStartDate(student), student.durationDays ?? 30))
       ).length,
       bothCourseStudentsCount: students.filter((student) => student.courseType === "both").length,
+      heavyVehicleStudentsCount: students.filter((student) => student.courseType === "HV").length,
       rows
     };
   }
@@ -143456,19 +150748,11 @@ function ReportsPage() {
   }, [filters]);
   reactExports.useEffect(() => {
     if (profile?.role !== "owner") return;
-    let isMounted = true;
-    const loadBranches = async () => {
-      try {
-        const data2 = await settingsService.getBranches();
-        if (isMounted) setBranches([...data2].sort((a2, b2) => a2.name.localeCompare(b2.name)));
-      } catch {
-        if (isMounted) setErrorMessage("Unable to load report. Please check your connection and try again.");
-      }
-    };
-    void loadBranches();
-    return () => {
-      isMounted = false;
-    };
+    const unsubscribe = settingsService.subscribeBranches(
+      (data2) => setBranches([...data2].sort((a2, b2) => a2.name.localeCompare(b2.name))),
+      () => setErrorMessage("Unable to load report. Please check your connection and try again.")
+    );
+    return unsubscribe;
   }, [profile?.role]);
   reactExports.useEffect(() => {
     if (profile?.role === "owner") {
@@ -143716,7 +151000,8 @@ function StudentReportView({
           { label: "Ongoing Students", value: String(report.ongoingCount) },
           { label: "Passed Students", value: String(report.passedCount) },
           { label: "Dropped Students", value: String(report.droppedCount) },
-          { label: "30 Days Completed", value: String(report.thirtyDaysCompletedCount) },
+          { label: "Training Completed", value: String(report.thirtyDaysCompletedCount) },
+          { label: "Heavy Vehicle Students", value: String(report.heavyVehicleStudentsCount) },
           { label: "Both Course Students", value: String(report.bothCourseStudentsCount) }
         ]
       }
@@ -143730,7 +151015,8 @@ function StudentReportView({
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Phone" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Course" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Enrollment Date" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "30-Day Completion Date" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Course Start Date" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Completion Date" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Status" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Learning Licence No" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Driving Licence No" })
@@ -143741,6 +151027,7 @@ function StudentReportView({
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: row.phone }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: formatCourseType(row.courseType) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: formatDate(row.enrollmentDate) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: formatDate(row.courseStartDate) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: formatDate(row.completionDate) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Badge, { variant: row.status === "ongoing" ? "success" : row.status === "passed" ? "secondary" : "muted", children: formatStudentStatus(row.status) }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: row.learningLicenceNo || "-" }),

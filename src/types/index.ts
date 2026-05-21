@@ -22,9 +22,9 @@ export type AuthState = {
   isLoading: boolean;
 };
 
-export type CourseType = '2W' | '4W' | 'both';
-export type TrainingCourseType = '2W' | '4W';
-export type DrivingTestCourseType = '2W' | '4W';
+export type CourseType = '2W' | '4W' | 'HV' | 'both';
+export type TrainingCourseType = '2W' | '4W' | 'HV';
+export type DrivingTestCourseType = TrainingCourseType;
 export type DrivingTestResult = 'pending' | 'pass' | 'fail';
 export type DrivingTestStatus = 'not_started' | 'pending' | 'passed' | 'failed';
 export type StudentStatus = 'ongoing' | 'passed' | 'extended' | 'dropped';
@@ -127,7 +127,7 @@ export interface AttendanceFilters {
   branchId?: string | 'all';
   role: 'owner' | 'staff';
   userBranchId?: string;
-  courseType?: 'all' | '2W' | '4W';
+  courseType?: 'all' | TrainingCourseType;
   search?: string;
   selectedDate?: string;
   view?: 'all' | 'pending' | 'marked' | 'completed' | 'extension_needed';
@@ -139,7 +139,7 @@ export interface AttendanceRow {
   phone: string;
   branchId: string;
   branchName?: string;
-  courseType: '2W' | '4W';
+  courseType: TrainingCourseType;
   sessionId: string;
   completedSessions: number;
   allowedSessions: number;
@@ -282,11 +282,13 @@ export type UpdateBranchPayload = CreateBranchPayload;
 export type CreateStaffProfilePayload = {
   id: string;
   fullName: string;
+  phone: string;
   branchId: string;
 };
 
 export type UpdateStaffProfilePayload = {
   fullName: string;
+  phone: string;
   branchId: string;
 };
 
@@ -298,6 +300,7 @@ export type CreateStaffUserPayload = {
   email: string;
   password: string;
   fullName: string;
+  phone: string;
   branchId: string;
 };
 
@@ -568,6 +571,7 @@ export interface StudentReport {
   droppedCount: number;
   thirtyDaysCompletedCount: number;
   bothCourseStudentsCount: number;
+  heavyVehicleStudentsCount: number;
   rows: StudentReportRow[];
 }
 

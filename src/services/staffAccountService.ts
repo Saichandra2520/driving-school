@@ -19,6 +19,7 @@ export const staffAccountService = {
       const credential = await createUserWithEmailAndPassword(secondaryAuth, payload.email.trim(), payload.password);
       const profile = {
         fullName: payload.fullName.trim(),
+        phone: payload.phone.trim(),
         role: 'staff' as const,
         branchId: payload.branchId,
         createdAt: createdAt()
@@ -46,10 +47,12 @@ export const staffAccountService = {
 
   async updateStaffProfile(profileId: string, payload: UpdateStaffProfilePayload): Promise<void> {
     if (!payload.fullName.trim()) throw new Error('Full name is required.');
+    if (!payload.phone.trim()) throw new Error('Mobile number is required.');
     if (!payload.branchId) throw new Error('Branch is required.');
 
     await updateDoc(doc(db, collections.users, profileId), {
       fullName: payload.fullName.trim(),
+      phone: payload.phone.trim(),
       branchId: payload.branchId,
       role: 'staff'
     });

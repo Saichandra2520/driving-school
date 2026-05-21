@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { STUDENT_COURSE_OPTIONS } from '@/constants/courses';
 import { courseExtensionService } from '@/services/courseExtensionService';
 import { useSyncStore } from '@/store/syncStore';
 import type { CourseType } from '@/types';
@@ -125,9 +126,11 @@ export function AddExtensionModal({
               <div className="space-y-2">
                 <Label htmlFor="extension-course">Course</Label>
                 <Select id="extension-course" value={courseType} onChange={(event) => setCourseType(event.target.value as CourseType)}>
-                  <option value="2W">2W</option>
-                  <option value="4W">4W</option>
-                  <option value="both">Both</option>
+                  {STUDENT_COURSE_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </Select>
               </div>
               <div className="space-y-2">

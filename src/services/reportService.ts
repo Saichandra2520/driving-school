@@ -248,6 +248,7 @@ export const reportService = {
           isPastDate(calculateStudentExpiryDate(getCourseStartDate(student), student.durationDays ?? 30))
       ).length,
       bothCourseStudentsCount: students.filter((student) => student.courseType === 'both').length,
+      heavyVehicleStudentsCount: students.filter((student) => student.courseType === 'HV').length,
       rows
     };
   }

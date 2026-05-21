@@ -8,11 +8,11 @@ import {
   updateDoc,
   where
 } from 'firebase/firestore';
+import { COURSE_LABELS, DRIVING_TEST_COURSE_PARTS } from '@/constants/courses';
 import { authService } from '@/services/authService';
 import { db } from '@/services/firebase';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
 import type {
-  CourseType,
   DrivingTest,
   DrivingTestAttempt,
   DrivingTestCourseType,
@@ -20,12 +20,6 @@ import type {
   Student,
   UpdateDrivingTestAttemptPayload
 } from '@/types';
-
-const courseParts: Record<CourseType, DrivingTestCourseType[]> = {
-  '2W': ['2W'],
-  '4W': ['4W'],
-  both: ['2W', '4W']
-};
 
 function emptyAttempts(): DrivingTestAttempt[] {
   return Array.from({ length: 3 }, (_, index) => ({
@@ -156,7 +150,7 @@ export const drivingTestService = {
     const existingCourses = new Set(snapshot.docs.map((item) => (item.data() as DrivingTest).courseType));
 
     await Promise.all(
-      courseParts[student.courseType].map((courseType) =>
+      DRIVING_TEST_COURSE_PARTS[student.courseType].map((courseType) =>
         existingCourses.has(courseType)
           ? Promise.resolve()
           : drivingTestService.createEmptyDrivingTest(student.id, student.branchId, courseType)
@@ -178,7 +172,7 @@ export const drivingTestService = {
     if (!student || student.status === 'passed') return null;
 
     const tests = await Promise.all(
-      courseParts[student.courseType].map((courseType) =>
+      DRIVING_TEST_COURSE_PARTS[student.courseType].map((courseType) =>
         drivingTestService.getDrivingTestByStudentAndCourse(studentId, courseType)
       )
     );
@@ -190,6 +184,6 @@ export const drivingTestService = {
       return 'This student has passed both 2W and 4W tests. Add the driving licence number in the student profile to mark the course as Passed.';
     }
 
-    return `This student has passed the ${student.courseType} test. Add the driving licence number in the student profile to mark the course as Passed.`;
+    return `This student has passed the ${COURSE_LABELS[student.courseType]} test. Add the driving licence number in the student profile to mark the course as Passed.`;
   }
 };

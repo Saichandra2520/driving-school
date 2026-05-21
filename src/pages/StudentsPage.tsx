@@ -15,6 +15,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { AddInstallmentModal } from '@/components/fees/AddInstallmentModal';
 import { StudentDetails } from '@/components/students/StudentDetails';
 import { StudentForm } from '@/components/students/StudentForm';
+import { STUDENT_COURSE_OPTIONS } from '@/constants/courses';
 import {
   studentService,
   type SortDirection,
@@ -210,9 +211,11 @@ export function StudentsPage(): JSX.Element {
             />
             <Select value={courseFilter} onChange={(event) => setCourseFilter(event.target.value as CourseFilter)}>
               <option value="all">All Courses</option>
-              <option value="2W">2W</option>
-              <option value="4W">4W</option>
-              <option value="both">Both</option>
+              {STUDENT_COURSE_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </Select>
             <Select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}>
               <option value="all">All Status</option>

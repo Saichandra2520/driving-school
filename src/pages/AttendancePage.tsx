@@ -16,6 +16,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
 import { AddExtensionModal } from '@/components/students/AddExtensionModal';
+import { TRAINING_COURSE_OPTIONS } from '@/constants/courses';
 import { attendanceService } from '@/services/attendanceService';
 import { sessionService } from '@/services/sessionService';
 import { useAppStore } from '@/store/app-store';
@@ -418,8 +419,11 @@ export function AttendancePage(): JSX.Element {
               <Label htmlFor="attendance-course">Course</Label>
               <Select id="attendance-course" value={courseType} onChange={(event) => setCourseType(event.target.value as CourseFilter)}>
                 <option value="all">All</option>
-                <option value="2W">2W</option>
-                <option value="4W">4W</option>
+                {TRAINING_COURSE_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </Select>
             </div>
             <div className="space-y-2">

@@ -508,6 +508,7 @@ function StudentReportView({
           { label: 'Passed Students', value: String(report.passedCount) },
           { label: 'Dropped Students', value: String(report.droppedCount) },
           { label: 'Training Completed', value: String(report.thirtyDaysCompletedCount) },
+          { label: 'Heavy Vehicle Students', value: String(report.heavyVehicleStudentsCount) },
           { label: 'Both Course Students', value: String(report.bothCourseStudentsCount) }
         ]}
       />

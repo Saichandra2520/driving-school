@@ -10,6 +10,7 @@ import {
   where
 } from 'firebase/firestore';
 import { authService } from '@/services/authService';
+import { COURSE_PARTS } from '@/constants/courses';
 import { db } from '@/services/firebase';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
 import type {
@@ -37,13 +38,17 @@ const fallbackClassTypes: Record<TrainingCourseType, string[]> = {
     'Test Practice',
     'Night Drive',
     'A2Z Workshop Class'
+  ],
+  HV: [
+    'Theory',
+    'Vehicle Controls',
+    'Yard Practice',
+    'Road Practice',
+    'Reverse / Parking',
+    'Gradient Start',
+    'Load Safety',
+    'Test Practice'
   ]
-};
-
-const courseParts: Record<CourseType, TrainingCourseType[]> = {
-  '2W': ['2W'],
-  '4W': ['4W'],
-  both: ['2W', '4W']
 };
 
 function emptySlots(slotCount = 30) {
@@ -271,7 +276,7 @@ export const sessionService = {
     );
 
     await Promise.all(
-      courseParts[student.courseType].map((courseType) =>
+      COURSE_PARTS[student.courseType].map((courseType) =>
         existingCourses.has(courseType)
           ? Promise.resolve()
           : sessionService.createEmptySessionCard(student.id, student.branchId, courseType)

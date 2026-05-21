@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { EmptyState } from '@/components/common/EmptyState';
 import { PageLoader } from '@/components/common/PageLoader';
@@ -16,6 +16,7 @@ import { staffAccountService } from '@/services/staffAccountService';
 import type { Branch, StaffAccount } from '@/types';
 import { formatDateTime } from '@/components/settings/settingsUtils';
 import { getFriendlyErrorMessage } from '@/utils/errors';
+import { formatPhoneNumber } from '@/utils/formatters';
 
 type StaffModalState =
   | { mode: 'add' }
@@ -103,6 +104,7 @@ export function StaffManagement(): JSX.Element {
               <TableHeader>
                 <TableRow>
                   <TableHead>Staff Name</TableHead>
+                  <TableHead>Mobile</TableHead>
                   <TableHead>Role</TableHead>
                   <TableHead>Branch</TableHead>
                   <TableHead>Created</TableHead>
@@ -113,6 +115,7 @@ export function StaffManagement(): JSX.Element {
                 {staffProfiles.map((staff) => (
                   <TableRow key={staff.id}>
                     <TableCell className="font-medium">{staff.fullName}</TableCell>
+                    <TableCell>{formatPhoneNumber(staff.phone)}</TableCell>
                     <TableCell>
                       <Badge variant="secondary">staff</Badge>
                     </TableCell>
@@ -208,17 +211,34 @@ function CreateStaffForm({
   onSaved: (message: string) => void;
 }): JSX.Element {
   const [fullName, setFullName] = useState('');
+  const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [branchId, setBranchId] = useState(branches[0]?.id ?? '');
   const [errorMessage, setErrorMessage] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const fullNameInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (branches.length === 0) return;
+
+    const hasSelectedBranch = branches.some((branch) => branch.id === branchId);
+    if (!hasSelectedBranch) {
+      setBranchId(branches[0].id);
+    }
+  }, [branchId, branches]);
+
+  useEffect(() => {
+    fullNameInputRef.current?.focus();
+  }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     setErrorMessage('');
 
     if (!fullName.trim()) return setErrorMessage('Full name is required.');
+    if (!phone.trim()) return setErrorMessage('Mobile number is required.');
+    if (phone.replace(/\D/g, '').length < 10) return setErrorMessage('Mobile number must have at least 10 digits.');
     if (!email.trim()) return setErrorMessage('Email is required.');
     if (!password || password.length < 8) return setErrorMessage('Temporary password must be at least 8 characters.');
     if (!branchId) return setErrorMessage('Branch is required.');
@@ -228,6 +248,7 @@ function CreateStaffForm({
     try {
       await staffAccountService.createStaffUser({
         fullName,
+        phone,
         email,
         password,
         branchId
@@ -244,7 +265,16 @@ function CreateStaffForm({
     <form className="space-y-5" onSubmit={handleSubmit}>
       <div className="space-y-2">
         <Label htmlFor="staff-name">Full Name</Label>
-        <Input id="staff-name" value={fullName} onChange={(event) => setFullName(event.target.value)} />
+        <Input
+          id="staff-name"
+          ref={fullNameInputRef}
+          value={fullName}
+          onChange={(event) => setFullName(event.target.value)}
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="staff-phone">Mobile Number</Label>
+        <Input id="staff-phone" value={phone} onChange={(event) => setPhone(event.target.value)} />
       </div>
       <div className="space-y-2">
         <Label htmlFor="staff-email">Email</Label>
@@ -261,7 +291,7 @@ function CreateStaffForm({
       </div>
       <BranchSelect branches={branches} branchId={branchId} onBranchChange={setBranchId} />
       {errorMessage ? <Alert variant="destructive">{errorMessage}</Alert> : null}
-      <FormActions onCancel={onCancel} isSaving={isSaving} saveLabel="Create Staff Account" />
+      <FormActions onCancel={onCancel} isSaving={isSaving || branches.length === 0} saveLabel="Create Staff Account" />
     </form>
   );
 }
@@ -278,6 +308,7 @@ function EditStaffForm({
   onSaved: (message: string) => void;
 }): JSX.Element {
   const [fullName, setFullName] = useState(staff.fullName ?? '');
+  const [phone, setPhone] = useState(staff.phone ?? '');
   const [branchId, setBranchId] = useState(staff.branchId);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -287,12 +318,14 @@ function EditStaffForm({
     setErrorMessage('');
 
     if (!fullName.trim()) return setErrorMessage('Full name is required.');
+    if (!phone.trim()) return setErrorMessage('Mobile number is required.');
+    if (phone.replace(/\D/g, '').length < 10) return setErrorMessage('Mobile number must have at least 10 digits.');
     if (!branchId) return setErrorMessage('Branch is required.');
 
     setIsSaving(true);
 
     try {
-      await staffAccountService.updateStaffProfile(staff.id, { fullName: fullName, branchId: branchId });
+      await staffAccountService.updateStaffProfile(staff.id, { fullName: fullName, phone: phone, branchId: branchId });
       onSaved('Staff profile saved successfully.');
     } catch (error) {
       setErrorMessage(getFriendlyErrorMessage(error, 'Could not save staff profile.'));
@@ -306,6 +339,10 @@ function EditStaffForm({
       <div className="space-y-2">
         <Label htmlFor="edit-staff-name">Full Name</Label>
         <Input id="edit-staff-name" value={fullName} onChange={(event) => setFullName(event.target.value)} />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="edit-staff-phone">Mobile Number</Label>
+        <Input id="edit-staff-phone" value={phone} onChange={(event) => setPhone(event.target.value)} />
       </div>
       <BranchSelect branches={branches} branchId={branchId} onBranchChange={setBranchId} />
       {errorMessage ? <Alert variant="destructive">{errorMessage}</Alert> : null}
@@ -374,16 +411,25 @@ function BranchSelect({
   return (
     <div className="space-y-2">
       <Label htmlFor="staff-branch">Branch</Label>
-      <Select id="staff-branch" value={branchId} onChange={(event) => onBranchChange(event.target.value)}>
+      <Select
+        id="staff-branch"
+        value={branchId}
+        onChange={(event) => onBranchChange(event.target.value)}
+        disabled={branches.length === 0}
+      >
         {branches.length === 0 ? <option value="">No branches available</option> : null}
         {branches.map((branch) => (
           <option key={branch.id} value={branch.id}>
-            {branch.name}
+            {formatBranchOption(branch)}
           </option>
         ))}
       </Select>
     </div>
   );
+}
+
+function formatBranchOption(branch: Branch): string {
+  return branch.location ? `${branch.name} - ${branch.location}` : branch.name;
 }
 
 function FormActions({

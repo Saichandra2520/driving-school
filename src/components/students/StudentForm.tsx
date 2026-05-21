@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
+import { STUDENT_COURSE_OPTIONS } from '@/constants/courses';
 import { settingsService } from '@/services/settingsService';
 import { studentService } from '@/services/studentService';
 import { useAuthStore } from '@/store/authStore';
@@ -199,9 +200,11 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
               value={courseType}
               onChange={(event) => setCourseType(event.target.value as CourseType)}
             >
-              <option value="2W">2W</option>
-              <option value="4W">4W</option>
-              <option value="both">Both</option>
+              {STUDENT_COURSE_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </Select>
           </Field>
 

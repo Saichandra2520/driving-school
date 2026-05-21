@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { COURSE_PARTS } from '@/constants/courses';
 import { courseExtensionService } from '@/services/courseExtensionService';
 import { feeService } from '@/services/feeService';
 import type { CourseExtension, Fee, Installment, StudentWithFee, TrainingEntitlement } from '@/types';
@@ -37,8 +38,7 @@ export function StudentDetails({ student, onFeeChanged, onStudentChanged }: Stud
   const [extensions, setExtensions] = useState<CourseExtension[]>(student.extensions ?? []);
   const [entitlement, setEntitlement] = useState<TrainingEntitlement | null>(student.trainingEntitlement ?? null);
   const [extensionModalOpen, setExtensionModalOpen] = useState(false);
-  const hasTwoWheeler = student.courseType === '2W' || student.courseType === 'both';
-  const hasFourWheeler = student.courseType === '4W' || student.courseType === 'both';
+  const courseParts = COURSE_PARTS[student.courseType];
   const isThirtyDaysCompleted = (student.status === 'ongoing' || student.status === 'extended') && student.daysRemaining < 0;
 
   const loadExtensions = async (): Promise<void> => {
@@ -179,15 +179,17 @@ export function StudentDetails({ student, onFeeChanged, onStudentChanged }: Stud
 
         {activeTab === 'attendance' ? (
           <TabsContent>
-            {hasTwoWheeler ? <TrainingCard studentId={student.id} branchId={student.branchId} courseType="2W" /> : null}
-            {hasFourWheeler ? <TrainingCard studentId={student.id} branchId={student.branchId} courseType="4W" /> : null}
+            {courseParts.map((courseType) => (
+              <TrainingCard key={courseType} studentId={student.id} branchId={student.branchId} courseType={courseType} />
+            ))}
           </TabsContent>
         ) : null}
 
         {activeTab === 'driving-test' ? (
           <TabsContent>
-            {hasTwoWheeler ? <DrivingTestCard studentId={student.id} branchId={student.branchId} courseType="2W" /> : null}
-            {hasFourWheeler ? <DrivingTestCard studentId={student.id} branchId={student.branchId} courseType="4W" /> : null}
+            {courseParts.map((courseType) => (
+              <DrivingTestCard key={courseType} studentId={student.id} branchId={student.branchId} courseType={courseType} />
+            ))}
           </TabsContent>
         ) : null}
 

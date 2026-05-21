@@ -1,4 +1,5 @@
 import { where } from 'firebase/firestore';
+import { COURSE_PARTS } from '@/constants/courses';
 import { authService } from '@/services/authService';
 import { calculateTrainingEntitlement, courseExtensionService } from '@/services/courseExtensionService';
 import { collections, getCollection, getDocument, subscribeCollection } from '@/services/firestoreUtils';
@@ -14,12 +15,6 @@ import type {
   TrainingCourseType,
   TrainingSession
 } from '@/types';
-
-const courseParts: Record<Student['courseType'], TrainingCourseType[]> = {
-  '2W': ['2W'],
-  '4W': ['4W'],
-  both: ['2W', '4W']
-};
 
 async function getEffectiveBranchId(filters: AttendanceFilters): Promise<string | undefined> {
   const { profile } = await authService.getCurrentUser();
@@ -124,7 +119,7 @@ export const attendanceService = {
       .sort((a, b) => a.fullName.localeCompare(b.fullName));
 
     for (const student of students) {
-      const courses = courseParts[student.courseType].filter((courseType) => !courseFilter || courseType === courseFilter);
+      const courses = COURSE_PARTS[student.courseType].filter((courseType) => !courseFilter || courseType === courseFilter);
 
       for (const courseType of courses) {
         const sessionKey = `${student.id}-${courseType}`;
@@ -201,7 +196,7 @@ export const attendanceService = {
       const rows: AttendanceRow[] = [];
 
       for (const student of students) {
-        const courses = courseParts[student.courseType].filter((courseType) => !courseFilter || courseType === courseFilter);
+        const courses = COURSE_PARTS[student.courseType].filter((courseType) => !courseFilter || courseType === courseFilter);
 
         for (const courseType of courses) {
           const entitlement = calculateTrainingEntitlement(student, extensionsByStudent.get(student.id) ?? [], courseType);

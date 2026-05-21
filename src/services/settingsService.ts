@@ -94,10 +94,12 @@ export const settingsService = {
   async createStaffProfile(payload: CreateStaffProfilePayload): Promise<void> {
     if (!payload.id.trim()) throw new Error('Auth User ID is required.');
     if (!payload.fullName.trim()) throw new Error('Full name is required.');
+    if (!payload.phone.trim()) throw new Error('Mobile number is required.');
     if (!payload.branchId) throw new Error('Branch is required.');
 
     await setDoc(doc(db, collections.users, payload.id.trim()), {
       fullName: payload.fullName.trim(),
+      phone: payload.phone.trim(),
       role: 'staff',
       branchId: payload.branchId,
       createdAt: createdAt()
@@ -106,10 +108,12 @@ export const settingsService = {
 
   async updateStaffProfile(profileId: string, payload: UpdateStaffProfilePayload): Promise<void> {
     if (!payload.fullName.trim()) throw new Error('Full name is required.');
+    if (!payload.phone.trim()) throw new Error('Mobile number is required.');
     if (!payload.branchId) throw new Error('Branch is required.');
 
     await updateDoc(doc(db, collections.users, profileId), {
       fullName: payload.fullName.trim(),
+      phone: payload.phone.trim(),
       role: 'staff',
       branchId: payload.branchId
     });

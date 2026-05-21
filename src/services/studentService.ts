@@ -16,6 +16,7 @@ import {
   type QueryConstraint
 } from 'firebase/firestore';
 import { authService } from '@/services/authService';
+import { COURSE_PARTS } from '@/constants/courses';
 import { db } from '@/services/firebase';
 import { collections, createdAt, getCollection, getDocument, subscribeCollection } from '@/services/firestoreUtils';
 import { useSyncStore } from '@/store/syncStore';
@@ -61,12 +62,6 @@ export type StudentsPageResult = {
     startItem: number;
     endItem: number;
   };
-};
-
-const courseParts: Record<CourseType, Array<'2W' | '4W'>> = {
-  '2W': ['2W'],
-  '4W': ['4W'],
-  both: ['2W', '4W']
 };
 
 const searchableStudentFields = ['fullName', 'phone', 'learningLicenceNo', 'drivingLicenceNo'] as const;
@@ -130,13 +125,13 @@ function createStudentSearchTokens(student: Pick<Student, (typeof searchableStud
 function matchesCourseFilter(student: Student, courseType?: CourseType | 'all' | null): boolean {
   if (!courseType || courseType === 'all') return true;
   if (courseType === 'both') return student.courseType === 'both';
-  return student.courseType === courseType || student.courseType === 'both';
+  return COURSE_PARTS[student.courseType].includes(courseType);
 }
 
 function getCourseConstraint(courseType?: CourseType | 'all' | null): QueryConstraint[] {
   if (!courseType || courseType === 'all') return [];
   if (courseType === 'both') return [where('courseType', '==', 'both')];
-  return [where('courseType', 'in', [courseType, 'both'])];
+  return [where('courseType', 'in', courseType === 'HV' ? ['HV'] : [courseType, 'both'])];
 }
 
 function getServerSort(sortField?: StudentSortField, sortDirection: SortDirection = 'desc'): QueryConstraint[] {
@@ -541,7 +536,7 @@ export const studentService = {
     batch.set(studentRef, studentData);
     batch.set(feeRef, feeData);
 
-    courseParts[payload.courseType].forEach((course) => {
+    COURSE_PARTS[payload.courseType].forEach((course) => {
       batch.set(doc(collection(db, collections.sessions)), {
         studentId: studentRef.id,
         courseType: course,
@@ -663,7 +658,7 @@ export const studentService = {
       createdAt: serverTimestamp()
     });
 
-    courseParts[courseType].forEach((course) => {
+    COURSE_PARTS[courseType].forEach((course) => {
       batch.set(doc(collection(db, collections.sessions)), {
         studentId,
         courseType: course,
@@ -694,7 +689,7 @@ export const studentService = {
     const batch = writeBatch(db);
     let hasWrites = false;
 
-    courseParts[courseType].forEach((course) => {
+    COURSE_PARTS[courseType].forEach((course) => {
       if (!existingSessionCourses.has(course)) {
         batch.set(doc(collection(db, collections.sessions)), {
           studentId,
