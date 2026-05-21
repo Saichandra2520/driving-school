@@ -42,7 +42,15 @@ type PendingMark =
   | { type: 'bulk'; rows: AttendanceRow[]; payload: MarkAttendancePayload }
   | null;
 
-const today = new Date().toISOString().slice(0, 10);
+function getTodayDateInputValue(): string {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+
+  return `${now.getFullYear()}-${month}-${day}`;
+}
+
+const today = getTodayDateInputValue();
 const viewOptions: Array<{ value: AttendanceView; label: string }> = [
   { value: 'all', label: 'All' },
   { value: 'pending', label: 'Pending' },
@@ -277,6 +285,11 @@ export function AttendancePage(): JSX.Element {
       return null;
     }
 
+    if (selectedDate > getTodayDateInputValue()) {
+      setErrorMessage('Attendance date cannot be in the future.');
+      return null;
+    }
+
     if (!selectedClassType) {
       setErrorMessage('Class type is required.');
       return null;
@@ -413,7 +426,7 @@ export function AttendancePage(): JSX.Element {
           <FilterBar className="md:grid-cols-[180px_160px_minmax(240px,1fr)]">
             <div className="space-y-2">
               <Label htmlFor="attendance-date">Date</Label>
-              <Input id="attendance-date" type="date" value={date} onChange={(event) => setDate(event.target.value)} />
+              <Input id="attendance-date" type="date" value={date} max={getTodayDateInputValue()} onChange={(event) => setDate(event.target.value)} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="attendance-course">Course</Label>
@@ -466,7 +479,7 @@ export function AttendancePage(): JSX.Element {
               </CardHeader>
               <CardContent className="grid gap-3 md:grid-cols-2 xl:grid-cols-[160px_220px_1fr_1fr_1fr_170px]">
                 <Field label="Date" htmlFor="bulk-date">
-                  <Input id="bulk-date" type="date" value={bulkForm.date} onChange={(event) => updateForm('bulk', { date: event.target.value })} />
+                  <Input id="bulk-date" type="date" value={bulkForm.date} max={getTodayDateInputValue()} onChange={(event) => updateForm('bulk', { date: event.target.value })} />
                 </Field>
                 <Field label="Class Type" htmlFor="bulk-class">
                   <Select id="bulk-class" value={bulkForm.classType} onChange={(event) => updateForm('bulk', { classType: event.target.value })}>
@@ -550,6 +563,7 @@ export function AttendancePage(): JSX.Element {
                             isSaving={isSaving}
                             isExpanded={Boolean(expandedRows[rowKey])}
                             isSelected={isSelected}
+                            maxDate={getTodayDateInputValue()}
                             onToggle={() => toggleRow(rowKey)}
                             onToggleSelected={() => toggleSelected(row)}
                             onUpdateForm={updateForm}
@@ -607,6 +621,7 @@ function AttendanceChecklistItem({
   isSaving,
   isExpanded,
   isSelected,
+  maxDate,
   onToggle,
   onToggleSelected,
   onUpdateForm,
@@ -621,6 +636,7 @@ function AttendanceChecklistItem({
   isSaving: boolean;
   isExpanded: boolean;
   isSelected: boolean;
+  maxDate: string;
   onToggle: () => void;
   onToggleSelected: () => void;
   onUpdateForm: (rowKey: string, patch: Partial<RowFormState>) => void;
@@ -714,6 +730,7 @@ function AttendanceChecklistItem({
                   id={`${rowKeyValue}-date`}
                   type="date"
                   value={form.date}
+                  max={maxDate}
                   onChange={(event) => onUpdateForm(rowKeyValue, { date: event.target.value })}
                   disabled={row.isCompleted || isSaving}
                 />

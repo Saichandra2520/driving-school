@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { Car } from 'lucide-react';
+import { MaryLogo } from '@/components/common/MaryLogo';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -29,7 +29,8 @@ export function LoginPage(): JSX.Element {
       const { user, profile } = await authService.signIn(email.trim(), password);
 
       if (!profile) {
-        throw new Error('Your account does not have a profile yet.');
+        await authService.signOut();
+        throw new Error('Invalid email or password.');
       }
 
       setUser(user, profile);
@@ -44,11 +45,9 @@ export function LoginPage(): JSX.Element {
     <main className="flex min-h-screen items-center justify-center bg-background px-4 py-10">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-4">
-          <div className="flex h-11 w-11 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <Car className="h-5 w-5" aria-hidden="true" />
-          </div>
+          <MaryLogo className="h-24 w-32" />
           <div className="space-y-1">
-            <CardTitle>Driving School Management</CardTitle>
+            <CardTitle>Mary Driving School</CardTitle>
             <CardDescription>Sign in to manage students, fees, and branch operations.</CardDescription>
           </div>
         </CardHeader>

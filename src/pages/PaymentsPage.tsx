@@ -1,5 +1,5 @@
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import { Download, MessageCircle, Save } from 'lucide-react';
+import { Save } from 'lucide-react';
 import { EmptyState } from '@/components/common/EmptyState';
 import { FilterBar } from '@/components/common/FilterBar';
 import { PageHeader } from '@/components/common/PageHeader';
@@ -24,9 +24,15 @@ import { useAuthStore } from '@/store/authStore';
 import { useSyncStore } from '@/store/syncStore';
 import type { DashboardFilters, Fee, RecentPayment, StudentWithFee } from '@/types';
 import { getFriendlyErrorMessage } from '@/utils/errors';
-import { formatCourseType, formatCurrency, formatDate, formatPhoneNumber } from '@/utils/formatters';
+import { INDIAN_CURRENCY_SYMBOL, formatCourseType, formatCurrency, formatDate, formatPhoneNumber } from '@/utils/formatters';
 
-const today = new Date().toISOString().slice(0, 10);
+function getTodayDateInputValue(): string {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+
+  return `${now.getFullYear()}-${month}-${day}`;
+}
 
 export function PaymentsPage(): JSX.Element {
   const profile = useAuthStore((state) => state.profile);
@@ -37,7 +43,7 @@ export function PaymentsPage(): JSX.Element {
   const [selectedStudent, setSelectedStudent] = useState<StudentWithFee | null>(null);
   const [recentPayments, setRecentPayments] = useState<RecentPayment[]>([]);
   const [amount, setAmount] = useState('');
-  const [paymentDate, setPaymentDate] = useState(today);
+  const [paymentDate, setPaymentDate] = useState(getTodayDateInputValue);
   const [notes, setNotes] = useState('');
   const [lastReceiptNo, setLastReceiptNo] = useState('');
   const [receiptStudent, setReceiptStudent] = useState<StudentWithFee | null>(null);
@@ -117,6 +123,7 @@ export function PaymentsPage(): JSX.Element {
     if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) return setErrorMessage('Amount must be greater than 0.');
     if (parsedAmount > selectedStudent.balance) return setErrorMessage('Amount cannot exceed balance.');
     if (!paymentDate) return setErrorMessage('Payment date is required.');
+    if (paymentDate > getTodayDateInputValue()) return setErrorMessage('Payment date cannot be in the future.');
 
     setIsSaving(true);
     try {
@@ -241,34 +248,26 @@ export function PaymentsPage(): JSX.Element {
 
                 <FilterBar className="md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="payment-amount">Amount *</Label>
+                    <Label htmlFor="payment-amount">Amount ({INDIAN_CURRENCY_SYMBOL}) *</Label>
                     <Input id="payment-amount" type="number" min="1" value={amount} onChange={(event) => setAmount(event.target.value)} disabled={!selectedStudent || isSaving || !isOnline} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="payment-date">Payment Date *</Label>
-                    <Input id="payment-date" type="date" value={paymentDate} onChange={(event) => setPaymentDate(event.target.value)} disabled={!selectedStudent || isSaving || !isOnline} />
+                    <Input
+                      id="payment-date"
+                      type="date"
+                      value={paymentDate}
+                      max={getTodayDateInputValue()}
+                      onChange={(event) => setPaymentDate(event.target.value)}
+                      disabled={!selectedStudent || isSaving || !isOnline}
+                    />
                   </div>
                   <div className="space-y-2 md:col-span-2">
                     <Label htmlFor="payment-notes">Notes <span className="text-muted-foreground">(optional)</span></Label>
                     <Textarea id="payment-notes" value={notes} onChange={(event) => setNotes(event.target.value)} disabled={!selectedStudent || isSaving || !isOnline} />
                   </div>
                 </FilterBar>
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="flex flex-wrap gap-2">
-                    {receiptStudent && lastReceiptNo ? (
-                      <>
-                        <DownloadReceiptButton studentId={receiptStudent.id} receiptNo={lastReceiptNo} variant="outline" onError={setErrorMessage} />
-                        <ShareReceiptPdfButton studentId={receiptStudent.id} receiptNo={lastReceiptNo} variant="outline" onError={setErrorMessage} />
-                        <WhatsAppReceiptButton studentId={receiptStudent.id} receiptNo={lastReceiptNo} variant="outline" onError={setErrorMessage} />
-                      </>
-                    ) : (
-                      <p className="text-sm text-muted-foreground">
-                        <Download className="mr-1 inline h-4 w-4" aria-hidden="true" />
-                        <MessageCircle className="mr-1 inline h-4 w-4" aria-hidden="true" />
-                        Receipt actions appear after saving.
-                      </p>
-                    )}
-                  </div>
+                <div className="flex justify-end">
                   <Button type="submit" disabled={!selectedStudent || isSaving || !isOnline}>
                     <Save className="mr-2 h-4 w-4" aria-hidden="true" />
                     {isSaving ? 'Saving...' : 'Save Payment'}

@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { feeService } from '@/services/feeService';
 import { useSyncStore } from '@/store/syncStore';
 import type { Fee, StudentWithFee } from '@/types';
-import { formatCurrency } from '@/utils/formatters';
+import { INDIAN_CURRENCY_SYMBOL, formatCurrency } from '@/utils/formatters';
 
 type AddInstallmentModalProps = {
   open: boolean;
@@ -90,7 +90,7 @@ export function AddInstallmentModal({
           <form className="space-y-4" onSubmit={handleSubmit}>
             {!isOnline ? <Alert variant="warning">Payments need internet because receipt numbers are generated online.</Alert> : null}
             <div className="space-y-2">
-              <Label htmlFor="installment-amount">Amount</Label>
+              <Label htmlFor="installment-amount">Amount ({INDIAN_CURRENCY_SYMBOL})</Label>
               <Input
                 id="installment-amount"
                 type="number"

@@ -69,7 +69,7 @@ export const backupService = {
     const users = branchId ? usersRaw.filter((user) => user.role === 'owner' || user.branchId === branchId) : usersRaw;
 
     return {
-      app: 'Driving School Management',
+      app: 'Mary Driving School',
       version: '1.0.0',
       exportedAt: new Date().toISOString(),
       scope: { branchId: branchId ?? 'all' },

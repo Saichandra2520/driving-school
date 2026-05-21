@@ -8,6 +8,7 @@ import { STUDENT_COURSE_OPTIONS } from '@/constants/courses';
 import { settingsService } from '@/services/settingsService';
 import { studentService } from '@/services/studentService';
 import { useAuthStore } from '@/store/authStore';
+import { INDIAN_CURRENCY_SYMBOL } from '@/utils/formatters';
 import type {
   Branch,
   CourseType,
@@ -226,7 +227,7 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
             />
           </Field>
 
-          <Field label="Total Fee *" htmlFor="total-fee">
+          <Field label={`Total Fee (${INDIAN_CURRENCY_SYMBOL}) *`} htmlFor="total-fee">
             <Input
               id="total-fee"
               type="number"

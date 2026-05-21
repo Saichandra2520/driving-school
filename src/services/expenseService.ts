@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, orderBy, serverTimestamp, updateDoc, where, type QueryConstraint } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, documentId, orderBy, serverTimestamp, updateDoc, where, type QueryConstraint } from 'firebase/firestore';
 import { authService } from '@/services/authService';
 import { db } from '@/services/firebase';
 import { collections, getCollection, getDocument, subscribeCollection } from '@/services/firestoreUtils';
@@ -92,6 +92,14 @@ function addToSummary(summary: ExpenseSummary, category: ExpenseCategory, amount
   summary.rentElectricityTotal = summary.roomRentTotal + summary.electricityTotal;
 }
 
+function compareExpensesByDate(a: Expense, b: Expense): number {
+  const first = normalizeExpense(a);
+  const second = normalizeExpense(b);
+  const dateComparison = second.date.localeCompare(first.date);
+  if (dateComparison !== 0) return dateComparison;
+  return String(second.createdAt ?? '').localeCompare(String(first.createdAt ?? ''));
+}
+
 export const expenseService = {
   async getExpenses(filters: ExpenseFilters = {}): Promise<Expense[]> {
     const effectiveBranchId = await getEffectiveBranchId(filters.branchId);
@@ -147,6 +155,7 @@ export const expenseService = {
           if (filters.toDate && expense.date > filters.toDate) return false;
           return true;
         })
+        .sort(compareExpensesByDate)
         .map((expense) => ({
           ...expense,
           branch: branchesById.get(expense.branchId) ?? null,
@@ -162,11 +171,10 @@ export const expenseService = {
 
       const expenseConstraints: QueryConstraint[] = [
         ...(effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : []),
-        ...(filters.category && filters.category !== 'all' ? [where('category', '==', filters.category)] : []),
-        orderBy('date', 'desc'),
-        orderBy('createdAt', 'desc')
+        ...(filters.category && filters.category !== 'all' ? [where('category', '==', filters.category)] : [])
       ];
       const branchScoped = effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : [];
+      const branchConstraints = effectiveBranchId ? [where(documentId(), '==', effectiveBranchId)] : [];
       const queryKey = `branch=${effectiveBranchId ?? 'all'}|category=${filters.category ?? 'all'}`;
       const unsubscribers = [
         subscribeCollection<Expense>(
@@ -182,14 +190,14 @@ export const expenseService = {
         ),
         subscribeCollection<Branch>(
           collections.branches,
-          [],
+          branchConstraints,
           ({ rows }) => {
             branchesLoaded = true;
-            latestBranches = effectiveBranchId ? rows.filter((branch) => branch.id === effectiveBranchId) : rows;
+            latestBranches = rows;
             emit();
           },
           onError,
-          'branches:all'
+          `branches:${effectiveBranchId ?? 'all'}`
         ),
         subscribeCollection<StaffProfile>(
           collections.users,

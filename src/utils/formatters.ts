@@ -1,12 +1,15 @@
 import type { AlertSeverity, AlertType, CourseType, ExpenseCategory, StudentStatus } from '@/types';
 import { COURSE_LABELS } from '@/constants/courses';
 
+export const INDIAN_CURRENCY_SYMBOL = '₹';
+
 export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
+  const numericAmount = Number(amount || 0);
+  const formattedAmount = new Intl.NumberFormat('en-IN', {
     maximumFractionDigits: 0
-  }).format(Number(amount || 0));
+  }).format(Math.abs(numericAmount));
+
+  return `${numericAmount < 0 ? '-' : ''}${INDIAN_CURRENCY_SYMBOL}${formattedAmount}`;
 }
 
 export function formatDate(date: string): string {

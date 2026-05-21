@@ -42,7 +42,7 @@ type StudentFilters = {
   search?: string;
 };
 
-export type StudentSortField = 'enrollmentDate' | 'courseStartDate' | 'balance' | 'daysRemaining';
+export type StudentSortField = 'createdAt' | 'enrollmentDate' | 'courseStartDate' | 'balance' | 'daysRemaining';
 export type SortDirection = 'asc' | 'desc';
 export type StudentPageCursor = QueryDocumentSnapshot<DocumentData>;
 
@@ -135,20 +135,38 @@ function getCourseConstraint(courseType?: CourseType | 'all' | null): QueryConst
 }
 
 function getServerSort(sortField?: StudentSortField, sortDirection: SortDirection = 'desc'): QueryConstraint[] {
+  if (sortField === 'createdAt') return [orderBy('createdAt', sortDirection), orderBy(documentId(), sortDirection)];
   if (sortField === 'courseStartDate') return [orderBy('courseStartDate', sortDirection), orderBy(documentId(), sortDirection)];
   if (sortField === 'enrollmentDate') return [orderBy('enrollmentDate', sortDirection), orderBy(documentId(), sortDirection)];
-  return [orderBy('enrollmentDate', 'desc'), orderBy(documentId(), 'desc')];
+  return [orderBy('createdAt', 'desc'), orderBy(documentId(), 'desc')];
 }
 
 function sortPageRows(rows: StudentWithFee[], sortField?: StudentSortField, sortDirection: SortDirection = 'desc'): StudentWithFee[] {
-  if (sortField !== 'balance' && sortField !== 'daysRemaining') return rows;
+  if (sortField !== 'balance' && sortField !== 'daysRemaining' && sortField !== 'createdAt') return rows;
 
   const direction = sortDirection === 'asc' ? 1 : -1;
   return [...rows].sort((left, right) => {
-    const leftValue = sortField === 'balance' ? left.balance : left.daysRemaining;
-    const rightValue = sortField === 'balance' ? right.balance : right.daysRemaining;
+    const leftValue = getClientSortValue(left, sortField);
+    const rightValue = getClientSortValue(right, sortField);
     return (leftValue - rightValue) * direction;
   });
+}
+
+function getClientSortValue(student: StudentWithFee, sortField: StudentSortField): number {
+  if (sortField === 'balance') return student.balance;
+  if (sortField === 'daysRemaining') return student.daysRemaining;
+  if (sortField === 'createdAt') return getTimestampValue(student.createdAt);
+  return 0;
+}
+
+function getTimestampValue(value: unknown): number {
+  if (!value) return 0;
+  if (typeof value === 'string') return Date.parse(value) || 0;
+  if (value instanceof Date) return value.getTime();
+  if (typeof value === 'object' && 'toDate' in value && typeof value.toDate === 'function') {
+    return value.toDate().getTime();
+  }
+  return 0;
 }
 
 function getMissingIndexMessage(error: unknown): string {
@@ -256,6 +274,10 @@ async function existingCourseDocs<T extends Session | DrivingTest>(
 
 export const studentService = {
   async getStudentsPage(filters: StudentsPageRequest = {}): Promise<StudentsPageResult> {
+    if (!filters.sortField || filters.sortField === 'createdAt') {
+      return studentService.getStudentsPageFallback(filters);
+    }
+
     try {
       const { profile } = await authService.getCurrentUser();
       const effectiveBranchId = profile?.role === 'staff' ? profile.branchId : filters.branchId;
@@ -313,11 +335,16 @@ export const studentService = {
     const pageSize = filters.pageSize ?? 50;
     const pageNumber = filters.pageNumber ?? 1;
     const search = normalizeSearchToken(filters.search ?? '');
+    const clientCreatedAtSort = !filters.sortField || filters.sortField === 'createdAt';
     const constraints: QueryConstraint[] = [
       ...(effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : []),
-      orderBy('enrollmentDate', 'desc'),
-      ...(filters.cursor ? [startAfter(filters.cursor)] : []),
-      firestoreLimit(pageSize * 5 + 1)
+      ...(clientCreatedAtSort
+        ? []
+        : [
+            orderBy('enrollmentDate', 'desc'),
+            ...(filters.cursor ? [startAfter(filters.cursor)] : []),
+            firestoreLimit(pageSize * 5 + 1)
+          ])
     ];
 
     const [snapshot, branches] = await Promise.all([
@@ -333,21 +360,30 @@ export const studentService = {
       if (search && !(Array.isArray(student.searchTokens) && student.searchTokens.includes(search))) return false;
       return true;
     });
-    const pageDocs = visibleDocs.slice(0, pageSize);
+    const pageDocs = clientCreatedAtSort ? visibleDocs : visibleDocs.slice(0, pageSize);
     const students = pageDocs.map((item) => ({ id: item.id, ...item.data() }) as Student);
     const feesByStudent = await getStudentFees(students.map((student) => student.id));
     const rows = await Promise.all(
       students.map((student) => attachFeeAndBranchWithFee(student, branches, feesByStudent.get(student.id) ?? null))
     );
-    const sortedRows = sortPageRows(rows, filters.sortField, filters.sortDirection);
-    const startItem = rows.length === 0 ? 0 : (pageNumber - 1) * pageSize + 1;
-    const endItem = rows.length === 0 ? 0 : startItem + rows.length - 1;
+    const sortedRows = sortPageRows(rows, filters.sortField ?? 'createdAt', filters.sortDirection);
+    const pagedRows = clientCreatedAtSort
+      ? sortedRows.slice((pageNumber - 1) * pageSize, pageNumber * pageSize)
+      : sortedRows;
+    const startItem = pagedRows.length === 0 ? 0 : (pageNumber - 1) * pageSize + 1;
+    const endItem = pagedRows.length === 0 ? 0 : startItem + pagedRows.length - 1;
 
     return {
-      rows: sortedRows,
+      rows: pagedRows,
       pageInfo: {
-        hasNextPage: snapshot.docs.length > pageSize * 5 || visibleDocs.length > pageSize,
-        nextCursor: snapshot.docs.length > 0 ? snapshot.docs[Math.min(snapshot.docs.length, pageSize * 5) - 1] ?? null : null,
+        hasNextPage: clientCreatedAtSort
+          ? sortedRows.length > pageNumber * pageSize
+          : snapshot.docs.length > pageSize * 5 || visibleDocs.length > pageSize,
+        nextCursor: clientCreatedAtSort
+          ? null
+          : snapshot.docs.length > 0
+            ? snapshot.docs[Math.min(snapshot.docs.length, pageSize * 5) - 1] ?? null
+            : null,
         startItem,
         endItem
       }

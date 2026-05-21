@@ -22,11 +22,12 @@ import { formatCourseType, formatCurrency, formatDate } from '@/utils/formatters
 
 type StudentDetailsProps = {
   student: StudentWithFee;
+  allowFeeActions?: boolean;
   onFeeChanged?: () => void;
   onStudentChanged?: () => void;
 };
 
-export function StudentDetails({ student, onFeeChanged, onStudentChanged }: StudentDetailsProps): JSX.Element {
+export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, onStudentChanged }: StudentDetailsProps): JSX.Element {
   const [fee, setFee] = useState<Fee | null>(student.fee);
   const [addOpen, setAddOpen] = useState(false);
   const [editTarget, setEditTarget] = useState<Installment | null>(null);
@@ -169,6 +170,7 @@ export function StudentDetails({ student, onFeeChanged, onStudentChanged }: Stud
             <FeeTab
               feeSummary={feeSummary}
               student={student}
+              allowFeeActions={allowFeeActions}
               onAdd={() => setAddOpen(true)}
               onEdit={setEditTarget}
               onDelete={setDeleteTarget}
@@ -207,28 +209,32 @@ export function StudentDetails({ student, onFeeChanged, onStudentChanged }: Stud
         ) : null}
       </Tabs>
 
-      <AddInstallmentModal
-        open={addOpen}
-        student={student}
-        balance={feeSummary.balance}
-        onClose={() => setAddOpen(false)}
-        onSaved={handleFeeSaved}
-      />
-      <EditInstallmentModal
-        open={editTarget !== null}
-        student={student}
-        installment={editTarget}
-        onClose={() => setEditTarget(null)}
-        onSaved={handleFeeSaved}
-      />
-      <ConfirmDialog
-        open={deleteTarget !== null}
-        title="Delete Installment"
-        description="Are you sure you want to delete this installment? This action cannot be undone."
-        confirmLabel={isDeleting ? 'Deleting...' : 'Delete'}
-        onCancel={() => setDeleteTarget(null)}
-        onConfirm={() => void handleDelete()}
-      />
+      {allowFeeActions ? (
+        <>
+          <AddInstallmentModal
+            open={addOpen}
+            student={student}
+            balance={feeSummary.balance}
+            onClose={() => setAddOpen(false)}
+            onSaved={handleFeeSaved}
+          />
+          <EditInstallmentModal
+            open={editTarget !== null}
+            student={student}
+            installment={editTarget}
+            onClose={() => setEditTarget(null)}
+            onSaved={handleFeeSaved}
+          />
+          <ConfirmDialog
+            open={deleteTarget !== null}
+            title="Delete Installment"
+            description="Are you sure you want to delete this installment? This action cannot be undone."
+            confirmLabel={isDeleting ? 'Deleting...' : 'Delete'}
+            onCancel={() => setDeleteTarget(null)}
+            onConfirm={() => void handleDelete()}
+          />
+        </>
+      ) : null}
       <AddExtensionModal
         open={extensionModalOpen}
         student={student}
@@ -312,6 +318,7 @@ function ExtensionsTab({
 function FeeTab({
   feeSummary,
   student,
+  allowFeeActions,
   onAdd,
   onEdit,
   onDelete,
@@ -325,6 +332,7 @@ function FeeTab({
     installments: Installment[];
   };
   student: StudentWithFee;
+  allowFeeActions: boolean;
   onAdd: () => void;
   onEdit: (installment: Installment) => void;
   onDelete: (installment: Installment) => void;
@@ -334,9 +342,11 @@ function FeeTab({
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
         <CardTitle className="text-lg">Fee Summary</CardTitle>
-        <Button type="button" onClick={onAdd} disabled={feeSummary.balance <= 0}>
-          Add Installment
-        </Button>
+        {allowFeeActions ? (
+          <Button type="button" onClick={onAdd} disabled={feeSummary.balance <= 0}>
+            Add Installment
+          </Button>
+        ) : null}
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid gap-4 sm:grid-cols-4">
@@ -357,7 +367,7 @@ function FeeTab({
                   <TableHead>Date</TableHead>
                   <TableHead className="text-right">Amount</TableHead>
                   <TableHead>Notes</TableHead>
-                  <TableHead className="w-[360px]">Actions</TableHead>
+                  <TableHead className={allowFeeActions ? 'w-[360px]' : 'w-[220px]'}>Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -371,12 +381,16 @@ function FeeTab({
                       <div className="flex flex-wrap gap-2">
                         <DownloadReceiptButton studentId={student.id} receiptNo={installment.receiptNo} variant="outline" onError={onError} />
                         <WhatsAppReceiptButton studentId={student.id} receiptNo={installment.receiptNo} variant="outline" onError={onError} />
-                        <Button type="button" size="sm" variant="ghost" onClick={() => onEdit(installment)}>
-                          Edit
-                        </Button>
-                        <Button type="button" size="sm" variant="ghost" onClick={() => onDelete(installment)}>
-                          Delete
-                        </Button>
+                        {allowFeeActions ? (
+                          <>
+                            <Button type="button" size="sm" variant="ghost" onClick={() => onEdit(installment)}>
+                              Edit
+                            </Button>
+                            <Button type="button" size="sm" variant="ghost" onClick={() => onDelete(installment)}>
+                              Delete
+                            </Button>
+                          </>
+                        ) : null}
                       </div>
                     </TableCell>
                   </TableRow>

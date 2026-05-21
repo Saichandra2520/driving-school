@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { AddInstallmentModal } from '@/components/fees/AddInstallmentModal';
 import { StudentDetails } from '@/components/students/StudentDetails';
 import { StudentForm } from '@/components/students/StudentForm';
 import { STUDENT_COURSE_OPTIONS } from '@/constants/courses';
@@ -37,7 +36,6 @@ type ModalState =
   | { type: 'add' }
   | { type: 'edit'; student: StudentWithFee }
   | { type: 'view'; student: StudentWithFee }
-  | { type: 'payment'; student: StudentWithFee }
   | null;
 
 export function StudentsPage(): JSX.Element {
@@ -48,7 +46,7 @@ export function StudentsPage(): JSX.Element {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [courseFilter, setCourseFilter] = useState<CourseFilter>('all');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
-  const [sortOption, setSortOption] = useState<SortOption>({ field: 'enrollmentDate', direction: 'desc' });
+  const [sortOption, setSortOption] = useState<SortOption>({ field: 'createdAt', direction: 'desc' });
   const [pageNumber, setPageNumber] = useState(1);
   const [pageCursors, setPageCursors] = useState<Array<StudentPageCursor | null>>([null]);
   const [cursorKey, setCursorKey] = useState('');
@@ -225,6 +223,8 @@ export function StudentsPage(): JSX.Element {
               <option value="dropped">Dropped</option>
             </Select>
             <Select value={`${sortOption.field}:${sortOption.direction}`} onChange={(event) => setSortOption(parseSortOption(event.target.value))}>
+              <option value="createdAt:desc">Recently Added</option>
+              <option value="createdAt:asc">Oldest Added</option>
               <option value="enrollmentDate:desc">Enrollment Newest</option>
               <option value="enrollmentDate:asc">Enrollment Oldest</option>
               <option value="courseStartDate:desc">Course Start Newest</option>
@@ -242,7 +242,7 @@ export function StudentsPage(): JSX.Element {
                 setDebouncedSearchTerm('');
                 setCourseFilter('all');
                 setStatusFilter('all');
-                setSortOption({ field: 'enrollmentDate', direction: 'desc' });
+                setSortOption({ field: 'createdAt', direction: 'desc' });
               }}
             >
               Clear
@@ -353,14 +353,6 @@ export function StudentsPage(): JSX.Element {
                               <Button type="button" size="sm" variant="ghost" onClick={() => setModalState({ type: 'edit', student })}>
                                 Edit
                               </Button>
-                              <Button
-                                type="button"
-                                size="sm"
-                                variant="secondary"
-                                onClick={() => setModalState({ type: 'payment', student })}
-                              >
-                                Payment
-                              </Button>
                             </div>
                           </TableCell>
                           <TableCell className="text-right">
@@ -438,23 +430,13 @@ export function StudentsPage(): JSX.Element {
             </DialogHeader>
             <StudentDetails
               student={modalState.student}
+              allowFeeActions={false}
               onFeeChanged={() => void handleFeeChanged()}
               onStudentChanged={() => void handleFeeChanged()}
             />
           </DialogContent>
         ) : null}
       </Dialog>
-
-      <AddInstallmentModal
-        open={modalState?.type === 'payment'}
-        student={modalState?.type === 'payment' ? modalState.student : null}
-        balance={modalState?.type === 'payment' ? modalState.student.balance : 0}
-        onClose={closeModal}
-        onSaved={(_, message) => {
-          closeModal();
-          void handleFeeChanged(message);
-        }}
-      />
     </section>
   );
 }

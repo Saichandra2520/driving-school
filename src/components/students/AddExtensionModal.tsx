@@ -10,6 +10,7 @@ import { STUDENT_COURSE_OPTIONS } from '@/constants/courses';
 import { courseExtensionService } from '@/services/courseExtensionService';
 import { useSyncStore } from '@/store/syncStore';
 import type { CourseType } from '@/types';
+import { INDIAN_CURRENCY_SYMBOL } from '@/utils/formatters';
 
 type ExtensionStudent = {
   id: string;
@@ -146,7 +147,7 @@ export function AddExtensionModal({
                 <Input id="extension-days" type="number" min="0" value={extraDays} onChange={(event) => setExtraDays(event.target.value)} />
               </div>
               <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="extension-amount">Amount Paid</Label>
+                <Label htmlFor="extension-amount">Amount Paid ({INDIAN_CURRENCY_SYMBOL})</Label>
                 <Input id="extension-amount" type="number" min="0" value={amount} onChange={(event) => setAmount(event.target.value)} />
               </div>
               <div className="space-y-2 sm:col-span-2">

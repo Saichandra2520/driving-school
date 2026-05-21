@@ -60,6 +60,21 @@ const styles = StyleSheet.create({
   column: {
     flex: 1
   },
+  noteBox: {
+    marginTop: 18,
+    padding: 10,
+    border: '1 solid #999',
+    backgroundColor: '#f7f7f7'
+  },
+  noteTitle: {
+    fontSize: 11,
+    fontWeight: 700,
+    marginBottom: 6
+  },
+  noteText: {
+    marginBottom: 4,
+    lineHeight: 1.4
+  },
   footer: {
     marginTop: 24,
     paddingTop: 12,
@@ -103,7 +118,10 @@ export function PaymentReceiptPdf({ data }: PaymentReceiptPdfProps): JSX.Element
               <Field label="Phone" value={data.student.phone} />
               <Field label="Course Type" value={formatCourseType(data.student.courseType)} />
               <Field label="Enrollment Date" value={formatDate(data.student.enrollmentDate)} />
-              <Field label="Course Start Date" value={formatDate(data.student.courseStartDate || data.student.enrollmentDate)} />
+              <Field
+                label="Course Start Date"
+                value={formatDate(data.student.courseStartDate || data.student.enrollmentDate)}
+              />
               <Field label="Learning Licence No" value={data.student.learningLicenceNo || '-'} />
               <Field label="Driving Licence No" value={data.student.drivingLicenceNo || '-'} />
             </View>
@@ -123,6 +141,16 @@ export function PaymentReceiptPdf({ data }: PaymentReceiptPdfProps): JSX.Element
               <Field label="Balance" value={formatCurrency(data.fee.balance)} />
             </View>
           </View>
+        </View>
+
+        <View style={styles.noteBox}>
+          <Text style={styles.noteTitle}>Important Terms</Text>
+          <Text style={styles.noteText}>
+            1. The 30-day driving course must be completed within 60 days from the course start date.
+          </Text>
+          <Text style={styles.noteText}>
+            2. The amount paid is non-refundable under any circumstances.
+          </Text>
         </View>
 
         <View style={styles.footer}>

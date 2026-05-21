@@ -1,6 +1,6 @@
 import { deleteApp, initializeApp } from 'firebase/app';
 import { createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail } from 'firebase/auth';
-import { doc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { deleteDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { collections, createdAt } from '@/services/firestoreUtils';
 import { db, firebaseConfig } from '@/services/firebase';
 import { settingsService } from '@/services/settingsService';
@@ -20,6 +20,7 @@ export const staffAccountService = {
       const profile = {
         fullName: payload.fullName.trim(),
         phone: payload.phone.trim(),
+        email: payload.email.trim(),
         role: 'staff' as const,
         branchId: payload.branchId,
         createdAt: createdAt()

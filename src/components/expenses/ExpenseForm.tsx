@@ -18,6 +18,7 @@ import type {
   Student,
   UpdateExpensePayload
 } from '@/types';
+import { INDIAN_CURRENCY_SYMBOL } from '@/utils/formatters';
 
 type ExpenseFormProps = {
   expense?: Expense | null;
@@ -237,7 +238,7 @@ export function ExpenseForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="expense-amount">Amount</Label>
+          <Label htmlFor="expense-amount">Amount ({INDIAN_CURRENCY_SYMBOL})</Label>
           <Input
             id="expense-amount"
             type="number"

@@ -1,6 +1,6 @@
-# Driving School Management
+# Mary Driving School
 
-Desktop application for managing driving school admissions, students, fees, attendance, expenses, reports, staff, branches, and payment receipts.
+Desktop application for managing Mary Driving School admissions, students, fees, attendance, expenses, reports, staff, branches, and payment receipts.
 
 The app is built with Electron, React, TypeScript, Tailwind CSS, and Firebase.
 
@@ -19,7 +19,7 @@ The app is built with Electron, React, TypeScript, Tailwind CSS, and Firebase.
 
 ```bash
 git clone <repository-url>
-cd "Driving School Management"
+cd "Mary Driving School"
 ```
 
 2. Install dependencies:

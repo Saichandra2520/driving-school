@@ -1,5 +1,21 @@
+import { createRequire } from 'node:module';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { app, BrowserWindow, ipcMain, shell } from 'electron';
+import type { App, BrowserWindow as BrowserWindowType, IpcMain, Shell } from 'electron';
+
+const require = createRequire(import.meta.url);
+const { app, BrowserWindow, ipcMain, shell } = require('electron') as {
+  app: App;
+  BrowserWindow: typeof BrowserWindowType;
+  ipcMain: IpcMain;
+  shell: Shell;
+};
+
+app.disableHardwareAcceleration();
+
+if (process.env.NODE_ENV_ELECTRON_VITE === 'development') {
+  app.setPath('userData', join(tmpdir(), 'driving-school-management-dev'));
+}
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -10,7 +26,7 @@ function createWindow(): void {
     show: false,
     autoHideMenuBar: true,
     webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
+      preload: join(__dirname, '../preload/index.mjs'),
       sandbox: false,
       contextIsolation: true,
       nodeIntegration: false

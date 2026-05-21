@@ -1,6 +1,6 @@
 # Developer Guide
 
-This guide is for a new developer setting up the Driving School Management app on a laptop and working on the codebase.
+This guide is for a new developer setting up the Mary Driving School app on a laptop and working on the codebase.
 
 ## Project Stack
 

@@ -33,6 +33,7 @@ export interface StaffProfile {
   id: string;
   fullName: string | null;
   phone?: string | null;
+  email?: string | null;
   role: 'staff';
   branchId: string;
   drivingLicenceNo?: string | null;

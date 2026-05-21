@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { feeService } from '@/services/feeService';
 import { useSyncStore } from '@/store/syncStore';
 import type { Fee, Installment, StudentWithFee } from '@/types';
+import { INDIAN_CURRENCY_SYMBOL } from '@/utils/formatters';
 
 type EditInstallmentModalProps = {
   open: boolean;
@@ -83,7 +84,7 @@ export function EditInstallmentModal({
           <form className="space-y-4" onSubmit={handleSubmit}>
             {!isOnline ? <Alert variant="warning">Payment receipt records can only be changed while online.</Alert> : null}
             <div className="space-y-2">
-              <Label htmlFor="edit-installment-amount">Amount</Label>
+              <Label htmlFor="edit-installment-amount">Amount ({INDIAN_CURRENCY_SYMBOL})</Label>
               <Input
                 id="edit-installment-amount"
                 type="number"

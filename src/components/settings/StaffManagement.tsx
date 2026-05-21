@@ -14,7 +14,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { settingsService } from '@/services/settingsService';
 import { staffAccountService } from '@/services/staffAccountService';
 import type { Branch, StaffAccount } from '@/types';
-import { formatDateTime } from '@/components/settings/settingsUtils';
 import { getFriendlyErrorMessage } from '@/utils/errors';
 import { formatPhoneNumber } from '@/utils/formatters';
 
@@ -70,10 +69,10 @@ export function StaffManagement(): JSX.Element {
     try {
       await staffAccountService.deleteStaffProfile(deleteTarget.id);
       setDeleteTarget(null);
-      setMessage('Staff profile deleted successfully. Firebase Auth login was not deleted.');
+      setMessage('Staff account deleted successfully.');
       await loadData();
     } catch (error) {
-      setErrorMessage(getFriendlyErrorMessage(error, 'Could not delete staff profile.'));
+      setErrorMessage(getFriendlyErrorMessage(error, 'Could not delete staff account.'));
       setDeleteTarget(null);
     }
   };
@@ -107,7 +106,7 @@ export function StaffManagement(): JSX.Element {
                   <TableHead>Mobile</TableHead>
                   <TableHead>Role</TableHead>
                   <TableHead>Branch</TableHead>
-                  <TableHead>Created</TableHead>
+                  <TableHead>Email</TableHead>
                   <TableHead className="w-[240px]">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -120,7 +119,7 @@ export function StaffManagement(): JSX.Element {
                       <Badge variant="secondary">staff</Badge>
                     </TableCell>
                     <TableCell>{staff.branch?.name ?? '-'}</TableCell>
-                    <TableCell>{formatDateTime(staff.createdAt)}</TableCell>
+                    <TableCell>{staff.email ?? '-'}</TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
                         <Button type="button" size="sm" variant="ghost" onClick={() => setModalState({ mode: 'edit', staff })}>
@@ -191,7 +190,7 @@ export function StaffManagement(): JSX.Element {
         <ConfirmDialog
           open={deleteTarget !== null}
           title="Delete Staff Profile"
-          description="This removes only the profile document. It does not delete the Firebase Auth login."
+          description="The staff member will no longer be able to log in. This action cannot be undone."
           confirmLabel="Delete profile"
           onCancel={() => setDeleteTarget(null)}
           onConfirm={() => void handleDelete()}
