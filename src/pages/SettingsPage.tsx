@@ -8,13 +8,9 @@ import { DataBackupExport } from '@/components/settings/DataBackupExport';
 import { StaffManagement } from '@/components/settings/StaffManagement';
 import { studentService, type StudentPageCursor } from '@/services/studentService';
 import { useAuthStore } from '@/store/authStore';
-import { seedDummyData } from '@/utils/seedData';
 
 export function SettingsPage(): JSX.Element {
   const profile = useAuthStore((state) => state.profile);
-  const [isSeeding, setIsSeeding] = useState(false);
-  const [seedMessage, setSeedMessage] = useState('');
-  const [seedErrorMessage, setSeedErrorMessage] = useState('');
   const [isBackfillingSearch, setIsBackfillingSearch] = useState(false);
   const [searchBackfillCursor, setSearchBackfillCursor] = useState<StudentPageCursor | null>(null);
   const [searchBackfillComplete, setSearchBackfillComplete] = useState(false);
@@ -24,21 +20,6 @@ export function SettingsPage(): JSX.Element {
   if (profile?.role !== 'owner') {
     return <Alert variant="destructive">Access denied. Owner only.</Alert>;
   }
-
-  const handleSeedData = async (): Promise<void> => {
-    setIsSeeding(true);
-    setSeedMessage('');
-    setSeedErrorMessage('');
-
-    try {
-      await seedDummyData();
-      setSeedMessage('Dummy data seeded successfully. Refresh Firebase Console to verify the new collections.');
-    } catch (error) {
-      setSeedErrorMessage(error instanceof Error ? error.message : 'Unable to seed dummy data.');
-    } finally {
-      setIsSeeding(false);
-    }
-  };
 
   const handleBackfillSearchTokens = async (): Promise<void> => {
     setIsBackfillingSearch(true);
@@ -64,23 +45,6 @@ export function SettingsPage(): JSX.Element {
   return (
     <section className="space-y-5">
       <PageHeader title="Settings" description="Manage branches, staff access, class setup, and backups." />
-      {import.meta.env.DEV ? (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Development Data</CardTitle>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Seed branches, users, students, fees, classes, sessions, tests, expenses, and counters.
-            </p>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {seedMessage ? <Alert variant="success">{seedMessage}</Alert> : null}
-            {seedErrorMessage ? <Alert variant="destructive">{seedErrorMessage}</Alert> : null}
-            <Button type="button" onClick={() => void handleSeedData()} disabled={isSeeding}>
-              {isSeeding ? 'Seeding data...' : 'Seed Dummy Data'}
-            </Button>
-          </CardContent>
-        </Card>
-      ) : null}
       <BranchManagement />
       <StaffManagement />
       <Card>
