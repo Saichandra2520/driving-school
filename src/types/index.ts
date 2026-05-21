@@ -48,6 +48,8 @@ export interface Student {
   courseStartDate?: string | null;
   courseType: CourseType;
   learningLicenceNo?: string;
+  llIssueDate?: string | null;
+  llExpiryDate?: string | null;
   drivingLicenceNo?: string;
   dlIssueDate?: string | null;
   dlExpiryDate?: string | null;
@@ -127,6 +129,8 @@ export interface AttendanceFilters {
   userBranchId?: string;
   courseType?: 'all' | '2W' | '4W';
   search?: string;
+  selectedDate?: string;
+  view?: 'all' | 'pending' | 'marked' | 'completed' | 'extension_needed';
 }
 
 export interface AttendanceRow {
@@ -143,6 +147,9 @@ export interface AttendanceRow {
   nextSessionNo: number | null;
   lastClassType?: string;
   lastSessionDate?: string;
+  isMarkedOnSelectedDate: boolean;
+  selectedDateSessionCount: number;
+  selectedDateClassTypes: string[];
   isCompleted: boolean;
 }
 
@@ -240,6 +247,8 @@ export type CreateStudentPayload = {
   courseStartDate?: string | null;
   courseType: CourseType;
   learningLicenceNo?: string;
+  llIssueDate?: string | null;
+  llExpiryDate?: string | null;
   drivingLicenceNo?: string;
   dlIssueDate?: string | null;
   dlExpiryDate?: string | null;
@@ -254,6 +263,8 @@ export type UpdateStudentPayload = {
   courseStartDate?: string | null;
   courseType?: CourseType;
   learningLicenceNo?: string;
+  llIssueDate?: string | null;
+  llExpiryDate?: string | null;
   drivingLicenceNo?: string;
   dlIssueDate?: string | null;
   dlExpiryDate?: string | null;
@@ -545,6 +556,8 @@ export interface StudentReportRow {
   completionDate: string;
   status: StudentStatus;
   learningLicenceNo?: string;
+  llIssueDate?: string | null;
+  llExpiryDate?: string | null;
   drivingLicenceNo?: string;
 }
 
@@ -567,9 +580,11 @@ export interface ReceiptData {
     id: string;
     fullName: string;
     phone: string;
-    courseType: CourseType;
-    learningLicenceNo?: string;
-    drivingLicenceNo?: string;
+      courseType: CourseType;
+      learningLicenceNo?: string;
+      llIssueDate?: string | null;
+      llExpiryDate?: string | null;
+      drivingLicenceNo?: string;
     enrollmentDate: string;
     courseStartDate?: string | null;
   };

@@ -4,6 +4,7 @@ import {
   doc,
   getDocs,
   query,
+  runTransaction,
   serverTimestamp,
   updateDoc,
   where
@@ -217,35 +218,40 @@ export const sessionService = {
 
     const session = await getDocument<TrainingSession>(collections.sessions, sessionId);
     if (!session) throw new Error('Unable to load training card.');
+    await assertCanAccessSession(normalizeSession(session.id, session));
 
-    const normalized = normalizeSession(session.id, session);
-    await assertCanAccessSession(normalized);
+    return runTransaction(db, async (transaction) => {
+      const sessionRef = doc(db, collections.sessions, sessionId);
+      const snapshot = await transaction.get(sessionRef);
+      if (!snapshot.exists()) throw new Error('Unable to load training card.');
 
-    const nextSlot = getNextEmptySlot(normalized.slots);
-    if (!nextSlot) throw new Error('All allowed sessions are already completed.');
+      const normalized = normalizeSession(snapshot.id, snapshot.data() as Omit<TrainingSession, 'id'>);
+      const nextSlot = getNextEmptySlot(normalized.slots);
+      if (!nextSlot) throw new Error('All allowed sessions are already completed.');
 
-    const slots = normalized.slots.map((slot) =>
-      slot.slotNo === nextSlot.slotNo
-        ? {
-            ...slot,
-            date: payload.date,
-            classType: payload.classType.trim(),
-            vehicle: payload.vehicle?.trim() ?? '',
-            instructor: payload.instructor?.trim() ?? '',
-            notes: payload.notes?.trim() ?? ''
-          }
-        : slot
-    );
+      const slots = normalized.slots.map((slot) =>
+        slot.slotNo === nextSlot.slotNo
+          ? {
+              ...slot,
+              date: payload.date,
+              classType: payload.classType.trim(),
+              vehicle: payload.vehicle?.trim() ?? '',
+              instructor: payload.instructor?.trim() ?? '',
+              notes: payload.notes?.trim() ?? ''
+            }
+          : slot
+      );
 
-    await updateDoc(doc(db, collections.sessions, sessionId), {
-      slots,
-      updatedAt: serverTimestamp()
+      transaction.update(sessionRef, {
+        slots,
+        updatedAt: serverTimestamp()
+      });
+
+      return {
+        ...normalized,
+        slots
+      };
     });
-
-    return {
-      ...normalized,
-      slots
-    };
   },
 
   async getClassTypes(branchId: string, courseType: TrainingCourseType): Promise<string[]> {

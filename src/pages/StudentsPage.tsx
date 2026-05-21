@@ -379,6 +379,8 @@ export function StudentsPage(): JSX.Element {
                                 <Detail label="Paid" value={formatCurrency(student.paidAmount)} />
                                 <Detail label="Balance" value={formatCurrency(student.balance)} />
                                 <Detail label="Learning Licence" value={student.learningLicenceNo || '-'} />
+                                <Detail label="LL Issue Date" value={student.llIssueDate ? formatDate(student.llIssueDate) : '-'} />
+                                <Detail label="LL Expiry Date" value={student.llExpiryDate ? formatDate(student.llExpiryDate) : '-'} />
                                 <Detail label="Driving Licence" value={student.drivingLicenceNo || '-'} />
                                 <Detail label="DL Issue Date" value={student.dlIssueDate ? formatDate(student.dlIssueDate) : '-'} />
                                 <Detail label="DL Expiry Date" value={student.dlExpiryDate ? formatDate(student.dlExpiryDate) : '-'} />
@@ -400,7 +402,7 @@ export function StudentsPage(): JSX.Element {
           <DialogContent className="max-w-4xl" onClose={closeModal}>
             <DialogHeader>
               <DialogTitle>Add Student</DialogTitle>
-              <DialogDescription>Enter admission, licence, and fee details.</DialogDescription>
+              <DialogDescription>Enter admission and fee details.</DialogDescription>
             </DialogHeader>
             <StudentForm
               defaultBranchId={activeBranchId}
@@ -413,8 +415,8 @@ export function StudentsPage(): JSX.Element {
         {modalState?.type === 'edit' ? (
           <DialogContent className="max-w-4xl" onClose={closeModal}>
             <DialogHeader>
-              <DialogTitle>Edit Student</DialogTitle>
-              <DialogDescription>Update admission, licence, or fee details.</DialogDescription>
+              <DialogTitle>Edit Licence Details</DialogTitle>
+              <DialogDescription>Update learning licence and driving licence details.</DialogDescription>
             </DialogHeader>
             <StudentForm
               defaultBranchId={modalState.student.branchId}

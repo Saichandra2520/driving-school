@@ -195,6 +195,8 @@ export function StudentDetails({ student, onFeeChanged, onStudentChanged }: Stud
           <TabsContent>
             <Section title="Licence Details">
               <Info label="Learning Licence No" value={student.learningLicenceNo || '-'} />
+              <Info label="LL Issue Date" value={student.llIssueDate ? formatDate(student.llIssueDate) : '-'} />
+              <Info label="LL Expiry Date" value={student.llExpiryDate ? formatDate(student.llExpiryDate) : '-'} />
               <Info label="Driving Licence No" value={student.drivingLicenceNo || '-'} />
               <Info label="DL Issue Date" value={student.dlIssueDate ? formatDate(student.dlIssueDate) : '-'} />
               <Info label="DL Expiry Date" value={student.dlExpiryDate ? formatDate(student.dlExpiryDate) : '-'} />

@@ -231,6 +231,8 @@ export const reportService = {
           completionDate: calculateStudentExpiryDate(courseStartDate, student.durationDays ?? 30),
           status: student.status,
           learningLicenceNo: student.learningLicenceNo,
+          llIssueDate: student.llIssueDate,
+          llExpiryDate: student.llExpiryDate,
           drivingLicenceNo: student.drivingLicenceNo
         };
       });

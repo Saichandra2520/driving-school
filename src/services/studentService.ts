@@ -163,6 +163,11 @@ function getMissingIndexMessage(error: unknown): string {
     : 'Unable to load students. Please check your connection and try again.';
 }
 
+function isMissingIndexError(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : '';
+  return message.toLowerCase().includes('index');
+}
+
 async function getStudentFee(studentId: string): Promise<Fee | null> {
   const fees = await getCollection<Fee>(collections.fees, [where('studentId', '==', studentId)]);
   const fee = fees[0];
@@ -299,8 +304,59 @@ export const studentService = {
         }
       };
     } catch (error) {
+      if (isMissingIndexError(error)) {
+        return studentService.getStudentsPageFallback(filters);
+      }
+
       throw new Error(getMissingIndexMessage(error));
     }
+  },
+
+  async getStudentsPageFallback(filters: StudentsPageRequest = {}): Promise<StudentsPageResult> {
+    const { profile } = await authService.getCurrentUser();
+    const effectiveBranchId = profile?.role === 'staff' ? profile.branchId : filters.branchId;
+    const pageSize = filters.pageSize ?? 50;
+    const pageNumber = filters.pageNumber ?? 1;
+    const search = normalizeSearchToken(filters.search ?? '');
+    const constraints: QueryConstraint[] = [
+      ...(effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : []),
+      orderBy('enrollmentDate', 'desc'),
+      ...(filters.cursor ? [startAfter(filters.cursor)] : []),
+      firestoreLimit(pageSize * 5 + 1)
+    ];
+
+    const [snapshot, branches] = await Promise.all([
+      getDocs(query(collection(db, collections.students), ...constraints)),
+      effectiveBranchId
+        ? getDocument<Branch>(collections.branches, effectiveBranchId).then((branch) => (branch ? [branch] : []))
+        : getCollection<Branch>(collections.branches)
+    ]);
+    const visibleDocs = snapshot.docs.filter((item) => {
+      const student = { id: item.id, ...item.data() } as Student;
+      if (!matchesCourseFilter(student, filters.courseType)) return false;
+      if (filters.status && filters.status !== 'all' && deriveStudentStatus(student) !== filters.status) return false;
+      if (search && !(Array.isArray(student.searchTokens) && student.searchTokens.includes(search))) return false;
+      return true;
+    });
+    const pageDocs = visibleDocs.slice(0, pageSize);
+    const students = pageDocs.map((item) => ({ id: item.id, ...item.data() }) as Student);
+    const feesByStudent = await getStudentFees(students.map((student) => student.id));
+    const rows = await Promise.all(
+      students.map((student) => attachFeeAndBranchWithFee(student, branches, feesByStudent.get(student.id) ?? null))
+    );
+    const sortedRows = sortPageRows(rows, filters.sortField, filters.sortDirection);
+    const startItem = rows.length === 0 ? 0 : (pageNumber - 1) * pageSize + 1;
+    const endItem = rows.length === 0 ? 0 : startItem + rows.length - 1;
+
+    return {
+      rows: sortedRows,
+      pageInfo: {
+        hasNextPage: snapshot.docs.length > pageSize * 5 || visibleDocs.length > pageSize,
+        nextCursor: snapshot.docs.length > 0 ? snapshot.docs[Math.min(snapshot.docs.length, pageSize * 5) - 1] ?? null : null,
+        startItem,
+        endItem
+      }
+    };
   },
 
   async getStudents(filters: StudentFilters = {}): Promise<StudentWithFee[]> {
@@ -454,6 +510,8 @@ export const studentService = {
       enrollmentDate: payload.enrollmentDate,
       courseStartDate: payload.courseStartDate || null,
       learningLicenceNo: payload.learningLicenceNo?.trim() ?? '',
+      llIssueDate: payload.llIssueDate || null,
+      llExpiryDate: payload.llExpiryDate || null,
       drivingLicenceNo: payload.drivingLicenceNo?.trim() ?? '',
       dlIssueDate: payload.dlIssueDate || null,
       dlExpiryDate: payload.dlExpiryDate || null,
@@ -538,6 +596,8 @@ export const studentService = {
     if (payload.courseStartDate !== undefined) updatePayload.courseStartDate = payload.courseStartDate || null;
     if (payload.courseType !== undefined) updatePayload.courseType = payload.courseType;
     if (payload.learningLicenceNo !== undefined) updatePayload.learningLicenceNo = payload.learningLicenceNo.trim();
+    if (payload.llIssueDate !== undefined) updatePayload.llIssueDate = payload.llIssueDate || null;
+    if (payload.llExpiryDate !== undefined) updatePayload.llExpiryDate = payload.llExpiryDate || null;
     if (payload.drivingLicenceNo !== undefined) updatePayload.drivingLicenceNo = payload.drivingLicenceNo.trim();
     if (payload.dlIssueDate !== undefined) updatePayload.dlIssueDate = payload.dlIssueDate || null;
     if (payload.dlExpiryDate !== undefined) updatePayload.dlExpiryDate = payload.dlExpiryDate || null;

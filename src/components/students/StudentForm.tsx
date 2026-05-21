@@ -37,6 +37,8 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
     student?.courseStartDate && student.courseStartDate !== student.enrollmentDate ? student.courseStartDate : ''
   );
   const [learningLicenceNo, setLearningLicenceNo] = useState(student?.learningLicenceNo ?? '');
+  const [llIssueDate, setLlIssueDate] = useState(student?.llIssueDate ?? '');
+  const [llExpiryDate, setLlExpiryDate] = useState(student?.llExpiryDate ?? '');
   const [drivingLicenceNo, setDrivingLicenceNo] = useState(student?.drivingLicenceNo ?? '');
   const [dlIssueDate, setDlIssueDate] = useState(student?.dlIssueDate ?? '');
   const [dlExpiryDate, setDlExpiryDate] = useState(student?.dlExpiryDate ?? '');
@@ -78,14 +80,21 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
   const validate = (): string | null => {
     const parsedTotal = Number(totalAmount);
 
-    if (!fullName.trim()) return 'Full name is required.';
-    if (!phone.trim()) return 'Phone is required.';
-    if (phone.replace(/\D/g, '').length < 10) return 'Phone number must have at least 10 digits.';
-    if (!branchId) return 'Branch is required.';
-    if (!courseType) return 'Course type is required.';
-    if (!enrollmentDate) return 'Enrollment date is required.';
-    if (courseStartDate && courseStartDate < enrollmentDate) return 'Course start date cannot be before enrollment date.';
-    if (!Number.isFinite(parsedTotal) || parsedTotal <= 0) return 'Total fee must be greater than 0.';
+    if (!student) {
+      if (!fullName.trim()) return 'Full name is required.';
+      if (!phone.trim()) return 'Phone is required.';
+      if (phone.replace(/\D/g, '').length < 10) return 'Phone number must have at least 10 digits.';
+      if (!branchId) return 'Branch is required.';
+      if (!courseType) return 'Course type is required.';
+      if (!enrollmentDate) return 'Enrollment date is required.';
+      if (courseStartDate && courseStartDate < enrollmentDate) return 'Course start date cannot be before enrollment date.';
+      if (!Number.isFinite(parsedTotal) || parsedTotal <= 0) return 'Total fee must be greater than 0.';
+    }
+
+    if (llIssueDate && llExpiryDate && llExpiryDate < llIssueDate) {
+      return 'Learning licence expiry date cannot be before issue date.';
+    }
+
     if (dlIssueDate && dlExpiryDate && dlExpiryDate < dlIssueDate) {
       return 'Driving licence expiry date cannot be before issue date.';
     }
@@ -106,24 +115,25 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
     setIsSaving(true);
 
     try {
-      const commonPayload = {
-        fullName,
-        phone,
-        enrollmentDate,
-        courseStartDate: courseStartDate || null,
-        courseType,
-        learningLicenceNo,
-        drivingLicenceNo,
-        dlIssueDate: dlIssueDate || null,
-        dlExpiryDate: dlExpiryDate || null,
-        branchId,
-        totalAmount: Number(totalAmount)
-      };
-
       if (student) {
-        await studentService.updateStudent(student.id, commonPayload satisfies UpdateStudentPayload);
+        await studentService.updateStudent(student.id, {
+          learningLicenceNo,
+          llIssueDate: llIssueDate || null,
+          llExpiryDate: llExpiryDate || null,
+          drivingLicenceNo,
+          dlIssueDate: dlIssueDate || null,
+          dlExpiryDate: dlExpiryDate || null
+        } satisfies UpdateStudentPayload);
       } else {
-        await studentService.createStudent(commonPayload satisfies CreateStudentPayload);
+        await studentService.createStudent({
+          fullName,
+          phone,
+          enrollmentDate,
+          courseStartDate: courseStartDate || null,
+          courseType,
+          branchId,
+          totalAmount: Number(totalAmount)
+        } satisfies CreateStudentPayload);
       }
 
       onSaved();
@@ -136,110 +146,94 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
 
   return (
     <form className="space-y-5" onSubmit={handleSubmit}>
-      <FormSection title="Admission Details" className="sm:grid-cols-2 lg:grid-cols-3">
-        <Field label="Full Name *" htmlFor="full-name">
-          <Input id="full-name" value={fullName} onChange={(event) => setFullName(event.target.value)} />
-        </Field>
+      {student ? (
+        <FormSection title="Licence Details" className="sm:grid-cols-2 lg:grid-cols-3">
+          <Field label="Learning Licence No" htmlFor="learning-licence">
+            <Input id="learning-licence" value={learningLicenceNo} onChange={(event) => setLearningLicenceNo(event.target.value)} />
+          </Field>
+          <Field label="Learning Licence Issue Date" htmlFor="ll-issue-date">
+            <Input id="ll-issue-date" type="date" value={llIssueDate ?? ''} onChange={(event) => setLlIssueDate(event.target.value)} />
+          </Field>
+          <Field label="Learning Licence Expiry Date" htmlFor="ll-expiry-date">
+            <Input id="ll-expiry-date" type="date" value={llExpiryDate ?? ''} onChange={(event) => setLlExpiryDate(event.target.value)} />
+          </Field>
+          <Field label="Driving Licence No" htmlFor="driving-licence">
+            <Input id="driving-licence" value={drivingLicenceNo} onChange={(event) => setDrivingLicenceNo(event.target.value)} />
+          </Field>
+          <Field label="Driving Licence Issue Date" htmlFor="dl-issue-date">
+            <Input id="dl-issue-date" type="date" value={dlIssueDate ?? ''} onChange={(event) => setDlIssueDate(event.target.value)} />
+          </Field>
+          <Field label="Driving Licence Expiry Date" htmlFor="dl-expiry-date">
+            <Input id="dl-expiry-date" type="date" value={dlExpiryDate ?? ''} onChange={(event) => setDlExpiryDate(event.target.value)} />
+          </Field>
+        </FormSection>
+      ) : (
+        <FormSection title="Admission Details" className="sm:grid-cols-2 lg:grid-cols-3">
+          <Field label="Full Name *" htmlFor="full-name">
+            <Input id="full-name" value={fullName} onChange={(event) => setFullName(event.target.value)} />
+          </Field>
 
-        <Field label="Phone *" htmlFor="phone">
-          <Input id="phone" value={phone} onChange={(event) => setPhone(event.target.value)} />
-        </Field>
+          <Field label="Phone *" htmlFor="phone">
+            <Input id="phone" value={phone} onChange={(event) => setPhone(event.target.value)} />
+          </Field>
 
-        <Field label="Branch *" htmlFor="branch">
-          <Select
-            id="branch"
-            value={branchId}
-            onChange={(event) => setBranchId(event.target.value)}
-            disabled={isStaff}
-          >
-            <option value="">Select branch</option>
-            {branches.map((branch) => (
-              <option key={branch.id} value={branch.id}>
-                {branch.name}
-              </option>
-            ))}
-          </Select>
-        </Field>
+          <Field label="Branch *" htmlFor="branch">
+            <Select
+              id="branch"
+              value={branchId}
+              onChange={(event) => setBranchId(event.target.value)}
+              disabled={isStaff}
+            >
+              <option value="">Select branch</option>
+              {branches.map((branch) => (
+                <option key={branch.id} value={branch.id}>
+                  {branch.name}
+                </option>
+              ))}
+            </Select>
+          </Field>
 
-        <Field label="Course Type *" htmlFor="course-type">
-          <Select
-            id="course-type"
-            value={courseType}
-            onChange={(event) => setCourseType(event.target.value as CourseType)}
-          >
-            <option value="2W">2W</option>
-            <option value="4W">4W</option>
-            <option value="both">Both</option>
-          </Select>
-        </Field>
+          <Field label="Course Type *" htmlFor="course-type">
+            <Select
+              id="course-type"
+              value={courseType}
+              onChange={(event) => setCourseType(event.target.value as CourseType)}
+            >
+              <option value="2W">2W</option>
+              <option value="4W">4W</option>
+              <option value="both">Both</option>
+            </Select>
+          </Field>
 
-        <Field label="Enrollment Date *" htmlFor="enrollment-date">
-          <Input
-            id="enrollment-date"
-            type="date"
-            value={enrollmentDate}
-            onChange={(event) => {
-              const nextDate = event.target.value;
-              setEnrollmentDate(nextDate);
-            }}
-          />
-        </Field>
+          <Field label="Enrollment Date *" htmlFor="enrollment-date">
+            <Input
+              id="enrollment-date"
+              type="date"
+              value={enrollmentDate}
+              onChange={(event) => setEnrollmentDate(event.target.value)}
+            />
+          </Field>
 
-        <Field label="Course Start Date" htmlFor="course-start-date">
-          <Input
-            id="course-start-date"
-            type="date"
-            value={courseStartDate}
-            onChange={(event) => setCourseStartDate(event.target.value)}
-          />
-        </Field>
+          <Field label="Course Start Date" htmlFor="course-start-date">
+            <Input
+              id="course-start-date"
+              type="date"
+              value={courseStartDate}
+              onChange={(event) => setCourseStartDate(event.target.value)}
+            />
+          </Field>
 
-        <Field label="Total Fee *" htmlFor="total-fee">
-          <Input
-            id="total-fee"
-            type="number"
-            min="1"
-            value={totalAmount}
-            onChange={(event) => setTotalAmount(event.target.value)}
-          />
-        </Field>
-      </FormSection>
-
-      <FormSection title="Licence Details">
-        <Field label="Learning Licence No" htmlFor="learning-licence">
-          <Input
-            id="learning-licence"
-            value={learningLicenceNo}
-            onChange={(event) => setLearningLicenceNo(event.target.value)}
-          />
-        </Field>
-
-        <Field label="Driving Licence No" htmlFor="driving-licence">
-          <Input
-            id="driving-licence"
-            value={drivingLicenceNo}
-            onChange={(event) => setDrivingLicenceNo(event.target.value)}
-          />
-        </Field>
-
-        <Field label="DL Issue Date" htmlFor="dl-issue-date">
-          <Input
-            id="dl-issue-date"
-            type="date"
-            value={dlIssueDate ?? ''}
-            onChange={(event) => setDlIssueDate(event.target.value)}
-          />
-        </Field>
-
-        <Field label="DL Expiry Date" htmlFor="dl-expiry-date">
-          <Input
-            id="dl-expiry-date"
-            type="date"
-            value={dlExpiryDate ?? ''}
-            onChange={(event) => setDlExpiryDate(event.target.value)}
-          />
-        </Field>
-      </FormSection>
+          <Field label="Total Fee *" htmlFor="total-fee">
+            <Input
+              id="total-fee"
+              type="number"
+              min="1"
+              value={totalAmount}
+              onChange={(event) => setTotalAmount(event.target.value)}
+            />
+          </Field>
+        </FormSection>
+      )}
 
       {errorMessage ? <Alert variant="destructive">{errorMessage}</Alert> : null}
 
@@ -248,7 +242,7 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
           Cancel
         </Button>
         <Button type="submit" disabled={isSaving}>
-          {isSaving ? 'Saving...' : 'Save Student'}
+          {isSaving ? 'Saving...' : student ? 'Save Licence Details' : 'Save Student'}
         </Button>
       </div>
     </form>

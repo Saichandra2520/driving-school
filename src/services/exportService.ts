@@ -127,6 +127,8 @@ export const exportService = {
       { header: 'Completion Date', accessor: 'completionDate' },
       { header: 'Status', accessor: (row) => formatStudentStatus(row.status) },
       { header: 'Learning Licence No', accessor: (row) => row.learningLicenceNo ?? '' },
+      { header: 'LL Issue Date', accessor: (row) => row.llIssueDate ?? '' },
+      { header: 'LL Expiry Date', accessor: (row) => row.llExpiryDate ?? '' },
       { header: 'Driving Licence No', accessor: (row) => row.drivingLicenceNo ?? '' }
     ]);
     downloadCsvFile(csv, `student-report-${reportSuffix(month, year)}.csv`);
@@ -159,6 +161,8 @@ export const exportService = {
         completionDate,
         status: formatStudentStatus(deriveStudentStatus(student)),
         learningLicenceNo: student.learningLicenceNo ?? '',
+        llIssueDate: student.llIssueDate ?? '',
+        llExpiryDate: student.llExpiryDate ?? '',
         drivingLicenceNo: student.drivingLicenceNo ?? '',
         dlIssueDate: student.dlIssueDate ?? '',
         dlExpiryDate: student.dlExpiryDate ?? '',
@@ -178,6 +182,8 @@ export const exportService = {
       { header: 'Completion Date', accessor: 'completionDate' },
       { header: 'Status', accessor: 'status' },
       { header: 'Learning Licence No', accessor: 'learningLicenceNo' },
+      { header: 'LL Issue Date', accessor: 'llIssueDate' },
+      { header: 'LL Expiry Date', accessor: 'llExpiryDate' },
       { header: 'Driving Licence No', accessor: 'drivingLicenceNo' },
       { header: 'DL Issue Date', accessor: 'dlIssueDate' },
       { header: 'DL Expiry Date', accessor: 'dlExpiryDate' },

@@ -67,6 +67,8 @@ export const receiptService = {
         phone: student.phone,
         courseType: student.courseType,
         learningLicenceNo: student.learningLicenceNo,
+        llIssueDate: student.llIssueDate,
+        llExpiryDate: student.llExpiryDate,
         drivingLicenceNo: student.drivingLicenceNo,
         enrollmentDate: student.enrollmentDate,
         courseStartDate: student.courseStartDate ?? student.enrollmentDate

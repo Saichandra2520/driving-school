@@ -67,6 +67,36 @@ function completedCount(session: TrainingSession): number {
   return session.slots.filter((slot) => slot.date && slot.classType).length;
 }
 
+function getSelectedDateMetadata(session: TrainingSession, selectedDate?: string): {
+  isMarkedOnSelectedDate: boolean;
+  selectedDateSessionCount: number;
+  selectedDateClassTypes: string[];
+} {
+  if (!selectedDate) {
+    return {
+      isMarkedOnSelectedDate: false,
+      selectedDateSessionCount: 0,
+      selectedDateClassTypes: []
+    };
+  }
+
+  const selectedDateSlots = session.slots.filter((slot) => slot.date === selectedDate && slot.classType.trim());
+  return {
+    isMarkedOnSelectedDate: selectedDateSlots.length > 0,
+    selectedDateSessionCount: selectedDateSlots.length,
+    selectedDateClassTypes: Array.from(new Set(selectedDateSlots.map((slot) => slot.classType).filter(Boolean)))
+  };
+}
+
+function matchesView(row: AttendanceRow, view: AttendanceFilters['view']): boolean {
+  if (!view || view === 'all') return true;
+  if (view === 'pending') return !row.isCompleted && !row.isMarkedOnSelectedDate;
+  if (view === 'marked') return row.isMarkedOnSelectedDate;
+  if (view === 'completed') return row.isCompleted;
+  if (view === 'extension_needed') return row.isCompleted;
+  return true;
+}
+
 export const attendanceService = {
   async getAttendanceRows(filters: AttendanceFilters): Promise<AttendanceRow[]> {
     const branchId = await getEffectiveBranchId(filters);
@@ -109,6 +139,7 @@ export const attendanceService = {
         const completedSessions = completedCount(sessionWithCapacity);
         const nextSlot = getNextEmptySlot(sessionWithCapacity.slots);
         const lastSlot = getLastCompletedSession(sessionWithCapacity.slots);
+        const selectedDateMetadata = getSelectedDateMetadata(sessionWithCapacity, filters.selectedDate);
 
         rows.push({
           studentId: student.id,
@@ -124,12 +155,13 @@ export const attendanceService = {
           nextSessionNo: nextSlot?.slotNo ?? null,
           lastClassType: lastSlot?.classType || undefined,
           lastSessionDate: lastSlot?.date ?? undefined,
+          ...selectedDateMetadata,
           isCompleted: completedSessions >= entitlement.allowedSessions || !nextSlot
         });
       }
     }
 
-    return rows;
+    return rows.filter((row) => matchesView(row, filters.view));
   },
 
   subscribeAttendanceRows(
@@ -184,6 +216,7 @@ export const attendanceService = {
           const completedSessions = completedCount(sessionWithCapacity);
           const nextSlot = getNextEmptySlot(sessionWithCapacity.slots);
           const lastSlot = getLastCompletedSession(sessionWithCapacity.slots);
+          const selectedDateMetadata = getSelectedDateMetadata(sessionWithCapacity, filters.selectedDate);
 
           rows.push({
             studentId: student.id,
@@ -199,12 +232,13 @@ export const attendanceService = {
             nextSessionNo: nextSlot?.slotNo ?? null,
             lastClassType: lastSlot?.classType || undefined,
             lastSessionDate: lastSlot?.date ?? undefined,
+            ...selectedDateMetadata,
             isCompleted: completedSessions >= entitlement.allowedSessions || !nextSlot
           });
         }
       }
 
-      if (isActive) onNext(rows);
+      if (isActive) onNext(rows.filter((row) => matchesView(row, filters.view)));
     };
 
     void getEffectiveBranchId(filters).then((branchId) => {

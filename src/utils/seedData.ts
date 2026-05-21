@@ -21,6 +21,8 @@ type SeedStudent = {
   enrollmentDate: string;
   courseType: CourseType;
   learningLicenceNo: string;
+  llIssueDate?: string | null;
+  llExpiryDate?: string | null;
   drivingLicenceNo: string;
   dlIssueDate: string | null;
   dlExpiryDate: string | null;
