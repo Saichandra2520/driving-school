@@ -18,6 +18,7 @@ import {
 import { authService } from '@/services/authService';
 import { COURSE_PARTS } from '@/constants/courses';
 import { db } from '@/services/firebase';
+import { firebaseUsageService } from '@/services/firebaseUsageService';
 import { collections, createdAt, getCollection, getDocument, subscribeCollection } from '@/services/firestoreUtils';
 import { useSyncStore } from '@/store/syncStore';
 import { calculateStudentExpiryDate, getCourseStartDate, getDaysRemaining } from '@/utils/dateUtils';
@@ -300,6 +301,7 @@ export const studentService = {
           ? getDocument<Branch>(collections.branches, effectiveBranchId).then((branch) => (branch ? [branch] : []))
           : getCollection<Branch>(collections.branches)
       ]);
+      firebaseUsageService.trackUsage('reads', Math.max(snapshot.docs.length, 1));
       const pageDocs = snapshot.docs.slice(0, pageSize);
       const hasNextPage = snapshot.docs.length > pageSize;
       const students = pageDocs.map((item) => ({ id: item.id, ...item.data() }) as Student);
@@ -353,6 +355,7 @@ export const studentService = {
         ? getDocument<Branch>(collections.branches, effectiveBranchId).then((branch) => (branch ? [branch] : []))
         : getCollection<Branch>(collections.branches)
     ]);
+    firebaseUsageService.trackUsage('reads', Math.max(snapshot.docs.length, 1));
     const visibleDocs = snapshot.docs.filter((item) => {
       const student = { id: item.id, ...item.data() } as Student;
       if (!matchesCourseFilter(student, filters.courseType)) return false;
@@ -593,8 +596,10 @@ export const studentService = {
     const commit = batch.commit();
     if (useSyncStore.getState().isOnline) {
       await commit;
+      firebaseUsageService.trackUsage('writes', 2 + COURSE_PARTS[payload.courseType].length * 2);
     } else {
       void commit.catch((error) => console.error('Student creation sync failed:', error));
+      firebaseUsageService.trackUsage('writes', 2 + COURSE_PARTS[payload.courseType].length * 2);
     }
 
     return attachFeeAndBranchWithFee(
@@ -646,6 +651,7 @@ export const studentService = {
     });
 
     await updateDoc(doc(db, collections.students, studentId), updatePayload);
+    firebaseUsageService.trackUsage('writes');
 
     if (payload.totalAmount !== undefined || payload.branchId !== undefined) {
       const fee = await getStudentFee(studentId);
@@ -661,6 +667,7 @@ export const studentService = {
         paidAmount,
         balance: totalAmount - paidAmount
       });
+      firebaseUsageService.trackUsage('writes');
     }
 
     if (payload.branchId !== undefined) {
@@ -672,6 +679,7 @@ export const studentService = {
 
   async deleteStudent(studentId: string): Promise<void> {
     await updateDoc(doc(db, collections.students, studentId), { status: 'dropped' });
+    firebaseUsageService.trackUsage('writes');
   },
 
   getStudentFee,
@@ -713,6 +721,7 @@ export const studentService = {
     });
 
     await batch.commit();
+    firebaseUsageService.trackUsage('writes', 1 + COURSE_PARTS[courseType].length * 2);
   },
 
   async ensureCourseRelatedDocs(studentId: string, branchId: string, courseType: CourseType): Promise<void> {
@@ -751,6 +760,7 @@ export const studentService = {
 
     if (hasWrites) {
       await batch.commit();
+      firebaseUsageService.trackUsage('writes', COURSE_PARTS[courseType].length * 2);
     }
   },
 
@@ -760,17 +770,20 @@ export const studentService = {
       getDocs(query(collection(db, collections.sessions), where('studentId', '==', studentId))),
       getDocs(query(collection(db, collections.drivingTests), where('studentId', '==', studentId)))
     ]);
+    firebaseUsageService.trackUsage('reads', Math.max(sessions.docs.length, 1) + Math.max(tests.docs.length, 1));
 
     sessions.docs.forEach((snapshot) => batch.update(snapshot.ref, { branchId }));
     tests.docs.forEach((snapshot) => batch.update(snapshot.ref, { branchId }));
 
     if (!sessions.empty || !tests.empty) {
       await batch.commit();
+      firebaseUsageService.trackUsage('writes', sessions.docs.length + tests.docs.length);
     }
   },
 
   async updateStudentStatus(studentId: string, status: StudentStatus): Promise<void> {
     await updateDoc(doc(db, collections.students, studentId), { status });
+    firebaseUsageService.trackUsage('writes');
   },
 
   async backfillStudentSearchTokens(
@@ -783,6 +796,7 @@ export const studentService = {
       ...(cursor ? [startAfter(cursor)] : []),
       firestoreLimit(batchSize + 1)
     ));
+    firebaseUsageService.trackUsage('reads', Math.max(snapshot.docs.length, 1));
     const docs = snapshot.docs.slice(0, batchSize);
     const batch = writeBatch(db);
     let writes = 0;
@@ -797,7 +811,10 @@ export const studentService = {
       writes += 1;
     });
 
-    if (writes > 0) await batch.commit();
+    if (writes > 0) {
+      await batch.commit();
+      firebaseUsageService.trackUsage('writes', writes);
+    }
     return {
       updated: writes,
       scanned: docs.length,

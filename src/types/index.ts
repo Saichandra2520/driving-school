@@ -22,6 +22,22 @@ export type AuthState = {
   isLoading: boolean;
 };
 
+export type FirebaseUsageMetricKey = 'reads' | 'writes' | 'deletes';
+
+export type FirebaseUsageMetric = {
+  used: number;
+  limit: number;
+  percentUsed: number;
+};
+
+export type FirebaseUsageMetrics = {
+  quotaDayStart: string;
+  quotaDayEnd: string;
+  generatedAt: string;
+  freshnessNote: string;
+  metrics: Record<FirebaseUsageMetricKey, FirebaseUsageMetric>;
+};
+
 export type CourseType = '2W' | '4W' | 'HV' | 'both';
 export type TrainingCourseType = '2W' | '4W' | 'HV';
 export type DrivingTestCourseType = TrainingCourseType;
@@ -294,7 +310,7 @@ export type UpdateStaffProfilePayload = {
 };
 
 export type StaffAccount = StaffProfile & {
-  email?: string;
+  email?: string | null;
 };
 
 export type CreateStaffUserPayload = {

@@ -2,6 +2,7 @@ import { doc, runTransaction, where, type Transaction } from 'firebase/firestore
 import { authService } from '@/services/authService';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
 import { db } from '@/services/firebase';
+import { firebaseUsageService } from '@/services/firebaseUsageService';
 import { receiptNumberService } from '@/services/receiptNumberService';
 import { useSyncStore } from '@/store/syncStore';
 import type {
@@ -52,6 +53,7 @@ async function getFeeReferenceByStudentId(studentId: string): Promise<string> {
 async function getFeeInTransaction(transaction: Transaction, feeId: string): Promise<Fee> {
   const feeRef = doc(db, collections.fees, feeId);
   const feeSnapshot = await transaction.get(feeRef);
+  firebaseUsageService.trackUsage('reads');
   if (!feeSnapshot.exists()) throw new Error('Unable to load fee details.');
   const data = feeSnapshot.data() as Omit<Fee, 'id'>;
   return {
@@ -116,6 +118,7 @@ export const feeService = {
         paidAmount,
         balance
       });
+      firebaseUsageService.trackUsage('writes');
 
       return {
         ...currentFee,
@@ -169,6 +172,7 @@ export const feeService = {
         paidAmount,
         balance
       });
+      firebaseUsageService.trackUsage('writes');
 
       return {
         ...currentFee,
@@ -200,6 +204,7 @@ export const feeService = {
         paidAmount,
         balance
       });
+      firebaseUsageService.trackUsage('writes');
 
       return {
         ...currentFee,

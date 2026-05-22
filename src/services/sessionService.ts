@@ -12,6 +12,7 @@ import {
 import { authService } from '@/services/authService';
 import { COURSE_PARTS } from '@/constants/courses';
 import { db } from '@/services/firebase';
+import { firebaseUsageService } from '@/services/firebaseUsageService';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
 import type {
   ClassTypes,
@@ -152,6 +153,7 @@ export const sessionService = {
       slots: emptySlots(slotCount),
       createdAt: serverTimestamp()
     });
+    firebaseUsageService.trackUsage('writes');
 
     const session = await getDocument<TrainingSession>(collections.sessions, sessionRef.id);
     if (!session) throw new Error('Unable to load training card.');
@@ -173,6 +175,7 @@ export const sessionService = {
       slots: normalized.slots,
       updatedAt: serverTimestamp()
     });
+    firebaseUsageService.trackUsage('writes');
 
     return normalized;
   },
@@ -207,6 +210,7 @@ export const sessionService = {
       slots,
       updatedAt: serverTimestamp()
     });
+    firebaseUsageService.trackUsage('writes');
 
     return {
       ...normalized,
@@ -228,6 +232,7 @@ export const sessionService = {
     return runTransaction(db, async (transaction) => {
       const sessionRef = doc(db, collections.sessions, sessionId);
       const snapshot = await transaction.get(sessionRef);
+      firebaseUsageService.trackUsage('reads');
       if (!snapshot.exists()) throw new Error('Unable to load training card.');
 
       const normalized = normalizeSession(snapshot.id, snapshot.data() as Omit<TrainingSession, 'id'>);
@@ -251,6 +256,7 @@ export const sessionService = {
         slots,
         updatedAt: serverTimestamp()
       });
+      firebaseUsageService.trackUsage('writes');
 
       return {
         ...normalized,
@@ -271,6 +277,7 @@ export const sessionService = {
   async ensureSessionCardsForStudent(student: Student): Promise<void> {
     await assertCanAccessStudent(student.id);
     const snapshot = await getDocs(query(collection(db, collections.sessions), where('studentId', '==', student.id)));
+    firebaseUsageService.trackUsage('reads', Math.max(snapshot.docs.length, 1));
     const existingCourses = new Set(
       snapshot.docs.map((item) => (item.data() as TrainingSession).courseType)
     );

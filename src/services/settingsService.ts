@@ -1,6 +1,7 @@
 import { addDoc, deleteDoc, doc, getCountFromServer, orderBy, query, setDoc, updateDoc, where } from 'firebase/firestore';
 import { collection } from 'firebase/firestore';
 import { db } from '@/services/firebase';
+import { firebaseUsageService } from '@/services/firebaseUsageService';
 import { collections, createdAt, getCollection, getDocument, subscribeCollection } from '@/services/firestoreUtils';
 import type {
   Branch,
@@ -20,6 +21,7 @@ async function getCollectionCount(collectionName: string, branchId: string): Pro
   const snapshot = await getCountFromServer(
     query(collection(db, collectionName), where('branchId', '==', branchId))
   );
+  firebaseUsageService.trackUsage('reads');
   return snapshot.data().count;
 }
 
@@ -54,6 +56,7 @@ export const settingsService = {
       location: payload.location?.trim() || null,
       createdAt: createdAt()
     });
+    firebaseUsageService.trackUsage('writes');
   },
 
   async updateBranch(branchId: string, payload: UpdateBranchPayload): Promise<void> {
@@ -63,6 +66,7 @@ export const settingsService = {
       name: payload.name.trim(),
       location: payload.location?.trim() || null
     });
+    firebaseUsageService.trackUsage('writes');
   },
 
   async deleteBranch(branchId: string): Promise<void> {
@@ -78,6 +82,7 @@ export const settingsService = {
       }
 
       await deleteDoc(doc(db, collections.branches, branchId));
+      firebaseUsageService.trackUsage('deletes');
     } catch (error) {
       throw friendlyError(error);
     }
@@ -104,6 +109,7 @@ export const settingsService = {
       branchId: payload.branchId,
       createdAt: createdAt()
     });
+    firebaseUsageService.trackUsage('writes');
   },
 
   async updateStaffProfile(profileId: string, payload: UpdateStaffProfilePayload): Promise<void> {
@@ -117,9 +123,11 @@ export const settingsService = {
       role: 'staff',
       branchId: payload.branchId
     });
+    firebaseUsageService.trackUsage('writes');
   },
 
   async deleteStaffProfile(profileId: string): Promise<void> {
     await deleteDoc(doc(db, collections.users, profileId));
+    firebaseUsageService.trackUsage('deletes');
   }
 };

@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail } from 
 import { deleteDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { collections, createdAt } from '@/services/firestoreUtils';
 import { db, firebaseConfig } from '@/services/firebase';
+import { firebaseUsageService } from '@/services/firebaseUsageService';
 import { settingsService } from '@/services/settingsService';
 import type { CreateStaffUserPayload, ResetStaffPasswordPayload, StaffAccount, UpdateStaffProfilePayload } from '@/types';
 
@@ -27,6 +28,7 @@ export const staffAccountService = {
       };
 
       await setDoc(doc(db, collections.users, credential.user.uid), profile);
+      firebaseUsageService.trackUsage('writes');
 
       return {
         id: credential.user.uid,
@@ -57,10 +59,12 @@ export const staffAccountService = {
       branchId: payload.branchId,
       role: 'staff'
     });
+    firebaseUsageService.trackUsage('writes');
   },
 
   async deleteStaffProfile(profileId: string): Promise<void> {
     await deleteDoc(doc(db, collections.users, profileId));
+    firebaseUsageService.trackUsage('deletes');
   },
 
   async sendPasswordReset(email: string): Promise<void> {

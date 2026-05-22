@@ -104,5 +104,11 @@ service cloud.firestore {
     match /counters/{counterId} {
       allow read, write: if signedIn();
     }
+
+    match /usageMetrics/{dateId} {
+      allow read: if isOwner();
+      allow create, update: if signedIn();
+      allow delete: if false;
+    }
   }
 }

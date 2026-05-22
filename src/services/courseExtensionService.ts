@@ -1,6 +1,7 @@
 import { addDoc, collection, doc, runTransaction, serverTimestamp, updateDoc, where } from 'firebase/firestore';
 import { authService } from '@/services/authService';
 import { db } from '@/services/firebase';
+import { firebaseUsageService } from '@/services/firebaseUsageService';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
 import { recalculateFee } from '@/services/feeService';
 import { receiptNumberService } from '@/services/receiptNumberService';
@@ -144,6 +145,7 @@ export const courseExtensionService = {
       notes: payload.notes?.trim() ?? '',
       createdAt: serverTimestamp()
     });
+    firebaseUsageService.trackUsage('writes');
 
     const created = await getDocument<CourseExtension>(collections.courseExtensions, docRef.id);
     if (!created) throw new Error('Extension was created but could not be loaded.');
@@ -155,6 +157,7 @@ export const courseExtensionService = {
       await runTransaction(db, async (transaction) => {
         const feeRef = doc(db, collections.fees, fee.id);
         const feeSnapshot = await transaction.get(feeRef);
+        firebaseUsageService.trackUsage('reads');
         if (!feeSnapshot.exists()) throw new Error('Extension was created but fee details could not be loaded.');
 
         const currentFee = recalculateFee({
@@ -178,11 +181,13 @@ export const courseExtensionService = {
           paidAmount,
           balance: totalAmount - paidAmount
         });
+        firebaseUsageService.trackUsage('writes');
       });
     }
 
     if (student.status !== 'dropped') {
       await updateDoc(doc(db, collections.students, student.id), { status: 'extended' });
+      firebaseUsageService.trackUsage('writes');
     }
     return { extension: created, receiptNo };
   }

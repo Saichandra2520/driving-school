@@ -14,6 +14,7 @@ import {
   type QueryConstraint
 } from 'firebase/firestore';
 import { db } from '@/services/firebase';
+import { firebaseUsageService } from '@/services/firebaseUsageService';
 import { useSyncStore } from '@/store/syncStore';
 
 export const collections = {
@@ -77,6 +78,7 @@ export async function getDocument<T extends object>(
     fromCache: snapshot.metadata.fromCache,
     hasPendingWrites: snapshot.metadata.hasPendingWrites
   });
+  if (!snapshot.metadata.fromCache) firebaseUsageService.trackUsage('reads');
   return snapshot.exists() ? normalizeDoc<T>(snapshot.id, snapshot.data()) : null;
 }
 
@@ -89,6 +91,9 @@ export async function getCollection<T extends object>(
     fromCache: snapshot.metadata.fromCache,
     hasPendingWrites: snapshot.docs.some((item) => item.metadata.hasPendingWrites)
   });
+  if (!snapshot.metadata.fromCache) {
+    firebaseUsageService.trackUsage('reads', Math.max(snapshot.docs.length, 1));
+  }
   return snapshot.docs.map((item) => normalizeDoc<T>(item.id, item.data()));
 }
 
@@ -127,6 +132,9 @@ export function subscribeCollection<T extends object>(
         fromCache: snapshot.metadata.fromCache,
         hasPendingWrites: snapshot.docs.some((item) => item.metadata.hasPendingWrites)
       };
+      if (!metadata.fromCache && !metadata.hasPendingWrites) {
+        firebaseUsageService.trackUsage('reads', Math.max(snapshot.docs.length, 1));
+      }
       const nextSnapshot = {
         rows: snapshot.docs.map((item) => normalizeDoc<T>(item.id, item.data())),
         metadata

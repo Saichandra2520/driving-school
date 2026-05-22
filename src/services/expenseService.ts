@@ -1,6 +1,7 @@
 import { addDoc, collection, deleteDoc, doc, documentId, orderBy, serverTimestamp, updateDoc, where, type QueryConstraint } from 'firebase/firestore';
 import { authService } from '@/services/authService';
 import { db } from '@/services/firebase';
+import { firebaseUsageService } from '@/services/firebaseUsageService';
 import { collections, getCollection, getDocument, subscribeCollection } from '@/services/firestoreUtils';
 import type {
   Branch,
@@ -252,6 +253,7 @@ export const expenseService = {
       notes: nextPayload.notes?.trim() || '',
       createdAt: serverTimestamp()
     });
+    firebaseUsageService.trackUsage('writes');
   },
 
   async updateExpense(expenseId: string, payload: UpdateExpensePayload): Promise<void> {
@@ -285,6 +287,7 @@ export const expenseService = {
       notes: nextPayload.notes?.trim() || '',
       updatedAt: serverTimestamp()
     });
+    firebaseUsageService.trackUsage('writes');
   },
 
   async deleteExpense(expenseId: string): Promise<void> {
@@ -292,6 +295,7 @@ export const expenseService = {
     if (!existing) throw new Error('Expense not found.');
     await assertCanAccessBranch(existing.branchId);
     await deleteDoc(doc(db, collections.expenses, expenseId));
+    firebaseUsageService.trackUsage('deletes');
   },
 
   async getExpenseSummary(filters: ExpenseFilters = {}): Promise<ExpenseSummary> {

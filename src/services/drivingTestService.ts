@@ -11,6 +11,7 @@ import {
 import { COURSE_LABELS, DRIVING_TEST_COURSE_PARTS } from '@/constants/courses';
 import { authService } from '@/services/authService';
 import { db } from '@/services/firebase';
+import { firebaseUsageService } from '@/services/firebaseUsageService';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
 import type {
   DrivingTest,
@@ -101,6 +102,7 @@ export const drivingTestService = {
       attempts: emptyAttempts(),
       createdAt: serverTimestamp()
     });
+    firebaseUsageService.trackUsage('writes');
 
     const test = await getDocument<DrivingTest>(collections.drivingTests, testRef.id);
     if (!test) throw new Error('Unable to load driving test details.');
@@ -137,6 +139,7 @@ export const drivingTestService = {
       attempts,
       updatedAt: serverTimestamp()
     });
+    firebaseUsageService.trackUsage('writes');
 
     return {
       ...normalized,
@@ -147,6 +150,7 @@ export const drivingTestService = {
   async ensureDrivingTestDocsForStudent(student: Student): Promise<void> {
     await assertCanAccessStudent(student.id);
     const snapshot = await getDocs(query(collection(db, collections.drivingTests), where('studentId', '==', student.id)));
+    firebaseUsageService.trackUsage('reads', Math.max(snapshot.docs.length, 1));
     const existingCourses = new Set(snapshot.docs.map((item) => (item.data() as DrivingTest).courseType));
 
     await Promise.all(
