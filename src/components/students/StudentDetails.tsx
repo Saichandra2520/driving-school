@@ -17,6 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { COURSE_PARTS } from '@/constants/courses';
 import { courseExtensionService } from '@/services/courseExtensionService';
 import { feeService } from '@/services/feeService';
+import { getInstallmentReceiptLabel, isPendingInstallment } from '@/services/pendingPaymentService';
 import type { CourseExtension, Fee, Installment, StudentWithFee, TrainingEntitlement } from '@/types';
 import { formatCourseType, formatCurrency, formatDate } from '@/utils/formatters';
 
@@ -41,6 +42,9 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
   const [extensionModalOpen, setExtensionModalOpen] = useState(false);
   const courseParts = COURSE_PARTS[student.courseType];
   const isThirtyDaysCompleted = (student.status === 'ongoing' || student.status === 'extended') && student.daysRemaining < 0;
+  const extensionDisabledReason = isThirtyDaysCompleted
+    ? ''
+    : `Course extension can be added only after the base ${student.durationDays ?? 30}-day training period is completed.`;
 
   const loadExtensions = async (): Promise<void> => {
     try {
@@ -70,6 +74,10 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
       installments: fee?.installments ?? []
     };
   }, [fee, student.balance, student.paidAmount, student.totalAmount]);
+  const extensionReceiptNos = useMemo(
+    () => new Set(extensions.map((extension) => extension.receiptNo).filter((receiptNo): receiptNo is string => Boolean(receiptNo))),
+    [extensions]
+  );
 
   const handleFeeSaved = (nextFee: Fee, nextMessage: string): void => {
     setFee(nextFee);
@@ -88,6 +96,9 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
     setErrorMessage('');
 
     try {
+      if (isPendingInstallment(deleteTarget)) {
+        throw new Error('Pending offline payments cannot be deleted until they sync.');
+      }
       const nextFee = await feeService.deleteInstallment(student.id, deleteTarget.receiptNo);
       setFee(nextFee);
       setMessage('Installment deleted successfully.');
@@ -161,6 +172,7 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
               extensions={extensions}
               entitlement={entitlement}
               onAdd={() => setExtensionModalOpen(true)}
+              disabledReason={extensionDisabledReason}
             />
           </TabsContent>
         ) : null}
@@ -175,6 +187,7 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
               onEdit={setEditTarget}
               onDelete={setDeleteTarget}
               onError={setErrorMessage}
+              extensionReceiptNos={extensionReceiptNos}
             />
           </TabsContent>
         ) : null}
@@ -258,21 +271,24 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
 function ExtensionsTab({
   extensions,
   entitlement,
-  onAdd
+  onAdd,
+  disabledReason
 }: {
   extensions: CourseExtension[];
   entitlement: TrainingEntitlement | null;
   onAdd: () => void;
+  disabledReason: string;
 }): JSX.Element {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
         <CardTitle className="text-lg">Course Extensions</CardTitle>
-        <Button type="button" onClick={onAdd}>
+        <Button type="button" onClick={onAdd} disabled={Boolean(disabledReason)}>
           Add Extension
         </Button>
       </CardHeader>
       <CardContent className="space-y-4">
+        {disabledReason ? <Alert variant="warning">{disabledReason}</Alert> : null}
         <div className="grid gap-4 sm:grid-cols-4">
           <Info label="Base Sessions" value={String(entitlement?.baseSessions ?? 30)} />
           <Info label="Extra Sessions" value={String(entitlement?.extraSessions ?? 0)} />
@@ -322,7 +338,8 @@ function FeeTab({
   onAdd,
   onEdit,
   onDelete,
-  onError
+  onError,
+  extensionReceiptNos
 }: {
   feeSummary: {
     totalAmount: number;
@@ -337,6 +354,7 @@ function FeeTab({
   onEdit: (installment: Installment) => void;
   onDelete: (installment: Installment) => void;
   onError: (message: string) => void;
+  extensionReceiptNos: Set<string>;
 }): JSX.Element {
   return (
     <Card>
@@ -371,30 +389,52 @@ function FeeTab({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {feeSummary.installments.map((installment) => (
-                  <TableRow key={installment.receiptNo} className="h-12">
-                    <TableCell className="font-medium">{installment.receiptNo}</TableCell>
-                    <TableCell>{formatDate(installment.date)}</TableCell>
-                    <TableCell className="text-right">{formatCurrency(Number(installment.amount))}</TableCell>
-                    <TableCell>{installment.notes || '-'}</TableCell>
-                    <TableCell>
-                      <div className="flex flex-wrap gap-2">
-                        <DownloadReceiptButton studentId={student.id} receiptNo={installment.receiptNo} variant="outline" onError={onError} />
-                        <WhatsAppReceiptButton studentId={student.id} receiptNo={installment.receiptNo} variant="outline" onError={onError} />
-                        {allowFeeActions ? (
-                          <>
-                            <Button type="button" size="sm" variant="ghost" onClick={() => onEdit(installment)}>
-                              Edit
-                            </Button>
-                            <Button type="button" size="sm" variant="ghost" onClick={() => onDelete(installment)}>
-                              Delete
-                            </Button>
-                          </>
-                        ) : null}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {feeSummary.installments.map((installment) => {
+                  const isPendingPayment = isPendingInstallment(installment);
+                  const isExtensionPayment =
+                    extensionReceiptNos.has(installment.receiptNo) ||
+                    installment.source === 'course_extension' ||
+                    Boolean(installment.courseExtensionId) ||
+                    (installment.notes ?? '').trim().toLowerCase().startsWith('course extension -');
+
+                  return (
+                    <TableRow key={installment.clientPaymentId ?? installment.receiptNo} className="h-12">
+                      <TableCell className="font-medium">
+                        {getInstallmentReceiptLabel(installment)}
+                        {isPendingPayment && installment.syncError ? <p className="text-xs font-normal text-danger">{installment.syncError}</p> : null}
+                      </TableCell>
+                      <TableCell>{formatDate(installment.date)}</TableCell>
+                      <TableCell className="text-right">{formatCurrency(Number(installment.amount))}</TableCell>
+                      <TableCell>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span>{installment.notes || '-'}</span>
+                          {isPendingPayment ? <Badge variant="secondary">Sync pending</Badge> : null}
+                          {isExtensionPayment ? <Badge variant="secondary">Extension</Badge> : null}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex flex-wrap gap-2">
+                          {!isPendingPayment ? (
+                            <>
+                              <DownloadReceiptButton studentId={student.id} receiptNo={installment.receiptNo} variant="outline" onError={onError} />
+                              <WhatsAppReceiptButton studentId={student.id} receiptNo={installment.receiptNo} variant="outline" onError={onError} />
+                            </>
+                          ) : null}
+                          {allowFeeActions && !isExtensionPayment && !isPendingPayment ? (
+                            <>
+                              <Button type="button" size="sm" variant="ghost" onClick={() => onEdit(installment)}>
+                                Edit
+                              </Button>
+                              <Button type="button" size="sm" variant="ghost" onClick={() => onDelete(installment)}>
+                                Delete
+                              </Button>
+                            </>
+                          ) : null}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>

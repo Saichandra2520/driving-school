@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { EmptyState } from '@/components/common/EmptyState';
 import { PageLoader } from '@/components/common/PageLoader';
@@ -11,8 +11,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useCachedAsync } from '@/hooks/useCachedData';
 import { settingsService } from '@/services/settingsService';
 import { staffAccountService } from '@/services/staffAccountService';
+import { cacheTags, createPageCacheKey, invalidatePageCache } from '@/store/pageCacheStore';
 import type { Branch, StaffAccount } from '@/types';
 import { getFriendlyErrorMessage } from '@/utils/errors';
 import { formatPhoneNumber } from '@/utils/formatters';
@@ -22,42 +24,59 @@ type StaffModalState =
   | { mode: 'edit'; staff: StaffAccount }
   | { mode: 'reset'; staff: StaffAccount }
   | null;
+type StaffSettingsData = {
+  branches: Branch[];
+  staff: StaffAccount[];
+};
 
 export function StaffManagement(): JSX.Element {
   const [staffProfiles, setStaffProfiles] = useState<StaffAccount[]>([]);
   const [branches, setBranches] = useState<Branch[]>([]);
   const [modalState, setModalState] = useState<StaffModalState>(null);
   const [deleteTarget, setDeleteTarget] = useState<StaffAccount | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const loadData = async (): Promise<void> => {
-    setIsLoading(true);
-    setErrorMessage('');
+  const fetchData = useCallback(async (): Promise<StaffSettingsData> => {
+    const [staff, branchList] = await Promise.all([
+      staffAccountService.getStaffProfiles(),
+      settingsService.getBranches()
+    ]);
 
-    try {
-      const [staff, branchList] = await Promise.all([
-        staffAccountService.getStaffProfiles(),
-        settingsService.getBranches()
-      ]);
-      setStaffProfiles(staff);
-      setBranches(branchList);
-    } catch (error) {
-      setErrorMessage(getFriendlyErrorMessage(error, 'Could not load staff users.'));
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    return { staff, branches: branchList };
+  }, []);
+  const {
+    data: cachedData,
+    error: staffError,
+    isLoading,
+    isRefreshing,
+    refresh: refreshData
+  } = useCachedAsync<StaffSettingsData>({
+    cacheKey: createPageCacheKey('settings-staff'),
+    fetcher: fetchData,
+    tags: [cacheTags.settings, cacheTags.staff, cacheTags.branches]
+  });
+
+  const loadData = useCallback(async (force = false): Promise<void> => {
+    setErrorMessage('');
+    await refreshData({ force });
+  }, [refreshData]);
 
   useEffect(() => {
-    void loadData();
-  }, []);
+    setStaffProfiles(cachedData?.staff ?? []);
+    setBranches(cachedData?.branches ?? []);
+  }, [cachedData]);
+
+  useEffect(() => {
+    if (!staffError) return;
+    setErrorMessage(getFriendlyErrorMessage(staffError, 'Could not load staff users.'));
+  }, [staffError]);
 
   const handleSaved = async (successMessage: string): Promise<void> => {
     setModalState(null);
     setMessage(successMessage);
-    await loadData();
+    invalidatePageCache([cacheTags.settings, cacheTags.staff, cacheTags.branches]);
+    await loadData(true);
   };
 
   const handleDelete = async (): Promise<void> => {
@@ -70,7 +89,8 @@ export function StaffManagement(): JSX.Element {
       await staffAccountService.deleteStaffProfile(deleteTarget.id);
       setDeleteTarget(null);
       setMessage('Staff account deleted successfully.');
-      await loadData();
+      invalidatePageCache([cacheTags.settings, cacheTags.staff, cacheTags.branches]);
+      await loadData(true);
     } catch (error) {
       setErrorMessage(getFriendlyErrorMessage(error, 'Could not delete staff account.'));
       setDeleteTarget(null);
@@ -98,7 +118,7 @@ export function StaffManagement(): JSX.Element {
         ) : staffProfiles.length === 0 ? (
           <EmptyState title="No staff users found." />
         ) : (
-          <div className="overflow-x-auto rounded-md border">
+          <div className={`overflow-x-auto rounded-md border ${isRefreshing ? 'opacity-60' : ''}`}>
             <Table>
               <TableHeader>
                 <TableRow>

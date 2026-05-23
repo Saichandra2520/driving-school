@@ -19,10 +19,12 @@ import { authService } from '@/services/authService';
 import { COURSE_PARTS } from '@/constants/courses';
 import { db } from '@/services/firebase';
 import { firebaseUsageService } from '@/services/firebaseUsageService';
+import { pendingPaymentService } from '@/services/pendingPaymentService';
 import { collections, createdAt, getCollection, getDocument, subscribeCollection } from '@/services/firestoreUtils';
 import { useSyncStore } from '@/store/syncStore';
 import { calculateStudentExpiryDate, getCourseStartDate, getDaysRemaining } from '@/utils/dateUtils';
 import { deriveStudentStatus } from '@/utils/studentStatus';
+import { assertValidStudentInput } from '@/utils/studentValidation';
 import type {
   Branch,
   CourseType,
@@ -143,21 +145,26 @@ function getServerSort(sortField?: StudentSortField, sortDirection: SortDirectio
 }
 
 function sortPageRows(rows: StudentWithFee[], sortField?: StudentSortField, sortDirection: SortDirection = 'desc'): StudentWithFee[] {
-  if (sortField !== 'balance' && sortField !== 'daysRemaining' && sortField !== 'createdAt') return rows;
+  if (!sortField) return rows;
 
   const direction = sortDirection === 'asc' ? 1 : -1;
   return [...rows].sort((left, right) => {
     const leftValue = getClientSortValue(left, sortField);
     const rightValue = getClientSortValue(right, sortField);
-    return (leftValue - rightValue) * direction;
+    if (typeof leftValue === 'string' || typeof rightValue === 'string') {
+      return String(leftValue).localeCompare(String(rightValue)) * direction;
+    }
+    return (Number(leftValue) - Number(rightValue)) * direction;
   });
 }
 
-function getClientSortValue(student: StudentWithFee, sortField: StudentSortField): number {
+function getClientSortValue(student: StudentWithFee, sortField: StudentSortField): number | string {
   if (sortField === 'balance') return student.balance;
   if (sortField === 'daysRemaining') return student.daysRemaining;
   if (sortField === 'createdAt') return getTimestampValue(student.createdAt);
-  return 0;
+  if (sortField === 'enrollmentDate') return student.enrollmentDate ?? '';
+  if (sortField === 'courseStartDate') return student.courseStartDate ?? '';
+  return '';
 }
 
 function getTimestampValue(value: unknown): number {
@@ -182,11 +189,22 @@ function isMissingIndexError(error: unknown): boolean {
   return message.toLowerCase().includes('index');
 }
 
-async function getStudentFee(studentId: string): Promise<Fee | null> {
-  const fees = await getCollection<Fee>(collections.fees, [where('studentId', '==', studentId)]);
-  const fee = fees[0];
-  if (!fee) return null;
+function studentMatchesSearch(student: Student, search: string): boolean {
+  if (!search) return true;
 
+  const normalizedSearch = normalizeSearchToken(search);
+  const compactSearch = normalizedSearch.replace(/[^a-z0-9]/g, '');
+  if (!normalizedSearch) return true;
+  if (Array.isArray(student.searchTokens) && student.searchTokens.includes(normalizedSearch)) return true;
+
+  return searchableStudentFields.some((field) => {
+    const normalizedValue = normalizeSearchToken(student[field] ?? '');
+    const compactValue = normalizedValue.replace(/[^a-z0-9]/g, '');
+    return normalizedValue.includes(normalizedSearch) || (Boolean(compactSearch) && compactValue.includes(compactSearch));
+  });
+}
+
+function normalizeFeeRow(fee: Fee): Fee {
   const installments = Array.isArray(fee.installments) ? fee.installments : [];
   const paidAmount = installments.length
     ? installments.reduce((total, installment) => total + Number(installment.amount), 0)
@@ -201,6 +219,16 @@ async function getStudentFee(studentId: string): Promise<Fee | null> {
   };
 }
 
+async function getStudentFeeRaw(studentId: string): Promise<Fee | null> {
+  const fees = await getCollection<Fee>(collections.fees, [where('studentId', '==', studentId)]);
+  return fees[0] ? normalizeFeeRow(fees[0]) : null;
+}
+
+async function getStudentFee(studentId: string): Promise<Fee | null> {
+  const fee = await getStudentFeeRaw(studentId);
+  return fee ? pendingPaymentService.applyPendingPaymentsToFee(fee, studentId) : null;
+}
+
 async function getStudentFees(studentIds: string[]): Promise<Map<string, Fee>> {
   if (studentIds.length === 0) return new Map();
 
@@ -213,20 +241,11 @@ async function getStudentFees(studentIds: string[]): Promise<Map<string, Fee>> {
 
   return new Map(
     rows.map((fee) => {
-      const installments = Array.isArray(fee.installments) ? fee.installments : [];
-      const paidAmount = installments.length
-        ? installments.reduce((total, installment) => total + Number(installment.amount), 0)
-        : Number(fee.paidAmount ?? 0);
+      const normalizedFee = normalizeFeeRow(fee);
 
       return [
         fee.studentId,
-        {
-          ...fee,
-          branchId: fee.branchId ?? '',
-          installments,
-          paidAmount,
-          balance: Number(fee.totalAmount) - paidAmount
-        }
+        pendingPaymentService.applyPendingPaymentsToFee(normalizedFee, fee.studentId) ?? normalizedFee
       ];
     })
   );
@@ -242,9 +261,10 @@ async function attachFeeAndBranchWithFee(
   branches: Branch[],
   fee: Fee | null
 ): Promise<StudentWithFee> {
-  const totalAmount = Number(fee?.totalAmount ?? 0);
-  const paidAmount = Number(fee?.paidAmount ?? 0);
-  const balance = Number(fee?.balance ?? Math.max(totalAmount - paidAmount, 0));
+  const mergedFee = pendingPaymentService.applyPendingPaymentsToFee(fee, student.id);
+  const totalAmount = Number(mergedFee?.totalAmount ?? 0);
+  const paidAmount = Number(mergedFee?.paidAmount ?? 0);
+  const balance = Number(mergedFee?.balance ?? Math.max(totalAmount - paidAmount, 0));
   const durationDays = student.baseDurationDays ?? student.durationDays ?? 30;
   const courseStartDate = getCourseStartDate(student);
   const expiryDate = calculateStudentExpiryDate(courseStartDate, durationDays);
@@ -262,7 +282,7 @@ async function attachFeeAndBranchWithFee(
     balance,
     expiryDate,
     daysRemaining: getDaysRemaining(expiryDate),
-    fee
+    fee: mergedFee
   };
 }
 
@@ -275,7 +295,13 @@ async function existingCourseDocs<T extends Session | DrivingTest>(
 
 export const studentService = {
   async getStudentsPage(filters: StudentsPageRequest = {}): Promise<StudentsPageResult> {
-    if (!filters.sortField || filters.sortField === 'createdAt') {
+    if (
+      filters.search?.trim() ||
+      !filters.sortField ||
+      filters.sortField === 'createdAt' ||
+      filters.sortField === 'balance' ||
+      filters.sortField === 'daysRemaining'
+    ) {
       return studentService.getStudentsPageFallback(filters);
     }
 
@@ -336,17 +362,8 @@ export const studentService = {
     const effectiveBranchId = profile?.role === 'staff' ? profile.branchId : filters.branchId;
     const pageSize = filters.pageSize ?? 50;
     const pageNumber = filters.pageNumber ?? 1;
-    const search = normalizeSearchToken(filters.search ?? '');
-    const clientCreatedAtSort = !filters.sortField || filters.sortField === 'createdAt';
     const constraints: QueryConstraint[] = [
-      ...(effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : []),
-      ...(clientCreatedAtSort
-        ? []
-        : [
-            orderBy('enrollmentDate', 'desc'),
-            ...(filters.cursor ? [startAfter(filters.cursor)] : []),
-            firestoreLimit(pageSize * 5 + 1)
-          ])
+      ...(effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : [])
     ];
 
     const [snapshot, branches] = await Promise.all([
@@ -360,33 +377,24 @@ export const studentService = {
       const student = { id: item.id, ...item.data() } as Student;
       if (!matchesCourseFilter(student, filters.courseType)) return false;
       if (filters.status && filters.status !== 'all' && deriveStudentStatus(student) !== filters.status) return false;
-      if (search && !(Array.isArray(student.searchTokens) && student.searchTokens.includes(search))) return false;
+      if (!studentMatchesSearch(student, filters.search ?? '')) return false;
       return true;
     });
-    const pageDocs = clientCreatedAtSort ? visibleDocs : visibleDocs.slice(0, pageSize);
-    const students = pageDocs.map((item) => ({ id: item.id, ...item.data() }) as Student);
+    const students = visibleDocs.map((item) => ({ id: item.id, ...item.data() }) as Student);
     const feesByStudent = await getStudentFees(students.map((student) => student.id));
     const rows = await Promise.all(
       students.map((student) => attachFeeAndBranchWithFee(student, branches, feesByStudent.get(student.id) ?? null))
     );
     const sortedRows = sortPageRows(rows, filters.sortField ?? 'createdAt', filters.sortDirection);
-    const pagedRows = clientCreatedAtSort
-      ? sortedRows.slice((pageNumber - 1) * pageSize, pageNumber * pageSize)
-      : sortedRows;
+    const pagedRows = sortedRows.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
     const startItem = pagedRows.length === 0 ? 0 : (pageNumber - 1) * pageSize + 1;
     const endItem = pagedRows.length === 0 ? 0 : startItem + pagedRows.length - 1;
 
     return {
       rows: pagedRows,
       pageInfo: {
-        hasNextPage: clientCreatedAtSort
-          ? sortedRows.length > pageNumber * pageSize
-          : snapshot.docs.length > pageSize * 5 || visibleDocs.length > pageSize,
-        nextCursor: clientCreatedAtSort
-          ? null
-          : snapshot.docs.length > 0
-            ? snapshot.docs[Math.min(snapshot.docs.length, pageSize * 5) - 1] ?? null
-            : null,
+        hasNextPage: sortedRows.length > pageNumber * pageSize,
+        nextCursor: null,
         startItem,
         endItem
       }
@@ -411,10 +419,7 @@ export const studentService = {
     const search = normalizeSearch(filters.search ?? '');
     const courseFilteredStudents = studentsRaw.filter((student) => matchesCourseFilter(student, filters.courseType));
     const students = search
-      ? courseFilteredStudents.filter((student) =>
-          [student.fullName, student.phone, student.learningLicenceNo ?? '', student.drivingLicenceNo ?? '']
-            .some((value) => value.toLowerCase().includes(search))
-        )
+      ? courseFilteredStudents.filter((student) => studentMatchesSearch(student, search))
       : courseFilteredStudents;
 
     const studentsWithFee = await Promise.all(students.map((student) => attachFeeAndBranch(student, branches)));
@@ -445,11 +450,7 @@ export const studentService = {
       const search = normalizeSearch(filters.search ?? '');
       const courseFilteredStudents = latestStudents.filter((student) => matchesCourseFilter(student, filters.courseType));
       const students = search
-        ? courseFilteredStudents.filter((student) =>
-            [student.fullName, student.phone, student.learningLicenceNo ?? '', student.drivingLicenceNo ?? ''].some((value) =>
-              value.toLowerCase().includes(search)
-            )
-          )
+        ? courseFilteredStudents.filter((student) => studentMatchesSearch(student, search))
         : courseFilteredStudents;
 
       const feesByStudent = new Map(latestFees.map((fee) => [fee.studentId, fee]));
@@ -474,6 +475,9 @@ export const studentService = {
       ];
       const scopedByBranch = effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : [];
       const unsubscribers = [
+        pendingPaymentService.subscribe(() => {
+          void emit();
+        }),
         subscribeCollection<Student>(
           collections.students,
           studentConstraints,
@@ -531,7 +535,7 @@ export const studentService = {
   },
 
   async createStudent(payload: CreateStudentPayload): Promise<StudentWithFee> {
-    if (payload.totalAmount <= 0) throw new Error('Total fee must be greater than 0.');
+    assertValidStudentInput(payload, { requireAll: true });
 
     const studentRef = doc(collection(db, collections.students));
     const feeRef = doc(collection(db, collections.fees));
@@ -549,7 +553,11 @@ export const studentService = {
       drivingLicenceNo: payload.drivingLicenceNo?.trim() ?? '',
       dlIssueDate: payload.dlIssueDate || null,
       dlExpiryDate: payload.dlExpiryDate || null,
-      status: deriveStudentStatus({ drivingLicenceNo: payload.drivingLicenceNo }),
+      status: deriveStudentStatus({
+        drivingLicenceNo: payload.drivingLicenceNo,
+        enrollmentDate: payload.enrollmentDate,
+        courseStartDate: payload.courseStartDate
+      }),
       durationDays: 30,
       baseSessionCount: 30,
       baseDurationDays: 30,
@@ -624,6 +632,19 @@ export const studentService = {
 
     const nextBranchId = payload.branchId ?? existingStudent.branchId;
     const nextCourseType = payload.courseType ?? existingStudent.courseType;
+    assertValidStudentInput({
+      fullName: payload.fullName ?? existingStudent.fullName,
+      phone: payload.phone ?? existingStudent.phone,
+      branchId: nextBranchId,
+      courseType: nextCourseType,
+      enrollmentDate: payload.enrollmentDate ?? existingStudent.enrollmentDate,
+      courseStartDate: payload.courseStartDate ?? existingStudent.courseStartDate,
+      llIssueDate: payload.llIssueDate ?? existingStudent.llIssueDate,
+      llExpiryDate: payload.llExpiryDate ?? existingStudent.llExpiryDate,
+      dlIssueDate: payload.dlIssueDate ?? existingStudent.dlIssueDate,
+      dlExpiryDate: payload.dlExpiryDate ?? existingStudent.dlExpiryDate,
+      totalAmount: payload.totalAmount ?? 1
+    }, { requireAll: true });
     const updatePayload: Record<string, unknown> = {};
 
     if (payload.fullName !== undefined) updatePayload.fullName = payload.fullName.trim();
@@ -640,8 +661,10 @@ export const studentService = {
     if (payload.branchId !== undefined) updatePayload.branchId = payload.branchId;
 
     updatePayload.status = deriveStudentStatus({
-      status: existingStudent.status,
-      drivingLicenceNo: payload.drivingLicenceNo ?? existingStudent.drivingLicenceNo
+      status: payload.status ?? existingStudent.status,
+      drivingLicenceNo: payload.drivingLicenceNo ?? existingStudent.drivingLicenceNo,
+      enrollmentDate: payload.enrollmentDate ?? existingStudent.enrollmentDate,
+      courseStartDate: payload.courseStartDate ?? existingStudent.courseStartDate
     });
     updatePayload.searchTokens = createStudentSearchTokens({
       fullName: payload.fullName ?? existingStudent.fullName,
@@ -654,7 +677,7 @@ export const studentService = {
     firebaseUsageService.trackUsage('writes');
 
     if (payload.totalAmount !== undefined || payload.branchId !== undefined) {
-      const fee = await getStudentFee(studentId);
+      const fee = await getStudentFeeRaw(studentId);
       if (!fee) throw new Error('Fee record was not found for this student.');
 
       const totalAmount = payload.totalAmount ?? Number(fee.totalAmount);
@@ -675,11 +698,6 @@ export const studentService = {
     }
 
     await studentService.ensureCourseRelatedDocs(studentId, nextBranchId, nextCourseType);
-  },
-
-  async deleteStudent(studentId: string): Promise<void> {
-    await updateDoc(doc(db, collections.students, studentId), { status: 'dropped' });
-    firebaseUsageService.trackUsage('writes');
   },
 
   getStudentFee,

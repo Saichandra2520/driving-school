@@ -3,6 +3,7 @@ import { authService } from '@/services/authService';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
 import { db } from '@/services/firebase';
 import { firebaseUsageService } from '@/services/firebaseUsageService';
+import { pendingPaymentService } from '@/services/pendingPaymentService';
 import { receiptNumberService } from '@/services/receiptNumberService';
 import { useSyncStore } from '@/store/syncStore';
 import type {
@@ -29,6 +30,14 @@ function assertOnlineForReceipt(): void {
   }
 }
 
+function isCourseExtensionInstallment(installment: Installment): boolean {
+  return (
+    installment.source === 'course_extension' ||
+    Boolean(installment.courseExtensionId) ||
+    (installment.notes ?? '').trim().toLowerCase().startsWith('course extension -')
+  );
+}
+
 async function assertCanManageStudent(studentId: string): Promise<Student> {
   const [{ profile }, student] = await Promise.all([
     authService.getCurrentUser(),
@@ -44,10 +53,14 @@ async function assertCanManageStudent(studentId: string): Promise<Student> {
 }
 
 async function getFeeReferenceByStudentId(studentId: string): Promise<string> {
+  return getFeeByStudentIdRaw(studentId).then((fee) => fee.id);
+}
+
+async function getFeeByStudentIdRaw(studentId: string): Promise<Fee> {
   const fees = await getCollection<Fee>(collections.fees, [where('studentId', '==', studentId)]);
   const fee = fees[0];
   if (!fee) throw new Error('Unable to load fee details.');
-  return fee.id;
+  return recalculateFee({ ...fee, branchId: fee.branchId ?? '' });
 }
 
 async function getFeeInTransaction(transaction: Transaction, feeId: string): Promise<Fee> {
@@ -77,59 +90,98 @@ export function recalculateFee(fee: Fee): Fee {
   };
 }
 
+async function saveInstallmentOnline(
+  studentId: string,
+  payload: AddInstallmentPayload,
+  options: { clientPaymentId?: string; createdAt?: string } = {}
+): Promise<Fee> {
+  const feeId = await getFeeReferenceByStudentId(studentId);
+
+  return runTransaction(db, async (transaction) => {
+    const fee = await getFeeInTransaction(transaction, feeId);
+    const currentFee = recalculateFee(fee);
+    const existing = options.clientPaymentId
+      ? currentFee.installments.find((installment) => installment.clientPaymentId === options.clientPaymentId)
+      : null;
+
+    if (existing) return currentFee;
+
+    if (payload.amount > currentFee.balance) {
+      throw new Error('Amount cannot exceed balance.');
+    }
+
+    const receiptNo = await receiptNumberService.getNextReceiptNumberInTransaction(transaction);
+    const installment: Installment = {
+      receiptNo,
+      clientPaymentId: options.clientPaymentId,
+      amount: payload.amount,
+      date: payload.date,
+      notes: payload.notes?.trim() || '',
+      createdAt: options.createdAt ?? new Date().toISOString()
+    };
+    const nextInstallments = [...currentFee.installments, installment];
+    const paidAmount = nextInstallments.reduce((total, item) => total + Number(item.amount), 0);
+    const balance = Number(currentFee.totalAmount) - paidAmount;
+
+    transaction.update(doc(db, collections.fees, fee.id), {
+      installments: nextInstallments,
+      paidAmount,
+      balance
+    });
+    firebaseUsageService.trackUsage('writes');
+
+    return {
+      ...currentFee,
+      installments: nextInstallments,
+      paidAmount,
+      balance
+    };
+  }).catch((error) => {
+    if (error instanceof Error) throw error;
+    throw new Error('Unable to add installment.');
+  });
+}
+
 export const feeService = {
   async getFeeByStudentId(studentId: string): Promise<Fee | null> {
     await assertCanManageStudent(studentId);
     const fees = await getCollection<Fee>(collections.fees, [where('studentId', '==', studentId)]);
-    return fees[0] ? recalculateFee(fees[0]) : null;
+    return fees[0] ? pendingPaymentService.applyPendingPaymentsToFee(recalculateFee(fees[0]), studentId) : null;
   },
 
   async addInstallment(studentId: string, payload: AddInstallmentPayload): Promise<Fee> {
-    assertOnlineForReceipt();
     assertValidAmount(payload.amount);
     if (!payload.date) throw new Error('Payment date is required.');
 
-    await assertCanManageStudent(studentId);
+    const student = await assertCanManageStudent(studentId);
 
-    const receiptNo = await receiptNumberService.getNextReceiptNumber();
-    const feeId = await getFeeReferenceByStudentId(studentId);
-
-    return runTransaction(db, async (transaction) => {
-      const fee = await getFeeInTransaction(transaction, feeId);
-
-      const currentFee = recalculateFee(fee);
+    if (!useSyncStore.getState().isOnline) {
+      const baseFee = await getFeeByStudentIdRaw(studentId);
+      const currentFee = pendingPaymentService.applyPendingPaymentsToFee(baseFee, studentId) ?? baseFee;
       if (payload.amount > currentFee.balance) {
         throw new Error('Amount cannot exceed balance.');
       }
 
-      const installment: Installment = {
-        receiptNo,
+      pendingPaymentService.add({
+        studentId,
+        branchId: student.branchId,
         amount: payload.amount,
         date: payload.date,
-        notes: payload.notes?.trim() || '',
-        createdAt: new Date().toISOString()
-      };
-      const nextInstallments = [...currentFee.installments, installment];
-      const paidAmount = nextInstallments.reduce((total, item) => total + Number(item.amount), 0);
-      const balance = Number(currentFee.totalAmount) - paidAmount;
-
-      transaction.update(doc(db, collections.fees, fee.id), {
-        installments: nextInstallments,
-        paidAmount,
-        balance
+        notes: payload.notes
       });
-      firebaseUsageService.trackUsage('writes');
 
-      return {
-        ...currentFee,
-        installments: nextInstallments,
-        paidAmount,
-        balance
-      };
-    }).catch((error) => {
-      if (error instanceof Error) throw error;
-      throw new Error('Unable to add installment.');
-    });
+      return pendingPaymentService.applyPendingPaymentsToFee(baseFee, studentId) ?? baseFee;
+    }
+
+    const pendingForStudent = pendingPaymentService.getByStudent(studentId);
+    if (pendingForStudent.length > 0) {
+      const result = await feeService.syncPendingPayments({ studentId });
+      if (result.failed > 0) {
+        throw new Error('Pending offline payments must sync before recording another payment for this student.');
+      }
+    }
+
+    return saveInstallmentOnline(studentId, payload);
   },
 
   async updateInstallment(
@@ -150,6 +202,9 @@ export const feeService = {
       const currentFee = recalculateFee(fee);
       const existing = currentFee.installments.find((installment) => installment.receiptNo === receiptNo);
       if (!existing) throw new Error('Installment not found.');
+      if (isCourseExtensionInstallment(existing)) {
+        throw new Error('Course extension receipts cannot be edited from fee installments.');
+      }
 
       const nextInstallments = currentFee.installments.map((installment) =>
         installment.receiptNo === receiptNo
@@ -157,7 +212,8 @@ export const feeService = {
               ...installment,
               amount: payload.amount,
               date: payload.date,
-              notes: payload.notes?.trim() || ''
+              notes: payload.notes?.trim() || '',
+              updatedAt: new Date().toISOString()
             }
           : installment
       );
@@ -195,6 +251,11 @@ export const feeService = {
       const fee = await getFeeInTransaction(transaction, feeId);
 
       const currentFee = recalculateFee(fee);
+      const existing = currentFee.installments.find((installment) => installment.receiptNo === receiptNo);
+      if (!existing) throw new Error('Installment not found.');
+      if (isCourseExtensionInstallment(existing)) {
+        throw new Error('Course extension receipts cannot be deleted from fee installments.');
+      }
       const nextInstallments = currentFee.installments.filter((installment) => installment.receiptNo !== receiptNo);
       const paidAmount = nextInstallments.reduce((total, item) => total + Number(item.amount), 0);
       const balance = Number(currentFee.totalAmount) - paidAmount;
@@ -216,6 +277,48 @@ export const feeService = {
       if (error instanceof Error) throw error;
       throw new Error('Unable to delete installment.');
     });
+  },
+
+  async syncPendingPayments(filters: { studentId?: string; branchId?: string | null } = {}): Promise<{ synced: number; failed: number }> {
+    if (!useSyncStore.getState().isOnline) return { synced: 0, failed: 0 };
+
+    const payments = pendingPaymentService.getAll().filter((payment) => {
+      if (filters.studentId && payment.studentId !== filters.studentId) return false;
+      if (filters.branchId && payment.branchId !== filters.branchId) return false;
+      return true;
+    });
+    let synced = 0;
+    let failed = 0;
+
+    for (const payment of payments) {
+      pendingPaymentService.markSyncing(payment.id);
+
+      try {
+        await assertCanManageStudent(payment.studentId);
+        await saveInstallmentOnline(
+          payment.studentId,
+          {
+            amount: payment.amount,
+            date: payment.date,
+            notes: payment.notes
+          },
+          {
+            clientPaymentId: payment.id,
+            createdAt: payment.createdAt
+          }
+        );
+        pendingPaymentService.remove(payment.id);
+        synced += 1;
+      } catch (error) {
+        pendingPaymentService.markFailed(
+          payment.id,
+          error instanceof Error ? error.message : 'Unable to sync pending payment.'
+        );
+        failed += 1;
+      }
+    }
+
+    return { synced, failed };
   },
 
   recalculateFee

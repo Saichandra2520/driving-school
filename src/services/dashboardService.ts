@@ -117,6 +117,15 @@ function normalizeFee(fee: Fee): Fee {
   };
 }
 
+function getTimestampValue(value: unknown): string {
+  if (!value) return '';
+  if (typeof value === 'string') return value;
+  if (typeof value === 'object' && value !== null && 'toDate' in value && typeof (value as { toDate: () => Date }).toDate === 'function') {
+    return (value as { toDate: () => Date }).toDate().toISOString();
+  }
+  return '';
+}
+
 function expenseTotal(expenses: Expense[], categories: ExpenseCategory[]): number {
   const categorySet = new Set(categories);
   return expenses.reduce(
@@ -179,9 +188,9 @@ function computeDashboardData(data: {
   return {
     summary: {
       totalStudents: students.length,
+      aboutToStartStudents: students.filter((student) => student.status === 'about_to_start').length,
       ongoingStudents: students.filter((student) => student.status === 'ongoing' || student.status === 'extended').length,
       passedStudents: students.filter((student) => student.status === 'passed').length,
-      droppedStudents: students.filter((student) => student.status === 'dropped').length,
       totalFeeCollected,
       todayCollections,
       pendingFeeBalance,
@@ -244,10 +253,12 @@ function computeDashboardData(data: {
           branchName: branchNames.get(fee.branchId),
           receiptNo: installment.receiptNo,
           amount: Number(installment.amount ?? 0),
-          date: installment.date
+          date: installment.date,
+          isEdited: Boolean(installment.updatedAt),
+          updatedAt: getTimestampValue(installment.updatedAt)
         }));
       })
-      .sort((a, b) => b.date.localeCompare(a.date))
+      .sort((a, b) => (b.updatedAt || b.date).localeCompare(a.updatedAt || a.date))
       .slice(0, 5),
     recentExpenses: expenses
       .map((expense) => ({

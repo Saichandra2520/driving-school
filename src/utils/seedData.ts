@@ -40,6 +40,7 @@ const twoWheelerClasses = [
   'Running',
   'Marching / Stopping',
   'Circle Practice',
+  'ABC + Indicator',
   'Test Practice'
 ];
 
@@ -243,7 +244,7 @@ export async function seedDummyData(): Promise<void> {
     drivingLicenceNo: '',
     dlIssueDate: null,
     dlExpiryDate: null,
-    status: 'dropped',
+    status: 'ongoing',
     branchId: branch2Id
   });
 

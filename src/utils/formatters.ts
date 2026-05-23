@@ -32,10 +32,10 @@ export function formatStatus(status: StudentStatus | 'expired'): string {
 
 export function formatStudentStatus(status: StudentStatus): string {
   const labels: Record<StudentStatus, string> = {
+    about_to_start: 'About to Start',
     ongoing: 'Ongoing',
     passed: 'Passed',
-    extended: 'Extended',
-    dropped: 'Dropped'
+    extended: 'Extended'
   };
 
   return labels[status];

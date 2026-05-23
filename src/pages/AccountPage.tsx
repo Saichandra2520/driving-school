@@ -14,6 +14,7 @@ export function AccountPage(): JSX.Element {
   const user = useAuthStore((state) => state.user);
   const profile = useAuthStore((state) => state.profile);
   const restoreSession = useAuthStore((state) => state.restoreSession);
+  const canChangePassword = profile?.role === 'owner';
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -77,7 +78,7 @@ export function AccountPage(): JSX.Element {
 
   return (
     <section className="mx-auto max-w-xl space-y-5">
-      <PageHeader title="Account" description={user?.email ?? 'Manage your profile and password.'} />
+      <PageHeader title="Account" description={user?.email ?? 'Manage your profile.'} />
 
       {message ? <Alert variant="success">{message}</Alert> : null}
       {errorMessage ? <Alert variant="destructive">{errorMessage}</Alert> : null}
@@ -97,47 +98,49 @@ export function AccountPage(): JSX.Element {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Change Password</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            <div className="space-y-2">
-              <Label htmlFor="current-password">Current password</Label>
-              <Input
-                id="current-password"
-                type="password"
-                value={currentPassword}
-                onChange={(event) => setCurrentPassword(event.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="new-password">New password</Label>
-              <Input
-                id="new-password"
-                type="password"
-                value={newPassword}
-                onChange={(event) => setNewPassword(event.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="confirm-password">Confirm new password</Label>
-              <Input
-                id="confirm-password"
-                type="password"
-                value={confirmPassword}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-              />
-            </div>
-            <div className="flex justify-end">
-              <Button type="submit" disabled={isSaving}>
-                {isSaving ? 'Saving...' : 'Change Password'}
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+      {canChangePassword ? (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Change Password</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              <div className="space-y-2">
+                <Label htmlFor="current-password">Current password</Label>
+                <Input
+                  id="current-password"
+                  type="password"
+                  value={currentPassword}
+                  onChange={(event) => setCurrentPassword(event.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="new-password">New password</Label>
+                <Input
+                  id="new-password"
+                  type="password"
+                  value={newPassword}
+                  onChange={(event) => setNewPassword(event.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirm-password">Confirm new password</Label>
+                <Input
+                  id="confirm-password"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(event) => setConfirmPassword(event.target.value)}
+                />
+              </div>
+              <div className="flex justify-end">
+                <Button type="submit" disabled={isSaving}>
+                  {isSaving ? 'Saving...' : 'Change Password'}
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      ) : null}
     </section>
   );
 }

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ClipboardCheck, CreditCard, Eye, Plus, ReceiptText, RefreshCw } from 'lucide-react';
+import { CheckCircle2, ClipboardCheck, CreditCard, Eye, FileWarning, Plus, ReceiptText, RefreshCw } from 'lucide-react';
 import { ActionCard } from '@/components/common/ActionCard';
 import { EmptyState } from '@/components/common/EmptyState';
 import { PageLoader } from '@/components/common/PageLoader';
@@ -13,33 +13,32 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useCachedSubscription } from '@/hooks/useCachedData';
 import { dashboardService, type DashboardData } from '@/services/dashboardService';
 import { studentService } from '@/services/studentService';
 import { useAlertStore } from '@/store/alertStore';
 import { useAppStore } from '@/store/app-store';
 import { useAuthStore } from '@/store/authStore';
+import { cacheTags, createPageCacheKey, invalidatePageCache } from '@/store/pageCacheStore';
 import type {
   AlertFilters,
   DashboardFilters,
   PendingFeeStudent,
-  RecentExpense,
-  RecentPayment,
   StudentWithFee,
   ThirtyDayAlertStudent
 } from '@/types';
 import {
   formatCourseType,
   formatCurrency,
-  formatDate,
-  formatExpenseCategory
+  formatDate
 } from '@/utils/formatters';
 import { getFriendlyErrorMessage } from '@/utils/errors';
 
 const emptySummary = {
   totalStudents: 0,
+  aboutToStartStudents: 0,
   ongoingStudents: 0,
   passedStudents: 0,
-  droppedStudents: 0,
   totalFeeCollected: 0,
   todayCollections: 0,
   pendingFeeBalance: 0,
@@ -68,9 +67,8 @@ export function DashboardPage(): JSX.Element {
   const selectedBranchId = useAppStore((state) => state.branchId);
   const alerts = useAlertStore((state) => state.alerts);
   const fetchAlerts = useAlertStore((state) => state.fetchAlerts);
-  const [dashboard, setDashboard] = useState<DashboardData>(emptyDashboard);
   const [selectedStudent, setSelectedStudent] = useState<StudentWithFee | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isManualRefreshing, setIsManualRefreshing] = useState(false);
   const [isStudentLoading, setIsStudentLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -93,11 +91,51 @@ export function DashboardPage(): JSX.Element {
       branchId: profile.role === 'owner' ? selectedBranchId ?? 'all' : profile.branchId ?? undefined
     };
   }, [profile, selectedBranchId]);
+  const dashboardCacheKey = useMemo(
+    () =>
+      createPageCacheKey('dashboard', {
+        branchId: filters?.branchId ?? 'all',
+        role: filters?.role ?? 'none',
+        userBranchId: filters?.userBranchId ?? 'none',
+        userId: profile?.id ?? 'anonymous'
+      }),
+    [filters?.branchId, filters?.role, filters?.userBranchId, profile?.id]
+  );
+  const dashboardCacheTags = useMemo(
+    () => [
+      cacheTags.dashboard,
+      cacheTags.students,
+      cacheTags.fees,
+      cacheTags.expenses,
+      cacheTags.branch(filters?.branchId ?? 'all'),
+      cacheTags.user(profile?.id)
+    ],
+    [filters?.branchId, profile?.id]
+  );
+  const subscribeDashboard = useCallback(
+    (onNext: (data: DashboardData) => void, onError: (error: Error) => void) => {
+      if (!filters) return () => undefined;
+      return dashboardService.subscribeDashboardData(filters, onNext, onError);
+    },
+    [filters]
+  );
+  const {
+    data: cachedDashboard,
+    error: dashboardError,
+    isLoading,
+    setCachedData: setCachedDashboard
+  } = useCachedSubscription<DashboardData>({
+    cacheKey: dashboardCacheKey,
+    enabled: Boolean(filters),
+    subscribe: subscribeDashboard,
+    tags: dashboardCacheTags
+  });
+  const dashboard = cachedDashboard ?? emptyDashboard;
 
   const loadDashboard = useCallback(async (): Promise<void> => {
     if (!filters) return;
 
-    setIsLoading(true);
+    setIsManualRefreshing(true);
     setErrorMessage('');
 
     try {
@@ -109,45 +147,28 @@ export function DashboardPage(): JSX.Element {
         dashboardService.getRecentExpenses(filters)
       ]);
 
-      setDashboard({ summary, pendingFees, thirtyDayAlerts, recentPayments, recentExpenses });
+      setCachedDashboard({ summary, pendingFees, thirtyDayAlerts, recentPayments, recentExpenses });
       if (alertFilters) {
         await fetchAlerts(alertFilters);
       }
     } catch (error) {
       console.error('Failed to load dashboard:', error);
       setErrorMessage(getFriendlyErrorMessage(error, 'Unable to load dashboard. Please check your connection and try again.'));
-      setDashboard(emptyDashboard);
     } finally {
-      setIsLoading(false);
+      setIsManualRefreshing(false);
     }
-  }, [alertFilters, fetchAlerts, filters]);
+  }, [alertFilters, fetchAlerts, filters, setCachedDashboard]);
 
   useEffect(() => {
-    if (!filters) return;
+    if (!dashboardError) return;
 
-    setIsLoading(true);
-    setErrorMessage('');
+    console.error('Failed to load dashboard:', dashboardError);
+    setErrorMessage(getFriendlyErrorMessage(dashboardError, 'Unable to load dashboard. Please check your connection and try again.'));
+  }, [dashboardError]);
 
-    const unsubscribe = dashboardService.subscribeDashboardData(
-      filters,
-      (data) => {
-        setDashboard(data);
-        setIsLoading(false);
-      },
-      (error) => {
-        console.error('Failed to load dashboard:', error);
-        setErrorMessage(getFriendlyErrorMessage(error, 'Unable to load dashboard. Please check your connection and try again.'));
-        setDashboard(emptyDashboard);
-        setIsLoading(false);
-      }
-    );
-
-    if (alertFilters) {
-      void fetchAlerts(alertFilters);
-    }
-
-    return unsubscribe;
-  }, [alertFilters, fetchAlerts, filters]);
+  useEffect(() => {
+    if (alertFilters) void fetchAlerts(alertFilters);
+  }, [alertFilters, fetchAlerts]);
 
   const handleViewStudent = async (studentId: string): Promise<void> => {
     setIsStudentLoading(true);
@@ -165,6 +186,15 @@ export function DashboardPage(): JSX.Element {
   };
 
   const handleDetailsChanged = async (): Promise<void> => {
+    invalidatePageCache([
+      cacheTags.students,
+      cacheTags.fees,
+      cacheTags.dashboard,
+      cacheTags.payments,
+      cacheTags.reports,
+      cacheTags.branch(filters?.branchId ?? 'all'),
+      cacheTags.user(profile?.id)
+    ]);
     await loadDashboard();
     if (selectedStudent) {
       const student = await studentService.getStudentById(selectedStudent.id);
@@ -196,9 +226,9 @@ export function DashboardPage(): JSX.Element {
         title={`${greeting}, ${profile?.fullName || 'there'}`}
         description={branchContext}
         actions={
-        <Button type="button" variant="outline" onClick={() => void loadDashboard()} disabled={isLoading}>
+        <Button type="button" variant="outline" onClick={() => void loadDashboard()} disabled={isLoading || isManualRefreshing}>
           <RefreshCw className="mr-2 h-4 w-4" aria-hidden="true" />
-          Refresh
+          {isManualRefreshing ? 'Refreshing...' : 'Refresh'}
         </Button>
         }
       />
@@ -210,28 +240,47 @@ export function DashboardPage(): JSX.Element {
       ) : (
         <>
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-6">
-            <StatCard label="Total Students" value={String(summary.totalStudents)} helper={`${summary.ongoingStudents} ongoing`} />
+            <StatCard label="Active Students" value={String(summary.ongoingStudents)} helper={`${summary.aboutToStartStudents} about to start, ${summary.passedStudents} passed`} />
             <StatCard label="Pending Fees" value={formatCurrency(summary.pendingFeeBalance)} tone={summary.pendingFeeBalance > 0 ? 'danger' : 'good'} />
             <StatCard label="Today's Collections" value={formatCurrency(summary.todayCollections)} helper="Payments dated today" tone="good" />
             <StatCard label="Today's Expenses" value={formatCurrency(summary.todayExpenses)} helper="Expenses dated today" tone="danger" />
-            <StatCard label="Training Alerts" value={String(alertCounts.completed)} tone={alertCounts.completed > 0 ? 'warning' : 'default'} />
+            <StatCard label="Open Alerts" value={String(alertCounts.total)} helper={`${alertCounts.pendingFee} fee, ${alertCounts.drivingTestPending} test`} tone={alertCounts.total > 0 ? 'warning' : 'default'} />
             <StatCard label="Net Amount" value={formatCurrency(summary.netAmount)} tone={summary.netAmount >= 0 ? 'good' : 'danger'} />
           </div>
 
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-            <ActionCard title="Add Student" description="Create a new admission record" icon={<Plus className="h-5 w-5" />} onClick={() => navigate('/students')} />
-            <ActionCard title="Mark Attendance" description="Open today's training list" icon={<ClipboardCheck className="h-5 w-5" />} onClick={() => navigate('/attendance')} />
-            <ActionCard title="Record Payment" description="Save an installment and receipt" icon={<CreditCard className="h-5 w-5" />} onClick={() => navigate('/payments')} />
-            <ActionCard title="Add Expense" description="Record fuel, salary, rent, or challan" icon={<ReceiptText className="h-5 w-5" />} onClick={() => navigate('/expenses')} />
-          </div>
+          <div className="grid gap-3 lg:grid-cols-[1.4fr_1fr]">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Needs Attention</CardTitle>
+              </CardHeader>
+              <CardContent className="grid gap-3 sm:grid-cols-3">
+                <AttentionItem
+                  icon={<CreditCard className="h-4 w-4" />}
+                  label="Pending fee students"
+                  value={dashboard.pendingFees.length}
+                  tone={dashboard.pendingFees.length > 0 ? 'danger' : 'good'}
+                />
+                <AttentionItem
+                  icon={<ClipboardCheck className="h-4 w-4" />}
+                  label="Training due"
+                  value={dashboard.thirtyDayAlerts.length}
+                  tone={dashboard.thirtyDayAlerts.length > 0 ? 'warning' : 'good'}
+                />
+                <AttentionItem
+                  icon={<FileWarning className="h-4 w-4" />}
+                  label="Licence expiry"
+                  value={alertCounts.licenceExpiry}
+                  tone={alertCounts.licenceExpiry > 0 ? 'warning' : 'good'}
+                />
+              </CardContent>
+            </Card>
 
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-6">
-            <ExpenseCard label="Fuel" amount={summary.fuelTotal} />
-            <ExpenseCard label="Maintenance" amount={summary.maintenanceTotal} />
-            <ExpenseCard label="Salary" amount={summary.salaryTotal} />
-            <ExpenseCard label="Rent + Electricity" amount={summary.rentElectricityTotal} />
-            <ExpenseCard label="Challans" amount={summary.challanTotal} />
-            <ExpenseCard label="Other" amount={summary.otherTotal} />
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+              <ActionCard title="Add Student" description="Create admission" icon={<Plus className="h-5 w-5" />} onClick={() => navigate('/students')} />
+              <ActionCard title="Mark Attendance" description="Open today's list" icon={<ClipboardCheck className="h-5 w-5" />} onClick={() => navigate('/attendance')} />
+              <ActionCard title="Record Payment" description="Save receipt" icon={<CreditCard className="h-5 w-5" />} onClick={() => navigate('/payments')} />
+              <ActionCard title="Add Expense" description="Record spending" icon={<ReceiptText className="h-5 w-5" />} onClick={() => navigate('/expenses')} />
+            </div>
           </div>
 
           <div className="grid gap-5 xl:grid-cols-2">
@@ -245,11 +294,6 @@ export function DashboardPage(): JSX.Element {
               onViewStudent={(studentId) => void handleViewStudent(studentId)}
               isStudentLoading={isStudentLoading}
             />
-          </div>
-
-          <div className="grid gap-5 xl:grid-cols-2">
-            <RecentPaymentsTable payments={dashboard.recentPayments} />
-            <RecentExpensesTable expenses={dashboard.recentExpenses} />
           </div>
         </>
       )}
@@ -273,43 +317,45 @@ export function DashboardPage(): JSX.Element {
   );
 }
 
-function SummaryCard({
+function AttentionItem({
+  icon,
   label,
   value,
-  tone = 'default'
+  tone
 }: {
+  icon: JSX.Element;
   label: string;
-  value: string;
-  tone?: 'default' | 'positive' | 'negative';
+  value: number;
+  tone: 'good' | 'warning' | 'danger';
 }): JSX.Element {
   return (
-    <Card>
-      <CardContent className="p-4">
-        <p className="text-xs text-muted-foreground">{label}</p>
-        <p
+    <div className="rounded-md border p-3">
+      <div className="flex items-center gap-2 text-muted-foreground">
+        <span
           className={
-            tone === 'positive'
-              ? 'mt-1 text-xl font-semibold text-success'
-              : tone === 'negative'
-                ? 'mt-1 text-xl font-semibold text-danger'
-                : 'mt-1 text-xl font-semibold'
+            tone === 'danger'
+              ? 'text-danger'
+              : tone === 'warning'
+                ? 'text-warning'
+                : 'text-success'
           }
         >
-          {value}
-        </p>
-      </CardContent>
-    </Card>
-  );
-}
-
-function ExpenseCard({ label, amount }: { label: string; amount: number }): JSX.Element {
-  return (
-    <Card>
-      <CardContent className="p-3">
-        <p className="text-xs text-muted-foreground">{label}</p>
-        <p className="mt-1 text-base font-semibold">{formatCurrency(amount)}</p>
-      </CardContent>
-    </Card>
+          {value > 0 ? icon : <CheckCircle2 className="h-4 w-4" />}
+        </span>
+        <p className="text-sm">{label}</p>
+      </div>
+      <p
+        className={
+          tone === 'danger'
+            ? 'mt-2 text-2xl font-semibold text-danger'
+            : tone === 'warning'
+              ? 'mt-2 text-2xl font-semibold text-warning'
+              : 'mt-2 text-2xl font-semibold text-success'
+        }
+      >
+        {value}
+      </p>
+    </div>
   );
 }
 
@@ -331,16 +377,13 @@ function PendingFeeStudentsTable({
         {students.length === 0 ? (
           <EmptyState title="No pending fee students." />
         ) : (
-          <div className="overflow-x-auto rounded-md border">
+          <div className="rounded-md border">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Student Name</TableHead>
-                  <TableHead>Phone</TableHead>
+                  <TableHead>Student</TableHead>
+                  <TableHead>Contact</TableHead>
                   <TableHead>Branch</TableHead>
-                  <TableHead>Course</TableHead>
-                  <TableHead className="text-right">Total Fee</TableHead>
-                  <TableHead className="text-right">Paid</TableHead>
                   <TableHead className="text-right">Balance</TableHead>
                   <TableHead>Actions</TableHead>
                 </TableRow>
@@ -349,11 +392,13 @@ function PendingFeeStudentsTable({
                 {students.map((student) => (
                   <TableRow key={student.studentId}>
                     <TableCell className="font-medium">{student.fullName}</TableCell>
-                    <TableCell>{student.phone}</TableCell>
+                    <TableCell>
+                      <div className="space-y-1">
+                        <p>{student.phone}</p>
+                        <p className="text-xs text-muted-foreground">{formatCourseType(student.courseType)}</p>
+                      </div>
+                    </TableCell>
                     <TableCell>{student.branchName ?? '-'}</TableCell>
-                    <TableCell>{formatCourseType(student.courseType)}</TableCell>
-                    <TableCell className="text-right">{formatCurrency(student.totalAmount)}</TableCell>
-                    <TableCell className="text-right">{formatCurrency(student.paidAmount)}</TableCell>
                     <TableCell className="text-right font-medium">{formatCurrency(student.balance)}</TableCell>
                     <TableCell>
                       <Button
@@ -438,86 +483,6 @@ function ThirtyDayAlertsTable({
                         View Student
                       </Button>
                     </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-
-function RecentPaymentsTable({ payments }: { payments: RecentPayment[] }): JSX.Element {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">Recent Payments</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {payments.length === 0 ? (
-          <EmptyState title="No recent payments." />
-        ) : (
-          <div className="overflow-x-auto rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Receipt No</TableHead>
-                  <TableHead>Student</TableHead>
-                  <TableHead>Branch</TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {payments.map((payment) => (
-                  <TableRow key={`${payment.studentId}-${payment.receiptNo}`}>
-                    <TableCell>{formatDate(payment.date)}</TableCell>
-                    <TableCell className="font-medium">{payment.receiptNo}</TableCell>
-                    <TableCell>{payment.studentName}</TableCell>
-                    <TableCell>{payment.branchName ?? '-'}</TableCell>
-                    <TableCell className="text-right">{formatCurrency(payment.amount)}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-
-function RecentExpensesTable({ expenses }: { expenses: RecentExpense[] }): JSX.Element {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">Recent Expenses</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {expenses.length === 0 ? (
-          <EmptyState title="No recent expenses." />
-        ) : (
-          <div className="overflow-x-auto rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Branch</TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
-                  <TableHead>Notes</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {expenses.map((expense) => (
-                  <TableRow key={expense.id}>
-                    <TableCell>{formatDate(expense.date)}</TableCell>
-                    <TableCell>{formatExpenseCategory(expense.category)}</TableCell>
-                    <TableCell>{expense.branchName ?? '-'}</TableCell>
-                    <TableCell className="text-right">{formatCurrency(expense.amount)}</TableCell>
-                    <TableCell>{expense.notes || '-'}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

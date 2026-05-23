@@ -93,8 +93,8 @@ npm run dist
 ## Production Notes
 
 - Deploy `firestore.rules` and `firestore.indexes.json` before production use.
-- After deploying the latest Students search changes, sign in as owner and run `Settings -> Student Search Index -> Backfill Next Batch` until it says complete.
-- Payment and receipt-number actions require internet access.
+- After deploying the latest Students search changes, sign in as owner and run `Settings -> Student Search Index -> Backfill Next Batch` until it says complete. This improves search performance for old records; active search also checks raw student fields so old records are still discoverable before backfill completes.
+- Offline payments are saved locally as pending receipts. The official receipt number is generated automatically after the app reconnects and syncs.
 - Keep regular backups from `Settings -> Data Backup`.
 
 ## Troubleshooting
@@ -102,4 +102,5 @@ npm run dist
 - Blank or login-only app: check `.env` Firebase values.
 - Firestore permission error: check user profile document under `users/{uid}`.
 - Student list index error: deploy Firestore indexes.
-- Search does not find old students: run the Student Search Index backfill from Settings.
+- Search feels slow for old students: run the Student Search Index backfill from Settings.
+- Pending receipt does not have a PDF/WhatsApp receipt yet: reconnect to the internet and leave the app open until pending payments sync.

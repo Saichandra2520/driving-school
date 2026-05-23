@@ -28,8 +28,8 @@ function getVariant(
 ): 'success' | 'secondary' | 'warning' | 'muted' | 'default' | 'danger' | 'info' | 'slate' | 'purple' | 'indigo' | 'orange' | 'yellow' {
   if (['passed', 'paid', 'completed'].includes(status)) return 'success';
   if (['ongoing', 'extended', 'in_progress', 'fuel'].includes(status)) return 'info';
-  if (['partial', 'near_completion', 'pending', 'maintenance'].includes(status)) return 'warning';
-  if (['dropped', 'failed', 'thirty_days_completed', 'learning_challan', 'driving_test_challan'].includes(status)) return 'danger';
+  if (['about_to_start', 'partial', 'near_completion', 'pending', 'maintenance'].includes(status)) return 'warning';
+  if (['failed', 'thirty_days_completed', 'learning_challan', 'driving_test_challan'].includes(status)) return 'danger';
   if (status === 'salary') return 'purple';
   if (status === 'electricity') return 'yellow';
   if (status === 'room_rent') return 'indigo';
@@ -38,7 +38,7 @@ function getVariant(
 }
 
 function getLabel(status: StatusBadgeProps['status']): string {
-  if (status === 'ongoing' || status === 'passed' || status === 'extended' || status === 'dropped') return formatStudentStatus(status);
+  if (status === 'about_to_start' || status === 'ongoing' || status === 'passed' || status === 'extended') return formatStudentStatus(status);
   if (status === 'paid') return 'Paid';
   if (status === 'partial') return 'Partial';
   if (status === 'pending') return 'Pending';

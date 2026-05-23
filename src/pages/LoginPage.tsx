@@ -30,7 +30,7 @@ export function LoginPage(): JSX.Element {
 
       if (!profile) {
         await authService.signOut();
-        throw new Error('Invalid email or password.');
+        throw new Error('Signed in account is missing a user profile. Ask the owner to create the Firestore users profile.');
       }
 
       setUser(user, profile);

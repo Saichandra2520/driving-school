@@ -16,13 +16,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useCachedAsync, useCachedSubscription } from '@/hooks/useCachedData';
 import { dashboardService } from '@/services/dashboardService';
 import { feeService } from '@/services/feeService';
+import { getInstallmentReceiptLabel, isPendingInstallment, pendingPaymentService } from '@/services/pendingPaymentService';
 import { studentService } from '@/services/studentService';
 import { useAppStore } from '@/store/app-store';
 import { useAuthStore } from '@/store/authStore';
+import { cacheTags, createPageCacheKey, invalidatePageCache } from '@/store/pageCacheStore';
 import { useSyncStore } from '@/store/syncStore';
-import type { DashboardFilters, Fee, RecentPayment, StudentWithFee } from '@/types';
+import type { DashboardFilters, Fee, Installment, RecentPayment, StudentWithFee } from '@/types';
 import { getFriendlyErrorMessage } from '@/utils/errors';
 import { INDIAN_CURRENCY_SYMBOL, formatCourseType, formatCurrency, formatDate, formatPhoneNumber } from '@/utils/formatters';
 
@@ -42,17 +45,19 @@ export function PaymentsPage(): JSX.Element {
   const [students, setStudents] = useState<StudentWithFee[]>([]);
   const [selectedStudent, setSelectedStudent] = useState<StudentWithFee | null>(null);
   const [recentPayments, setRecentPayments] = useState<RecentPayment[]>([]);
+  const [pendingPayments, setPendingPayments] = useState(pendingPaymentService.getAll());
   const [amount, setAmount] = useState('');
   const [paymentDate, setPaymentDate] = useState(getTodayDateInputValue);
   const [notes, setNotes] = useState('');
   const [lastReceiptNo, setLastReceiptNo] = useState('');
   const [receiptStudent, setReceiptStudent] = useState<StudentWithFee | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const activeBranchId = profile?.role === 'staff' ? profile.branchId : selectedBranchId;
+  const hasPendingPaymentStudents = students.length > 0;
+  const canRecordPayment = Boolean(selectedStudent && selectedStudent.balance > 0);
   const dashboardFilters = useMemo<DashboardFilters | null>(() => {
     if (!profile) return null;
     return {
@@ -61,45 +66,106 @@ export function PaymentsPage(): JSX.Element {
       branchId: profile.role === 'owner' ? selectedBranchId : profile.branchId
     };
   }, [profile, selectedBranchId]);
+  const paymentStudentsCacheKey = useMemo(
+    () =>
+      createPageCacheKey('payments-students', {
+        branchId: activeBranchId ?? 'all',
+        search,
+        userId: profile?.id ?? 'anonymous'
+      }),
+    [activeBranchId, profile?.id, search]
+  );
+  const recentPaymentsCacheKey = useMemo(
+    () =>
+      createPageCacheKey('payments-recent', {
+        branchId: dashboardFilters?.branchId ?? 'all',
+        role: dashboardFilters?.role ?? 'none',
+        userId: profile?.id ?? 'anonymous'
+      }),
+    [dashboardFilters?.branchId, dashboardFilters?.role, profile?.id]
+  );
+  const paymentsCacheTags = useMemo(
+    () => [
+      cacheTags.payments,
+      cacheTags.students,
+      cacheTags.fees,
+      cacheTags.branch(activeBranchId ?? 'all'),
+      cacheTags.user(profile?.id)
+    ],
+    [activeBranchId, profile?.id]
+  );
+  const recentPaymentsTags = useMemo(
+    () => [
+      cacheTags.payments,
+      cacheTags.fees,
+      cacheTags.dashboard,
+      cacheTags.branch(dashboardFilters?.branchId ?? 'all'),
+      cacheTags.user(profile?.id)
+    ],
+    [dashboardFilters?.branchId, profile?.id]
+  );
 
-  const loadData = useCallback(async (): Promise<void> => {
-    setErrorMessage('');
-    try {
-      const payments = dashboardFilters ? await dashboardService.getRecentPayments(dashboardFilters) : [];
-      setRecentPayments(payments);
-    } catch (error) {
-      console.error('Failed to load payments:', error);
-      setErrorMessage(getFriendlyErrorMessage(error, 'Unable to load payments. Please check your connection and try again.'));
-      setRecentPayments([]);
-    }
-  }, [dashboardFilters]);
+  const subscribePaymentStudents = useCallback(
+    (onNext: (rows: StudentWithFee[]) => void, onError: (error: Error) => void) =>
+      studentService.subscribeStudents(
+        { branchId: activeBranchId, search },
+        (studentRows) => {
+          const filteredRows = studentRows.filter((student) => (student.status === 'about_to_start' || student.status === 'ongoing' || student.status === 'extended') && student.balance > 0);
+          onNext(filteredRows);
+        },
+        onError
+      ),
+    [activeBranchId, search]
+  );
+  const fetchRecentPayments = useCallback(
+    () => (dashboardFilters ? dashboardService.getRecentPayments(dashboardFilters) : Promise.resolve([])),
+    [dashboardFilters]
+  );
+  const {
+    data: cachedPaymentStudents,
+    error: paymentStudentsError,
+    isLoading,
+    isRefreshing,
+    setCachedData: setCachedPaymentStudents
+  } = useCachedSubscription<StudentWithFee[]>({
+    cacheKey: paymentStudentsCacheKey,
+    subscribe: subscribePaymentStudents,
+    tags: paymentsCacheTags
+  });
+  const {
+    data: cachedRecentPayments,
+    error: recentPaymentsError,
+    setCachedData: setCachedRecentPayments
+  } = useCachedAsync<RecentPayment[]>({
+    cacheKey: recentPaymentsCacheKey,
+    enabled: Boolean(dashboardFilters),
+    fetcher: fetchRecentPayments,
+    tags: recentPaymentsTags
+  });
 
   useEffect(() => {
-    void loadData();
-  }, [loadData]);
+    setStudents(cachedPaymentStudents ?? []);
+    setSelectedStudent((current) => current ? (cachedPaymentStudents ?? []).find((student) => student.id === current.id) ?? current : current);
+  }, [cachedPaymentStudents]);
 
   useEffect(() => {
-    setIsLoading(true);
-    setErrorMessage('');
+    setRecentPayments(cachedRecentPayments ?? []);
+  }, [cachedRecentPayments]);
 
-    const unsubscribe = studentService.subscribeStudents(
-      { branchId: activeBranchId, search },
-      (studentRows) => {
-        setStudents(
-          studentRows.filter((student) => (student.status === 'ongoing' || student.status === 'extended') && student.balance > 0)
-        );
-        setIsLoading(false);
-      },
-      (error) => {
-        console.error('Failed to load payment students:', error);
-        setErrorMessage(getFriendlyErrorMessage(error, 'Unable to load payments. Please check your connection and try again.'));
-        setStudents([]);
-        setIsLoading(false);
-      }
-    );
+  useEffect(() => {
+    const error = paymentStudentsError ?? recentPaymentsError;
+    if (!error) return;
 
+    console.error('Failed to load payments:', error);
+    setErrorMessage(getFriendlyErrorMessage(error, 'Unable to load payments. Please check your connection and try again.'));
+  }, [paymentStudentsError, recentPaymentsError]);
+
+  useEffect(() => {
+    const loadPending = (): void => setPendingPayments(pendingPaymentService.getAll());
+    const unsubscribe = pendingPaymentService.subscribe(loadPending);
+    loadPending();
     return unsubscribe;
-  }, [activeBranchId, search]);
+  }, []);
 
   const handleSelectStudent = (student: StudentWithFee): void => {
     setSelectedStudent(student);
@@ -118,7 +184,6 @@ export function PaymentsPage(): JSX.Element {
     setReceiptStudent(null);
 
     const parsedAmount = Number(amount);
-    if (!isOnline) return setErrorMessage('Internet is required to record payments and generate receipt numbers.');
     if (!selectedStudent) return setErrorMessage('Select a student first.');
     if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) return setErrorMessage('Amount must be greater than 0.');
     if (parsedAmount > selectedStudent.balance) return setErrorMessage('Amount cannot exceed balance.');
@@ -132,16 +197,34 @@ export function PaymentsPage(): JSX.Element {
         date: paymentDate,
         notes
       });
-      const receiptNo = getSavedReceiptNo(fee, parsedAmount, paymentDate);
+      const savedInstallment = getSavedInstallment(fee, parsedAmount, paymentDate);
+      const receiptNo = savedInstallment?.receiptNo ?? '';
       const refreshedStudent = await studentService.getStudentById(selectedStudent.id);
+      invalidatePageCache([
+        cacheTags.students,
+        cacheTags.fees,
+        cacheTags.payments,
+        cacheTags.dashboard,
+        cacheTags.reports,
+        cacheTags.branch(activeBranchId ?? 'all'),
+        cacheTags.user(profile?.id)
+      ]);
       setSelectedStudent(refreshedStudent);
-      setStudents((current) => current.map((student) => (student.id === refreshedStudent?.id ? refreshedStudent : student)).filter((student) => student.balance > 0));
-      setRecentPayments(dashboardFilters ? await dashboardService.getRecentPayments(dashboardFilters) : []);
+      const nextStudents = students.map((student) => (student.id === refreshedStudent?.id ? refreshedStudent : student)).filter((student) => student.balance > 0);
+      setStudents(nextStudents);
+      setCachedPaymentStudents(nextStudents);
+      setCachedRecentPayments(dashboardFilters ? await dashboardService.getRecentPayments(dashboardFilters) : []);
       setAmount('');
       setNotes('');
-      setLastReceiptNo(receiptNo);
-      setReceiptStudent(refreshedStudent ?? selectedStudent);
-      setMessage(receiptNo ? `Payment saved successfully. Receipt No: ${receiptNo}` : 'Payment saved successfully.');
+      if (savedInstallment && isPendingInstallment(savedInstallment)) {
+        setLastReceiptNo('');
+        setReceiptStudent(null);
+        setMessage('Payment saved offline. Receipt will be generated after sync.');
+      } else {
+        setLastReceiptNo(receiptNo);
+        setReceiptStudent(refreshedStudent ?? selectedStudent);
+        setMessage(receiptNo ? `Payment saved successfully. Receipt No: ${receiptNo}` : 'Payment saved successfully.');
+      }
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
     } finally {
@@ -155,9 +238,9 @@ export function PaymentsPage(): JSX.Element {
 
       {message ? <Alert variant="success">{message}</Alert> : null}
       {errorMessage ? <Alert variant="destructive">{errorMessage}</Alert> : null}
-      {!isOnline ? <Alert variant="warning">Payments need internet because receipt numbers are generated online.</Alert> : null}
+      {!isOnline ? <Alert variant="warning">Offline payments are saved locally as pending receipts and sync automatically when internet returns.</Alert> : null}
 
-      <div className="grid gap-5 xl:grid-cols-[minmax(320px,420px)_1fr]">
+      <div className={hasPendingPaymentStudents || receiptStudent ? 'grid gap-5 xl:grid-cols-[minmax(320px,420px)_1fr]' : 'grid gap-5'}>
         <Card className="shadow-sm">
           <CardHeader>
             <CardTitle className="text-lg">Select Student</CardTitle>
@@ -169,7 +252,7 @@ export function PaymentsPage(): JSX.Element {
             ) : students.length === 0 ? (
               <EmptyState title="No students with pending balance found." />
             ) : (
-              <div className="max-h-[520px] space-y-2 overflow-y-auto pr-1">
+              <div className={`max-h-[520px] space-y-2 overflow-y-auto pr-1 ${isRefreshing ? 'opacity-60' : ''}`}>
                 {students.map((student) => (
                   <button
                     key={student.id}
@@ -191,65 +274,81 @@ export function PaymentsPage(): JSX.Element {
           </CardContent>
         </Card>
 
+        {hasPendingPaymentStudents || receiptStudent ? (
         <div className="space-y-5">
-          <div className="grid gap-3 md:grid-cols-3">
-            <StatCard label="Total Fee" value={formatCurrency(selectedStudent?.totalAmount ?? 0)} />
-            <StatCard label="Paid" value={formatCurrency(selectedStudent?.paidAmount ?? 0)} tone="good" />
-            <StatCard label="Balance" value={formatCurrency(selectedStudent?.balance ?? 0)} tone={(selectedStudent?.balance ?? 0) > 0 ? 'danger' : 'good'} />
-          </div>
+          {selectedStudent ? (
+            <div className="grid gap-3 md:grid-cols-3">
+              <StatCard label="Total Fee" value={formatCurrency(selectedStudent.totalAmount)} />
+              <StatCard label="Paid" value={formatCurrency(selectedStudent.paidAmount)} tone="good" />
+              <StatCard label="Balance" value={formatCurrency(selectedStudent.balance)} tone={selectedStudent.balance > 0 ? 'danger' : 'good'} />
+            </div>
+          ) : (
+            <Card className="shadow-sm">
+              <CardContent className="p-6">
+                <EmptyState title="Select a student to record payment." />
+              </CardContent>
+            </Card>
+          )}
 
+          {selectedStudent ? <StudentInstallmentsCard installments={selectedStudent.fee?.installments ?? []} /> : null}
+
+          {receiptStudent && lastReceiptNo ? (
+            <Card className="shadow-sm">
+              <CardContent className="p-4">
+                <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+                  <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                    <div>
+                      <p className="font-semibold text-success">Receipt ready: {lastReceiptNo}</p>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        Download the PDF receipt and open WhatsApp with the payment text immediately.
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <DownloadReceiptButton
+                        studentId={receiptStudent.id}
+                        receiptNo={lastReceiptNo}
+                        variant="outline"
+                        size="default"
+                        label="Download PDF"
+                        onError={setErrorMessage}
+                      />
+                      <ShareReceiptPdfButton
+                        studentId={receiptStudent.id}
+                        receiptNo={lastReceiptNo}
+                        variant="outline"
+                        size="default"
+                        label="Share PDF + Text"
+                        onError={setErrorMessage}
+                      />
+                      <WhatsAppReceiptButton
+                        studentId={receiptStudent.id}
+                        receiptNo={lastReceiptNo}
+                        variant="default"
+                        size="default"
+                        label="Send WhatsApp Text"
+                        onError={setErrorMessage}
+                      />
+                    </div>
+                  </div>
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    If direct PDF sharing is unavailable, the PDF downloads and WhatsApp opens with the receipt text. Attach the downloaded PDF in WhatsApp.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          ) : null}
+
+          {canRecordPayment ? (
           <Card className="shadow-sm">
             <CardHeader>
-              <CardTitle className="text-lg">Record Payment</CardTitle>
+              <CardTitle className="text-lg">Record Installment Payment</CardTitle>
             </CardHeader>
             <CardContent>
               <form className="space-y-4" onSubmit={handleSubmit}>
-                {receiptStudent && lastReceiptNo ? (
-                  <div className="rounded-lg border border-green-200 bg-green-50 p-4">
-                    <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-                      <div>
-                        <p className="font-semibold text-success">Receipt ready: {lastReceiptNo}</p>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                          Download the PDF receipt and open WhatsApp with the payment text immediately.
-                        </p>
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        <DownloadReceiptButton
-                          studentId={receiptStudent.id}
-                          receiptNo={lastReceiptNo}
-                          variant="outline"
-                          size="default"
-                          label="Download PDF"
-                          onError={setErrorMessage}
-                        />
-                        <ShareReceiptPdfButton
-                          studentId={receiptStudent.id}
-                          receiptNo={lastReceiptNo}
-                          variant="outline"
-                          size="default"
-                          label="Share PDF + Text"
-                          onError={setErrorMessage}
-                        />
-                        <WhatsAppReceiptButton
-                          studentId={receiptStudent.id}
-                          receiptNo={lastReceiptNo}
-                          variant="default"
-                          size="default"
-                          label="Send WhatsApp Text"
-                          onError={setErrorMessage}
-                        />
-                      </div>
-                    </div>
-                    <p className="mt-3 text-xs text-muted-foreground">
-                      If direct PDF sharing is unavailable, the PDF downloads and WhatsApp opens with the receipt text. Attach the downloaded PDF in WhatsApp.
-                    </p>
-                  </div>
-                ) : null}
-
                 <FilterBar className="md:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="payment-amount">Amount ({INDIAN_CURRENCY_SYMBOL}) *</Label>
-                    <Input id="payment-amount" type="number" min="1" value={amount} onChange={(event) => setAmount(event.target.value)} disabled={!selectedStudent || isSaving || !isOnline} />
+                    <Input id="payment-amount" type="number" min="1" value={amount} onChange={(event) => setAmount(event.target.value)} disabled={!selectedStudent || isSaving} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="payment-date">Payment Date *</Label>
@@ -259,16 +358,16 @@ export function PaymentsPage(): JSX.Element {
                       value={paymentDate}
                       max={getTodayDateInputValue()}
                       onChange={(event) => setPaymentDate(event.target.value)}
-                      disabled={!selectedStudent || isSaving || !isOnline}
+                      disabled={!selectedStudent || isSaving}
                     />
                   </div>
                   <div className="space-y-2 md:col-span-2">
                     <Label htmlFor="payment-notes">Notes <span className="text-muted-foreground">(optional)</span></Label>
-                    <Textarea id="payment-notes" value={notes} onChange={(event) => setNotes(event.target.value)} disabled={!selectedStudent || isSaving || !isOnline} />
+                    <Textarea id="payment-notes" value={notes} onChange={(event) => setNotes(event.target.value)} disabled={!selectedStudent || isSaving} />
                   </div>
                 </FilterBar>
                 <div className="flex justify-end">
-                  <Button type="submit" disabled={!selectedStudent || isSaving || !isOnline}>
+                  <Button type="submit" disabled={!selectedStudent || isSaving}>
                     <Save className="mr-2 h-4 w-4" aria-hidden="true" />
                     {isSaving ? 'Saving...' : 'Save Payment'}
                   </Button>
@@ -276,8 +375,12 @@ export function PaymentsPage(): JSX.Element {
               </form>
             </CardContent>
           </Card>
+          ) : null}
         </div>
+        ) : null}
       </div>
+
+      <PendingPaymentsCard payments={pendingPayments.filter((payment) => !activeBranchId || payment.branchId === activeBranchId)} />
 
       <Card className="shadow-sm">
         <CardHeader>
@@ -318,7 +421,88 @@ export function PaymentsPage(): JSX.Element {
   );
 }
 
-function getSavedReceiptNo(fee: Fee, amount: number, date: string): string {
+function getSavedInstallment(fee: Fee, amount: number, date: string): Installment | null {
   const matching = [...fee.installments].reverse().find((installment) => installment.date === date && Number(installment.amount) === amount);
-  return matching?.receiptNo ?? fee.installments[fee.installments.length - 1]?.receiptNo ?? '';
+  return matching ?? fee.installments[fee.installments.length - 1] ?? null;
+}
+
+function StudentInstallmentsCard({ installments }: { installments: Installment[] }): JSX.Element {
+  const sortedInstallments = [...installments].sort((a, b) => b.date.localeCompare(a.date));
+
+  return (
+    <Card className="shadow-sm">
+      <CardHeader>
+        <CardTitle className="text-lg">Installment Payments</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {sortedInstallments.length === 0 ? (
+          <EmptyState title="No installments paid yet." />
+        ) : (
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Receipt</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sortedInstallments.map((installment) => {
+                  const pending = isPendingInstallment(installment);
+
+                  return (
+                    <TableRow key={installment.clientPaymentId ?? installment.receiptNo}>
+                      <TableCell className="font-medium">
+                        {getInstallmentReceiptLabel(installment)}
+                        {pending && installment.syncError ? <p className="text-xs font-normal text-danger">{installment.syncError}</p> : null}
+                      </TableCell>
+                      <TableCell>{formatDate(installment.date)}</TableCell>
+                      <TableCell className="text-right font-medium">{formatCurrency(Number(installment.amount))}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function PendingPaymentsCard({ payments }: { payments: ReturnType<typeof pendingPaymentService.getAll> }): JSX.Element | null {
+  if (payments.length === 0) return null;
+
+  return (
+    <Card className="shadow-sm">
+      <CardHeader>
+        <CardTitle className="text-lg">Pending Receipt Sync</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="overflow-x-auto rounded-md border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Date</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Amount</TableHead>
+                <TableHead>Error</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {payments.map((payment) => (
+                <TableRow key={payment.id}>
+                  <TableCell>{formatDate(payment.date)}</TableCell>
+                  <TableCell className="capitalize">{payment.status}</TableCell>
+                  <TableCell className="text-right font-medium">{formatCurrency(payment.amount)}</TableCell>
+                  <TableCell>{payment.error ?? '-'}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </CardContent>
+    </Card>
+  );
 }

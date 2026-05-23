@@ -26,7 +26,7 @@ import type {
 } from '@/types';
 
 const fallbackClassTypes: Record<TrainingCourseType, string[]> = {
-  '2W': ['Handle Balance', 'Running', 'Marching / Stopping', 'Circle Practice', 'Test Practice'],
+  '2W': ['Handle Balance', 'Running', 'Marching / Stopping', 'Circle Practice', 'ABC + Indicator', 'Test Practice'],
   '4W': [
     'Theory',
     'Steering Practice',

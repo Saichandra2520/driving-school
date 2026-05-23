@@ -28,15 +28,17 @@ Use this checklist after changes that touch Firebase reads, writes, payments, re
 - While offline, mark attendance.
 - Reconnect internet and confirm the session update syncs.
 
-## Payment And Receipt Guardrails
+## Payment And Receipt Sync
 
 - Turn off internet.
-- Open Payments and confirm the form is disabled with the receipt-number warning.
-- Try Add Installment from Student Details and confirm the same warning appears.
+- Open Payments and confirm a payment can be saved as a pending receipt.
+- Try Add Installment from Student Details and confirm it saves as a pending receipt.
+- Confirm pending receipts reduce the visible balance locally.
+- Confirm pending receipts do not show PDF, share, or WhatsApp receipt actions.
 - Try editing/deleting a payment while offline and confirm it is blocked.
-- Try a paid course extension while offline and confirm it is blocked.
+- Try a paid course extension while offline and confirm it is blocked or shows a clear sync error.
 - Try a free course extension while offline and confirm it can be saved and later synced.
-- Reconnect internet and confirm normal payment, receipt download, share, and WhatsApp actions work.
+- Reconnect internet and confirm the pending payment syncs, receives an official receipt number, and then PDF, share, and WhatsApp actions work.
 
 ## Reports And Exports
 
@@ -48,6 +50,6 @@ Use this checklist after changes that touch Firebase reads, writes, payments, re
 
 ## Known Limitations
 
-- Receipt numbers remain online-only in Option 1 because they require strong sequencing.
+- Receipt numbers remain online-generated because they require strong sequencing; offline payments use pending local records until sync.
 - Firestore offline cache can only show data that the app has already loaded or that Firestore has cached.
 - Complex conflict resolution is not included in Option 1; this remains a future local-first database/sync-queue concern.

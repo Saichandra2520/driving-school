@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/vitest';
-import { vi } from 'vitest';
+import { afterEach, vi } from 'vitest';
+import { clearPageCache } from '@/store/pageCacheStore';
 
 Object.defineProperty(window, 'ResizeObserver', {
   writable: true,
@@ -22,4 +23,8 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn()
   })
+});
+
+afterEach(() => {
+  clearPageCache();
 });

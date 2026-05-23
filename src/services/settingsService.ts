@@ -29,6 +29,29 @@ async function attachBranch<T extends { branchId: string; branch?: Branch | null
   return { ...profile, branch: await getDocument<Branch>(collections.branches, profile.branchId) };
 }
 
+export function normalizeBranchName(name: string): string {
+  return name.trim().replace(/\s+/g, ' ');
+}
+
+export function normalizeBranchNameKey(name: string): string {
+  return normalizeBranchName(name).toLowerCase();
+}
+
+async function assertUniqueBranchName(name: string, excludedBranchId?: string): Promise<string> {
+  const normalizedName = normalizeBranchName(name);
+  const nameKey = normalizeBranchNameKey(normalizedName);
+  if (!nameKey) throw new Error('Branch name is required.');
+
+  const branches = await getCollection<Branch>(collections.branches);
+  const duplicate = branches.find((branch) => {
+    if (branch.id === excludedBranchId) return false;
+    return (branch.nameKey ?? normalizeBranchNameKey(branch.name)) === nameKey;
+  });
+
+  if (duplicate) throw new Error('A branch with this name already exists.');
+  return normalizedName;
+}
+
 export const settingsService = {
   async getBranches(): Promise<Branch[]> {
     return getCollection<Branch>(collections.branches, [orderBy('createdAt', 'desc')]);
@@ -49,10 +72,11 @@ export const settingsService = {
   },
 
   async createBranch(payload: CreateBranchPayload): Promise<void> {
-    if (!payload.name.trim()) throw new Error('Branch name is required.');
+    const name = await assertUniqueBranchName(payload.name);
 
     await addDoc(collection(db, collections.branches), {
-      name: payload.name.trim(),
+      name,
+      nameKey: normalizeBranchNameKey(name),
       location: payload.location?.trim() || null,
       createdAt: createdAt()
     });
@@ -60,10 +84,11 @@ export const settingsService = {
   },
 
   async updateBranch(branchId: string, payload: UpdateBranchPayload): Promise<void> {
-    if (!payload.name.trim()) throw new Error('Branch name is required.');
+    const name = await assertUniqueBranchName(payload.name, branchId);
 
     await updateDoc(doc(db, collections.branches, branchId), {
-      name: payload.name.trim(),
+      name,
+      nameKey: normalizeBranchNameKey(name),
       location: payload.location?.trim() || null
     });
     firebaseUsageService.trackUsage('writes');

@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { EmptyState } from '@/components/common/EmptyState';
 import { PageLoader } from '@/components/common/PageLoader';
@@ -9,7 +9,9 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useCachedAsync } from '@/hooks/useCachedData';
 import { settingsService } from '@/services/settingsService';
+import { cacheTags, createPageCacheKey, invalidatePageCache } from '@/store/pageCacheStore';
 import type { Branch } from '@/types';
 import { formatDateTime, notifyBranchesChanged } from '@/components/settings/settingsUtils';
 
@@ -19,32 +21,47 @@ export function BranchManagement(): JSX.Element {
   const [branches, setBranches] = useState<Branch[]>([]);
   const [modalState, setModalState] = useState<BranchModalState>(null);
   const [deleteTarget, setDeleteTarget] = useState<Branch | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const loadBranches = async (): Promise<void> => {
-    setIsLoading(true);
-    setErrorMessage('');
+  const fetchBranches = useCallback(() => settingsService.getBranches(), []);
+  const {
+    data: cachedBranches,
+    error: branchesError,
+    isLoading,
+    isRefreshing,
+    refresh: refreshBranches
+  } = useCachedAsync<Branch[]>({
+    cacheKey: createPageCacheKey('settings-branches'),
+    fetcher: fetchBranches,
+    tags: [cacheTags.settings, cacheTags.branches]
+  });
 
-    try {
-      setBranches(await settingsService.getBranches());
-    } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : 'Could not load branches.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const loadBranches = useCallback(async (force = false): Promise<void> => {
+    setErrorMessage('');
+    await refreshBranches({ force });
+  }, [refreshBranches]);
 
   useEffect(() => {
-    void loadBranches();
-  }, []);
+    setBranches(cachedBranches ?? []);
+  }, [cachedBranches]);
+
+  useEffect(() => {
+    if (!branchesError) return;
+    setErrorMessage(branchesError.message || 'Could not load branches.');
+  }, [branchesError]);
 
   const handleSaved = async (successMessage: string): Promise<void> => {
     setModalState(null);
     setMessage(successMessage);
     notifyBranchesChanged();
-    await loadBranches();
+    invalidatePageCache([
+      cacheTags.settings,
+      cacheTags.branches,
+      cacheTags.dashboard,
+      cacheTags.reports
+    ]);
+    await loadBranches(true);
   };
 
   const handleDelete = async (): Promise<void> => {
@@ -58,7 +75,13 @@ export function BranchManagement(): JSX.Element {
       setDeleteTarget(null);
       setMessage('Branch deleted successfully.');
       notifyBranchesChanged();
-      await loadBranches();
+      invalidatePageCache([
+        cacheTags.settings,
+        cacheTags.branches,
+        cacheTags.dashboard,
+        cacheTags.reports
+      ]);
+      await loadBranches(true);
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : 'Could not delete branch.');
       setDeleteTarget(null);
@@ -85,7 +108,7 @@ export function BranchManagement(): JSX.Element {
         ) : branches.length === 0 ? (
           <EmptyState title="No branches found. Add your first branch." />
         ) : (
-          <div className="overflow-x-auto rounded-md border">
+          <div className={`overflow-x-auto rounded-md border ${isRefreshing ? 'opacity-60' : ''}`}>
             <Table>
               <TableHeader>
                 <TableRow>

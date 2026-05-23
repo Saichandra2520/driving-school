@@ -5,6 +5,7 @@ export type UserRole = 'owner' | 'staff';
 export interface Branch {
   id: string;
   name: string;
+  nameKey?: string;
   location?: string | null;
   createdAt?: string;
 }
@@ -20,6 +21,7 @@ export type AuthState = {
   user: User | null;
   profile: Profile | null;
   isLoading: boolean;
+  authError: string | null;
 };
 
 export type FirebaseUsageMetricKey = 'reads' | 'writes' | 'deletes';
@@ -43,7 +45,7 @@ export type TrainingCourseType = '2W' | '4W' | 'HV';
 export type DrivingTestCourseType = TrainingCourseType;
 export type DrivingTestResult = 'pending' | 'pass' | 'fail';
 export type DrivingTestStatus = 'not_started' | 'pending' | 'passed' | 'failed';
-export type StudentStatus = 'ongoing' | 'passed' | 'extended' | 'dropped';
+export type StudentStatus = 'about_to_start' | 'ongoing' | 'passed' | 'extended';
 
 export interface StaffProfile {
   id: string;
@@ -85,7 +87,13 @@ export interface Installment {
   amount: number;
   date: string;
   notes?: string;
+  source?: 'fee' | 'course_extension';
+  courseExtensionId?: string;
+  clientPaymentId?: string;
+  receiptStatus?: 'pending' | 'finalized';
+  syncError?: string;
   createdAt?: any;
+  updatedAt?: any;
 }
 
 export interface Fee {
@@ -97,6 +105,19 @@ export interface Fee {
   paidAmount: number;
   balance: number;
   createdAt?: string;
+}
+
+export interface PendingPayment {
+  id: string;
+  studentId: string;
+  branchId: string;
+  amount: number;
+  date: string;
+  notes?: string;
+  status: 'pending' | 'syncing' | 'failed';
+  error?: string | null;
+  createdAt: string;
+  updatedAt?: string;
 }
 
 export interface AddInstallmentPayload {
@@ -218,6 +239,7 @@ export type CourseExtension = {
   extraSessions: number;
   extraDays: number;
   amount: number;
+  receiptNo?: string | null;
   paymentDate: string;
   notes?: string;
   createdAt?: string;
@@ -279,6 +301,7 @@ export type UpdateStudentPayload = {
   enrollmentDate?: string;
   courseStartDate?: string | null;
   courseType?: CourseType;
+  status?: StudentStatus;
   learningLicenceNo?: string;
   llIssueDate?: string | null;
   llExpiryDate?: string | null;
@@ -408,9 +431,9 @@ export type DashboardFilters = {
 
 export type DashboardSummary = {
   totalStudents: number;
+  aboutToStartStudents: number;
   ongoingStudents: number;
   passedStudents: number;
-  droppedStudents: number;
   totalFeeCollected: number;
   todayCollections: number;
   pendingFeeBalance: number;
@@ -471,6 +494,8 @@ export interface RecentPayment {
   receiptNo: string;
   amount: number;
   date: string;
+  isEdited?: boolean;
+  updatedAt?: string;
 }
 
 export interface RecentExpense {
@@ -583,9 +608,9 @@ export interface StudentReportRow {
 
 export interface StudentReport {
   newAdmissionsCount: number;
+  aboutToStartCount: number;
   ongoingCount: number;
   passedCount: number;
-  droppedCount: number;
   thirtyDaysCompletedCount: number;
   bothCourseStudentsCount: number;
   heavyVehicleStudentsCount: number;

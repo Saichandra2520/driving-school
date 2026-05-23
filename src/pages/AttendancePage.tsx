@@ -17,10 +17,12 @@ import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
 import { AddExtensionModal } from '@/components/students/AddExtensionModal';
 import { TRAINING_COURSE_OPTIONS } from '@/constants/courses';
+import { useCachedSubscription } from '@/hooks/useCachedData';
 import { attendanceService } from '@/services/attendanceService';
 import { sessionService } from '@/services/sessionService';
 import { useAppStore } from '@/store/app-store';
 import { useAuthStore } from '@/store/authStore';
+import { cacheTags, createPageCacheKey, invalidatePageCache } from '@/store/pageCacheStore';
 import { useReferenceDataStore } from '@/store/referenceDataStore';
 import type { AttendanceFilters, AttendanceRow, MarkAttendancePayload, TrainingCourseType } from '@/types';
 import { getFriendlyErrorMessage } from '@/utils/errors';
@@ -77,7 +79,7 @@ export function AttendancePage(): JSX.Element {
   const [extensionTarget, setExtensionTarget] = useState<AttendanceRow | null>(null);
   const [pendingMark, setPendingMark] = useState<PendingMark>(null);
   const [isBulkSaving, setIsBulkSaving] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isManualRefreshing, setIsManualRefreshing] = useState(false);
   const [message, setMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const parentRef = useRef<HTMLDivElement | null>(null);
@@ -98,6 +100,46 @@ export function AttendancePage(): JSX.Element {
       selectedDate: date
     };
   }, [courseType, date, debouncedSearch, effectiveBranchId, ownerNeedsBranch, profile, staffNeedsBranch]);
+  const attendanceCacheKey = useMemo(
+    () =>
+      createPageCacheKey('attendance', {
+        branchId: filters?.branchId ?? 'none',
+        courseType: filters?.courseType ?? 'all',
+        date: filters?.selectedDate ?? date,
+        role: filters?.role ?? 'none',
+        search: filters?.search ?? '',
+        userId: profile?.id ?? 'anonymous'
+      }),
+    [date, filters?.branchId, filters?.courseType, filters?.role, filters?.search, filters?.selectedDate, profile?.id]
+  );
+  const attendanceCacheTags = useMemo(
+    () => [
+      cacheTags.attendance,
+      cacheTags.students,
+      cacheTags.branch(filters?.branchId ?? 'all'),
+      cacheTags.user(profile?.id)
+    ],
+    [filters?.branchId, profile?.id]
+  );
+  const subscribeAttendance = useCallback(
+    (onNext: (rows: AttendanceRow[]) => void, onError: (error: Error) => void) => {
+      if (!filters) return () => undefined;
+      return attendanceService.subscribeAttendanceRows(filters, onNext, onError);
+    },
+    [filters]
+  );
+  const {
+    data: cachedAttendanceRows,
+    error: attendanceError,
+    isLoading,
+    isRefreshing,
+    setCachedData: setCachedAttendanceRows
+  } = useCachedSubscription<AttendanceRow[]>({
+    cacheKey: attendanceCacheKey,
+    enabled: Boolean(filters),
+    subscribe: subscribeAttendance,
+    tags: attendanceCacheTags
+  });
 
   const rows = useMemo(() => allRows.filter((row) => matchesAttendanceView(row, view)), [allRows, view]);
   const summary = useMemo(() => getAttendanceSummary(allRows), [allRows]);
@@ -126,52 +168,36 @@ export function AttendancePage(): JSX.Element {
     return () => window.clearTimeout(timer);
   }, [search]);
 
+  useEffect(() => {
+    setAllRows(cachedAttendanceRows ?? []);
+  }, [cachedAttendanceRows]);
+
   const loadAttendance = useCallback(async (): Promise<void> => {
     if (!filters) {
       setAllRows([]);
-      setIsLoading(false);
       return;
     }
 
-    setIsLoading(true);
+    setIsManualRefreshing(true);
     setErrorMessage('');
 
     try {
       const data = await attendanceService.getAttendanceRows(filters);
-      setAllRows(data);
+      setCachedAttendanceRows(data);
     } catch (error) {
       console.error('Failed to load attendance:', error);
       setErrorMessage(getFriendlyErrorMessage(error, 'Unable to load attendance. Please check your connection and try again.'));
     } finally {
-      setIsLoading(false);
+      setIsManualRefreshing(false);
     }
-  }, [filters]);
+  }, [filters, setCachedAttendanceRows]);
 
   useEffect(() => {
-    if (!filters) {
-      setAllRows([]);
-      setIsLoading(false);
-      return;
-    }
+    if (!attendanceError) return;
 
-    setIsLoading(true);
-    setErrorMessage('');
-
-    const unsubscribe = attendanceService.subscribeAttendanceRows(
-      filters,
-      (data) => {
-        setAllRows(data);
-        setIsLoading(false);
-      },
-      (error) => {
-        console.error('Failed to load attendance:', error);
-        setErrorMessage(getFriendlyErrorMessage(error, 'Unable to load attendance. Please check your connection and try again.'));
-        setIsLoading(false);
-      }
-    );
-
-    return unsubscribe;
-  }, [filters]);
+    console.error('Failed to load attendance:', attendanceError);
+    setErrorMessage(getFriendlyErrorMessage(attendanceError, 'Unable to load attendance. Please check your connection and try again.'));
+  }, [attendanceError]);
 
   useEffect(() => {
     setSelectedRows({});
@@ -223,7 +249,7 @@ export function AttendancePage(): JSX.Element {
       rows.forEach((row) => {
         const rowKey = getRowKey(row);
         const classTypeKey = `${row.branchId}-${row.courseType}`;
-        const defaultClassType = row.lastClassType || classTypes[classTypeKey]?.[0] || '';
+        const defaultClassType = classTypes[classTypeKey]?.[0] || '';
 
         if (!next[rowKey]) {
           next[rowKey] = emptyRowForm(date, defaultClassType);
@@ -277,7 +303,7 @@ export function AttendancePage(): JSX.Element {
 
   const buildPayload = (row: AttendanceRow, form: RowFormState | undefined): MarkAttendancePayload | null => {
     const classTypeKey = `${row.branchId}-${row.courseType}`;
-    const selectedClassType = form?.classType || row.lastClassType || classTypes[classTypeKey]?.[0] || '';
+    const selectedClassType = form?.classType || classTypes[classTypeKey]?.[0] || '';
     const selectedDate = form?.date || date;
 
     if (!selectedDate) {
@@ -315,6 +341,14 @@ export function AttendancePage(): JSX.Element {
       setMessage(targetRows.length === 1 ? 'Attendance marked successfully.' : `${targetRows.length} attendance records marked successfully.`);
       setSelectedRows({});
       targetRows.forEach((row) => updateForm(getRowKey(row), { date: payload.date, vehicle: '', instructor: '', notes: '' }));
+      invalidatePageCache([
+        cacheTags.attendance,
+        cacheTags.dashboard,
+        cacheTags.students,
+        cacheTags.reports,
+        cacheTags.branch(effectiveBranchId ?? 'all'),
+        cacheTags.user(profile?.id)
+      ]);
       await loadAttendance();
     } catch (error) {
       setErrorMessage(getFriendlyErrorMessage(error, 'Unable to mark attendance. Please try again.'));
@@ -390,6 +424,14 @@ export function AttendancePage(): JSX.Element {
     setExtensionTarget(null);
     setMessage(nextMessage);
     setErrorMessage('');
+    invalidatePageCache([
+      cacheTags.attendance,
+      cacheTags.dashboard,
+      cacheTags.students,
+      cacheTags.reports,
+      cacheTags.branch(effectiveBranchId ?? 'all'),
+      cacheTags.user(profile?.id)
+    ]);
     await loadAttendance();
   };
 
@@ -404,9 +446,9 @@ export function AttendancePage(): JSX.Element {
         title="Attendance"
         description="Mark training sessions on the dates students actually attend."
         actions={
-          <Button type="button" variant="outline" onClick={() => void loadAttendance()} disabled={isLoading || ownerNeedsBranch || staffNeedsBranch}>
+          <Button type="button" variant="outline" onClick={() => void loadAttendance()} disabled={isLoading || isRefreshing || isManualRefreshing || ownerNeedsBranch || staffNeedsBranch}>
             <RefreshCw className="mr-2 h-4 w-4" aria-hidden="true" />
-            Refresh
+            {isManualRefreshing ? 'Refreshing...' : 'Refresh'}
           </Button>
         }
       />
@@ -515,7 +557,7 @@ export function AttendancePage(): JSX.Element {
             <Alert variant="destructive">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <span>{errorMessage}</span>
-                <Button type="button" size="sm" variant="outline" onClick={() => void loadAttendance()} disabled={isLoading}>
+                <Button type="button" size="sm" variant="outline" onClick={() => void loadAttendance()} disabled={isLoading || isRefreshing || isManualRefreshing}>
                   Retry
                 </Button>
               </div>
@@ -536,7 +578,7 @@ export function AttendancePage(): JSX.Element {
               ) : (
                 <div
                   ref={parentRef}
-                  className={`h-[640px] overflow-auto pr-2 ${isLoading ? 'opacity-60' : ''}`}
+                  className={`h-[640px] overflow-auto pr-2 ${isRefreshing || isManualRefreshing ? 'opacity-60' : ''}`}
                 >
                   <div className="relative w-full" style={{ height: `${virtualizer.getTotalSize()}px` }}>
                     {virtualizer.getVirtualItems().map((virtualRow) => {
@@ -780,16 +822,6 @@ function AttendanceChecklistItem({
             </div>
 
             <div className="flex flex-col justify-end gap-2 xl:items-stretch">
-              {row.lastClassType && !row.isCompleted ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => onUpdateForm(rowKeyValue, { classType: row.lastClassType })}
-                  disabled={isSaving}
-                >
-                  Repeat Last Class
-                </Button>
-              ) : null}
               <Button type="button" onClick={onMarkPresent} disabled={row.isCompleted || isSaving}>
                 <CheckCircle2 className="mr-2 h-4 w-4" aria-hidden="true" />
                 {row.isCompleted ? 'Completed' : isSaving ? 'Saving...' : 'Mark Present'}

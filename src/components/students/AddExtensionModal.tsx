@@ -8,7 +8,6 @@ import { Select } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { STUDENT_COURSE_OPTIONS } from '@/constants/courses';
 import { courseExtensionService } from '@/services/courseExtensionService';
-import { useSyncStore } from '@/store/syncStore';
 import type { CourseType } from '@/types';
 import { INDIAN_CURRENCY_SYMBOL } from '@/utils/formatters';
 
@@ -33,7 +32,6 @@ export function AddExtensionModal({
   onClose,
   onSaved
 }: AddExtensionModalProps): JSX.Element {
-  const isOnline = useSyncStore((state) => state.isOnline);
   const [courseType, setCourseType] = useState<CourseType>(student?.courseType ?? '4W');
   const [extraSessions, setExtraSessions] = useState('1');
   const [extraDays, setExtraDays] = useState('0');
@@ -79,10 +77,6 @@ export function AddExtensionModal({
       setErrorMessage('Amount cannot be negative.');
       return;
     }
-    if (parsedAmount > 0 && !isOnline) {
-      setErrorMessage('Internet is required to add paid extensions and generate receipt numbers.');
-      return;
-    }
     if (!paymentDate) {
       setErrorMessage('Payment date is required.');
       return;
@@ -90,7 +84,7 @@ export function AddExtensionModal({
 
     setIsSaving(true);
     try {
-      const result = await courseExtensionService.createExtension({
+      await courseExtensionService.createExtension({
         studentId: student.id,
         branchId: student.branchId,
         courseType,
@@ -101,11 +95,7 @@ export function AddExtensionModal({
         notes
       });
 
-      onSaved(
-        result.receiptNo
-          ? `Course extension added successfully. Receipt No: ${result.receiptNo}`
-          : 'Course extension added successfully.'
-      );
+      onSaved('Course extension added successfully.');
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : 'Unable to add course extension.');
     } finally {
@@ -119,10 +109,9 @@ export function AddExtensionModal({
         <DialogContent onClose={onClose}>
           <DialogHeader>
             <DialogTitle>Add Course Extension</DialogTitle>
-            <DialogDescription>Record extra paid sessions or extra days after the original course.</DialogDescription>
+            <DialogDescription>Record extra sessions, extra days, and any extra fee after the original course.</DialogDescription>
           </DialogHeader>
           <form className="space-y-4" onSubmit={handleSubmit}>
-            {!isOnline ? <Alert variant="warning">You can add free extra sessions offline. Paid extensions need internet for receipt numbers.</Alert> : null}
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="extension-course">Course</Label>
@@ -147,7 +136,7 @@ export function AddExtensionModal({
                 <Input id="extension-days" type="number" min="0" value={extraDays} onChange={(event) => setExtraDays(event.target.value)} />
               </div>
               <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="extension-amount">Amount Paid ({INDIAN_CURRENCY_SYMBOL})</Label>
+                <Label htmlFor="extension-amount">Extra Fee ({INDIAN_CURRENCY_SYMBOL})</Label>
                 <Input id="extension-amount" type="number" min="0" value={amount} onChange={(event) => setAmount(event.target.value)} />
               </div>
               <div className="space-y-2 sm:col-span-2">

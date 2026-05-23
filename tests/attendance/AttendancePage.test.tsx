@@ -202,7 +202,7 @@ describe('AttendancePage', () => {
     await waitFor(() => {
       expect(attendanceService.markAttendance).toHaveBeenCalledWith(
         'session-2w-marked',
-        expect.objectContaining({ classType: 'Circle Practice' }),
+        expect.objectContaining({ classType: 'Running' }),
         5
       );
     });

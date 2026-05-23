@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Plus } from 'lucide-react';
 import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { EmptyState } from '@/components/common/EmptyState';
@@ -15,9 +15,11 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useCachedSubscription } from '@/hooks/useCachedData';
 import { expenseService } from '@/services/expenseService';
 import { useAppStore } from '@/store/app-store';
 import { useAuthStore } from '@/store/authStore';
+import { cacheTags, createPageCacheKey, invalidatePageCache } from '@/store/pageCacheStore';
 import type { Expense, ExpenseCategory, ExpenseFilters, ExpenseSummary } from '@/types';
 import { formatCurrency, formatDate } from '@/utils/formatters';
 
@@ -54,7 +56,6 @@ export function ExpensesPage(): JSX.Element {
   const [search, setSearch] = useState('');
   const [modalState, setModalState] = useState<ModalState>(null);
   const [deleteTarget, setDeleteTarget] = useState<Expense | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -70,6 +71,42 @@ export function ExpensesPage(): JSX.Element {
     }),
     [activeBranchId, categoryFilter, fromDate, toDate]
   );
+  const expensesCacheKey = useMemo(
+    () =>
+      createPageCacheKey('expenses', {
+        branchId: activeBranchId ?? 'all',
+        category: categoryFilter,
+        fromDate,
+        toDate,
+        userId: profile?.id ?? 'anonymous'
+      }),
+    [activeBranchId, categoryFilter, fromDate, profile?.id, toDate]
+  );
+  const expensesCacheTags = useMemo(
+    () => [
+      cacheTags.expenses,
+      cacheTags.dashboard,
+      cacheTags.reports,
+      cacheTags.branch(activeBranchId ?? 'all'),
+      cacheTags.user(profile?.id)
+    ],
+    [activeBranchId, profile?.id]
+  );
+  const subscribeExpenses = useCallback(
+    (onNext: (rows: Expense[]) => void, onError: (error: Error) => void) =>
+      expenseService.subscribeExpenses(filters, onNext, onError),
+    [filters]
+  );
+  const {
+    data: cachedExpenses,
+    error: expensesError,
+    isLoading,
+    isRefreshing
+  } = useCachedSubscription<Expense[]>({
+    cacheKey: expensesCacheKey,
+    subscribe: subscribeExpenses,
+    tags: expensesCacheTags
+  });
   const visibleExpenses = useMemo(() => {
     const term = search.trim().toLowerCase();
     if (!term) return expenses;
@@ -81,50 +118,49 @@ export function ExpensesPage(): JSX.Element {
   }, [expenses, search]);
 
   useEffect(() => {
-    setIsLoading(true);
-    setErrorMessage('');
-
-    const unsubscribe = expenseService.subscribeExpenses(
-      filters,
-      (rows) => {
-        const nextSummary = rows.reduce(
-          (current, expense) => {
-            const amount = Number(expense.amount ?? 0);
-            current.totalExpenses += amount;
-            if (expense.category === 'fuel') current.fuelTotal += amount;
-            if (expense.category === 'maintenance') current.maintenanceTotal += amount;
-            if (expense.category === 'salary') current.salaryTotal += amount;
-            if (expense.category === 'electricity') current.electricityTotal += amount;
-            if (expense.category === 'room_rent') current.roomRentTotal += amount;
-            if (expense.category === 'learning_challan') current.learningChallanTotal += amount;
-            if (expense.category === 'driving_test_challan') current.drivingTestChallanTotal += amount;
-            if (expense.category === 'other') current.otherTotal += amount;
-            current.challanTotal = current.learningChallanTotal + current.drivingTestChallanTotal;
-            current.rentElectricityTotal = current.roomRentTotal + current.electricityTotal;
-            return current;
-          },
-          { ...emptySummary }
-        );
-
-        setExpenses(rows);
-        setSummary(nextSummary);
-        setIsLoading(false);
+    const rows = cachedExpenses ?? [];
+    const nextSummary = rows.reduce(
+      (current, expense) => {
+        const amount = Number(expense.amount ?? 0);
+        current.totalExpenses += amount;
+        if (expense.category === 'fuel') current.fuelTotal += amount;
+        if (expense.category === 'maintenance') current.maintenanceTotal += amount;
+        if (expense.category === 'salary') current.salaryTotal += amount;
+        if (expense.category === 'electricity') current.electricityTotal += amount;
+        if (expense.category === 'room_rent') current.roomRentTotal += amount;
+        if (expense.category === 'learning_challan') current.learningChallanTotal += amount;
+        if (expense.category === 'driving_test_challan') current.drivingTestChallanTotal += amount;
+        if (expense.category === 'other') current.otherTotal += amount;
+        current.challanTotal = current.learningChallanTotal + current.drivingTestChallanTotal;
+        current.rentElectricityTotal = current.roomRentTotal + current.electricityTotal;
+        return current;
       },
-      () => {
-        setErrorMessage('Unable to load expenses. Please check your connection and try again.');
-        setExpenses([]);
-        setSummary(emptySummary);
-        setIsLoading(false);
-      }
+      { ...emptySummary }
     );
 
-    return unsubscribe;
-  }, [filters]);
+    setExpenses(rows);
+    setSummary(nextSummary);
+  }, [cachedExpenses]);
+
+  useEffect(() => {
+    if (!expensesError) return;
+
+    setErrorMessage('Unable to load expenses. Please check your connection and try again.');
+    setExpenses([]);
+    setSummary(emptySummary);
+  }, [expensesError]);
 
   const handleSaved = async (successMessage: string): Promise<void> => {
     setModalState(null);
     setMessage(successMessage);
     setErrorMessage('');
+    invalidatePageCache([
+      cacheTags.expenses,
+      cacheTags.dashboard,
+      cacheTags.reports,
+      cacheTags.branch(activeBranchId ?? 'all'),
+      cacheTags.user(profile?.id)
+    ]);
   };
 
   const handleDelete = async (): Promise<void> => {
@@ -137,6 +173,13 @@ export function ExpensesPage(): JSX.Element {
       await expenseService.deleteExpense(deleteTarget.id);
       setDeleteTarget(null);
       setMessage('Expense deleted successfully.');
+      invalidatePageCache([
+        cacheTags.expenses,
+        cacheTags.dashboard,
+        cacheTags.reports,
+        cacheTags.branch(activeBranchId ?? 'all'),
+        cacheTags.user(profile?.id)
+      ]);
     } catch {
       setDeleteTarget(null);
       setErrorMessage('Unable to delete expense.');
@@ -210,7 +253,7 @@ export function ExpensesPage(): JSX.Element {
           ) : visibleExpenses.length === 0 ? (
             <EmptyState title="No expenses found for the selected filters." />
           ) : (
-            <div className="overflow-x-auto rounded-md border">
+            <div className={`overflow-x-auto rounded-md border ${isRefreshing ? 'opacity-60' : ''}`}>
               <Table>
                 <TableHeader>
                   <TableRow>

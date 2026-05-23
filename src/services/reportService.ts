@@ -239,9 +239,9 @@ export const reportService = {
 
     return {
       newAdmissionsCount: rows.length,
+      aboutToStartCount: derivedStudents.filter((student) => student.status === 'about_to_start').length,
       ongoingCount: derivedStudents.filter((student) => student.status === 'ongoing' || student.status === 'extended').length,
       passedCount: derivedStudents.filter((student) => student.status === 'passed').length,
-      droppedCount: derivedStudents.filter((student) => student.status === 'dropped').length,
       thirtyDaysCompletedCount: derivedStudents.filter(
         (student) =>
           (student.status === 'ongoing' || student.status === 'extended') &&

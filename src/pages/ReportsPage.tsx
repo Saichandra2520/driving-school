@@ -12,7 +12,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { exportService } from '@/services/exportService';
 import { reportService } from '@/services/reportService';
 import { settingsService } from '@/services/settingsService';
+import { useCachedAsync } from '@/hooks/useCachedData';
 import { useAuthStore } from '@/store/authStore';
+import { cacheTags, createPageCacheKey } from '@/store/pageCacheStore';
 import type {
   Branch,
   ExpenseReport,
@@ -30,6 +32,12 @@ import {
 } from '@/utils/formatters';
 
 type ReportTab = 'feeCollection' | 'pendingFee' | 'expenses' | 'students';
+type ReportsData = {
+  feeCollection: FeeCollectionReport;
+  pendingFees: PendingFeeReport;
+  expenses: ExpenseReport;
+  students: StudentReport;
+};
 
 const currentDate = new Date();
 const months = [
@@ -58,7 +66,6 @@ export function ReportsPage(): JSX.Element {
   const [pendingFeeReport, setPendingFeeReport] = useState<PendingFeeReport | null>(null);
   const [expenseReport, setExpenseReport] = useState<ExpenseReport | null>(null);
   const [studentReport, setStudentReport] = useState<StudentReport | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
   const [exportMessage, setExportMessage] = useState('');
 
@@ -70,37 +77,54 @@ export function ReportsPage(): JSX.Element {
     }),
     [branchId, month, year]
   );
+  const reportsCacheKey = useMemo(
+    () =>
+      createPageCacheKey('reports', {
+        branchId,
+        month,
+        userId: profile?.id ?? 'anonymous',
+        year
+      }),
+    [branchId, month, profile?.id, year]
+  );
+  const reportsCacheTags = useMemo(
+    () => [
+      cacheTags.reports,
+      cacheTags.students,
+      cacheTags.fees,
+      cacheTags.expenses,
+      cacheTags.branch(branchId === 'all' ? null : branchId),
+      cacheTags.user(profile?.id)
+    ],
+    [branchId, profile?.id]
+  );
 
   const yearOptions = useMemo(() => {
     const currentYear = currentDate.getFullYear();
     return Array.from({ length: 6 }, (_, index) => currentYear - index);
   }, []);
 
-  const loadReports = useCallback(async (): Promise<void> => {
-    setIsLoading(true);
-    setErrorMessage('');
+  const fetchReports = useCallback(async (): Promise<ReportsData> => {
+    const [feeCollection, pendingFees, expenses, students] = await Promise.all([
+      reportService.getFeeCollectionReport(filters),
+      reportService.getPendingFeeReport(filters),
+      reportService.getExpenseReport(filters),
+      reportService.getStudentReport(filters)
+    ]);
 
-    try {
-      const [feeCollection, pendingFees, expenses, students] = await Promise.all([
-        reportService.getFeeCollectionReport(filters),
-        reportService.getPendingFeeReport(filters),
-        reportService.getExpenseReport(filters),
-        reportService.getStudentReport(filters)
-      ]);
-      setFeeReport(feeCollection);
-      setPendingFeeReport(pendingFees);
-      setExpenseReport(expenses);
-      setStudentReport(students);
-    } catch {
-      setErrorMessage('Unable to load report. Please check your connection and try again.');
-      setFeeReport(null);
-      setPendingFeeReport(null);
-      setExpenseReport(null);
-      setStudentReport(null);
-    } finally {
-      setIsLoading(false);
-    }
+    return { feeCollection, pendingFees, expenses, students };
   }, [filters]);
+  const {
+    data: cachedReports,
+    error: reportsError,
+    isLoading,
+    isRefreshing
+  } = useCachedAsync<ReportsData>({
+    cacheKey: reportsCacheKey,
+    enabled: profile?.role === 'owner',
+    fetcher: fetchReports,
+    tags: reportsCacheTags
+  });
 
   useEffect(() => {
     if (profile?.role !== 'owner') return;
@@ -114,10 +138,24 @@ export function ReportsPage(): JSX.Element {
   }, [profile?.role]);
 
   useEffect(() => {
-    if (profile?.role === 'owner') {
-      void loadReports();
-    }
-  }, [loadReports, profile?.role]);
+    if (!cachedReports) return;
+
+    setErrorMessage('');
+    setFeeReport(cachedReports.feeCollection);
+    setPendingFeeReport(cachedReports.pendingFees);
+    setExpenseReport(cachedReports.expenses);
+    setStudentReport(cachedReports.students);
+  }, [cachedReports]);
+
+  useEffect(() => {
+    if (!reportsError) return;
+
+    setErrorMessage('Unable to load report. Please check your connection and try again.');
+    setFeeReport(null);
+    setPendingFeeReport(null);
+    setExpenseReport(null);
+    setStudentReport(null);
+  }, [reportsError]);
 
   if (profile?.role !== 'owner') {
     return <Alert variant="destructive">Access denied. Owner only.</Alert>;
@@ -198,6 +236,7 @@ export function ReportsPage(): JSX.Element {
             </TabsTrigger>
           </TabsList>
 
+          <div className={isRefreshing ? 'opacity-60' : ''}>
           {activeTab === 'feeCollection' && feeReport ? (
             <TabsContent>
               <FeeCollectionReportView
@@ -237,6 +276,7 @@ export function ReportsPage(): JSX.Element {
               />
             </TabsContent>
           ) : null}
+          </div>
         </Tabs>
       )}
     </section>
@@ -504,9 +544,9 @@ function StudentReportView({
       <SummaryGrid
         items={[
           { label: 'New Admissions', value: String(report.newAdmissionsCount) },
+          { label: 'About to Start', value: String(report.aboutToStartCount) },
           { label: 'Ongoing Students', value: String(report.ongoingCount) },
           { label: 'Passed Students', value: String(report.passedCount) },
-          { label: 'Dropped Students', value: String(report.droppedCount) },
           { label: 'Training Completed', value: String(report.thirtyDaysCompletedCount) },
           { label: 'Heavy Vehicle Students', value: String(report.heavyVehicleStudentsCount) },
           { label: 'Both Course Students', value: String(report.bothCourseStudentsCount) }

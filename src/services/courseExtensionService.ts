@@ -1,17 +1,15 @@
-import { addDoc, collection, doc, runTransaction, serverTimestamp, updateDoc, where } from 'firebase/firestore';
+import { collection, doc, runTransaction, serverTimestamp, where } from 'firebase/firestore';
 import { authService } from '@/services/authService';
 import { db } from '@/services/firebase';
 import { firebaseUsageService } from '@/services/firebaseUsageService';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
 import { recalculateFee } from '@/services/feeService';
-import { receiptNumberService } from '@/services/receiptNumberService';
-import { useSyncStore } from '@/store/syncStore';
+import { calculateStudentExpiryDate, getCourseStartDate, getDaysRemaining } from '@/utils/dateUtils';
 import type {
   CourseExtension,
   CourseType,
   CreateCourseExtensionPayload,
   Fee,
-  Installment,
   Student,
   TrainingCourseType,
   TrainingEntitlement
@@ -57,6 +55,15 @@ async function assertCanManageStudent(studentId: string): Promise<Student> {
 async function getFeeByStudentId(studentId: string): Promise<Fee | null> {
   const fees = await getCollection<Fee>(collections.fees, [where('studentId', '==', studentId)]);
   return fees[0] ?? null;
+}
+
+function assertBaseTrainingPeriodCompleted(student: Student): void {
+  const baseDays = Number(student.baseDurationDays ?? student.durationDays ?? defaultBaseDays);
+  const expiryDate = calculateStudentExpiryDate(getCourseStartDate(student), baseDays);
+
+  if (getDaysRemaining(expiryDate) >= 0) {
+    throw new Error(`Course extension can be added only after the base ${baseDays}-day training period is completed.`);
+  }
 }
 
 export function calculateTrainingEntitlement(
@@ -124,71 +131,77 @@ export const courseExtensionService = {
     if (payload.extraSessions <= 0 && payload.extraDays <= 0) {
       throw new Error('Add at least one extra session or extra day.');
     }
-    if (payload.amount > 0 && !useSyncStore.getState().isOnline) {
-      throw new Error('Internet is required to add paid extensions and generate receipt numbers.');
-    }
 
     const student = await assertCanManageStudent(payload.studentId);
+    assertBaseTrainingPeriodCompleted(student);
+
     if (student.branchId !== payload.branchId) {
       throw new Error('Extension branch must match the student branch.');
     }
 
-    const receiptNo = payload.amount > 0 ? await receiptNumberService.getNextReceiptNumber() : null;
-    const docRef = await addDoc(collection(db, collections.courseExtensions), {
-      studentId: payload.studentId,
-      branchId: payload.branchId,
-      courseType: payload.courseType,
-      extraSessions: payload.extraSessions,
-      extraDays: payload.extraDays,
-      amount: payload.amount,
-      paymentDate: payload.paymentDate,
-      notes: payload.notes?.trim() ?? '',
-      createdAt: serverTimestamp()
-    });
-    firebaseUsageService.trackUsage('writes');
+    const extensionRef = doc(collection(db, collections.courseExtensions));
+    const fee = payload.amount > 0 ? await getFeeByStudentId(payload.studentId) : null;
+    if (payload.amount > 0 && !fee) throw new Error('Unable to load fee details.');
 
-    const created = await getDocument<CourseExtension>(collections.courseExtensions, docRef.id);
-    if (!created) throw new Error('Extension was created but could not be loaded.');
+    await runTransaction(db, async (transaction) => {
+      let feeUpdate:
+        | {
+            feeId: string;
+            totalAmount: number;
+            paidAmount: number;
+            balance: number;
+          }
+        | null = null;
 
-    if (payload.amount > 0 && receiptNo) {
-      const fee = await getFeeByStudentId(payload.studentId);
-      if (!fee) throw new Error('Extension was created but fee details could not be loaded.');
-
-      await runTransaction(db, async (transaction) => {
+      if (payload.amount > 0 && fee) {
         const feeRef = doc(db, collections.fees, fee.id);
         const feeSnapshot = await transaction.get(feeRef);
         firebaseUsageService.trackUsage('reads');
-        if (!feeSnapshot.exists()) throw new Error('Extension was created but fee details could not be loaded.');
+        if (!feeSnapshot.exists()) throw new Error('Unable to load fee details.');
 
         const currentFee = recalculateFee({
           id: feeSnapshot.id,
           ...(feeSnapshot.data() as Omit<Fee, 'id'>)
         } as Fee);
-        const installment: Installment = {
-          receiptNo,
-          amount: payload.amount,
-          date: payload.paymentDate,
-          notes: payload.notes?.trim() || `Course extension - ${payload.courseType}`,
-          createdAt: new Date().toISOString()
-        };
-        const nextInstallments = [...currentFee.installments, installment];
         const totalAmount = Number(currentFee.totalAmount) + payload.amount;
-        const paidAmount = nextInstallments.reduce((total, item) => total + Number(item.amount), 0);
+        const paidAmount = Number(currentFee.paidAmount ?? 0);
 
-        transaction.update(feeRef, {
+        feeUpdate = {
+          feeId: fee.id,
           totalAmount,
-          installments: nextInstallments,
           paidAmount,
-          balance: totalAmount - paidAmount
-        });
-        firebaseUsageService.trackUsage('writes');
-      });
-    }
+          balance: Number(currentFee.balance ?? 0) + payload.amount
+        };
+      }
 
-    if (student.status !== 'dropped') {
-      await updateDoc(doc(db, collections.students, student.id), { status: 'extended' });
-      firebaseUsageService.trackUsage('writes');
-    }
-    return { extension: created, receiptNo };
+      transaction.set(extensionRef, {
+        studentId: payload.studentId,
+        branchId: payload.branchId,
+        courseType: payload.courseType,
+        extraSessions: payload.extraSessions,
+        extraDays: payload.extraDays,
+        amount: payload.amount,
+        receiptNo: null,
+        paymentDate: payload.paymentDate,
+        notes: payload.notes?.trim() ?? '',
+        createdAt: serverTimestamp()
+      });
+
+      if (feeUpdate) {
+        transaction.update(doc(db, collections.fees, feeUpdate.feeId), {
+          totalAmount: feeUpdate.totalAmount,
+          paidAmount: feeUpdate.paidAmount,
+          balance: feeUpdate.balance
+        });
+      }
+
+      transaction.update(doc(db, collections.students, student.id), { status: 'extended' });
+    });
+    firebaseUsageService.trackUsage('writes', 2);
+    if (payload.amount > 0) firebaseUsageService.trackUsage('writes');
+
+    const created = await getDocument<CourseExtension>(collections.courseExtensions, extensionRef.id);
+    if (!created) throw new Error('Extension was created but could not be loaded.');
+    return { extension: created, receiptNo: null };
   }
 };

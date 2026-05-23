@@ -5,6 +5,7 @@ import { CachedDataNotice } from '@/components/common/CachedDataNotice';
 import { MaryLogo } from '@/components/common/MaryLogo';
 import { SyncStatusBadge } from '@/components/common/SyncStatusBadge';
 import { Button } from '@/components/ui/button';
+import { feeService } from '@/services/feeService';
 import { settingsService } from '@/services/settingsService';
 import { useAlertStore } from '@/store/alertStore';
 import { useAppStore } from '@/store/app-store';
@@ -34,6 +35,7 @@ export function MainLayout(): JSX.Element {
   const branchId = useAppStore((state) => state.branchId);
   const setBranchId = useAppStore((state) => state.setBranchId);
   const clearAlerts = useAlertStore((state) => state.clearAlerts);
+  const isOnline = useSyncStore((state) => state.isOnline);
   const setOnlineStatus = useSyncStore((state) => state.setOnlineStatus);
   const [branches, setBranches] = useState<Branch[]>([]);
 
@@ -54,6 +56,16 @@ export function MainLayout(): JSX.Element {
       window.removeEventListener('offline', handleOffline);
     };
   }, [setOnlineStatus]);
+
+  useEffect(() => {
+    if (!isOnline) return;
+    const syncBranchId = profile?.role === 'staff' ? profile.branchId : branchId;
+    if (profile?.role === 'staff' && !syncBranchId) return;
+
+    void feeService.syncPendingPayments({ branchId: syncBranchId }).catch((error) => {
+      console.error('Failed to sync pending payments:', error);
+    });
+  }, [branchId, isOnline, profile?.branchId, profile?.role]);
 
   useEffect(() => {
     if (!profile) {
@@ -147,20 +159,6 @@ export function MainLayout(): JSX.Element {
             );
           })}
         </nav>
-        <div className="border-t border-[#1E293B] p-3">
-          <Button
-            type="button"
-            variant="ghost"
-            className="w-full justify-start text-[#CBD5E1] hover:bg-white/10 hover:text-white"
-            onClick={() => {
-              clearAlerts();
-              void signOut();
-            }}
-          >
-            <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
-            Logout
-          </Button>
-        </div>
       </aside>
 
       <div className="ml-72 flex min-w-0 flex-1 flex-col">
@@ -193,6 +191,17 @@ export function MainLayout(): JSX.Element {
                 <UserCircle className="mr-2 h-4 w-4" aria-hidden="true" />
                 Account
               </Link>
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => {
+                clearAlerts();
+                void signOut();
+              }}
+            >
+              <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
+              Logout
             </Button>
           </div>
         </header>
