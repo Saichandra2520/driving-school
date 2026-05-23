@@ -113,12 +113,15 @@ async function saveInstallmentOnline(
     const receiptNo = await receiptNumberService.getNextReceiptNumberInTransaction(transaction);
     const installment: Installment = {
       receiptNo,
-      clientPaymentId: options.clientPaymentId,
       amount: payload.amount,
       date: payload.date,
       notes: payload.notes?.trim() || '',
       createdAt: options.createdAt ?? new Date().toISOString()
     };
+    if (options.clientPaymentId) {
+      installment.clientPaymentId = options.clientPaymentId;
+    }
+
     const nextInstallments = [...currentFee.installments, installment];
     const paidAmount = nextInstallments.reduce((total, item) => total + Number(item.amount), 0);
     const balance = Number(currentFee.totalAmount) - paidAmount;

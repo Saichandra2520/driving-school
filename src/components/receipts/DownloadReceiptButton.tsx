@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { pdf } from '@react-pdf/renderer';
+import { Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PaymentReceiptPdf } from '@/components/receipts/PaymentReceiptPdf';
 import { receiptService } from '@/services/receiptService';
@@ -10,6 +11,7 @@ type DownloadReceiptButtonProps = {
   variant?: 'default' | 'outline' | 'ghost';
   size?: 'default' | 'sm';
   label?: string;
+  loadingLabel?: string;
   onError?: (message: string) => void;
 };
 
@@ -19,6 +21,7 @@ export function DownloadReceiptButton({
   variant = 'outline',
   size = 'sm',
   label = 'Download PDF Receipt',
+  loadingLabel = 'Preparing receipt...',
   onError
 }: DownloadReceiptButtonProps): JSX.Element {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -47,7 +50,14 @@ export function DownloadReceiptButton({
 
   return (
     <Button type="button" variant={variant} size={size} onClick={() => void handleDownload()} disabled={isGenerating}>
-      {isGenerating ? 'Preparing receipt...' : label}
+      {isGenerating ? (
+        loadingLabel
+      ) : (
+        <>
+          <Download className="mr-2 h-4 w-4" aria-hidden="true" />
+          {label}
+        </>
+      )}
     </Button>
   );
 }

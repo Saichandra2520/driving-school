@@ -12,6 +12,7 @@ import { WhatsAppReceiptButton } from '@/components/receipts/WhatsAppReceiptButt
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -51,12 +52,14 @@ export function PaymentsPage(): JSX.Element {
   const [notes, setNotes] = useState('');
   const [lastReceiptNo, setLastReceiptNo] = useState('');
   const [receiptStudent, setReceiptStudent] = useState<StudentWithFee | null>(null);
+  const [isReceiptDialogOpen, setIsReceiptDialogOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const activeBranchId = profile?.role === 'staff' ? profile.branchId : selectedBranchId;
   const hasPendingPaymentStudents = students.length > 0;
+  const hasPaymentWorkspace = hasPendingPaymentStudents || Boolean(selectedStudent);
   const canRecordPayment = Boolean(selectedStudent && selectedStudent.balance > 0);
   const dashboardFilters = useMemo<DashboardFilters | null>(() => {
     if (!profile) return null;
@@ -172,6 +175,7 @@ export function PaymentsPage(): JSX.Element {
     setAmount(student.balance > 0 ? String(student.balance) : '');
     setLastReceiptNo('');
     setReceiptStudent(null);
+    setIsReceiptDialogOpen(false);
     setMessage('');
     setErrorMessage('');
   };
@@ -182,6 +186,7 @@ export function PaymentsPage(): JSX.Element {
     setErrorMessage('');
     setLastReceiptNo('');
     setReceiptStudent(null);
+    setIsReceiptDialogOpen(false);
 
     const parsedAmount = Number(amount);
     if (!selectedStudent) return setErrorMessage('Select a student first.');
@@ -223,7 +228,8 @@ export function PaymentsPage(): JSX.Element {
       } else {
         setLastReceiptNo(receiptNo);
         setReceiptStudent(refreshedStudent ?? selectedStudent);
-        setMessage(receiptNo ? `Payment saved successfully. Receipt No: ${receiptNo}` : 'Payment saved successfully.');
+        setIsReceiptDialogOpen(Boolean(receiptNo));
+        setMessage('Payment saved successfully.');
       }
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
@@ -240,7 +246,15 @@ export function PaymentsPage(): JSX.Element {
       {errorMessage ? <Alert variant="destructive">{errorMessage}</Alert> : null}
       {!isOnline ? <Alert variant="warning">Offline payments are saved locally as pending receipts and sync automatically when internet returns.</Alert> : null}
 
-      <div className={hasPendingPaymentStudents || receiptStudent ? 'grid gap-5 xl:grid-cols-[minmax(320px,420px)_1fr]' : 'grid gap-5'}>
+      <ReceiptReadyDialog
+        open={isReceiptDialogOpen && Boolean(receiptStudent && lastReceiptNo)}
+        student={receiptStudent}
+        receiptNo={lastReceiptNo}
+        onOpenChange={setIsReceiptDialogOpen}
+        onError={setErrorMessage}
+      />
+
+      <div className={hasPaymentWorkspace ? 'grid gap-5 xl:grid-cols-[minmax(320px,420px)_1fr]' : 'grid gap-5'}>
         <Card className="shadow-sm">
           <CardHeader>
             <CardTitle className="text-lg">Select Student</CardTitle>
@@ -274,7 +288,7 @@ export function PaymentsPage(): JSX.Element {
           </CardContent>
         </Card>
 
-        {hasPendingPaymentStudents || receiptStudent ? (
+        {hasPaymentWorkspace ? (
         <div className="space-y-5">
           {selectedStudent ? (
             <div className="grid gap-3 md:grid-cols-3">
@@ -290,53 +304,7 @@ export function PaymentsPage(): JSX.Element {
             </Card>
           )}
 
-          {selectedStudent ? <StudentInstallmentsCard installments={selectedStudent.fee?.installments ?? []} /> : null}
-
-          {receiptStudent && lastReceiptNo ? (
-            <Card className="shadow-sm">
-              <CardContent className="p-4">
-                <div className="rounded-lg border border-green-200 bg-green-50 p-4">
-                  <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-                    <div>
-                      <p className="font-semibold text-success">Receipt ready: {lastReceiptNo}</p>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        Download the PDF receipt and open WhatsApp with the payment text immediately.
-                      </p>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      <DownloadReceiptButton
-                        studentId={receiptStudent.id}
-                        receiptNo={lastReceiptNo}
-                        variant="outline"
-                        size="default"
-                        label="Download PDF"
-                        onError={setErrorMessage}
-                      />
-                      <ShareReceiptPdfButton
-                        studentId={receiptStudent.id}
-                        receiptNo={lastReceiptNo}
-                        variant="outline"
-                        size="default"
-                        label="Share PDF + Text"
-                        onError={setErrorMessage}
-                      />
-                      <WhatsAppReceiptButton
-                        studentId={receiptStudent.id}
-                        receiptNo={lastReceiptNo}
-                        variant="default"
-                        size="default"
-                        label="Send WhatsApp Text"
-                        onError={setErrorMessage}
-                      />
-                    </div>
-                  </div>
-                  <p className="mt-3 text-xs text-muted-foreground">
-                    If direct PDF sharing is unavailable, the PDF downloads and WhatsApp opens with the receipt text. Attach the downloaded PDF in WhatsApp.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          ) : null}
+          {selectedStudent ? <StudentInstallmentsCard studentId={selectedStudent.id} installments={selectedStudent.fee?.installments ?? []} onError={setErrorMessage} /> : null}
 
           {canRecordPayment ? (
           <Card className="shadow-sm">
@@ -426,7 +394,79 @@ function getSavedInstallment(fee: Fee, amount: number, date: string): Installmen
   return matching ?? fee.installments[fee.installments.length - 1] ?? null;
 }
 
-function StudentInstallmentsCard({ installments }: { installments: Installment[] }): JSX.Element {
+function ReceiptReadyDialog({
+  open,
+  student,
+  receiptNo,
+  onOpenChange,
+  onError
+}: {
+  open: boolean;
+  student: StudentWithFee | null;
+  receiptNo: string;
+  onOpenChange: (open: boolean) => void;
+  onError: (message: string) => void;
+}): JSX.Element {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      {student && receiptNo ? (
+        <DialogContent onClose={() => onOpenChange(false)} className="max-w-xl">
+          <DialogHeader>
+            <DialogTitle>Receipt Ready</DialogTitle>
+            <DialogDescription>Receipt No: {receiptNo}</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="rounded-md border bg-green-50 p-4">
+              <p className="font-semibold text-success">{student.fullName}</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Download the PDF receipt or send the payment receipt through WhatsApp.
+              </p>
+            </div>
+            <div className="flex flex-wrap justify-end gap-2">
+              <DownloadReceiptButton
+                studentId={student.id}
+                receiptNo={receiptNo}
+                variant="outline"
+                size="default"
+                label="Download PDF"
+                onError={onError}
+              />
+              <ShareReceiptPdfButton
+                studentId={student.id}
+                receiptNo={receiptNo}
+                variant="outline"
+                size="default"
+                label="Share PDF + Text"
+                onError={onError}
+              />
+              <WhatsAppReceiptButton
+                studentId={student.id}
+                receiptNo={receiptNo}
+                variant="default"
+                size="default"
+                label="Send WhatsApp Text"
+                onError={onError}
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              If direct PDF sharing is unavailable, the PDF downloads and WhatsApp opens with the receipt text.
+            </p>
+          </div>
+        </DialogContent>
+      ) : null}
+    </Dialog>
+  );
+}
+
+function StudentInstallmentsCard({
+  studentId,
+  installments,
+  onError
+}: {
+  studentId: string;
+  installments: Installment[];
+  onError: (message: string) => void;
+}): JSX.Element {
   const sortedInstallments = [...installments].sort((a, b) => b.date.localeCompare(a.date));
 
   return (
@@ -445,6 +485,7 @@ function StudentInstallmentsCard({ installments }: { installments: Installment[]
                   <TableHead>Receipt</TableHead>
                   <TableHead>Date</TableHead>
                   <TableHead className="text-right">Amount</TableHead>
+                  <TableHead className="w-[150px] text-right">Receipt PDF</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -459,6 +500,21 @@ function StudentInstallmentsCard({ installments }: { installments: Installment[]
                       </TableCell>
                       <TableCell>{formatDate(installment.date)}</TableCell>
                       <TableCell className="text-right font-medium">{formatCurrency(Number(installment.amount))}</TableCell>
+                      <TableCell className="text-right">
+                        {!pending && installment.receiptNo ? (
+                          <DownloadReceiptButton
+                            studentId={studentId}
+                            receiptNo={installment.receiptNo}
+                            variant="outline"
+                            size="sm"
+                            label="Download"
+                            loadingLabel="Preparing..."
+                            onError={onError}
+                          />
+                        ) : (
+                          <span className="text-xs text-muted-foreground">Sync pending</span>
+                        )}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
