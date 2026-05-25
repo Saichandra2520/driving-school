@@ -6,8 +6,10 @@ import {
   signOut as firebaseSignOut,
   updatePassword
 } from 'firebase/auth';
-import { auth } from '@/services/firebase';
+import { doc, updateDoc } from 'firebase/firestore';
+import { auth, db } from '@/services/firebase';
 import { collections, getDocument } from '@/services/firestoreUtils';
+import { firebaseUsageService } from '@/services/firebaseUsageService';
 import type { Profile } from '@/types';
 
 type CurrentUserResult = {
@@ -41,6 +43,24 @@ export const authService = {
     }
 
     await updatePassword(user, newPassword);
+  },
+
+  async updateProfileName(fullName: string): Promise<void> {
+    const user = auth.currentUser;
+    const nextName = fullName.trim();
+
+    if (!user) {
+      throw new Error('You must be signed in to update your profile.');
+    }
+
+    if (!nextName) {
+      throw new Error('Name is required.');
+    }
+
+    await updateDoc(doc(db, collections.users, user.uid), {
+      fullName: nextName
+    });
+    firebaseUsageService.trackUsage('writes');
   },
 
   async getCurrentUser(): Promise<CurrentUserResult> {

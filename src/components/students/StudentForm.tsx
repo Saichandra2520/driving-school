@@ -202,6 +202,7 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
             >
               <option value="about_to_start">About to Start</option>
               <option value="ongoing">Ongoing</option>
+              <option value="completed">Completed</option>
               <option value="extended">Extended</option>
               <option value="passed">Passed</option>
             </Select>

@@ -1,5 +1,8 @@
 import type { CourseType, DrivingTestCourseType, TrainingCourseType } from '@/types';
 
+export const BASE_TRAINING_SESSION_COUNT = 30;
+export const COURSE_COMPLETION_DAYS = 60;
+
 export const TRAINING_COURSE_OPTIONS: Array<{ value: TrainingCourseType; label: string }> = [
   { value: '2W', label: '2W' },
   { value: '4W', label: '4W' },

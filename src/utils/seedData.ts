@@ -1,6 +1,7 @@
 import { deleteApp, initializeApp } from 'firebase/app';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { addDoc, collection, doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { BASE_TRAINING_SESSION_COUNT, COURSE_COMPLETION_DAYS } from '@/constants/courses';
 import { collections } from '@/services/firestoreUtils';
 import { db, firebaseConfig } from '@/services/firebase';
 import type { CourseType, ExpenseCategory, Installment, StudentStatus } from '@/types';
@@ -108,7 +109,9 @@ function feePayload(studentId: string, branchId: string, fee: FeeSeed) {
 async function addStudent(student: SeedStudent): Promise<string> {
   const studentRef = await addDoc(collection(db, collections.students), {
     ...student,
-    durationDays: 30,
+    durationDays: COURSE_COMPLETION_DAYS,
+    baseSessionCount: BASE_TRAINING_SESSION_COUNT,
+    baseDurationDays: COURSE_COMPLETION_DAYS,
     createdAt: serverTimestamp()
   });
 

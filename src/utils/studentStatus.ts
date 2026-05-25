@@ -5,6 +5,7 @@ export function deriveStudentStatus(
   student: Pick<Student, 'drivingLicenceNo' | 'enrollmentDate'> & { courseStartDate?: string | null; status?: StudentStatus }
 ): StudentStatus {
   if (student.drivingLicenceNo?.trim()) return 'passed';
+  if (student.status === 'completed') return 'completed';
   if (student.status === 'extended') return 'extended';
 
   const today = new Date();

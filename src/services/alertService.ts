@@ -1,4 +1,5 @@
 import { where } from 'firebase/firestore';
+import { COURSE_COMPLETION_DAYS } from '@/constants/courses';
 import { authService } from '@/services/authService';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
 import { calculateStudentExpiryDate, getCourseStartDate, isPastDate, isWithinNextDays } from '@/utils/dateUtils';
@@ -97,7 +98,7 @@ export const alertService = {
       .filter(isActiveTrainingStudent)
       .map((student) => ({
         student,
-        completionDate: calculateStudentExpiryDate(getCourseStartDate(student), student.durationDays ?? 30)
+        completionDate: calculateStudentExpiryDate(getCourseStartDate(student), COURSE_COMPLETION_DAYS)
       }))
       .filter(({ completionDate }) => isPastDate(completionDate))
       .map(({ student, completionDate }) => ({
@@ -118,7 +119,7 @@ export const alertService = {
       .filter(isActiveTrainingStudent)
       .map((student) => ({
         student,
-        completionDate: calculateStudentExpiryDate(getCourseStartDate(student), student.durationDays ?? 30)
+        completionDate: calculateStudentExpiryDate(getCourseStartDate(student), COURSE_COMPLETION_DAYS)
       }))
       .filter(({ completionDate }) => isWithinNextDays(completionDate, 5))
       .map(({ student, completionDate }) => ({
@@ -183,7 +184,7 @@ export const alertService = {
       .filter(isActiveTrainingStudent)
       .map((student) => ({
         student,
-        completionDate: calculateStudentExpiryDate(getCourseStartDate(student), student.durationDays ?? 30)
+        completionDate: calculateStudentExpiryDate(getCourseStartDate(student), COURSE_COMPLETION_DAYS)
       }))
       .filter(({ student, completionDate }) => isPastDate(completionDate) && !hasPassedDrivingTest(testsByStudent.get(student.id) ?? []))
       .map(({ student, completionDate }) => ({

@@ -22,6 +22,15 @@ service cloud.firestore {
       return isOwner() || isStaffForBranch(branchId);
     }
 
+    function isOwnNameUpdate(userId) {
+      return signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['fullName'])
+        && request.resource.data.fullName is string
+        && request.resource.data.fullName.size() > 0
+        && request.resource.data.fullName.size() <= 120;
+    }
+
     match /users/{userId} {
       allow read: if signedIn() && (
         request.auth.uid == userId
@@ -32,7 +41,8 @@ service cloud.firestore {
           && resource.data.branchId == profile().branchId
         )
       );
-      allow create, update: if isOwner();
+      allow create: if isOwner();
+      allow update: if isOwner() || isOwnNameUpdate(userId);
       allow delete: if isOwner();
     }
 
@@ -42,7 +52,8 @@ service cloud.firestore {
     }
 
     match /students/{studentId} {
-      allow read, delete: if canAccessBranch(resource.data.branchId);
+      allow read: if canAccessBranch(resource.data.branchId);
+      allow delete: if isOwner();
       allow create: if canAccessBranch(request.resource.data.branchId);
       allow update: if canAccessBranch(resource.data.branchId)
         && canAccessBranch(request.resource.data.branchId);

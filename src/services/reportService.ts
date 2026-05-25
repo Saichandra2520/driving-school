@@ -1,4 +1,5 @@
 import { where } from 'firebase/firestore';
+import { COURSE_COMPLETION_DAYS } from '@/constants/courses';
 import { authService } from '@/services/authService';
 import { collections, getCollection } from '@/services/firestoreUtils';
 import { calculateStudentExpiryDate, getCourseStartDate, isDateInMonthYear, isPastDate } from '@/utils/dateUtils';
@@ -228,7 +229,7 @@ export const reportService = {
           courseType: student.courseType,
           enrollmentDate: student.enrollmentDate,
           courseStartDate,
-          completionDate: calculateStudentExpiryDate(courseStartDate, student.durationDays ?? 30),
+          completionDate: calculateStudentExpiryDate(courseStartDate, COURSE_COMPLETION_DAYS),
           status: student.status,
           learningLicenceNo: student.learningLicenceNo,
           llIssueDate: student.llIssueDate,
@@ -245,7 +246,7 @@ export const reportService = {
       thirtyDaysCompletedCount: derivedStudents.filter(
         (student) =>
           (student.status === 'ongoing' || student.status === 'extended') &&
-          isPastDate(calculateStudentExpiryDate(getCourseStartDate(student), student.durationDays ?? 30))
+          isPastDate(calculateStudentExpiryDate(getCourseStartDate(student), COURSE_COMPLETION_DAYS))
       ).length,
       bothCourseStudentsCount: students.filter((student) => student.courseType === 'both').length,
       heavyVehicleStudentsCount: students.filter((student) => student.courseType === 'HV').length,

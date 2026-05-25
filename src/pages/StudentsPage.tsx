@@ -293,6 +293,7 @@ export function StudentsPage(): JSX.Element {
               <option value="all">All Status</option>
               <option value="about_to_start">About to Start</option>
               <option value="ongoing">Ongoing</option>
+              <option value="completed">Completed</option>
               <option value="passed">Passed</option>
               <option value="extended">Extended</option>
             </Select>

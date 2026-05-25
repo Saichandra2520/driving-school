@@ -38,13 +38,12 @@ function getVariant(
 }
 
 function getLabel(status: StatusBadgeProps['status']): string {
-  if (status === 'about_to_start' || status === 'ongoing' || status === 'passed' || status === 'extended') return formatStudentStatus(status);
+  if (status === 'about_to_start' || status === 'ongoing' || status === 'completed' || status === 'passed' || status === 'extended') return formatStudentStatus(status);
   if (status === 'paid') return 'Paid';
   if (status === 'partial') return 'Partial';
   if (status === 'pending') return 'Pending';
   if (status === 'not_started') return 'Not Started';
   if (status === 'in_progress') return 'In Progress';
-  if (status === 'completed') return 'Completed';
   if (status === 'thirty_days_completed') return 'Training Completed';
   if (status === 'near_completion') return 'Near Completion';
   if (status === 'failed') return 'Failed';

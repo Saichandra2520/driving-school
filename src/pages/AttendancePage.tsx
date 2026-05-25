@@ -316,6 +316,16 @@ export function AttendancePage(): JSX.Element {
       return null;
     }
 
+    if (selectedDate < row.courseStartDate) {
+      setErrorMessage('Attendance date cannot be before the course start date.');
+      return null;
+    }
+
+    if (selectedDate > row.courseCompletionDate) {
+      setErrorMessage(`Attendance date must be within the ${row.allowedDays}-day course period.`);
+      return null;
+    }
+
     if (!selectedClassType) {
       setErrorMessage('Class type is required.');
       return null;
@@ -342,14 +352,12 @@ export function AttendancePage(): JSX.Element {
       setSelectedRows({});
       targetRows.forEach((row) => updateForm(getRowKey(row), { date: payload.date, vehicle: '', instructor: '', notes: '' }));
       invalidatePageCache([
-        cacheTags.attendance,
         cacheTags.dashboard,
         cacheTags.students,
         cacheTags.reports,
         cacheTags.branch(effectiveBranchId ?? 'all'),
         cacheTags.user(profile?.id)
       ]);
-      await loadAttendance();
     } catch (error) {
       setErrorMessage(getFriendlyErrorMessage(error, 'Unable to mark attendance. Please try again.'));
     } finally {

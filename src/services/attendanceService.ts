@@ -1,9 +1,10 @@
 import { where } from 'firebase/firestore';
-import { COURSE_PARTS } from '@/constants/courses';
+import { BASE_TRAINING_SESSION_COUNT, COURSE_PARTS } from '@/constants/courses';
 import { authService } from '@/services/authService';
-import { calculateTrainingEntitlement, courseExtensionService } from '@/services/courseExtensionService';
+import { calculateTrainingEntitlement } from '@/services/courseExtensionService';
 import { collections, getCollection, getDocument, subscribeCollection } from '@/services/firestoreUtils';
 import { getLastCompletedSession, getNextEmptySlot, sessionService } from '@/services/sessionService';
+import { calculateStudentExpiryDate, getCourseStartDate } from '@/utils/dateUtils';
 import { deriveStudentStatus } from '@/utils/studentStatus';
 import type {
   AttendanceFilters,
@@ -62,6 +63,24 @@ function completedCount(session: TrainingSession): number {
   return session.slots.filter((slot) => slot.date && slot.classType).length;
 }
 
+function getPendingSessionId(studentId: string, branchId: string, courseType: TrainingCourseType): string {
+  return `pending-session:${encodeURIComponent(studentId)}:${encodeURIComponent(branchId)}:${courseType}`;
+}
+
+function parsePendingSessionId(sessionId: string): { studentId: string; branchId: string; courseType: TrainingCourseType } | null {
+  const parts = sessionId.split(':');
+  if (parts.length !== 4 || parts[0] !== 'pending-session') return null;
+
+  const courseType = parts[3];
+  if (courseType !== '2W' && courseType !== '4W' && courseType !== 'HV') return null;
+
+  return {
+    studentId: decodeURIComponent(parts[1]),
+    branchId: decodeURIComponent(parts[2]),
+    courseType
+  };
+}
+
 function getSelectedDateMetadata(session: TrainingSession, selectedDate?: string): {
   isMarkedOnSelectedDate: boolean;
   selectedDateSessionCount: number;
@@ -92,71 +111,96 @@ function matchesView(row: AttendanceRow, view: AttendanceFilters['view']): boole
   return true;
 }
 
+function buildAttendanceRows({
+  branches,
+  studentsRaw,
+  sessionsRaw,
+  extensionsRaw,
+  filters
+}: {
+  branches: Branch[];
+  studentsRaw: Student[];
+  sessionsRaw: TrainingSession[];
+  extensionsRaw: CourseExtension[];
+  filters: AttendanceFilters;
+}): AttendanceRow[] {
+  const branchNames = new Map(branches.map((branch) => [branch.id, branch.name]));
+  const sessionsByStudentAndCourse = new Map(
+    sessionsRaw.map((session) => [`${session.studentId}-${session.courseType}`, session])
+  );
+  const extensionsByStudent = new Map<string, CourseExtension[]>();
+  extensionsRaw.forEach((extension) => {
+    extensionsByStudent.set(extension.studentId, [...(extensionsByStudent.get(extension.studentId) ?? []), extension]);
+  });
+  const courseFilter = filters.courseType && filters.courseType !== 'all' ? filters.courseType : null;
+  const rows: AttendanceRow[] = [];
+
+  const students = studentsRaw
+    .map((student) => ({ ...student, status: deriveStudentStatus(student) }))
+    .filter((student) => student.status === 'ongoing' || student.status === 'extended')
+    .filter((student) => matchesSearch(student, filters.search))
+    .sort((a, b) => a.fullName.localeCompare(b.fullName));
+
+  for (const student of students) {
+    const courses = COURSE_PARTS[student.courseType].filter((courseType) => !courseFilter || courseType === courseFilter);
+
+    for (const courseType of courses) {
+      const sessionKey = `${student.id}-${courseType}`;
+      const session = sessionsByStudentAndCourse.get(sessionKey);
+      const entitlement = calculateTrainingEntitlement(student, extensionsByStudent.get(student.id) ?? [], courseType);
+      const courseStartDate = getCourseStartDate(student);
+      const courseCompletionDate = calculateStudentExpiryDate(courseStartDate, entitlement.allowedDays);
+      const completedSessions = session ? completedCount(session) : 0;
+      const nextSlot = session ? getNextEmptySlot(session.slots) : null;
+      const lastSlot = session ? getLastCompletedSession(session.slots) : null;
+      const selectedDateMetadata = session
+        ? getSelectedDateMetadata(session, filters.selectedDate)
+        : {
+            isMarkedOnSelectedDate: false,
+            selectedDateSessionCount: 0,
+            selectedDateClassTypes: []
+          };
+      const isCompleted = completedSessions >= entitlement.allowedSessions;
+      const nextSessionNo = isCompleted ? null : nextSlot?.slotNo ?? completedSessions + 1;
+
+      rows.push({
+        studentId: student.id,
+        studentName: student.fullName,
+        phone: student.phone,
+        branchId: student.branchId,
+        branchName: branchNames.get(student.branchId),
+        courseType,
+        sessionId: session?.id ?? getPendingSessionId(student.id, student.branchId, courseType),
+        completedSessions,
+        allowedSessions: entitlement.allowedSessions,
+        allowedDays: entitlement.allowedDays,
+        courseStartDate,
+        courseCompletionDate,
+        remainingSessions: Math.max(entitlement.allowedSessions - completedSessions, 0),
+        nextSessionNo,
+        lastClassType: lastSlot?.classType || undefined,
+        lastSessionDate: lastSlot?.date ?? undefined,
+        ...selectedDateMetadata,
+        isCompleted
+      });
+    }
+  }
+
+  return rows.filter((row) => matchesView(row, filters.view));
+}
+
 export const attendanceService = {
   async getAttendanceRows(filters: AttendanceFilters): Promise<AttendanceRow[]> {
     const branchId = await getEffectiveBranchId(filters);
-    const [branches, studentsRaw, sessionsRaw] = await Promise.all([
+    const branchScoped = branchId ? [where('branchId', '==', branchId)] : [];
+    const [branches, studentsRaw, sessionsRaw, extensionsRaw] = await Promise.all([
       getVisibleBranches(branchId),
-      getCollection<Student>(collections.students, [
-        ...(branchId ? [where('branchId', '==', branchId)] : [])
-      ]),
-      getCollection<TrainingSession>(collections.sessions, [
-        ...(branchId ? [where('branchId', '==', branchId)] : [])
-      ])
+      getCollection<Student>(collections.students, branchScoped),
+      getCollection<TrainingSession>(collections.sessions, branchScoped),
+      getCollection<CourseExtension>(collections.courseExtensions, branchScoped)
     ]);
 
-    const branchNames = new Map(branches.map((branch) => [branch.id, branch.name]));
-    const sessionsByStudentAndCourse = new Map(
-      sessionsRaw.map((session) => [`${session.studentId}-${session.courseType}`, session])
-    );
-    const courseFilter = filters.courseType && filters.courseType !== 'all' ? filters.courseType : null;
-    const rows: AttendanceRow[] = [];
-
-    const students = studentsRaw
-      .map((student) => ({ ...student, status: deriveStudentStatus(student) }))
-      .filter((student) => student.status === 'ongoing' || student.status === 'extended')
-      .filter((student) => matchesSearch(student, filters.search))
-      .sort((a, b) => a.fullName.localeCompare(b.fullName));
-
-    for (const student of students) {
-      const courses = COURSE_PARTS[student.courseType].filter((courseType) => !courseFilter || courseType === courseFilter);
-
-      for (const courseType of courses) {
-        const sessionKey = `${student.id}-${courseType}`;
-        const session =
-          sessionsByStudentAndCourse.get(sessionKey) ??
-          (await sessionService.createEmptySessionCard(student.id, student.branchId, courseType));
-        const entitlement = await courseExtensionService.getEntitlementForStudent(student, courseType);
-        const sessionWithCapacity =
-          session.slots.length < entitlement.allowedSessions
-            ? await sessionService.ensureSessionCapacity(session.id, entitlement.allowedSessions)
-            : session;
-        const completedSessions = completedCount(sessionWithCapacity);
-        const nextSlot = getNextEmptySlot(sessionWithCapacity.slots);
-        const lastSlot = getLastCompletedSession(sessionWithCapacity.slots);
-        const selectedDateMetadata = getSelectedDateMetadata(sessionWithCapacity, filters.selectedDate);
-
-        rows.push({
-          studentId: student.id,
-          studentName: student.fullName,
-          phone: student.phone,
-          branchId: student.branchId,
-          branchName: branchNames.get(student.branchId),
-          courseType,
-          sessionId: sessionWithCapacity.id,
-          completedSessions,
-          allowedSessions: entitlement.allowedSessions,
-          remainingSessions: Math.max(entitlement.allowedSessions - completedSessions, 0),
-          nextSessionNo: nextSlot?.slotNo ?? null,
-          lastClassType: lastSlot?.classType || undefined,
-          lastSessionDate: lastSlot?.date ?? undefined,
-          ...selectedDateMetadata,
-          isCompleted: completedSessions >= entitlement.allowedSessions || !nextSlot
-        });
-      }
-    }
-
-    return rows.filter((row) => matchesView(row, filters.view));
+    return buildAttendanceRows({ branches, studentsRaw, sessionsRaw, extensionsRaw, filters });
   },
 
   subscribeAttendanceRows(
@@ -179,61 +223,15 @@ export const attendanceService = {
       if (!isActive) return;
       if (!branchesLoaded || !studentsLoaded || !sessionsLoaded || !extensionsLoaded) return;
 
-      const branchNames = new Map(latestBranches.map((branch) => [branch.id, branch.name]));
-      const sessionsByStudentAndCourse = new Map(
-        latestSessions.map((session) => [`${session.studentId}-${session.courseType}`, session])
-      );
-      const extensionsByStudent = new Map<string, CourseExtension[]>();
-      latestExtensions.forEach((extension) => {
-        extensionsByStudent.set(extension.studentId, [...(extensionsByStudent.get(extension.studentId) ?? []), extension]);
-      });
-      const courseFilter = filters.courseType && filters.courseType !== 'all' ? filters.courseType : null;
-      const students = latestStudents
-        .map((student) => ({ ...student, status: deriveStudentStatus(student) }))
-        .filter((student) => student.status === 'ongoing' || student.status === 'extended')
-        .filter((student) => matchesSearch(student, filters.search))
-        .sort((a, b) => a.fullName.localeCompare(b.fullName));
-      const rows: AttendanceRow[] = [];
-
-      for (const student of students) {
-        const courses = COURSE_PARTS[student.courseType].filter((courseType) => !courseFilter || courseType === courseFilter);
-
-        for (const courseType of courses) {
-          const entitlement = calculateTrainingEntitlement(student, extensionsByStudent.get(student.id) ?? [], courseType);
-          const sessionKey = `${student.id}-${courseType}`;
-          const session =
-            sessionsByStudentAndCourse.get(sessionKey) ??
-            (await sessionService.createEmptySessionCard(student.id, student.branchId, courseType, entitlement.allowedSessions));
-          const sessionWithCapacity =
-            session.slots.length < entitlement.allowedSessions
-              ? await sessionService.ensureSessionCapacity(session.id, entitlement.allowedSessions)
-              : session;
-          const completedSessions = completedCount(sessionWithCapacity);
-          const nextSlot = getNextEmptySlot(sessionWithCapacity.slots);
-          const lastSlot = getLastCompletedSession(sessionWithCapacity.slots);
-          const selectedDateMetadata = getSelectedDateMetadata(sessionWithCapacity, filters.selectedDate);
-
-          rows.push({
-            studentId: student.id,
-            studentName: student.fullName,
-            phone: student.phone,
-            branchId: student.branchId,
-            branchName: branchNames.get(student.branchId),
-            courseType,
-            sessionId: sessionWithCapacity.id,
-            completedSessions,
-            allowedSessions: entitlement.allowedSessions,
-            remainingSessions: Math.max(entitlement.allowedSessions - completedSessions, 0),
-            nextSessionNo: nextSlot?.slotNo ?? null,
-            lastClassType: lastSlot?.classType || undefined,
-            lastSessionDate: lastSlot?.date ?? undefined,
-            ...selectedDateMetadata,
-            isCompleted: completedSessions >= entitlement.allowedSessions || !nextSlot
-          });
-        }
+      if (isActive) {
+        onNext(buildAttendanceRows({
+          branches: latestBranches,
+          studentsRaw: latestStudents,
+          sessionsRaw: latestSessions,
+          extensionsRaw: latestExtensions,
+          filters
+        }));
       }
-
-      if (isActive) onNext(rows.filter((row) => matchesView(row, filters.view)));
     };
 
     void getEffectiveBranchId(filters).then((branchId) => {
@@ -298,9 +296,20 @@ export const attendanceService = {
   },
 
   async markAttendance(sessionId: string, payload: MarkAttendancePayload, allowedSessions?: number): Promise<void> {
-    if (allowedSessions) {
-      await sessionService.ensureSessionCapacity(sessionId, allowedSessions);
-    }
-    await sessionService.quickMarkNextSession(sessionId, payload);
+    const pendingSession = parsePendingSessionId(sessionId);
+    const effectiveSessionId = pendingSession
+      ? (await sessionService.createEmptySessionCard(
+          pendingSession.studentId,
+          pendingSession.branchId,
+          pendingSession.courseType,
+          allowedSessions ?? BASE_TRAINING_SESSION_COUNT
+        )).id
+      : sessionId;
+
+    await sessionService.quickMarkNextSessionFast(
+      effectiveSessionId,
+      payload,
+      Math.max(allowedSessions ?? BASE_TRAINING_SESSION_COUNT, BASE_TRAINING_SESSION_COUNT)
+    );
   }
 };

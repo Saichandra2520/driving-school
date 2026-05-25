@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ConfirmDialog } from '@/components/common/ConfirmDialog';
+import { DownloadTrainingCertificateButton } from '@/components/certificates/DownloadTrainingCertificateButton';
 import { StatusBadge } from '@/components/common/StatusBadge';
 import { DrivingTestCard } from '@/components/drivingTests/DrivingTestCard';
 import { AddInstallmentModal } from '@/components/fees/AddInstallmentModal';
@@ -14,18 +15,38 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { COURSE_PARTS } from '@/constants/courses';
+import { BASE_TRAINING_SESSION_COUNT, COURSE_PARTS } from '@/constants/courses';
 import { courseExtensionService } from '@/services/courseExtensionService';
 import { feeService } from '@/services/feeService';
 import { getInstallmentReceiptLabel, isPendingInstallment } from '@/services/pendingPaymentService';
-import type { CourseExtension, Fee, Installment, StudentWithFee, TrainingEntitlement } from '@/types';
+import { sessionService } from '@/services/sessionService';
+import type { CourseExtension, Fee, Installment, StudentWithFee, TrainingCourseType, TrainingEntitlement } from '@/types';
+import { calculateStudentExpiryDate, getCourseStartDate } from '@/utils/dateUtils';
 import { formatCourseType, formatCurrency, formatDate } from '@/utils/formatters';
+import {
+  getTrainingCertificateAttendanceSlots,
+  getTrainingCertificateCompletionDate
+} from '@/utils/trainingCertificate';
 
 type StudentDetailsProps = {
   student: StudentWithFee;
   allowFeeActions?: boolean;
   onFeeChanged?: () => void;
   onStudentChanged?: () => void;
+};
+
+type CertificateRow = {
+  courseType: TrainingCourseType;
+  courseStartDate: string;
+  courseEndDate: string;
+  completionDate: string;
+  attendance: Array<{
+    sessionNo: number;
+    date: string;
+    classType: string;
+    vehicle?: string;
+    instructor?: string;
+  }>;
 };
 
 export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, onStudentChanged }: StudentDetailsProps): JSX.Element {
@@ -40,11 +61,12 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
   const [extensions, setExtensions] = useState<CourseExtension[]>(student.extensions ?? []);
   const [entitlement, setEntitlement] = useState<TrainingEntitlement | null>(student.trainingEntitlement ?? null);
   const [extensionModalOpen, setExtensionModalOpen] = useState(false);
+  const [certificateRows, setCertificateRows] = useState<CertificateRow[]>([]);
   const courseParts = COURSE_PARTS[student.courseType];
-  const isThirtyDaysCompleted = (student.status === 'ongoing' || student.status === 'extended') && student.daysRemaining < 0;
-  const extensionDisabledReason = isThirtyDaysCompleted
-    ? ''
-    : `Course extension can be added only after the base ${student.durationDays ?? 30}-day training period is completed.`;
+  const isBaseTrainingCompleted = (student.status === 'ongoing' || student.status === 'extended') && student.daysRemaining < 0;
+  const tabs = certificateRows.length > 0
+    ? ['overview', 'fees', 'extensions', 'attendance', 'certificate', 'driving-test', 'licence']
+    : ['overview', 'fees', 'extensions', 'attendance', 'driving-test', 'licence'];
 
   const loadExtensions = async (): Promise<void> => {
     try {
@@ -56,8 +78,43 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
     }
   };
 
+  const loadCertificates = async (): Promise<void> => {
+    try {
+      const courseStartDate = getCourseStartDate(student);
+      const rows = await Promise.all(
+        courseParts.map(async (courseType): Promise<CertificateRow | null> => {
+          const courseEntitlement = await courseExtensionService.getEntitlementByStudentId(student.id, courseType);
+          const session = await sessionService.getSessionByStudentAndCourse(student.id, courseType, courseEntitlement.allowedSessions);
+          if (!session) return null;
+
+          const completionDate = getTrainingCertificateCompletionDate(session.slots);
+          if (!completionDate) return null;
+
+          return {
+            courseType,
+            courseStartDate,
+            courseEndDate: calculateStudentExpiryDate(courseStartDate, courseEntitlement.allowedDays),
+            completionDate,
+            attendance: getTrainingCertificateAttendanceSlots(session.slots).map((slot) => ({
+              sessionNo: slot.slotNo,
+              date: slot.date as string,
+              classType: slot.classType,
+              vehicle: slot.vehicle,
+              instructor: slot.instructor
+            }))
+          };
+        })
+      );
+
+      setCertificateRows(rows.filter((row): row is CertificateRow => row !== null));
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : 'Unable to load training certificates.');
+    }
+  };
+
   useEffect(() => {
     void loadExtensions();
+    void loadCertificates();
   }, [student.id]);
 
   const feeSummary = useMemo(() => {
@@ -127,14 +184,14 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
             <Badge variant="secondary">{formatCourseType(student.courseType)}</Badge>
             <StatusBadge status={student.status} />
             <StatusBadge status={feeSummary.paymentStatus === 'Paid' ? 'paid' : feeSummary.paymentStatus === 'Partial' ? 'partial' : 'pending'} />
-            {isThirtyDaysCompleted ? <StatusBadge status="thirty_days_completed" /> : null}
+            {isBaseTrainingCompleted ? <StatusBadge status="thirty_days_completed" /> : null}
           </div>
         </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="h-auto flex-wrap justify-start">
-          {['overview', 'fees', 'extensions', 'attendance', 'driving-test', 'licence'].map((tab) => (
+          {tabs.map((tab) => (
             <TabsTrigger key={tab} value={tab} activeValue={activeTab} onValueChange={setActiveTab}>
               {tab === 'driving-test' ? 'Driving Test' : tab.charAt(0).toUpperCase() + tab.slice(1)}
             </TabsTrigger>
@@ -154,7 +211,7 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
               <Info label="Course Start Date" value={formatDate(student.courseStartDate)} />
               <Info label="Base Completion Date" value={formatDate(student.expiryDate)} />
               <Info label="Base Days Remaining" value={student.daysRemaining >= 0 ? String(student.daysRemaining) : 'Completed'} />
-              <Info label="Allowed Sessions" value={String(entitlement?.allowedSessions ?? student.baseSessionCount ?? 30)} />
+              <Info label="Allowed Sessions" value={String(entitlement?.allowedSessions ?? student.baseSessionCount ?? BASE_TRAINING_SESSION_COUNT)} />
               <Info label="Extra Sessions" value={String(entitlement?.extraSessions ?? 0)} />
             </Section>
             <Section title="Quick Summary">
@@ -172,7 +229,6 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
               extensions={extensions}
               entitlement={entitlement}
               onAdd={() => setExtensionModalOpen(true)}
-              disabledReason={extensionDisabledReason}
             />
           </TabsContent>
         ) : null}
@@ -195,8 +251,25 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
         {activeTab === 'attendance' ? (
           <TabsContent>
             {courseParts.map((courseType) => (
-              <TrainingCard key={courseType} studentId={student.id} branchId={student.branchId} courseType={courseType} />
+              <TrainingCard
+                key={courseType}
+                studentId={student.id}
+                branchId={student.branchId}
+                courseType={courseType}
+                courseStartDate={student.courseStartDate}
+              />
             ))}
+          </TabsContent>
+        ) : null}
+
+        {activeTab === 'certificate' && certificateRows.length > 0 ? (
+          <TabsContent>
+            <CertificateTab
+              rows={certificateRows}
+              student={student}
+              feeSummary={feeSummary}
+              onError={setErrorMessage}
+            />
           </TabsContent>
         ) : null}
 
@@ -257,6 +330,7 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
           setMessage(nextMessage);
           setErrorMessage('');
           void loadExtensions();
+          void loadCertificates();
           void feeService.getFeeByStudentId(student.id).then((nextFee) => {
             if (nextFee) setFee(nextFee);
           });
@@ -271,28 +345,25 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
 function ExtensionsTab({
   extensions,
   entitlement,
-  onAdd,
-  disabledReason
+  onAdd
 }: {
   extensions: CourseExtension[];
   entitlement: TrainingEntitlement | null;
   onAdd: () => void;
-  disabledReason: string;
 }): JSX.Element {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
         <CardTitle className="text-lg">Course Extensions</CardTitle>
-        <Button type="button" onClick={onAdd} disabled={Boolean(disabledReason)}>
+        <Button type="button" onClick={onAdd}>
           Add Extension
         </Button>
       </CardHeader>
       <CardContent className="space-y-4">
-        {disabledReason ? <Alert variant="warning">{disabledReason}</Alert> : null}
         <div className="grid gap-4 sm:grid-cols-4">
-          <Info label="Base Sessions" value={String(entitlement?.baseSessions ?? 30)} />
+          <Info label="Base Sessions" value={String(entitlement?.baseSessions ?? BASE_TRAINING_SESSION_COUNT)} />
           <Info label="Extra Sessions" value={String(entitlement?.extraSessions ?? 0)} />
-          <Info label="Allowed Sessions" value={String(entitlement?.allowedSessions ?? 30)} />
+          <Info label="Allowed Sessions" value={String(entitlement?.allowedSessions ?? BASE_TRAINING_SESSION_COUNT)} />
           <Info label="Extension Amount" value={formatCurrency(entitlement?.extensionAmount ?? 0)} />
         </div>
 
@@ -326,6 +397,65 @@ function ExtensionsTab({
             </Table>
           </div>
         )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function CertificateTab({
+  rows,
+  student,
+  feeSummary,
+  onError
+}: {
+  rows: CertificateRow[];
+  student: StudentWithFee;
+  feeSummary: {
+    totalAmount: number;
+    paidAmount: number;
+    balance: number;
+    paymentStatus: string;
+  };
+  onError: (message: string) => void;
+}): JSX.Element {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-lg">Training Certificates</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        {rows.map((row) => (
+          <div key={row.courseType} className="flex flex-col gap-3 rounded-md border p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="font-medium">{formatCourseType(row.courseType)} Certificate</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Completed on {formatDate(row.completionDate)} · {row.attendance.length} sessions
+              </p>
+            </div>
+            <DownloadTrainingCertificateButton
+              data={{
+                studentName: student.fullName,
+                phone: student.phone,
+                learningLicenceNo: student.learningLicenceNo,
+                courseType: row.courseType,
+                branchName: student.branchName ?? student.branchId,
+                courseStartDate: row.courseStartDate,
+                courseEndDate: row.courseEndDate,
+                completionDate: row.completionDate,
+                completedSessions: BASE_TRAINING_SESSION_COUNT,
+                payment: {
+                  totalAmount: feeSummary.totalAmount,
+                  paidAmount: feeSummary.paidAmount,
+                  balance: feeSummary.balance,
+                  status: feeSummary.paymentStatus
+                },
+                attendance: row.attendance,
+                generatedAt: new Date().toISOString()
+              }}
+              onError={onError}
+            />
+          </div>
+        ))}
       </CardContent>
     </Card>
   );

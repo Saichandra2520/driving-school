@@ -1,10 +1,10 @@
 import { collection, doc, runTransaction, serverTimestamp, where } from 'firebase/firestore';
+import { BASE_TRAINING_SESSION_COUNT, COURSE_COMPLETION_DAYS } from '@/constants/courses';
 import { authService } from '@/services/authService';
 import { db } from '@/services/firebase';
 import { firebaseUsageService } from '@/services/firebaseUsageService';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
 import { recalculateFee } from '@/services/feeService';
-import { calculateStudentExpiryDate, getCourseStartDate, getDaysRemaining } from '@/utils/dateUtils';
 import type {
   CourseExtension,
   CourseType,
@@ -14,9 +14,6 @@ import type {
   TrainingCourseType,
   TrainingEntitlement
 } from '@/types';
-
-const defaultBaseSessions = 30;
-const defaultBaseDays = 30;
 
 function appliesToCourse(extensionCourse: CourseType, courseType?: TrainingCourseType): boolean {
   if (!courseType) return true;
@@ -57,22 +54,13 @@ async function getFeeByStudentId(studentId: string): Promise<Fee | null> {
   return fees[0] ?? null;
 }
 
-function assertBaseTrainingPeriodCompleted(student: Student): void {
-  const baseDays = Number(student.baseDurationDays ?? student.durationDays ?? defaultBaseDays);
-  const expiryDate = calculateStudentExpiryDate(getCourseStartDate(student), baseDays);
-
-  if (getDaysRemaining(expiryDate) >= 0) {
-    throw new Error(`Course extension can be added only after the base ${baseDays}-day training period is completed.`);
-  }
-}
-
 export function calculateTrainingEntitlement(
   student: Student,
   extensions: CourseExtension[] = [],
   courseType?: TrainingCourseType
 ): TrainingEntitlement {
-  const baseSessions = Number(student.baseSessionCount ?? defaultBaseSessions);
-  const baseDays = Number(student.baseDurationDays ?? student.durationDays ?? defaultBaseDays);
+  const baseSessions = Number(student.baseSessionCount ?? BASE_TRAINING_SESSION_COUNT);
+  const baseDays = COURSE_COMPLETION_DAYS;
   const applicableExtensions = extensions.filter((extension) => appliesToCourse(extension.courseType, courseType));
   const extraSessions = applicableExtensions.reduce((total, extension) => total + Number(extension.extraSessions ?? 0), 0);
   const extraDays = applicableExtensions.reduce((total, extension) => total + Number(extension.extraDays ?? 0), 0);
@@ -133,7 +121,6 @@ export const courseExtensionService = {
     }
 
     const student = await assertCanManageStudent(payload.studentId);
-    assertBaseTrainingPeriodCompleted(student);
 
     if (student.branchId !== payload.branchId) {
       throw new Error('Extension branch must match the student branch.');

@@ -45,7 +45,7 @@ export type TrainingCourseType = '2W' | '4W' | 'HV';
 export type DrivingTestCourseType = TrainingCourseType;
 export type DrivingTestResult = 'pending' | 'pass' | 'fail';
 export type DrivingTestStatus = 'not_started' | 'pending' | 'passed' | 'failed';
-export type StudentStatus = 'about_to_start' | 'ongoing' | 'passed' | 'extended';
+export type StudentStatus = 'about_to_start' | 'ongoing' | 'completed' | 'passed' | 'extended';
 
 export interface StaffProfile {
   id: string;
@@ -181,6 +181,9 @@ export interface AttendanceRow {
   sessionId: string;
   completedSessions: number;
   allowedSessions: number;
+  allowedDays: number;
+  courseStartDate: string;
+  courseCompletionDate: string;
   remainingSessions: number;
   nextSessionNo: number | null;
   lastClassType?: string;
@@ -436,9 +439,11 @@ export type DashboardSummary = {
   passedStudents: number;
   totalFeeCollected: number;
   todayCollections: number;
+  monthlyCollections: number;
   pendingFeeBalance: number;
   totalExpenses: number;
   todayExpenses: number;
+  monthlyExpenses: number;
   fuelTotal: number;
   maintenanceTotal: number;
   salaryTotal: number;
@@ -446,6 +451,7 @@ export type DashboardSummary = {
   challanTotal: number;
   otherTotal: number;
   netAmount: number;
+  monthlyNetAmount: number;
 };
 
 export type StudentNearExpiry = {
@@ -506,6 +512,17 @@ export interface RecentExpense {
   amount: number;
   date: string;
   notes?: string;
+}
+
+export interface MonthlyTransaction {
+  id: string;
+  type: 'payment' | 'expense';
+  title: string;
+  detail?: string;
+  branchId: string;
+  branchName?: string;
+  amount: number;
+  date: string;
 }
 
 export interface ReportFilters {

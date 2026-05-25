@@ -1,7 +1,15 @@
+import { COURSE_COMPLETION_DAYS } from '@/constants/courses';
+
+function formatLocalDate(date: Date): string {
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${date.getFullYear()}-${month}-${day}`;
+}
+
 export function addDays(date: string, days: number): string {
   const nextDate = new Date(`${date}T00:00:00`);
   nextDate.setDate(nextDate.getDate() + days);
-  return nextDate.toISOString().slice(0, 10);
+  return formatLocalDate(nextDate);
 }
 
 export function getDaysRemaining(expiryDate: string): number {
@@ -11,7 +19,7 @@ export function getDaysRemaining(expiryDate: string): number {
   return Math.ceil((expiry.getTime() - today.getTime()) / 86400000);
 }
 
-export function calculateStudentExpiryDate(startDate: string, durationDays = 30): string {
+export function calculateStudentExpiryDate(startDate: string, durationDays = COURSE_COMPLETION_DAYS): string {
   return addDays(startDate, durationDays);
 }
 
@@ -19,7 +27,7 @@ export function getCourseStartDate<T extends { enrollmentDate: string; courseSta
   return student.courseStartDate || student.enrollmentDate;
 }
 
-export function isStudentExpired(enrollmentDate: string, durationDays = 30): boolean {
+export function isStudentExpired(enrollmentDate: string, durationDays = COURSE_COMPLETION_DAYS): boolean {
   return getDaysRemaining(addDays(enrollmentDate, durationDays)) < 0;
 }
 

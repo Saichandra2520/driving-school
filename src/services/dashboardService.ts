@@ -1,4 +1,5 @@
 import { where } from 'firebase/firestore';
+import { COURSE_COMPLETION_DAYS } from '@/constants/courses';
 import { authService } from '@/services/authService';
 import { collections, getCollection, getDocument, subscribeCollection } from '@/services/firestoreUtils';
 import {
@@ -16,6 +17,7 @@ import type {
   Expense,
   ExpenseCategory,
   Fee,
+  MonthlyTransaction,
   PendingFeeStudent,
   RecentExpense,
   RecentPayment,
@@ -32,6 +34,7 @@ export type DashboardData = {
   summary: DashboardSummary;
   pendingFees: PendingFeeStudent[];
   thirtyDayAlerts: ThirtyDayAlertStudent[];
+  monthlyTransactions: MonthlyTransaction[];
   recentPayments: RecentPayment[];
   recentExpenses: RecentExpense[];
 };
@@ -92,7 +95,7 @@ async function getVisibleData(branchId: string | null): Promise<{
   const students = studentsRaw.map((student) => ({
     ...student,
     status: deriveStudentStatus(student),
-    durationDays: student.durationDays ?? 30,
+    durationDays: COURSE_COMPLETION_DAYS,
     courseStartDate: getCourseStartDate(student),
     branchName: branchNames.get(student.branchId),
     fee: feesByStudent.get(student.id) ?? null
@@ -153,7 +156,7 @@ function buildVisibleData(
   const students = studentsRaw.map((student) => ({
     ...student,
     status: deriveStudentStatus(student),
-    durationDays: student.durationDays ?? 30,
+    durationDays: COURSE_COMPLETION_DAYS,
     courseStartDate: getCourseStartDate(student),
     branchName: branchNames.get(student.branchId),
     fee: feesByStudent.get(student.id) ?? null
@@ -170,11 +173,17 @@ function computeDashboardData(data: {
 }): DashboardData {
   const { branches, students, fees, expenses } = data;
   const today = new Date().toISOString().slice(0, 10);
+  const currentMonth = today.slice(0, 7);
   const branchNames = getBranchNameMap(branches);
   const totalFeeCollected = fees.reduce((total, fee) => total + Number(fee.paidAmount ?? 0), 0);
   const todayCollections = fees.reduce(
     (total, fee) =>
       total + fee.installments.reduce((feeTotal, installment) => feeTotal + (installment.date === today ? Number(installment.amount ?? 0) : 0), 0),
+    0
+  );
+  const monthlyCollections = fees.reduce(
+    (total, fee) =>
+      total + fee.installments.reduce((feeTotal, installment) => feeTotal + (installment.date.startsWith(currentMonth) ? Number(installment.amount ?? 0) : 0), 0),
     0
   );
   const pendingFeeBalance = fees.reduce((total, fee) => total + Number(fee.balance ?? 0), 0);
@@ -183,7 +192,42 @@ function computeDashboardData(data: {
     (total, expense) => total + ((expense.date ?? expense.expenseDate) === today ? Number(expense.amount ?? 0) : 0),
     0
   );
+  const monthlyExpenses = expenses.reduce(
+    (total, expense) => total + ((expense.date ?? expense.expenseDate).startsWith(currentMonth) ? Number(expense.amount ?? 0) : 0),
+    0
+  );
   const studentsById = new Map(students.map((student) => [student.id, student]));
+  const monthlyTransactions: MonthlyTransaction[] = [
+    ...fees.flatMap((fee) => {
+      const student = studentsById.get(fee.studentId);
+      if (!student) return [];
+
+      return fee.installments
+        .filter((installment) => installment.date.startsWith(currentMonth))
+        .map((installment) => ({
+          id: `${fee.id}-${installment.receiptNo || installment.clientPaymentId || installment.date}`,
+          type: 'payment' as const,
+          title: student.fullName,
+          detail: installment.receiptNo ? `Receipt ${installment.receiptNo}` : 'Fee payment',
+          branchId: fee.branchId,
+          branchName: branchNames.get(fee.branchId),
+          amount: Number(installment.amount ?? 0),
+          date: installment.date
+        }));
+    }),
+    ...expenses
+      .filter((expense) => (expense.date ?? expense.expenseDate).startsWith(currentMonth))
+      .map((expense) => ({
+        id: expense.id,
+        type: 'expense' as const,
+        title: expense.category,
+        detail: expense.notes,
+        branchId: expense.branchId,
+        branchName: branchNames.get(expense.branchId),
+        amount: Number(expense.amount ?? 0),
+        date: expense.date ?? expense.expenseDate
+      }))
+  ].sort((a, b) => b.date.localeCompare(a.date));
 
   return {
     summary: {
@@ -193,16 +237,19 @@ function computeDashboardData(data: {
       passedStudents: students.filter((student) => student.status === 'passed').length,
       totalFeeCollected,
       todayCollections,
+      monthlyCollections,
       pendingFeeBalance,
       totalExpenses,
       todayExpenses,
+      monthlyExpenses,
       fuelTotal: expenseTotal(expenses, ['fuel']),
       maintenanceTotal: expenseTotal(expenses, ['maintenance']),
       salaryTotal: expenseTotal(expenses, ['salary']),
       rentElectricityTotal: expenseTotal(expenses, ['room_rent', 'electricity']),
       challanTotal: expenseTotal(expenses, ['learning_challan', 'driving_test_challan']),
       otherTotal: expenseTotal(expenses, ['other']),
-      netAmount: totalFeeCollected - totalExpenses
+      netAmount: totalFeeCollected - totalExpenses,
+      monthlyNetAmount: monthlyCollections - monthlyExpenses
     },
     pendingFees: students
       .map((student) => ({
@@ -223,7 +270,7 @@ function computeDashboardData(data: {
       .filter((student) => student.status === 'ongoing' || student.status === 'extended')
       .map((student) => {
         const courseStartDate = getCourseStartDate(student);
-        const completionDate = calculateStudentExpiryDate(courseStartDate, student.durationDays ?? 30);
+        const completionDate = calculateStudentExpiryDate(courseStartDate, COURSE_COMPLETION_DAYS);
         const daysRemaining = getDaysRemaining(completionDate);
         return {
           studentId: student.id,
@@ -241,6 +288,7 @@ function computeDashboardData(data: {
       })
       .filter((student) => student.alertType === 'completed' || isWithinNextDays(student.completionDate, 5))
       .sort((a, b) => a.daysRemaining - b.daysRemaining),
+    monthlyTransactions,
     recentPayments: fees
       .flatMap((fee) => {
         const student = studentsById.get(fee.studentId);
@@ -276,6 +324,11 @@ function computeDashboardData(data: {
 }
 
 export const dashboardService = {
+  async getDashboardData(filters: DashboardFilters): Promise<DashboardData> {
+    const branchId = await getEffectiveBranchId(filters);
+    return computeDashboardData(await getVisibleData(branchId));
+  },
+
   async getDashboardSummary(filters: DashboardFilters): Promise<DashboardSummary> {
     const branchId = await getEffectiveBranchId(filters);
     return computeDashboardData(await getVisibleData(branchId)).summary;

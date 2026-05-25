@@ -5,24 +5,33 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { SessionSlotModal } from '@/components/sessions/SessionSlotModal';
+import { BASE_TRAINING_SESSION_COUNT } from '@/constants/courses';
 import { courseExtensionService } from '@/services/courseExtensionService';
 import { sessionService } from '@/services/sessionService';
 import type { SessionSlot, TrainingCourseType, TrainingSession } from '@/types';
+import { calculateStudentExpiryDate } from '@/utils/dateUtils';
 import { formatDate } from '@/utils/formatters';
 
 type TrainingCardProps = {
   studentId: string;
   branchId: string;
   courseType: TrainingCourseType;
+  courseStartDate: string;
 };
 
-export function TrainingCard({ studentId, branchId, courseType }: TrainingCardProps): JSX.Element {
+export function TrainingCard({
+  studentId,
+  branchId,
+  courseType,
+  courseStartDate
+}: TrainingCardProps): JSX.Element {
   const [session, setSession] = useState<TrainingSession | null>(null);
   const [editSlot, setEditSlot] = useState<SessionSlot | null>(null);
   const [message, setMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [allowedSessions, setAllowedSessions] = useState(30);
+  const [allowedSessions, setAllowedSessions] = useState(BASE_TRAINING_SESSION_COUNT);
+  const [courseCompletionDate, setCourseCompletionDate] = useState(calculateStudentExpiryDate(courseStartDate));
 
   useEffect(() => {
     let isMounted = true;
@@ -34,12 +43,14 @@ export function TrainingCard({ studentId, branchId, courseType }: TrainingCardPr
       try {
         const entitlement = await courseExtensionService.getEntitlementByStudentId(studentId, courseType);
         const nextAllowedSessions = entitlement.allowedSessions;
+        const nextCourseCompletionDate = calculateStudentExpiryDate(courseStartDate, entitlement.allowedDays);
         const existingSession = await sessionService.getSessionByStudentAndCourse(studentId, courseType, nextAllowedSessions);
         const nextSession =
           existingSession ?? (await sessionService.createEmptySessionCard(studentId, branchId, courseType, nextAllowedSessions));
 
         if (isMounted) {
           setAllowedSessions(nextAllowedSessions);
+          setCourseCompletionDate(nextCourseCompletionDate);
           setSession(
             nextSession.slots.length < nextAllowedSessions
               ? await sessionService.ensureSessionCapacity(nextSession.id, nextAllowedSessions)
@@ -58,7 +69,7 @@ export function TrainingCard({ studentId, branchId, courseType }: TrainingCardPr
     return () => {
       isMounted = false;
     };
-  }, [branchId, courseType, studentId]);
+  }, [branchId, courseStartDate, courseType, studentId]);
 
   const progress = useMemo(() => {
     const completed = session?.slots.filter((slot) => slot.date && slot.classType).length ?? 0;
@@ -85,7 +96,9 @@ export function TrainingCard({ studentId, branchId, courseType }: TrainingCardPr
             Completed Sessions: {progress.completed} / {allowedSessions} · Remaining Sessions: {progress.remaining}
           </p>
         </div>
-        <Badge variant={progress.variant}>{progress.label}</Badge>
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant={progress.variant}>{progress.label}</Badge>
+        </div>
       </CardHeader>
       <CardContent className="space-y-4">
         {message ? <Alert variant="success">{message}</Alert> : null}
@@ -140,6 +153,8 @@ export function TrainingCard({ studentId, branchId, courseType }: TrainingCardPr
           slot={editSlot}
           branchId={branchId}
           courseType={courseType}
+          courseStartDate={courseStartDate}
+          courseCompletionDate={courseCompletionDate}
           onClose={() => setEditSlot(null)}
           onSaved={handleSaved}
         />

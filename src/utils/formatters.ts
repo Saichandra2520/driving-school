@@ -34,6 +34,7 @@ export function formatStudentStatus(status: StudentStatus): string {
   const labels: Record<StudentStatus, string> = {
     about_to_start: 'About to Start',
     ongoing: 'Ongoing',
+    completed: 'Completed',
     passed: 'Passed',
     extended: 'Extended'
   };

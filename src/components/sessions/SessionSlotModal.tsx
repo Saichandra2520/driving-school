@@ -15,6 +15,8 @@ type SessionSlotModalProps = {
   slot: SessionSlot | null;
   branchId: string;
   courseType: TrainingCourseType;
+  courseStartDate: string;
+  courseCompletionDate: string;
   onClose: () => void;
   onSaved: (session: TrainingSession, message: string) => void;
 };
@@ -27,6 +29,8 @@ export function SessionSlotModal({
   slot,
   branchId,
   courseType,
+  courseStartDate,
+  courseCompletionDate,
   onClose,
   onSaved
 }: SessionSlotModalProps): JSX.Element {
@@ -88,6 +92,14 @@ export function SessionSlotModal({
       setErrorMessage('Class type is required.');
       return;
     }
+    if (date < courseStartDate) {
+      setErrorMessage('Session date cannot be before the course start date.');
+      return;
+    }
+    if (date > courseCompletionDate) {
+      setErrorMessage('Session date must be within the course completion period.');
+      return;
+    }
 
     setIsSaving(true);
     try {
@@ -122,6 +134,8 @@ export function SessionSlotModal({
                 id="session-date"
                 type="date"
                 value={date}
+                min={courseStartDate}
+                max={courseCompletionDate}
                 onChange={(event) => setDate(event.target.value)}
               />
             </div>

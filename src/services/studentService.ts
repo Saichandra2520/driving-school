@@ -16,7 +16,7 @@ import {
   type QueryConstraint
 } from 'firebase/firestore';
 import { authService } from '@/services/authService';
-import { COURSE_PARTS } from '@/constants/courses';
+import { BASE_TRAINING_SESSION_COUNT, COURSE_COMPLETION_DAYS, COURSE_PARTS } from '@/constants/courses';
 import { db } from '@/services/firebase';
 import { firebaseUsageService } from '@/services/firebaseUsageService';
 import { pendingPaymentService } from '@/services/pendingPaymentService';
@@ -70,7 +70,7 @@ export type StudentsPageResult = {
 const searchableStudentFields = ['fullName', 'phone', 'learningLicenceNo', 'drivingLicenceNo'] as const;
 
 function emptySessionSlots() {
-  return Array.from({ length: 30 }, (_, index) => ({
+  return Array.from({ length: BASE_TRAINING_SESSION_COUNT }, (_, index) => ({
     slotNo: index + 1,
     date: null,
     classType: ''
@@ -265,7 +265,7 @@ async function attachFeeAndBranchWithFee(
   const totalAmount = Number(mergedFee?.totalAmount ?? 0);
   const paidAmount = Number(mergedFee?.paidAmount ?? 0);
   const balance = Number(mergedFee?.balance ?? Math.max(totalAmount - paidAmount, 0));
-  const durationDays = student.baseDurationDays ?? student.durationDays ?? 30;
+  const durationDays = COURSE_COMPLETION_DAYS;
   const courseStartDate = getCourseStartDate(student);
   const expiryDate = calculateStudentExpiryDate(courseStartDate, durationDays);
 
@@ -273,7 +273,7 @@ async function attachFeeAndBranchWithFee(
     ...student,
     status: deriveStudentStatus(student),
     durationDays,
-    baseSessionCount: student.baseSessionCount ?? 30,
+    baseSessionCount: student.baseSessionCount ?? BASE_TRAINING_SESSION_COUNT,
     baseDurationDays: durationDays,
     courseStartDate,
     branchName: branches.find((branch) => branch.id === student.branchId)?.name,
@@ -534,6 +534,48 @@ export const studentService = {
     return getCollection<Student>(collections.students, [where('branchId', '==', branchId)]);
   },
 
+  async deleteStudent(studentId: string): Promise<void> {
+    const [{ profile }, student] = await Promise.all([
+      authService.getCurrentUser(),
+      getDocument<Student>(collections.students, studentId)
+    ]);
+
+    if (profile?.role !== 'owner') throw new Error('Only the owner can delete students.');
+    if (!student) throw new Error('Student not found.');
+
+    const [fees, sessions, drivingTests, courseExtensions, expenses] = await Promise.all([
+      getDocs(query(collection(db, collections.fees), where('studentId', '==', studentId))),
+      getDocs(query(collection(db, collections.sessions), where('studentId', '==', studentId))),
+      getDocs(query(collection(db, collections.drivingTests), where('studentId', '==', studentId))),
+      getDocs(query(collection(db, collections.courseExtensions), where('studentId', '==', studentId))),
+      getDocs(query(collection(db, collections.expenses), where('studentId', '==', studentId)))
+    ]);
+    const readCount =
+      Math.max(fees.docs.length, 1) +
+      Math.max(sessions.docs.length, 1) +
+      Math.max(drivingTests.docs.length, 1) +
+      Math.max(courseExtensions.docs.length, 1) +
+      Math.max(expenses.docs.length, 1);
+    firebaseUsageService.trackUsage('reads', readCount);
+
+    const batch = writeBatch(db);
+    fees.docs.forEach((snapshot) => batch.delete(snapshot.ref));
+    sessions.docs.forEach((snapshot) => batch.delete(snapshot.ref));
+    drivingTests.docs.forEach((snapshot) => batch.delete(snapshot.ref));
+    courseExtensions.docs.forEach((snapshot) => batch.delete(snapshot.ref));
+    expenses.docs.forEach((snapshot) => batch.update(snapshot.ref, { studentId: '' }));
+    batch.delete(doc(db, collections.students, studentId));
+
+    await batch.commit();
+    firebaseUsageService.trackUsage(
+      'deletes',
+      1 + fees.docs.length + sessions.docs.length + drivingTests.docs.length + courseExtensions.docs.length
+    );
+    if (expenses.docs.length > 0) firebaseUsageService.trackUsage('writes', expenses.docs.length);
+
+    pendingPaymentService.getByStudent(studentId).forEach((payment) => pendingPaymentService.remove(payment.id));
+  },
+
   async createStudent(payload: CreateStudentPayload): Promise<StudentWithFee> {
     assertValidStudentInput(payload, { requireAll: true });
 
@@ -558,9 +600,9 @@ export const studentService = {
         enrollmentDate: payload.enrollmentDate,
         courseStartDate: payload.courseStartDate
       }),
-      durationDays: 30,
-      baseSessionCount: 30,
-      baseDurationDays: 30,
+      durationDays: COURSE_COMPLETION_DAYS,
+      baseSessionCount: BASE_TRAINING_SESSION_COUNT,
+      baseDurationDays: COURSE_COMPLETION_DAYS,
       completedAt: null,
       searchTokens: createStudentSearchTokens({
         fullName: payload.fullName,

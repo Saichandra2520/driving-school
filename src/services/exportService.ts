@@ -1,4 +1,5 @@
 import { where } from 'firebase/firestore';
+import { COURSE_COMPLETION_DAYS } from '@/constants/courses';
 import { authService } from '@/services/authService';
 import { collections, getCollection } from '@/services/firestoreUtils';
 import { calculateStudentExpiryDate, getCourseStartDate } from '@/utils/dateUtils';
@@ -149,7 +150,7 @@ export const exportService = {
     const rows = students.map((student) => {
       const fee = feesByStudent.get(student.id);
       const courseStartDate = getCourseStartDate(student);
-      const completionDate = calculateStudentExpiryDate(courseStartDate, student.durationDays ?? 30);
+      const completionDate = calculateStudentExpiryDate(courseStartDate, COURSE_COMPLETION_DAYS);
 
       return {
         branch: branchName(branches, student.branchId),

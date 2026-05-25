@@ -109,7 +109,7 @@ export function AddExtensionModal({
         <DialogContent onClose={onClose}>
           <DialogHeader>
             <DialogTitle>Add Course Extension</DialogTitle>
-            <DialogDescription>Record extra sessions, extra days, and any extra fee after the original course.</DialogDescription>
+            <DialogDescription>Record extra sessions, extra days, and any extra fee when the student needs more training time.</DialogDescription>
           </DialogHeader>
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="grid gap-4 sm:grid-cols-2">

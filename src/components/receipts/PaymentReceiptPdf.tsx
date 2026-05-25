@@ -1,10 +1,13 @@
 import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import type { ReceiptData } from '@/types';
-import { formatCourseType, formatCurrency, formatDate } from '@/utils/formatters';
+import { formatCourseType, formatDate } from '@/utils/formatters';
+import { formatPdfInrCurrency } from '@/utils/pdfFormatters';
 
 type PaymentReceiptPdfProps = {
   data: ReceiptData;
 };
+
+const DRIVING_SCHOOL_NAME = 'Mary Driving School';
 
 const styles = StyleSheet.create({
   page: {
@@ -23,6 +26,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 700,
     marginBottom: 4
+  },
+  branchName: {
+    fontSize: 11,
+    fontWeight: 700,
+    marginBottom: 2
   },
   title: {
     fontSize: 14,
@@ -98,13 +106,16 @@ export function PaymentReceiptPdf({ data }: PaymentReceiptPdfProps): JSX.Element
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
-          <Text style={styles.schoolName}>{data.branch.name}</Text>
+          <Text style={styles.schoolName}>{DRIVING_SCHOOL_NAME}</Text>
+          <Text style={styles.branchName}>{data.branch.name}</Text>
           <Text>{data.branch.location || '-'}</Text>
           <Text style={styles.title}>Payment Receipt</Text>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Receipt Details</Text>
+          <Field label="Driving School Name" value={DRIVING_SCHOOL_NAME} />
+          <Field label="Branch" value={data.branch.name} />
           <Field label="Receipt No" value={data.receiptNo} />
           <Field label="Payment Date" value={formatDate(data.paymentDate)} />
           <Field label="Generated Date" value={formatDate(data.generatedAt.slice(0, 10))} />
@@ -130,15 +141,15 @@ export function PaymentReceiptPdf({ data }: PaymentReceiptPdfProps): JSX.Element
           <View style={styles.column}>
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Payment Details</Text>
-              <Field label="Amount Paid" value={formatCurrency(data.amount)} />
+              <Field label="Amount Paid" value={formatPdfInrCurrency(data.amount)} />
               <Field label="Notes" value={data.notes || '-'} />
             </View>
 
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Fee Summary</Text>
-              <Field label="Total Fee" value={formatCurrency(data.fee.totalAmount)} />
-              <Field label="Total Paid" value={formatCurrency(data.fee.paidAmount)} />
-              <Field label="Balance" value={formatCurrency(data.fee.balance)} />
+              <Field label="Total Fee" value={formatPdfInrCurrency(data.fee.totalAmount)} />
+              <Field label="Total Paid" value={formatPdfInrCurrency(data.fee.paidAmount)} />
+              <Field label="Balance" value={formatPdfInrCurrency(data.fee.balance)} />
             </View>
           </View>
         </View>
@@ -146,7 +157,7 @@ export function PaymentReceiptPdf({ data }: PaymentReceiptPdfProps): JSX.Element
         <View style={styles.noteBox}>
           <Text style={styles.noteTitle}>Important Terms</Text>
           <Text style={styles.noteText}>
-            1. The 30-day driving course must be completed within 60 days from the course start date.
+            1. The 30-session driving course must be completed within 60 days from the course start date.
           </Text>
           <Text style={styles.noteText}>
             2. The amount paid is non-refundable under any circumstances.
