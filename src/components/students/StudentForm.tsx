@@ -8,6 +8,7 @@ import { STUDENT_COURSE_OPTIONS } from '@/constants/courses';
 import { settingsService } from '@/services/settingsService';
 import { studentService } from '@/services/studentService';
 import { useAuthStore } from '@/store/authStore';
+import { addMonths } from '@/utils/dateUtils';
 import { INDIAN_CURRENCY_SYMBOL } from '@/utils/formatters';
 import { getStudentValidationError } from '@/utils/studentValidation';
 import type {
@@ -26,6 +27,8 @@ type StudentFormProps = {
   onSaved: () => void;
 };
 
+type LearningLicenceChoice = '' | 'yes' | 'no';
+
 const today = new Date().toISOString().slice(0, 10);
 
 export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: StudentFormProps): JSX.Element {
@@ -38,8 +41,9 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
   const [courseType, setCourseType] = useState<CourseType>(student?.courseType ?? '4W');
   const [status, setStatus] = useState<StudentStatus>(student?.status ?? 'ongoing');
   const [enrollmentDate, setEnrollmentDate] = useState(student?.enrollmentDate ?? today);
-  const [courseStartDate, setCourseStartDate] = useState(
-    student?.courseStartDate && student.courseStartDate !== student.enrollmentDate ? student.courseStartDate : ''
+  const [courseStartDate, setCourseStartDate] = useState(student?.courseStartDate ?? '');
+  const [hasLearningLicence, setHasLearningLicence] = useState<LearningLicenceChoice>(
+    student?.learningLicenceNo || student?.llIssueDate || student?.llExpiryDate ? 'yes' : ''
   );
   const [learningLicenceNo, setLearningLicenceNo] = useState(student?.learningLicenceNo ?? '');
   const [llIssueDate, setLlIssueDate] = useState(student?.llIssueDate ?? '');
@@ -84,6 +88,16 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
 
   const validate = (): string | null => {
     const parsedTotal = Number(totalAmount);
+
+    if (hasLearningLicence === 'no') return 'learning license is mandatory for learning';
+    if (hasLearningLicence !== 'yes') return 'Please select whether the student has a learning license.';
+    if (!learningLicenceNo.trim()) return 'Learning license number is required.';
+    if (!llIssueDate) return 'Learning license issue date is required.';
+    if (!llExpiryDate) return 'Learning license expiry date is required.';
+    if (!courseStartDate) return 'Course start date is required.';
+    if (status === 'passed' && !drivingLicenceNo.trim()) return 'Driving license number is required for passed students.';
+    if (status === 'passed' && !dlIssueDate) return 'Driving license issue date is required for passed students.';
+
     return getStudentValidationError(
       {
         fullName,
@@ -92,6 +106,7 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
         courseType,
         enrollmentDate,
         courseStartDate,
+        learningLicenceNo,
         llIssueDate,
         llExpiryDate,
         dlIssueDate,
@@ -100,6 +115,25 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
       },
       { requireAll: true }
     );
+  };
+
+  const handleEnrollmentDateChange = (nextEnrollmentDate: string): void => {
+    setEnrollmentDate(nextEnrollmentDate);
+    if (courseStartDate && nextEnrollmentDate && courseStartDate < nextEnrollmentDate) {
+      setCourseStartDate(nextEnrollmentDate);
+    }
+  };
+
+  const handleLearningLicenceChange = (nextValue: LearningLicenceChoice): void => {
+    setHasLearningLicence(nextValue);
+    if (nextValue === 'no') {
+      setCourseStartDate('');
+    }
+  };
+
+  const handleLlIssueDateChange = (nextIssueDate: string): void => {
+    setLlIssueDate(nextIssueDate);
+    setLlExpiryDate(nextIssueDate ? addMonths(nextIssueDate, 6) : '');
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
@@ -139,6 +173,9 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
           enrollmentDate,
           courseStartDate: courseStartDate || null,
           courseType,
+          learningLicenceNo,
+          llIssueDate: llIssueDate || null,
+          llExpiryDate: llExpiryDate || null,
           branchId,
           totalAmount: Number(totalAmount)
         } satisfies CreateStudentPayload);
@@ -214,18 +251,58 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
             id="enrollment-date"
             type="date"
             value={enrollmentDate}
-            onChange={(event) => setEnrollmentDate(event.target.value)}
+            onChange={(event) => handleEnrollmentDateChange(event.target.value)}
           />
         </Field>
 
-        <Field label="Course Start Date" htmlFor="course-start-date">
-          <Input
-            id="course-start-date"
-            type="date"
-            value={courseStartDate}
-            onChange={(event) => setCourseStartDate(event.target.value)}
-          />
+        <Field label="Does student have LL? *" htmlFor="has-learning-licence">
+          <Select
+            id="has-learning-licence"
+            value={hasLearningLicence}
+            onChange={(event) => handleLearningLicenceChange(event.target.value as LearningLicenceChoice)}
+          >
+            <option value="">Select</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </Select>
         </Field>
+
+        {hasLearningLicence === 'yes' ? (
+          <>
+            <Field label="Learning License No *" htmlFor="learning-licence">
+              <Input
+                id="learning-licence"
+                value={learningLicenceNo}
+                onChange={(event) => setLearningLicenceNo(event.target.value)}
+              />
+            </Field>
+            <Field label="Learning License Issue Date *" htmlFor="ll-issue-date">
+              <Input
+                id="ll-issue-date"
+                type="date"
+                value={llIssueDate ?? ''}
+                onChange={(event) => handleLlIssueDateChange(event.target.value)}
+              />
+            </Field>
+            <Field label="Learning License Expiry Date *" htmlFor="ll-expiry-date">
+              <Input
+                id="ll-expiry-date"
+                type="date"
+                value={llExpiryDate ?? ''}
+                readOnly
+              />
+            </Field>
+            <Field label="Course Start Date *" htmlFor="course-start-date">
+              <Input
+                id="course-start-date"
+                type="date"
+                min={enrollmentDate}
+                value={courseStartDate}
+                onChange={(event) => setCourseStartDate(event.target.value)}
+              />
+            </Field>
+          </>
+        ) : null}
 
         <Field label={`Total Fee (${INDIAN_CURRENCY_SYMBOL}) *`} htmlFor="total-fee">
           <Input
@@ -239,20 +316,11 @@ export function StudentForm({ defaultBranchId, student, onCancel, onSaved }: Stu
       </FormSection>
 
       {student ? (
-        <FormSection title="Licence Details" className="sm:grid-cols-2 lg:grid-cols-3">
-          <Field label="Learning Licence No" htmlFor="learning-licence">
-            <Input id="learning-licence" value={learningLicenceNo} onChange={(event) => setLearningLicenceNo(event.target.value)} />
-          </Field>
-          <Field label="Learning Licence Issue Date" htmlFor="ll-issue-date">
-            <Input id="ll-issue-date" type="date" value={llIssueDate ?? ''} onChange={(event) => setLlIssueDate(event.target.value)} />
-          </Field>
-          <Field label="Learning Licence Expiry Date" htmlFor="ll-expiry-date">
-            <Input id="ll-expiry-date" type="date" value={llExpiryDate ?? ''} onChange={(event) => setLlExpiryDate(event.target.value)} />
-          </Field>
-          <Field label="Driving Licence No" htmlFor="driving-licence">
+        <FormSection title="Driving Licence Details" className="sm:grid-cols-2 lg:grid-cols-3">
+          <Field label={status === 'passed' ? 'Driving Licence No *' : 'Driving Licence No'} htmlFor="driving-licence">
             <Input id="driving-licence" value={drivingLicenceNo} onChange={(event) => setDrivingLicenceNo(event.target.value)} />
           </Field>
-          <Field label="Driving Licence Issue Date" htmlFor="dl-issue-date">
+          <Field label={status === 'passed' ? 'Driving Licence Issue Date *' : 'Driving Licence Issue Date'} htmlFor="dl-issue-date">
             <Input id="dl-issue-date" type="date" value={dlIssueDate ?? ''} onChange={(event) => setDlIssueDate(event.target.value)} />
           </Field>
           <Field label="Driving Licence Expiry Date" htmlFor="dl-expiry-date">

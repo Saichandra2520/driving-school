@@ -21,6 +21,7 @@ type AddExtensionModalProps = {
   open: boolean;
   student: ExtensionStudent | null;
   defaultCourseType?: CourseType;
+  allowedCourseTypes?: CourseType[];
   onClose: () => void;
   onSaved: (message: string) => void;
 };
@@ -29,6 +30,7 @@ export function AddExtensionModal({
   open,
   student,
   defaultCourseType,
+  allowedCourseTypes,
   onClose,
   onSaved
 }: AddExtensionModalProps): JSX.Element {
@@ -43,14 +45,18 @@ export function AddExtensionModal({
 
   useEffect(() => {
     if (!open || !student) return;
-    setCourseType(defaultCourseType ?? student.courseType);
+    const availableCourseTypes = allowedCourseTypes?.length ? allowedCourseTypes : [student.courseType];
+    const nextCourseType = defaultCourseType && availableCourseTypes.includes(defaultCourseType)
+      ? defaultCourseType
+      : availableCourseTypes[0] ?? student.courseType;
+    setCourseType(nextCourseType);
     setExtraSessions('1');
     setExtraDays('0');
     setAmount('');
     setPaymentDate(new Date().toISOString().slice(0, 10));
     setNotes('');
     setErrorMessage('');
-  }, [defaultCourseType, open, student]);
+  }, [allowedCourseTypes, defaultCourseType, open, student]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
@@ -61,6 +67,10 @@ export function AddExtensionModal({
     const parsedAmount = Number(amount || 0);
 
     if (!student) return;
+    if (allowedCourseTypes?.length && !allowedCourseTypes.includes(courseType)) {
+      setErrorMessage('Course extension is available only after completing the base sessions for that course.');
+      return;
+    }
     if (!Number.isFinite(parsedSessions) || parsedSessions < 0) {
       setErrorMessage('Extra sessions cannot be negative.');
       return;
@@ -116,7 +126,7 @@ export function AddExtensionModal({
               <div className="space-y-2">
                 <Label htmlFor="extension-course">Course</Label>
                 <Select id="extension-course" value={courseType} onChange={(event) => setCourseType(event.target.value as CourseType)}>
-                  {STUDENT_COURSE_OPTIONS.map((option) => (
+                  {STUDENT_COURSE_OPTIONS.filter((option) => !allowedCourseTypes?.length || allowedCourseTypes.includes(option.value)).map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
                     </option>

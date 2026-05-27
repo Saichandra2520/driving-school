@@ -12,6 +12,16 @@ export function addDays(date: string, days: number): string {
   return formatLocalDate(nextDate);
 }
 
+export function addMonths(date: string, months: number): string {
+  const sourceDate = new Date(`${date}T00:00:00`);
+  const targetYear = sourceDate.getFullYear();
+  const targetMonth = sourceDate.getMonth() + months;
+  const lastDayOfTargetMonth = new Date(targetYear, targetMonth + 1, 0).getDate();
+  const targetDay = Math.min(sourceDate.getDate(), lastDayOfTargetMonth);
+
+  return formatLocalDate(new Date(targetYear, targetMonth, targetDay));
+}
+
 export function getDaysRemaining(expiryDate: string): number {
   const expiry = new Date(`${expiryDate}T00:00:00`);
   const today = new Date();

@@ -13,6 +13,8 @@ type DrivingTestAttemptModalProps = {
   open: boolean;
   drivingTest: DrivingTest;
   attempt: DrivingTestAttempt | null;
+  minDate: string;
+  maxDate: string;
   onClose: () => void;
   onSaved: (drivingTest: DrivingTest, message: string) => void;
 };
@@ -23,6 +25,8 @@ export function DrivingTestAttemptModal({
   open,
   drivingTest,
   attempt,
+  minDate,
+  maxDate,
   onClose,
   onSaved
 }: DrivingTestAttemptModalProps): JSX.Element {
@@ -52,6 +56,14 @@ export function DrivingTestAttemptModal({
     }
     if ((result === 'pass' || result === 'fail') && !date) {
       setErrorMessage('Date is required for pass or fail result.');
+      return;
+    }
+    if (date && minDate && date < minDate) {
+      setErrorMessage('Driving test date cannot be before the eligible test date.');
+      return;
+    }
+    if (date && maxDate && date > maxDate) {
+      setErrorMessage('Driving test date cannot be after the learning license validity period.');
       return;
     }
 
@@ -91,6 +103,8 @@ export function DrivingTestAttemptModal({
                 id="attempt-date"
                 type="date"
                 value={date}
+                min={minDate || undefined}
+                max={maxDate || undefined}
                 onChange={(event) => setDate(event.target.value)}
               />
             </div>

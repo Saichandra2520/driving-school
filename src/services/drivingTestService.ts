@@ -13,6 +13,7 @@ import { authService } from '@/services/authService';
 import { db } from '@/services/firebase';
 import { firebaseUsageService } from '@/services/firebaseUsageService';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
+import { addDays, addMonths } from '@/utils/dateUtils';
 import type {
   DrivingTest,
   DrivingTestAttempt,
@@ -74,6 +75,24 @@ function hasPassed(drivingTest: DrivingTest | null): boolean {
   return Boolean(drivingTest?.attempts.some((attempt) => attempt.result === 'pass'));
 }
 
+function assertDrivingTestDateAllowed(student: Student, date: string | null | undefined): void {
+  if (!date) return;
+  if (!student.llIssueDate) {
+    throw new Error('Learning license issue date is required before adding a driving test attempt.');
+  }
+
+  const eligibleTestDate = addDays(student.llIssueDate, 30);
+  const learningLicenseValidityEndDate = addMonths(student.llIssueDate, 6);
+
+  if (date < eligibleTestDate) {
+    throw new Error('Driving test date cannot be before the eligible test date.');
+  }
+
+  if (date > learningLicenseValidityEndDate) {
+    throw new Error('Driving test date cannot be after the learning license validity period.');
+  }
+}
+
 export const drivingTestService = {
   async getDrivingTestByStudentAndCourse(
     studentId: string,
@@ -121,7 +140,8 @@ export const drivingTestService = {
 
     const drivingTest = await getDocument<DrivingTest>(collections.drivingTests, drivingTestId);
     if (!drivingTest) throw new Error('Unable to load driving test details.');
-    await assertCanAccessStudent(drivingTest.studentId);
+    const student = await assertCanAccessStudent(drivingTest.studentId);
+    assertDrivingTestDateAllowed(student, payload.date);
 
     const normalized = normalizeDrivingTest(drivingTest.id, drivingTest);
     const attempts = normalized.attempts.map((attempt) =>

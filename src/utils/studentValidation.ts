@@ -38,6 +38,12 @@ export function getStudentValidationError(input: StudentValidationInput, options
 
   const dlIssueDate = normalizeOptionalDate(input.dlIssueDate);
   const dlExpiryDate = normalizeOptionalDate(input.dlExpiryDate);
+  if (input.status === 'passed' && !input.drivingLicenceNo?.trim()) {
+    return 'Driving license number is required for passed students.';
+  }
+  if (input.status === 'passed' && !dlIssueDate) {
+    return 'Driving license issue date is required for passed students.';
+  }
   if (dlIssueDate && dlExpiryDate && dlExpiryDate < dlIssueDate) {
     return 'Driving licence expiry date cannot be before issue date.';
   }

@@ -275,13 +275,14 @@ export function StudentsPage(): JSX.Element {
       ) : null}
 
       <div className="space-y-4">
-          <FilterBar className="md:grid-cols-[1fr_160px_160px_180px_130px]">
+          <FilterBar className="items-end md:grid-cols-[minmax(260px,1fr)_160px_160px_190px_auto]">
             <SearchInput
+              className="h-11"
               placeholder="Search name, phone, LL no, DL no"
               value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
             />
-            <Select value={courseFilter} onChange={(event) => setCourseFilter(event.target.value as CourseFilter)}>
+            <Select className="h-11" value={courseFilter} onChange={(event) => setCourseFilter(event.target.value as CourseFilter)}>
               <option value="all">All Courses</option>
               {STUDENT_COURSE_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -289,7 +290,7 @@ export function StudentsPage(): JSX.Element {
                 </option>
               ))}
             </Select>
-            <Select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}>
+            <Select className="h-11" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}>
               <option value="all">All Status</option>
               <option value="about_to_start">About to Start</option>
               <option value="ongoing">Ongoing</option>
@@ -297,7 +298,7 @@ export function StudentsPage(): JSX.Element {
               <option value="passed">Passed</option>
               <option value="extended">Extended</option>
             </Select>
-            <Select value={`${sortOption.field}:${sortOption.direction}`} onChange={(event) => setSortOption(parseSortOption(event.target.value))}>
+            <Select className="h-11" value={`${sortOption.field}:${sortOption.direction}`} onChange={(event) => setSortOption(parseSortOption(event.target.value))}>
               <option value="createdAt:desc">Recently Added</option>
               <option value="createdAt:asc">Oldest Added</option>
               <option value="enrollmentDate:desc">Enrollment Newest</option>
@@ -312,6 +313,7 @@ export function StudentsPage(): JSX.Element {
             <Button
               type="button"
               variant="outline"
+              className="h-11"
               onClick={() => {
                 setSearchTerm('');
                 setDebouncedSearchTerm('');
@@ -324,9 +326,12 @@ export function StudentsPage(): JSX.Element {
             </Button>
           </FilterBar>
 
-          <div className="flex flex-col gap-3 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-            <p>{resultSummary}</p>
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-3 rounded-lg border bg-surface px-4 py-3 text-sm shadow-sm sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="font-medium text-main-text">{resultSummary}</p>
+              {hasActiveFilters ? <p className="mt-0.5 text-xs text-muted-foreground">{activeFilterDescription}</p> : null}
+            </div>
+            <div className="flex items-center gap-2 text-muted-foreground">
               <Button
                 type="button"
                 size="sm"
@@ -336,7 +341,7 @@ export function StudentsPage(): JSX.Element {
               >
                 Previous
               </Button>
-              <span className="min-w-16 text-center">Page {pageNumber}</span>
+              <span className="min-w-16 rounded-md bg-background px-3 py-1.5 text-center text-xs font-medium text-main-text">Page {pageNumber}</span>
               <Button
                 type="button"
                 size="sm"
@@ -364,9 +369,10 @@ export function StudentsPage(): JSX.Element {
               description={hasActiveFilters ? activeFilterDescription : undefined}
             />
           ) : (
-            <div className={`overflow-x-auto rounded-md border ${isRefreshing ? 'opacity-60' : ''}`}>
+            <div className={`overflow-hidden rounded-lg border bg-surface shadow-sm ${isRefreshing ? 'opacity-60' : ''}`}>
+              <div className="overflow-x-auto">
               <Table>
-                <TableHeader>
+                <TableHeader className="bg-slate-50">
                   <TableRow>
                     <TableHead>
                       <SortLabel label="Student" />
@@ -395,31 +401,39 @@ export function StudentsPage(): JSX.Element {
                 <TableBody>
                   {displayedStudents.map((student) => {
                     const isExpanded = Boolean(expandedRows[student.id]);
+                    const balanceTone = student.balance > 0 ? 'text-danger' : 'text-success';
 
                     return (
                       <Fragment key={student.id}>
                         <TableRow
-                          className="h-14 cursor-pointer hover:bg-blue-50/50"
+                          className="h-16 cursor-pointer hover:bg-blue-50/60"
                           onClick={() => toggleExpanded(student.id)}
                         >
                           <TableCell>
-                            <p className="font-semibold text-main-text">{student.fullName}</p>
-                            <p className="text-sm text-muted-foreground">{formatPhoneNumber(student.phone)}</p>
+                            <div className="flex items-center gap-3">
+                              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-blue-100 bg-blue-50 text-sm font-semibold text-primary">
+                                {getInitials(student.fullName)}
+                              </div>
+                              <div className="min-w-0">
+                                <p className="truncate font-semibold text-main-text">{student.fullName}</p>
+                                <p className="text-sm text-muted-foreground">{formatPhoneNumber(student.phone)}</p>
+                              </div>
+                            </div>
                           </TableCell>
                           <TableCell>
                             <div className="flex flex-col items-start gap-1">
-                              <Badge variant="secondary">{formatCourseType(student.courseType)}</Badge>
+                              <Badge variant="info">{formatCourseType(student.courseType)}</Badge>
                               <StatusBadge status={student.status} />
                             </div>
                           </TableCell>
                           <TableCell>
-                            <p className="text-sm">{formatDate(student.courseStartDate)}</p>
-                            <p className="text-xs text-muted-foreground">Completion {formatDate(student.expiryDate)}</p>
+                            <p className="text-sm font-medium text-main-text">{formatDate(student.courseStartDate)}</p>
+                            <p className="text-xs text-muted-foreground">Completes {formatDate(student.expiryDate)}</p>
                             {(student.status === 'ongoing' || student.status === 'extended') && student.daysRemaining < 0 ? (
                               <StatusBadge status="thirty_days_completed" />
                             ) : null}
                           </TableCell>
-                          <TableCell className="text-right font-semibold text-danger">{formatCurrency(student.balance)}</TableCell>
+                          <TableCell className={`text-right font-semibold ${balanceTone}`}>{formatCurrency(student.balance)}</TableCell>
                           <TableCell>
                             <div className="flex flex-wrap gap-2" onClick={(event) => event.stopPropagation()}>
                               <Button type="button" size="sm" variant="outline" onClick={() => setModalState({ type: 'view', student })}>
@@ -439,9 +453,9 @@ export function StudentsPage(): JSX.Element {
                         </TableRow>
 
                         {isExpanded ? (
-                          <TableRow className="bg-muted/20">
+                          <TableRow className="bg-slate-50/80 hover:bg-slate-50/80">
                             <TableCell colSpan={6}>
-                              <div className="grid gap-4 py-3 sm:grid-cols-2 lg:grid-cols-4">
+                              <div className="grid gap-3 rounded-md border border-slate-200 bg-white p-4 sm:grid-cols-2 lg:grid-cols-4">
                                 <Detail label="Branch" value={student.branchName ?? '-'} />
                                 <Detail label="Enrollment Date" value={formatDate(student.enrollmentDate)} />
                                 <Detail label="Course Start Date" value={formatDate(student.courseStartDate)} />
@@ -463,6 +477,7 @@ export function StudentsPage(): JSX.Element {
                   })}
                 </TableBody>
               </Table>
+              </div>
             </div>
           )}
       </div>
@@ -536,6 +551,15 @@ function getActiveFilterDescription(search: string, course: CourseFilter, status
   return values.length ? values.join(' - ') : 'Try changing the filters or search term.';
 }
 
+function getInitials(name: string): string {
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? '')
+    .join('');
+}
+
 function SortLabel({ label }: { label: string }): JSX.Element {
   return <span>{label}</span>;
 }
@@ -562,9 +586,9 @@ function SortHeader({
 
 function Detail({ label, value }: { label: string; value: string }): JSX.Element {
   return (
-    <div>
-      <p className="text-xs text-muted-foreground">{label}</p>
-      <p className="mt-1 text-sm font-medium text-main-text">{value}</p>
+    <div className="rounded-md border border-slate-100 bg-slate-50 px-3 py-2">
+      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
+      <p className="mt-1 break-words text-sm font-semibold text-main-text">{value}</p>
     </div>
   );
 }

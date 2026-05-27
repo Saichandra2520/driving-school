@@ -302,6 +302,12 @@ export const sessionService = {
     if (!payload.date) throw new Error('Date is required.');
     if (!payload.classType.trim()) throw new Error('Class type is required.');
 
+    const session = await getDocument<TrainingSession>(collections.sessions, sessionId);
+    if (!session) throw new Error('Unable to load training card.');
+    const normalizedSession = normalizeSession(session.id, session, slotCount);
+    const student = await assertCanAccessSession(normalizedSession);
+    await assertSessionDateInTrainingPeriod(student, normalizedSession, payload.date);
+
     return runTransaction(db, async (transaction) => {
       const sessionRef = doc(db, collections.sessions, sessionId);
       const snapshot = await transaction.get(sessionRef);

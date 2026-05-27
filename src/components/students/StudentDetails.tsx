@@ -20,10 +20,11 @@ import { courseExtensionService } from '@/services/courseExtensionService';
 import { feeService } from '@/services/feeService';
 import { getInstallmentReceiptLabel, isPendingInstallment } from '@/services/pendingPaymentService';
 import { sessionService } from '@/services/sessionService';
-import type { CourseExtension, Fee, Installment, StudentWithFee, TrainingCourseType, TrainingEntitlement } from '@/types';
-import { calculateStudentExpiryDate, getCourseStartDate } from '@/utils/dateUtils';
+import type { CourseExtension, CourseType, Fee, Installment, StudentWithFee, TrainingCourseType, TrainingEntitlement } from '@/types';
+import { addDays, calculateStudentExpiryDate, getCourseStartDate } from '@/utils/dateUtils';
 import { formatCourseType, formatCurrency, formatDate } from '@/utils/formatters';
 import {
+  getCompletedSessionCount,
   getTrainingCertificateAttendanceSlots,
   getTrainingCertificateCompletionDate
 } from '@/utils/trainingCertificate';
@@ -62,11 +63,22 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
   const [entitlement, setEntitlement] = useState<TrainingEntitlement | null>(student.trainingEntitlement ?? null);
   const [extensionModalOpen, setExtensionModalOpen] = useState(false);
   const [certificateRows, setCertificateRows] = useState<CertificateRow[]>([]);
+  const [baseCompletedCourses, setBaseCompletedCourses] = useState<Set<TrainingCourseType>>(new Set());
   const courseParts = COURSE_PARTS[student.courseType];
+  const eligibleTestDate = student.llIssueDate ? addDays(student.llIssueDate, 30) : null;
   const isBaseTrainingCompleted = (student.status === 'ongoing' || student.status === 'extended') && student.daysRemaining < 0;
+  const extensionCourseTypes = useMemo(() => {
+    const completedCourseTypes = courseParts.filter((courseType) => baseCompletedCourses.has(courseType));
+    const options: CourseType[] = [...completedCourseTypes];
+    if (student.courseType === 'both' && completedCourseTypes.length === courseParts.length) {
+      options.push('both');
+    }
+    return options;
+  }, [baseCompletedCourses, courseParts, student.courseType]);
+  const canAddExtension = baseCompletedCourses.size > 0;
   const tabs = certificateRows.length > 0
-    ? ['overview', 'fees', 'extensions', 'attendance', 'certificate', 'driving-test', 'licence']
-    : ['overview', 'fees', 'extensions', 'attendance', 'driving-test', 'licence'];
+    ? ['overview', 'fees', ...(canAddExtension ? ['extensions'] : []), 'attendance', 'certificate', 'driving-test', 'licence']
+    : ['overview', 'fees', ...(canAddExtension ? ['extensions'] : []), 'attendance', 'driving-test', 'licence'];
 
   const loadExtensions = async (): Promise<void> => {
     try {
@@ -112,10 +124,39 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
     }
   };
 
+  const loadBaseCompletion = async (): Promise<void> => {
+    try {
+      const completedCourses = new Set<TrainingCourseType>();
+      await Promise.all(
+        courseParts.map(async (courseType) => {
+          const session = await sessionService.getSessionByStudentAndCourse(
+            student.id,
+            courseType,
+            student.baseSessionCount ?? BASE_TRAINING_SESSION_COUNT
+          );
+          if (session && getCompletedSessionCount(session.slots) >= (student.baseSessionCount ?? BASE_TRAINING_SESSION_COUNT)) {
+            completedCourses.add(courseType);
+          }
+        })
+      );
+
+      setBaseCompletedCourses(completedCourses);
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : 'Unable to load base session completion.');
+    }
+  };
+
   useEffect(() => {
     void loadExtensions();
     void loadCertificates();
+    void loadBaseCompletion();
   }, [student.id]);
+
+  useEffect(() => {
+    if (!tabs.includes(activeTab)) {
+      setActiveTab('overview');
+    }
+  }, [activeTab, tabs]);
 
   const feeSummary = useMemo(() => {
     const totalAmount = Number(fee?.totalAmount ?? student.totalAmount);
@@ -225,11 +266,7 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
 
         {activeTab === 'extensions' ? (
           <TabsContent>
-            <ExtensionsTab
-              extensions={extensions}
-              entitlement={entitlement}
-              onAdd={() => setExtensionModalOpen(true)}
-            />
+            <ExtensionsTab extensions={extensions} entitlement={entitlement} onAdd={() => setExtensionModalOpen(true)} />
           </TabsContent>
         ) : null}
 
@@ -276,7 +313,14 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
         {activeTab === 'driving-test' ? (
           <TabsContent>
             {courseParts.map((courseType) => (
-              <DrivingTestCard key={courseType} studentId={student.id} branchId={student.branchId} courseType={courseType} />
+              <DrivingTestCard
+                key={courseType}
+                studentId={student.id}
+                branchId={student.branchId}
+                courseType={courseType}
+                llIssueDate={student.llIssueDate ?? null}
+                needsDrivingLicenceDetails={!student.drivingLicenceNo?.trim() || !student.dlIssueDate}
+              />
             ))}
           </TabsContent>
         ) : null}
@@ -287,6 +331,7 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
               <Info label="Learning Licence No" value={student.learningLicenceNo || '-'} />
               <Info label="LL Issue Date" value={student.llIssueDate ? formatDate(student.llIssueDate) : '-'} />
               <Info label="LL Expiry Date" value={student.llExpiryDate ? formatDate(student.llExpiryDate) : '-'} />
+              <Info label="Eligible Test Date" value={eligibleTestDate ? formatDate(eligibleTestDate) : '-'} />
               <Info label="Driving Licence No" value={student.drivingLicenceNo || '-'} />
               <Info label="DL Issue Date" value={student.dlIssueDate ? formatDate(student.dlIssueDate) : '-'} />
               <Info label="DL Expiry Date" value={student.dlExpiryDate ? formatDate(student.dlExpiryDate) : '-'} />
@@ -324,6 +369,7 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
       <AddExtensionModal
         open={extensionModalOpen}
         student={student}
+        allowedCourseTypes={extensionCourseTypes}
         onClose={() => setExtensionModalOpen(false)}
         onSaved={(nextMessage) => {
           setExtensionModalOpen(false);

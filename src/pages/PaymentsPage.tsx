@@ -1,5 +1,5 @@
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import { Save } from 'lucide-react';
+import { Banknote, Clock3, CreditCard, ReceiptText, Save, Search, WalletCards } from 'lucide-react';
 import { EmptyState } from '@/components/common/EmptyState';
 import { FilterBar } from '@/components/common/FilterBar';
 import { PageHeader } from '@/components/common/PageHeader';
@@ -10,6 +10,7 @@ import { DownloadReceiptButton } from '@/components/receipts/DownloadReceiptButt
 import { ShareReceiptPdfButton } from '@/components/receipts/ShareReceiptPdfButton';
 import { WhatsAppReceiptButton } from '@/components/receipts/WhatsAppReceiptButton';
 import { Alert } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -254,32 +255,39 @@ export function PaymentsPage(): JSX.Element {
         onError={setErrorMessage}
       />
 
-      <div className={hasPaymentWorkspace ? 'grid gap-5 xl:grid-cols-[minmax(320px,420px)_1fr]' : 'grid gap-5'}>
-        <Card className="shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-lg">Select Student</CardTitle>
+      <div className={hasPaymentWorkspace ? 'grid gap-5 xl:grid-cols-[minmax(340px,430px)_1fr]' : 'grid gap-5'}>
+        <Card className="overflow-hidden shadow-sm">
+          <CardHeader className="border-b bg-slate-50/80 p-4">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Search className="h-5 w-5 text-primary" aria-hidden="true" />
+              Select Student
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <SearchInput value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search name, phone, LL no, DL no" />
+            <SearchInput className="h-11" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search name, phone, LL no, DL no" />
             {isLoading ? (
               <PageLoader label="Loading payments..." />
             ) : students.length === 0 ? (
               <EmptyState title="No students with pending balance found." />
             ) : (
-              <div className={`max-h-[520px] space-y-2 overflow-y-auto pr-1 ${isRefreshing ? 'opacity-60' : ''}`}>
+              <div className={`max-h-[560px] space-y-2 overflow-y-auto pr-1 ${isRefreshing ? 'opacity-60' : ''}`}>
                 {students.map((student) => (
                   <button
                     key={student.id}
                     type="button"
                     onClick={() => handleSelectStudent(student)}
-                    className={`w-full rounded-md border p-3 text-left transition-colors hover:border-primary/40 hover:bg-accent/40 ${selectedStudent?.id === student.id ? 'border-primary bg-primary/5' : ''}`}
+                    className={`w-full rounded-lg border p-3 text-left shadow-sm transition-colors hover:border-primary/40 hover:bg-blue-50/60 ${selectedStudent?.id === student.id ? 'border-primary bg-primary/5 ring-1 ring-primary/20' : 'bg-surface'}`}
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="font-medium">{student.fullName}</p>
-                        <p className="text-sm text-muted-foreground">{formatPhoneNumber(student.phone)} · {formatCourseType(student.courseType)}</p>
+                      <div className="min-w-0">
+                        <p className="truncate font-semibold text-main-text">{student.fullName}</p>
+                        <p className="mt-1 text-sm text-muted-foreground">{formatPhoneNumber(student.phone)}</p>
+                        <Badge variant="info" className="mt-2">{formatCourseType(student.courseType)}</Badge>
                       </div>
-                      <p className="font-semibold text-danger">{formatCurrency(student.balance)}</p>
+                      <div className="text-right">
+                        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Balance</p>
+                        <p className="mt-1 whitespace-nowrap text-base font-semibold text-danger">{formatCurrency(student.balance)}</p>
+                      </div>
                     </div>
                   </button>
                 ))}
@@ -291,11 +299,28 @@ export function PaymentsPage(): JSX.Element {
         {hasPaymentWorkspace ? (
         <div className="space-y-5">
           {selectedStudent ? (
-            <div className="grid gap-3 md:grid-cols-3">
-              <StatCard label="Total Fee" value={formatCurrency(selectedStudent.totalAmount)} />
-              <StatCard label="Paid" value={formatCurrency(selectedStudent.paidAmount)} tone="good" />
-              <StatCard label="Balance" value={formatCurrency(selectedStudent.balance)} tone={selectedStudent.balance > 0 ? 'danger' : 'good'} />
-            </div>
+            <>
+              <Card className="overflow-hidden shadow-sm">
+                <CardContent className="p-4">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Selected Student</p>
+                      <h2 className="mt-1 truncate text-xl font-semibold tracking-tight text-main-text">{selectedStudent.fullName}</h2>
+                      <p className="mt-1 text-sm text-muted-foreground">{formatPhoneNumber(selectedStudent.phone)} - {formatCourseType(selectedStudent.courseType)}</p>
+                    </div>
+                    <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-right">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-danger">Balance Due</p>
+                      <p className="mt-1 text-2xl font-semibold tracking-tight text-danger">{formatCurrency(selectedStudent.balance)}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <div className="grid gap-3 md:grid-cols-3">
+                <StatCard label="Total Fee" value={formatCurrency(selectedStudent.totalAmount)} icon={<WalletCards className="h-4 w-4" aria-hidden="true" />} />
+                <StatCard label="Paid" value={formatCurrency(selectedStudent.paidAmount)} tone="good" icon={<Banknote className="h-4 w-4" aria-hidden="true" />} />
+                <StatCard label="Balance" value={formatCurrency(selectedStudent.balance)} tone={selectedStudent.balance > 0 ? 'danger' : 'good'} icon={<CreditCard className="h-4 w-4" aria-hidden="true" />} />
+              </div>
+            </>
           ) : (
             <Card className="shadow-sm">
               <CardContent className="p-6">
@@ -304,23 +329,25 @@ export function PaymentsPage(): JSX.Element {
             </Card>
           )}
 
-          {selectedStudent ? <StudentInstallmentsCard studentId={selectedStudent.id} installments={selectedStudent.fee?.installments ?? []} onError={setErrorMessage} /> : null}
-
           {canRecordPayment ? (
-          <Card className="shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-lg">Record Installment Payment</CardTitle>
+          <Card className="overflow-hidden shadow-sm">
+            <CardHeader className="border-b bg-slate-50/80 p-4">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Save className="h-5 w-5 text-primary" aria-hidden="true" />
+                Record Installment Payment
+              </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4">
               <form className="space-y-4" onSubmit={handleSubmit}>
                 <FilterBar className="md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="payment-amount">Amount ({INDIAN_CURRENCY_SYMBOL}) *</Label>
-                    <Input id="payment-amount" type="number" min="1" value={amount} onChange={(event) => setAmount(event.target.value)} disabled={!selectedStudent || isSaving} />
+                    <Label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground" htmlFor="payment-amount">Amount ({INDIAN_CURRENCY_SYMBOL}) *</Label>
+                    <Input className="h-11 text-base font-medium" id="payment-amount" type="number" min="1" value={amount} onChange={(event) => setAmount(event.target.value)} disabled={!selectedStudent || isSaving} />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="payment-date">Payment Date *</Label>
+                    <Label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground" htmlFor="payment-date">Payment Date *</Label>
                     <Input
+                      className="h-11"
                       id="payment-date"
                       type="date"
                       value={paymentDate}
@@ -330,12 +357,12 @@ export function PaymentsPage(): JSX.Element {
                     />
                   </div>
                   <div className="space-y-2 md:col-span-2">
-                    <Label htmlFor="payment-notes">Notes <span className="text-muted-foreground">(optional)</span></Label>
+                    <Label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground" htmlFor="payment-notes">Notes <span className="font-normal normal-case tracking-normal text-muted-foreground">(optional)</span></Label>
                     <Textarea id="payment-notes" value={notes} onChange={(event) => setNotes(event.target.value)} disabled={!selectedStudent || isSaving} />
                   </div>
                 </FilterBar>
                 <div className="flex justify-end">
-                  <Button type="submit" disabled={!selectedStudent || isSaving}>
+                  <Button type="submit" className="w-full sm:w-auto" disabled={!selectedStudent || isSaving}>
                     <Save className="mr-2 h-4 w-4" aria-hidden="true" />
                     {isSaving ? 'Saving...' : 'Save Payment'}
                   </Button>
@@ -344,23 +371,28 @@ export function PaymentsPage(): JSX.Element {
             </CardContent>
           </Card>
           ) : null}
+
+          {selectedStudent ? <StudentInstallmentsCard studentId={selectedStudent.id} installments={selectedStudent.fee?.installments ?? []} onError={setErrorMessage} /> : null}
         </div>
         ) : null}
       </div>
 
       <PendingPaymentsCard payments={pendingPayments.filter((payment) => !activeBranchId || payment.branchId === activeBranchId)} />
 
-      <Card className="shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg">Recent Payments</CardTitle>
+      <Card className="overflow-hidden shadow-sm">
+        <CardHeader className="border-b bg-slate-50/80 p-4">
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <ReceiptText className="h-5 w-5 text-primary" aria-hidden="true" />
+            Recent Payments
+          </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-4">
           {recentPayments.length === 0 ? (
             <EmptyState title="No recent payments." />
           ) : (
-            <div className="overflow-x-auto rounded-md border">
+            <div className="overflow-x-auto rounded-lg border bg-surface">
               <Table>
-                <TableHeader>
+                <TableHeader className="bg-slate-50">
                   <TableRow>
                     <TableHead>Date</TableHead>
                     <TableHead>Receipt No</TableHead>
@@ -373,10 +405,10 @@ export function PaymentsPage(): JSX.Element {
                   {recentPayments.map((payment) => (
                     <TableRow key={`${payment.studentId}-${payment.receiptNo}`} className="h-12">
                       <TableCell>{formatDate(payment.date)}</TableCell>
-                      <TableCell className="font-medium">{payment.receiptNo}</TableCell>
-                      <TableCell>{payment.studentName}</TableCell>
+                      <TableCell className="font-semibold text-main-text">{payment.receiptNo}</TableCell>
+                      <TableCell className="font-medium text-main-text">{payment.studentName}</TableCell>
                       <TableCell>{payment.branchName ?? '-'}</TableCell>
-                      <TableCell className="text-right font-medium">{formatCurrency(payment.amount)}</TableCell>
+                      <TableCell className="text-right font-semibold text-success">{formatCurrency(payment.amount)}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -412,17 +444,20 @@ function ReceiptReadyDialog({
       {student && receiptNo ? (
         <DialogContent onClose={() => onOpenChange(false)} className="max-w-xl">
           <DialogHeader>
-            <DialogTitle>Receipt Ready</DialogTitle>
+            <DialogTitle className="flex items-center gap-2">
+              <ReceiptText className="h-5 w-5 text-success" aria-hidden="true" />
+              Receipt Ready
+            </DialogTitle>
             <DialogDescription>Receipt No: {receiptNo}</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="rounded-md border bg-green-50 p-4">
+            <div className="rounded-lg border border-green-200 bg-green-50 p-4">
               <p className="font-semibold text-success">{student.fullName}</p>
               <p className="mt-1 text-sm text-muted-foreground">
                 Download the PDF receipt or send the payment receipt through WhatsApp.
               </p>
             </div>
-            <div className="flex flex-wrap justify-end gap-2">
+            <div className="grid gap-2 sm:grid-cols-3">
               <DownloadReceiptButton
                 studentId={student.id}
                 receiptNo={receiptNo}
@@ -470,17 +505,20 @@ function StudentInstallmentsCard({
   const sortedInstallments = [...installments].sort((a, b) => b.date.localeCompare(a.date));
 
   return (
-    <Card className="shadow-sm">
-      <CardHeader>
-        <CardTitle className="text-lg">Installment Payments</CardTitle>
+    <Card className="overflow-hidden shadow-sm">
+      <CardHeader className="border-b bg-slate-50/80 p-4">
+        <CardTitle className="flex items-center gap-2 text-lg">
+          <ReceiptText className="h-5 w-5 text-primary" aria-hidden="true" />
+          Installment Payments
+        </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-4">
         {sortedInstallments.length === 0 ? (
           <EmptyState title="No installments paid yet." />
         ) : (
-          <div className="rounded-md border">
+          <div className="overflow-x-auto rounded-lg border bg-surface">
             <Table>
-              <TableHeader>
+              <TableHeader className="bg-slate-50">
                 <TableRow>
                   <TableHead>Receipt</TableHead>
                   <TableHead>Date</TableHead>
@@ -494,12 +532,15 @@ function StudentInstallmentsCard({
 
                   return (
                     <TableRow key={installment.clientPaymentId ?? installment.receiptNo}>
-                      <TableCell className="font-medium">
-                        {getInstallmentReceiptLabel(installment)}
-                        {pending && installment.syncError ? <p className="text-xs font-normal text-danger">{installment.syncError}</p> : null}
+                      <TableCell className="font-semibold text-main-text">
+                        <div className="flex flex-col items-start gap-1">
+                          <span>{getInstallmentReceiptLabel(installment)}</span>
+                          {pending ? <Badge variant={installment.syncError ? 'danger' : 'warning'}>{installment.syncError ? 'Sync error' : 'Sync pending'}</Badge> : null}
+                          {pending && installment.syncError ? <p className="text-xs font-normal text-danger">{installment.syncError}</p> : null}
+                        </div>
                       </TableCell>
                       <TableCell>{formatDate(installment.date)}</TableCell>
-                      <TableCell className="text-right font-medium">{formatCurrency(Number(installment.amount))}</TableCell>
+                      <TableCell className="text-right font-semibold text-success">{formatCurrency(Number(installment.amount))}</TableCell>
                       <TableCell className="text-right">
                         {!pending && installment.receiptNo ? (
                           <DownloadReceiptButton
@@ -512,7 +553,7 @@ function StudentInstallmentsCard({
                             onError={onError}
                           />
                         ) : (
-                          <span className="text-xs text-muted-foreground">Sync pending</span>
+                          <Badge variant="warning">Sync pending</Badge>
                         )}
                       </TableCell>
                     </TableRow>
@@ -531,14 +572,17 @@ function PendingPaymentsCard({ payments }: { payments: ReturnType<typeof pending
   if (payments.length === 0) return null;
 
   return (
-    <Card className="shadow-sm">
-      <CardHeader>
-        <CardTitle className="text-lg">Pending Receipt Sync</CardTitle>
+    <Card className="overflow-hidden border-amber-200 shadow-sm">
+      <CardHeader className="border-b border-amber-200 bg-amber-50/80 p-4">
+        <CardTitle className="flex items-center gap-2 text-lg">
+          <Clock3 className="h-5 w-5 text-warning" aria-hidden="true" />
+          Pending Receipt Sync
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="overflow-x-auto rounded-md border">
+      <CardContent className="p-4">
+        <div className="overflow-x-auto rounded-lg border bg-surface">
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-slate-50">
               <TableRow>
                 <TableHead>Date</TableHead>
                 <TableHead>Status</TableHead>
@@ -550,9 +594,11 @@ function PendingPaymentsCard({ payments }: { payments: ReturnType<typeof pending
               {payments.map((payment) => (
                 <TableRow key={payment.id}>
                   <TableCell>{formatDate(payment.date)}</TableCell>
-                  <TableCell className="capitalize">{payment.status}</TableCell>
-                  <TableCell className="text-right font-medium">{formatCurrency(payment.amount)}</TableCell>
-                  <TableCell>{payment.error ?? '-'}</TableCell>
+                  <TableCell>
+                    <Badge variant={payment.error ? 'danger' : 'warning'}>{payment.status}</Badge>
+                  </TableCell>
+                  <TableCell className="text-right font-semibold text-warning">{formatCurrency(payment.amount)}</TableCell>
+                  <TableCell className={payment.error ? 'text-danger' : 'text-muted-foreground'}>{payment.error ?? '-'}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

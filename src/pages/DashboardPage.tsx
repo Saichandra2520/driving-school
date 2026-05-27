@@ -1,5 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Eye, RefreshCw } from 'lucide-react';
+import {
+  AlertTriangle,
+  ArrowDownLeft,
+  ArrowUpRight,
+  Banknote,
+  CalendarDays,
+  Eye,
+  RefreshCw,
+  TrendingUp,
+  UsersRound,
+  WalletCards
+} from 'lucide-react';
 import { EmptyState } from '@/components/common/EmptyState';
 import { PageLoader } from '@/components/common/PageLoader';
 import { PageHeader } from '@/components/common/PageHeader';
@@ -208,16 +219,19 @@ export function DashboardPage(): JSX.Element {
 
   return (
     <section className="space-y-5">
-      <PageHeader
-        title={`${greeting}, ${profile?.fullName || 'there'}`}
-        description={branchContext}
-        actions={
-        <Button type="button" variant="outline" onClick={() => void loadDashboard()} disabled={isLoading || isManualRefreshing}>
-          <RefreshCw className="mr-2 h-4 w-4" aria-hidden="true" />
-          {isManualRefreshing ? 'Refreshing...' : 'Refresh'}
-        </Button>
-        }
-      />
+      <div className="rounded-lg border border-blue-100 bg-white p-5 shadow-sm">
+        <PageHeader
+          eyebrow="Dashboard"
+          title={`${greeting}, ${profile?.fullName || 'there'}`}
+          description={branchContext}
+          actions={
+            <Button type="button" variant="outline" onClick={() => void loadDashboard()} disabled={isLoading || isManualRefreshing}>
+              <RefreshCw className={isManualRefreshing ? 'mr-2 h-4 w-4 animate-spin' : 'mr-2 h-4 w-4'} aria-hidden="true" />
+              {isManualRefreshing ? 'Refreshing...' : 'Refresh'}
+            </Button>
+          }
+        />
+      </div>
 
       {errorMessage ? <Alert variant="destructive">{errorMessage}</Alert> : null}
 
@@ -226,13 +240,60 @@ export function DashboardPage(): JSX.Element {
       ) : (
         <>
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-            <StatCard label="Active Students" value={String(summary.ongoingStudents)} helper={`${summary.aboutToStartStudents} about to start, ${summary.passedStudents} passed`} />
-            <StatCard label="Pending Fees" value={formatCurrency(summary.pendingFeeBalance)} tone={summary.pendingFeeBalance > 0 ? 'danger' : 'good'} />
-            <StatCard label="This Month In" value={formatCurrency(summary.monthlyCollections)} helper="Fee collections" tone="good" />
-            <StatCard label="This Month Net" value={formatCurrency(summary.monthlyNetAmount)} helper={`${formatCurrency(summary.monthlyExpenses)} expenses, ${openAlertCount} alerts`} tone={summary.monthlyNetAmount >= 0 ? 'good' : 'danger'} />
+            <StatCard
+              label="Active Students"
+              value={String(summary.ongoingStudents)}
+              helper={`${summary.aboutToStartStudents} about to start, ${summary.passedStudents} passed`}
+              icon={<UsersRound className="h-4 w-4" aria-hidden="true" />}
+            />
+            <StatCard
+              label="Pending Fees"
+              value={formatCurrency(summary.pendingFeeBalance)}
+              helper={`${dashboard.pendingFees.length} students need follow-up`}
+              tone={summary.pendingFeeBalance > 0 ? 'danger' : 'good'}
+              icon={<WalletCards className="h-4 w-4" aria-hidden="true" />}
+            />
+            <StatCard
+              label="This Month In"
+              value={formatCurrency(summary.monthlyCollections)}
+              helper={`${formatCurrency(summary.todayCollections)} collected today`}
+              tone="good"
+              icon={<ArrowDownLeft className="h-4 w-4" aria-hidden="true" />}
+            />
+            <StatCard
+              label="This Month Net"
+              value={formatCurrency(summary.monthlyNetAmount)}
+              helper={`${formatCurrency(summary.monthlyExpenses)} expenses, ${openAlertCount} alerts`}
+              tone={summary.monthlyNetAmount >= 0 ? 'good' : 'danger'}
+              icon={<TrendingUp className="h-4 w-4" aria-hidden="true" />}
+            />
           </div>
 
-          <div className="grid gap-5">
+          <div className="grid gap-3 lg:grid-cols-3">
+            <DashboardMetric
+              icon={<Banknote className="h-4 w-4" aria-hidden="true" />}
+              label="Total Fee Collected"
+              value={formatCurrency(summary.totalFeeCollected)}
+              detail={`${formatCurrency(summary.todayCollections)} today`}
+              tone="good"
+            />
+            <DashboardMetric
+              icon={<ArrowUpRight className="h-4 w-4" aria-hidden="true" />}
+              label="Total Expenses"
+              value={formatCurrency(summary.totalExpenses)}
+              detail={`${formatCurrency(summary.todayExpenses)} today`}
+              tone="danger"
+            />
+            <DashboardMetric
+              icon={<AlertTriangle className="h-4 w-4" aria-hidden="true" />}
+              label="Open Alerts"
+              value={String(openAlertCount)}
+              detail="Active reminders and notices"
+              tone={openAlertCount > 0 ? 'warning' : 'good'}
+            />
+          </div>
+
+          <div className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(420px,0.9fr)]">
             <MonthlyTransactionsTable transactions={dashboard.monthlyTransactions} />
             <PendingFeeStudentsTable
               students={dashboard.pendingFees}
@@ -262,15 +323,58 @@ export function DashboardPage(): JSX.Element {
   );
 }
 
+function DashboardMetric({
+  icon,
+  label,
+  value,
+  detail,
+  tone
+}: {
+  icon: JSX.Element;
+  label: string;
+  value: string;
+  detail: string;
+  tone: 'good' | 'warning' | 'danger';
+}): JSX.Element {
+  return (
+    <Card className="overflow-hidden">
+      <CardContent className="flex items-center gap-4 p-4">
+        <div
+          className={[
+            'flex h-10 w-10 shrink-0 items-center justify-center rounded-md border',
+            tone === 'good' ? 'border-green-200 bg-green-50 text-success' : '',
+            tone === 'warning' ? 'border-amber-200 bg-amber-50 text-warning' : '',
+            tone === 'danger' ? 'border-red-200 bg-red-50 text-danger' : ''
+          ].join(' ')}
+        >
+          {icon}
+        </div>
+        <div className="min-w-0">
+          <p className="text-xs font-medium uppercase text-muted-foreground">{label}</p>
+          <p className="mt-1 truncate text-lg font-semibold text-main-text">{value}</p>
+          <p className="mt-0.5 truncate text-xs text-muted-foreground">{detail}</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 function MonthlyTransactionsTable({ transactions }: { transactions: MonthlyTransaction[] }): JSX.Element {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">Monthly Transactions</CardTitle>
+    <Card className="overflow-hidden">
+      <CardHeader className="flex-row items-start justify-between gap-4 border-b bg-muted/20 p-4">
+        <div>
+          <CardTitle className="text-lg">Monthly Transactions</CardTitle>
+          <p className="mt-1 text-sm text-muted-foreground">Payments and expenses recorded this month.</p>
+        </div>
+        <Badge variant="slate">
+          <CalendarDays className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
+          {transactions.length} entries
+        </Badge>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-4">
         {transactions.length === 0 ? (
-          <EmptyState title="No transactions this month." />
+          <EmptyState title="No transactions this month." description="Payments and expenses will appear here after they are recorded." />
         ) : (
           <div className="overflow-x-auto rounded-md border">
             <Table>
@@ -286,7 +390,7 @@ function MonthlyTransactionsTable({ transactions }: { transactions: MonthlyTrans
               <TableBody>
                 {transactions.map((transaction) => (
                   <TableRow key={`${transaction.type}-${transaction.id}`}>
-                    <TableCell>{formatDate(transaction.date)}</TableCell>
+                    <TableCell className="whitespace-nowrap">{formatDate(transaction.date)}</TableCell>
                     <TableCell>
                       <Badge variant={transaction.type === 'payment' ? 'success' : 'danger'}>
                         {transaction.type === 'payment' ? 'Payment' : 'Expense'}
@@ -300,8 +404,8 @@ function MonthlyTransactionsTable({ transactions }: { transactions: MonthlyTrans
                         {transaction.detail ? <p className="text-xs text-muted-foreground">{transaction.detail}</p> : null}
                       </div>
                     </TableCell>
-                    <TableCell>{transaction.branchName ?? '-'}</TableCell>
-                    <TableCell className={transaction.type === 'payment' ? 'text-right font-medium text-success' : 'text-right font-medium text-danger'}>
+                    <TableCell className="whitespace-nowrap text-muted-foreground">{transaction.branchName ?? '-'}</TableCell>
+                    <TableCell className={transaction.type === 'payment' ? 'whitespace-nowrap text-right font-semibold text-success' : 'whitespace-nowrap text-right font-semibold text-danger'}>
                       {transaction.type === 'payment' ? '+' : '-'}{formatCurrency(transaction.amount)}
                     </TableCell>
                   </TableRow>
@@ -325,15 +429,19 @@ function PendingFeeStudentsTable({
   isStudentLoading: boolean;
 }): JSX.Element {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">Pending Fee Students</CardTitle>
+    <Card className="overflow-hidden">
+      <CardHeader className="flex-row items-start justify-between gap-4 border-b bg-muted/20 p-4">
+        <div>
+          <CardTitle className="text-lg">Pending Fees</CardTitle>
+          <p className="mt-1 text-sm text-muted-foreground">Students with remaining course balances.</p>
+        </div>
+        <Badge variant={students.length > 0 ? 'danger' : 'success'}>{students.length} pending</Badge>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-4">
         {students.length === 0 ? (
-          <EmptyState title="No pending fee students." />
+          <EmptyState title="No pending fee students." description="All visible student fee balances are currently settled." />
         ) : (
-          <div className="rounded-md border">
+          <div className="overflow-x-auto rounded-md border">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -347,16 +455,16 @@ function PendingFeeStudentsTable({
               <TableBody>
                 {students.map((student) => (
                   <TableRow key={student.studentId}>
-                    <TableCell className="font-medium">{student.fullName}</TableCell>
+                    <TableCell className="min-w-44 font-medium">{student.fullName}</TableCell>
                     <TableCell>
                       <div className="space-y-1">
                         <p>{student.phone}</p>
                         <p className="text-xs text-muted-foreground">{formatCourseType(student.courseType)}</p>
                       </div>
                     </TableCell>
-                    <TableCell>{student.branchName ?? '-'}</TableCell>
-                    <TableCell className="text-right font-medium">{formatCurrency(student.balance)}</TableCell>
-                    <TableCell>
+                    <TableCell className="whitespace-nowrap text-muted-foreground">{student.branchName ?? '-'}</TableCell>
+                    <TableCell className="whitespace-nowrap text-right font-semibold text-danger">{formatCurrency(student.balance)}</TableCell>
+                    <TableCell className="text-right">
                       <Button
                         type="button"
                         size="sm"

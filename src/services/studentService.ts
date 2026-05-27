@@ -679,10 +679,12 @@ export const studentService = {
       phone: payload.phone ?? existingStudent.phone,
       branchId: nextBranchId,
       courseType: nextCourseType,
+      status: payload.status ?? existingStudent.status,
       enrollmentDate: payload.enrollmentDate ?? existingStudent.enrollmentDate,
       courseStartDate: payload.courseStartDate ?? existingStudent.courseStartDate,
       llIssueDate: payload.llIssueDate ?? existingStudent.llIssueDate,
       llExpiryDate: payload.llExpiryDate ?? existingStudent.llExpiryDate,
+      drivingLicenceNo: payload.drivingLicenceNo ?? existingStudent.drivingLicenceNo,
       dlIssueDate: payload.dlIssueDate ?? existingStudent.dlIssueDate,
       dlExpiryDate: payload.dlExpiryDate ?? existingStudent.dlExpiryDate,
       totalAmount: payload.totalAmount ?? 1

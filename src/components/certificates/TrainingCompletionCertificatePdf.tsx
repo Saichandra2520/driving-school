@@ -40,18 +40,19 @@ const styles = StyleSheet.create({
     padding: 42,
     fontSize: 11,
     color: '#111',
-    fontFamily: 'Helvetica'
+    fontFamily: 'Helvetica',
+    flexDirection: 'column'
   },
   border: {
     border: '2 solid #111',
     padding: 28,
-    minHeight: '100%'
+    flexGrow: 1
   },
   header: {
     textAlign: 'center',
     borderBottom: '1 solid #111',
     paddingBottom: 18,
-    marginBottom: 28
+    marginBottom: 24
   },
   schoolName: {
     fontSize: 20,
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
   body: {
     textAlign: 'center',
     lineHeight: 1.7,
-    marginBottom: 26
+    marginBottom: 22
   },
   studentName: {
     fontSize: 22,
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
   },
   details: {
     marginTop: 8,
-    marginBottom: 20
+    marginBottom: 16
   },
   sectionTitle: {
     fontSize: 12,
@@ -101,8 +102,8 @@ const styles = StyleSheet.create({
   },
   signatureRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 44
+    justifyContent: 'flex-end',
+    marginTop: 36
   },
   signature: {
     width: '42%',
@@ -232,8 +233,7 @@ export function TrainingCompletionCertificatePdf({ data }: TrainingCompletionCer
           </View>
 
           <View style={styles.signatureRow}>
-            <Text style={styles.signature}>Student Signature</Text>
-            <Text style={styles.signature}>Authorized Signature</Text>
+            <Text style={styles.signature}>Authorised Signature</Text>
           </View>
 
           <View style={styles.footer}>

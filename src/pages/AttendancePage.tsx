@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { CheckCircle2, ChevronDown, PlusCircle, RefreshCw } from 'lucide-react';
+import { CheckCircle2, ChevronDown, ClipboardCheck, Clock3, GraduationCap, PlusCircle, RefreshCw, SearchCheck } from 'lucide-react';
 import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { EmptyState } from '@/components/common/EmptyState';
 import { FilterBar } from '@/components/common/FilterBar';
@@ -149,6 +149,10 @@ export function AttendancePage(): JSX.Element {
   );
   const selectedCourseType = selectedRowEntries[0]?.courseType ?? null;
   const selectedCourseMixed = selectedRowEntries.some((row) => row.courseType !== selectedCourseType);
+  const bulkMinDate = selectedRowEntries.reduce(
+    (minDate, row) => (row.courseStartDate > minDate ? row.courseStartDate : minDate),
+    ''
+  );
   const bulkClassOptions = useMemo(() => {
     if (!selectedCourseType) return [];
     const keys = Array.from(new Set(selectedRowEntries.map((row) => `${row.branchId}-${row.courseType}`)));
@@ -250,13 +254,14 @@ export function AttendancePage(): JSX.Element {
         const rowKey = getRowKey(row);
         const classTypeKey = `${row.branchId}-${row.courseType}`;
         const defaultClassType = classTypes[classTypeKey]?.[0] || '';
+        const defaultDate = getAllowedSessionDate(date, row.courseStartDate);
 
         if (!next[rowKey]) {
-          next[rowKey] = emptyRowForm(date, defaultClassType);
+          next[rowKey] = emptyRowForm(defaultDate, defaultClassType);
         } else {
           next[rowKey] = {
             ...next[rowKey],
-            date: next[rowKey].date || date,
+            date: getAllowedSessionDate(next[rowKey].date || date, row.courseStartDate),
             classType: next[rowKey].classType || defaultClassType
           };
         }
@@ -264,13 +269,13 @@ export function AttendancePage(): JSX.Element {
 
       next.bulk = {
         ...(next.bulk ?? emptyRowForm(date, bulkClassOptions[0] ?? '')),
-        date: next.bulk?.date || date,
+        date: getAllowedSessionDate(next.bulk?.date || date, bulkMinDate),
         classType: next.bulk?.classType || bulkClassOptions[0] || ''
       };
 
       return next;
     });
-  }, [bulkClassOptions, classTypes, date, rows]);
+  }, [bulkClassOptions, bulkMinDate, classTypes, date, rows]);
 
   const updateForm = (rowKey: string, patch: Partial<RowFormState>): void => {
     setForms((current) => ({
@@ -340,6 +345,25 @@ export function AttendancePage(): JSX.Element {
     };
   };
 
+  const buildBulkPayload = (targetRows: AttendanceRow[], form: RowFormState): MarkAttendancePayload | null => {
+    const payload = buildPayload(targetRows[0], form);
+    if (!payload) return null;
+
+    const backdatedRow = targetRows.find((row) => payload.date < row.courseStartDate);
+    if (backdatedRow) {
+      setErrorMessage(`Attendance date cannot be before ${backdatedRow.studentName}'s course start date.`);
+      return null;
+    }
+
+    const expiredRow = targetRows.find((row) => payload.date > row.courseCompletionDate);
+    if (expiredRow) {
+      setErrorMessage(`Attendance date must be within ${expiredRow.studentName}'s ${expiredRow.allowedDays}-day course period.`);
+      return null;
+    }
+
+    return payload;
+  };
+
   const markRows = async (targetRows: AttendanceRow[], payload: MarkAttendancePayload): Promise<void> => {
     targetRows.forEach((row) => {
       const rowKey = getRowKey(row);
@@ -400,7 +424,7 @@ export function AttendancePage(): JSX.Element {
       return;
     }
 
-    const payload = buildPayload(targetRows[0], bulkForm);
+    const payload = buildBulkPayload(targetRows, bulkForm);
     if (!payload) return;
 
     setMessage('');
@@ -473,14 +497,14 @@ export function AttendancePage(): JSX.Element {
         />
       ) : (
         <>
-          <FilterBar className="md:grid-cols-[180px_160px_minmax(240px,1fr)]">
+          <FilterBar className="items-end md:grid-cols-[180px_170px_minmax(260px,1fr)]">
             <div className="space-y-2">
-              <Label htmlFor="attendance-date">Date</Label>
-              <Input id="attendance-date" type="date" value={date} max={getTodayDateInputValue()} onChange={(event) => setDate(event.target.value)} />
+              <Label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground" htmlFor="attendance-date">Date</Label>
+              <Input className="h-11" id="attendance-date" type="date" value={date} max={getTodayDateInputValue()} onChange={(event) => setDate(event.target.value)} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="attendance-course">Course</Label>
-              <Select id="attendance-course" value={courseType} onChange={(event) => setCourseType(event.target.value as CourseFilter)}>
+              <Label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground" htmlFor="attendance-course">Course</Label>
+              <Select className="h-11" id="attendance-course" value={courseType} onChange={(event) => setCourseType(event.target.value as CourseFilter)}>
                 <option value="all">All</option>
                 {TRAINING_COURSE_OPTIONS.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -490,8 +514,9 @@ export function AttendancePage(): JSX.Element {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="attendance-search">Search</Label>
+              <Label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground" htmlFor="attendance-search">Search</Label>
               <SearchInput
+                className="h-11"
                 id="attendance-search"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
@@ -501,20 +526,21 @@ export function AttendancePage(): JSX.Element {
           </FilterBar>
 
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-            <SummaryCard label="Total Visible" value={summary.total} />
-            <SummaryCard label="Pending" value={summary.pending} />
-            <SummaryCard label="Marked" value={summary.marked} />
-            <SummaryCard label="Completed" value={summary.completed} />
-            <SummaryCard label="Extension Needed" value={summary.extensionNeeded} />
+            <SummaryCard label="Total Visible" value={summary.total} icon={<ClipboardCheck className="h-4 w-4" aria-hidden="true" />} />
+            <SummaryCard label="Pending" value={summary.pending} icon={<Clock3 className="h-4 w-4" aria-hidden="true" />} tone="warning" />
+            <SummaryCard label="Marked" value={summary.marked} icon={<CheckCircle2 className="h-4 w-4" aria-hidden="true" />} tone="good" />
+            <SummaryCard label="Completed" value={summary.completed} icon={<GraduationCap className="h-4 w-4" aria-hidden="true" />} tone="default" />
+            <SummaryCard label="Extension Needed" value={summary.extensionNeeded} icon={<PlusCircle className="h-4 w-4" aria-hidden="true" />} tone="danger" />
           </div>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 rounded-lg border bg-surface p-2 shadow-sm">
             {viewOptions.map((option) => (
               <Button
                 key={option.value}
                 type="button"
                 size="sm"
                 variant={view === option.value ? 'default' : 'outline'}
+                className={view === option.value ? '' : 'bg-background'}
                 onClick={() => setView(option.value)}
               >
                 {option.label}
@@ -523,16 +549,19 @@ export function AttendancePage(): JSX.Element {
           </div>
 
           {selectedRowEntries.length > 0 ? (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Bulk Attendance ({selectedRowEntries.length})</CardTitle>
+            <Card className="overflow-hidden border-primary/20 shadow-sm">
+              <CardHeader className="border-b bg-blue-50/50 p-4">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <CheckCircle2 className="h-5 w-5 text-primary" aria-hidden="true" />
+                  Bulk Attendance ({selectedRowEntries.length})
+                </CardTitle>
               </CardHeader>
-              <CardContent className="grid gap-3 md:grid-cols-2 xl:grid-cols-[160px_220px_1fr_1fr_1fr_170px]">
+              <CardContent className="grid gap-3 p-4 md:grid-cols-2 xl:grid-cols-[160px_220px_1fr_1fr_1fr_auto]">
                 <Field label="Date" htmlFor="bulk-date">
-                  <Input id="bulk-date" type="date" value={bulkForm.date} max={getTodayDateInputValue()} onChange={(event) => updateForm('bulk', { date: event.target.value })} />
+                  <Input className="h-10" id="bulk-date" type="date" value={bulkForm.date} min={bulkMinDate} max={getTodayDateInputValue()} onChange={(event) => updateForm('bulk', { date: event.target.value })} />
                 </Field>
                 <Field label="Class Type" htmlFor="bulk-class">
-                  <Select id="bulk-class" value={bulkForm.classType} onChange={(event) => updateForm('bulk', { classType: event.target.value })}>
+                  <Select className="h-10" id="bulk-class" value={bulkForm.classType} onChange={(event) => updateForm('bulk', { classType: event.target.value })}>
                     <option value="">Select class</option>
                     {bulkClassOptions.map((option) => (
                       <option key={option} value={option}>{option}</option>
@@ -540,15 +569,15 @@ export function AttendancePage(): JSX.Element {
                   </Select>
                 </Field>
                 <Field label="Vehicle" htmlFor="bulk-vehicle">
-                  <Input id="bulk-vehicle" value={bulkForm.vehicle} placeholder="Optional" onChange={(event) => updateForm('bulk', { vehicle: event.target.value })} />
+                  <Input className="h-10" id="bulk-vehicle" value={bulkForm.vehicle} placeholder="Optional" onChange={(event) => updateForm('bulk', { vehicle: event.target.value })} />
                 </Field>
                 <Field label="Instructor" htmlFor="bulk-instructor">
-                  <Input id="bulk-instructor" value={bulkForm.instructor} placeholder="Optional" onChange={(event) => updateForm('bulk', { instructor: event.target.value })} />
+                  <Input className="h-10" id="bulk-instructor" value={bulkForm.instructor} placeholder="Optional" onChange={(event) => updateForm('bulk', { instructor: event.target.value })} />
                 </Field>
                 <Field label="Notes" htmlFor="bulk-notes">
-                  <Input id="bulk-notes" value={bulkForm.notes} placeholder="Optional" onChange={(event) => updateForm('bulk', { notes: event.target.value })} />
+                  <Input className="h-10" id="bulk-notes" value={bulkForm.notes} placeholder="Optional" onChange={(event) => updateForm('bulk', { notes: event.target.value })} />
                 </Field>
-                <div className="flex items-end gap-2">
+                <div className="flex items-end gap-2 xl:justify-end">
                   <Button type="button" onClick={() => void handleBulkMark()} disabled={isBulkSaving}>
                     {isBulkSaving ? 'Saving...' : 'Mark Selected'}
                   </Button>
@@ -572,11 +601,17 @@ export function AttendancePage(): JSX.Element {
             </Alert>
           ) : null}
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Training Sessions</CardTitle>
+          <Card className="overflow-hidden shadow-sm">
+            <CardHeader className="border-b bg-slate-50/80 p-4">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <SearchCheck className="h-5 w-5 text-primary" aria-hidden="true" />
+                  Training Sessions
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">{rows.length} {rows.length === 1 ? 'student' : 'students'} in this view</p>
+              </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4">
               {isLoading && rows.length === 0 ? (
                 <PageLoader label="Loading attendance..." />
               ) : errorMessage && rows.length === 0 ? (
@@ -586,7 +621,7 @@ export function AttendancePage(): JSX.Element {
               ) : (
                 <div
                   ref={parentRef}
-                  className={`h-[640px] overflow-auto pr-2 ${isRefreshing || isManualRefreshing ? 'opacity-60' : ''}`}
+                  className={`h-[640px] overflow-auto rounded-md bg-background/60 pr-2 ${isRefreshing || isManualRefreshing ? 'opacity-60' : ''}`}
                 >
                   <div className="relative w-full" style={{ height: `${virtualizer.getTotalSize()}px` }}>
                     {virtualizer.getVirtualItems().map((virtualRow) => {
@@ -613,6 +648,7 @@ export function AttendancePage(): JSX.Element {
                             isSaving={isSaving}
                             isExpanded={Boolean(expandedRows[rowKey])}
                             isSelected={isSelected}
+                            minDate={row.courseStartDate}
                             maxDate={getTodayDateInputValue()}
                             onToggle={() => toggleRow(rowKey)}
                             onToggleSelected={() => toggleSelected(row)}
@@ -671,6 +707,7 @@ function AttendanceChecklistItem({
   isSaving,
   isExpanded,
   isSelected,
+  minDate,
   maxDate,
   onToggle,
   onToggleSelected,
@@ -686,6 +723,7 @@ function AttendanceChecklistItem({
   isSaving: boolean;
   isExpanded: boolean;
   isSelected: boolean;
+  minDate: string;
   maxDate: string;
   onToggle: () => void;
   onToggleSelected: () => void;
@@ -698,11 +736,11 @@ function AttendanceChecklistItem({
   const lastClass = row.lastClassType ? `${row.lastClassType}${row.lastSessionDate ? ` - ${formatDate(row.lastSessionDate)}` : ''}` : '-';
 
   return (
-    <div className="overflow-hidden rounded-lg border bg-surface shadow-sm transition-colors hover:border-primary/30">
+    <div className={`overflow-hidden rounded-lg border bg-surface shadow-sm transition-colors hover:border-primary/30 ${isSelected ? 'border-primary/40 ring-1 ring-primary/20' : ''}`}>
       <div
         role="button"
         tabIndex={0}
-        className="grid w-full gap-3 px-4 py-3 text-left transition-colors hover:bg-blue-50/50 lg:grid-cols-[36px_minmax(240px,1.4fr)_140px_150px_170px_190px_40px]"
+        className="grid w-full gap-3 px-4 py-3 text-left transition-colors hover:bg-blue-50/50 lg:grid-cols-[36px_minmax(240px,1.4fr)_140px_150px_170px_190px_32px]"
         onClick={onToggle}
         onKeyDown={(event) => {
           if (event.key === 'Enter' || event.key === ' ') onToggle();
@@ -723,29 +761,30 @@ function AttendanceChecklistItem({
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
             <p className="truncate text-base font-semibold text-main-text">{row.studentName}</p>
-            <Badge variant="info">{row.courseType}</Badge>
-            {row.isMarkedOnSelectedDate ? <Badge variant="success">Marked</Badge> : null}
+            <Badge variant="info" className="uppercase">{row.courseType}</Badge>
+            {row.isMarkedOnSelectedDate ? <Badge variant="success">Marked today</Badge> : null}
+            {!row.isCompleted && !row.isMarkedOnSelectedDate ? <Badge variant="warning">Pending</Badge> : null}
             {row.isCompleted ? <StatusBadge status="completed" /> : null}
           </div>
           <p className="mt-1 text-sm text-muted-foreground">{formatPhoneNumber(row.phone)} - {row.branchName ?? row.branchId}</p>
         </div>
 
-        <div>
-          <p className="text-xs text-muted-foreground">Sessions</p>
+        <div className="rounded-md bg-background px-3 py-2">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Sessions</p>
           <p className="mt-1 font-semibold text-main-text">{row.completedSessions} / {row.allowedSessions}</p>
-          <div className="mt-1 h-1.5 rounded-full bg-background">
+          <div className="mt-2 h-1.5 rounded-full bg-slate-200">
             <div className="h-1.5 rounded-full bg-primary" style={{ width: `${progressPercent}%` }} />
           </div>
         </div>
 
-        <div>
-          <p className="text-xs text-muted-foreground">Next Session</p>
+        <div className="rounded-md bg-background px-3 py-2">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Next Session</p>
           <p className="mt-1 font-semibold text-main-text">{row.isCompleted ? 'Done' : row.nextSessionNo ?? '-'}</p>
           {!row.isCompleted ? <p className="mt-1 text-xs text-muted-foreground">{row.remainingSessions} remaining</p> : null}
         </div>
 
-        <div className="min-w-0">
-          <p className="text-xs text-muted-foreground">Last Class</p>
+        <div className="min-w-0 rounded-md bg-background px-3 py-2">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Last Class</p>
           <p className="mt-1 truncate font-medium text-main-text">{lastClass}</p>
           {row.selectedDateSessionCount > 0 ? (
             <p className="mt-1 truncate text-xs text-success">{row.selectedDateSessionCount} on selected date</p>
@@ -754,12 +793,12 @@ function AttendanceChecklistItem({
 
         <div className="flex flex-wrap items-center gap-2 lg:justify-end" onClick={(event) => event.stopPropagation()}>
           {!row.isCompleted ? (
-            <Button type="button" size="sm" onClick={onQuickMark} disabled={isSaving}>
+            <Button type="button" size="sm" className="w-full sm:w-auto" onClick={onQuickMark} disabled={isSaving}>
               <CheckCircle2 className="mr-2 h-4 w-4" aria-hidden="true" />
               {isSaving ? 'Saving...' : 'Quick Mark'}
             </Button>
           ) : (
-            <Button type="button" size="sm" variant="outline" onClick={onExtend}>
+            <Button type="button" size="sm" variant="outline" className="w-full sm:w-auto" onClick={onExtend}>
               <PlusCircle className="mr-2 h-4 w-4" aria-hidden="true" />
               Extend
             </Button>
@@ -772,14 +811,16 @@ function AttendanceChecklistItem({
       </div>
 
       {isExpanded ? (
-        <div className="border-t bg-surface p-4">
+        <div className="border-t bg-slate-50/80 p-4">
           <div className="grid gap-4 xl:grid-cols-[1fr_170px]">
             <div className="grid gap-3 md:grid-cols-2 2xl:grid-cols-5">
               <Field label="Session Date *" htmlFor={`${rowKeyValue}-date`}>
                 <Input
+                  className="h-10 bg-white"
                   id={`${rowKeyValue}-date`}
                   type="date"
                   value={form.date}
+                  min={minDate}
                   max={maxDate}
                   onChange={(event) => onUpdateForm(rowKeyValue, { date: event.target.value })}
                   disabled={row.isCompleted || isSaving}
@@ -787,6 +828,7 @@ function AttendanceChecklistItem({
               </Field>
               <Field label="Class Type *" htmlFor={`${rowKeyValue}-class-type`}>
                 <Select
+                  className="h-10 bg-white"
                   id={`${rowKeyValue}-class-type`}
                   value={form.classType}
                   onChange={(event) => onUpdateForm(rowKeyValue, { classType: event.target.value })}
@@ -802,6 +844,7 @@ function AttendanceChecklistItem({
               </Field>
               <Field label="Vehicle" htmlFor={`${rowKeyValue}-vehicle`}>
                 <Input
+                  className="h-10 bg-white"
                   id={`${rowKeyValue}-vehicle`}
                   value={form.vehicle}
                   placeholder="Optional"
@@ -811,6 +854,7 @@ function AttendanceChecklistItem({
               </Field>
               <Field label="Instructor" htmlFor={`${rowKeyValue}-instructor`}>
                 <Input
+                  className="h-10 bg-white"
                   id={`${rowKeyValue}-instructor`}
                   value={form.instructor}
                   placeholder="Optional"
@@ -820,6 +864,7 @@ function AttendanceChecklistItem({
               </Field>
               <Field label="Notes" htmlFor={`${rowKeyValue}-notes`}>
                 <Input
+                  className="h-10 bg-white"
                   id={`${rowKeyValue}-notes`}
                   value={form.notes}
                   placeholder="Optional"
@@ -830,12 +875,12 @@ function AttendanceChecklistItem({
             </div>
 
             <div className="flex flex-col justify-end gap-2 xl:items-stretch">
-              <Button type="button" onClick={onMarkPresent} disabled={row.isCompleted || isSaving}>
+              <Button type="button" className="h-10" onClick={onMarkPresent} disabled={row.isCompleted || isSaving}>
                 <CheckCircle2 className="mr-2 h-4 w-4" aria-hidden="true" />
                 {row.isCompleted ? 'Completed' : isSaving ? 'Saving...' : 'Mark Present'}
               </Button>
               {row.isCompleted ? (
-                <Button type="button" variant="secondary" onClick={onExtend}>
+                <Button type="button" className="h-10" variant="secondary" onClick={onExtend}>
                   <PlusCircle className="mr-2 h-4 w-4" aria-hidden="true" />
                   Add Extension
                 </Button>
@@ -848,12 +893,34 @@ function AttendanceChecklistItem({
   );
 }
 
-function SummaryCard({ label, value }: { label: string; value: number }): JSX.Element {
+function SummaryCard({
+  label,
+  value,
+  icon,
+  tone = 'default'
+}: {
+  label: string;
+  value: number;
+  icon: JSX.Element;
+  tone?: 'default' | 'good' | 'warning' | 'danger';
+}): JSX.Element {
+  const toneClass = {
+    default: 'border-blue-200 bg-blue-50 text-primary',
+    good: 'border-green-200 bg-green-50 text-success',
+    warning: 'border-amber-200 bg-amber-50 text-warning',
+    danger: 'border-red-200 bg-red-50 text-danger'
+  }[tone];
+
   return (
-    <Card>
+    <Card className="overflow-hidden shadow-sm">
       <CardContent className="p-4">
-        <p className="text-xs text-muted-foreground">{label}</p>
-        <p className="mt-1 text-2xl font-semibold text-main-text">{value}</p>
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
+            <p className="mt-2 text-2xl font-semibold tracking-tight text-main-text">{value}</p>
+          </div>
+          <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md border ${toneClass}`}>{icon}</span>
+        </div>
       </CardContent>
     </Card>
   );
@@ -862,7 +929,7 @@ function SummaryCard({ label, value }: { label: string; value: number }): JSX.El
 function Field({ label, htmlFor, children }: { label: string; htmlFor: string; children: React.ReactNode }): JSX.Element {
   return (
     <div className="space-y-2">
-      <Label htmlFor={htmlFor}>{label}</Label>
+      <Label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground" htmlFor={htmlFor}>{label}</Label>
       {children}
     </div>
   );
@@ -907,4 +974,10 @@ function emptyRowForm(dateValue = today, classType = ''): RowFormState {
     instructor: '',
     notes: ''
   };
+}
+
+function getAllowedSessionDate(dateValue: string, courseStartDate: string): string {
+  if (!courseStartDate) return dateValue;
+  if (!dateValue || dateValue < courseStartDate) return courseStartDate;
+  return dateValue;
 }

@@ -13,12 +13,15 @@ import type {
   DrivingTestResult,
   DrivingTestStatus
 } from '@/types';
+import { addDays, addMonths } from '@/utils/dateUtils';
 import { formatDate } from '@/utils/formatters';
 
 type DrivingTestCardProps = {
   studentId: string;
   branchId: string;
   courseType: DrivingTestCourseType;
+  llIssueDate?: string | null;
+  needsDrivingLicenceDetails?: boolean;
 };
 
 const attemptLabels: Record<number, string> = {
@@ -28,8 +31,8 @@ const attemptLabels: Record<number, string> = {
 };
 
 const statusLabels: Record<DrivingTestStatus, string> = {
-  not_started: 'Not Started',
-  pending: 'Pending',
+  not_started: 'Not Applied',
+  pending: 'Applied',
   passed: 'Passed',
   failed: 'Failed'
 };
@@ -56,7 +59,9 @@ function resultVariant(result: DrivingTestResult): 'muted' | 'success' | 'warnin
 export function DrivingTestCard({
   studentId,
   branchId,
-  courseType
+  courseType,
+  llIssueDate,
+  needsDrivingLicenceDetails = false
 }: DrivingTestCardProps): JSX.Element {
   const [drivingTest, setDrivingTest] = useState<DrivingTest | null>(null);
   const [editAttempt, setEditAttempt] = useState<DrivingTestAttempt | null>(null);
@@ -96,6 +101,19 @@ export function DrivingTestCard({
     () => (drivingTest ? drivingTestService.getDrivingTestStatus(drivingTest) : 'not_started'),
     [drivingTest]
   );
+  const minAttemptDate = llIssueDate ? addDays(llIssueDate, 30) : '';
+  const maxAttemptDate = llIssueDate ? addMonths(llIssueDate, 6) : '';
+  const visibleAttempts = useMemo(() => {
+    if (!drivingTest) return [];
+
+    return drivingTest.attempts.filter((attempt, index, attempts) => {
+      const isUsed = Boolean(attempt.date || attempt.result !== 'pending' || attempt.notes);
+      if (isUsed || attempt.attemptNo === 1) return true;
+
+      const previousAttempt = attempts[index - 1];
+      return previousAttempt?.result === 'fail';
+    });
+  }, [drivingTest]);
 
   const handleSaved = async (nextTest: DrivingTest, nextMessage: string): Promise<void> => {
     setDrivingTest(nextTest);
@@ -119,6 +137,9 @@ export function DrivingTestCard({
       <CardContent className="space-y-4">
         {message ? <Alert variant="success">{message}</Alert> : null}
         {passSuggestion ? <Alert>{passSuggestion}</Alert> : null}
+        {status === 'passed' && needsDrivingLicenceDetails ? (
+          <Alert variant="warning">Driving license number and issue date are required after passing the driving test.</Alert>
+        ) : null}
         {errorMessage ? <Alert variant="destructive">{errorMessage}</Alert> : null}
 
         {isLoading ? (
@@ -136,7 +157,7 @@ export function DrivingTestCard({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {drivingTest.attempts.map((attempt) => {
+                {visibleAttempts.map((attempt) => {
                   const isUsed = Boolean(attempt.date || attempt.result !== 'pending' || attempt.notes);
 
                   return (
@@ -166,6 +187,8 @@ export function DrivingTestCard({
           open={editAttempt !== null}
           drivingTest={drivingTest}
           attempt={editAttempt}
+          minDate={minAttemptDate}
+          maxDate={maxAttemptDate}
           onClose={() => setEditAttempt(null)}
           onSaved={(nextTest, nextMessage) => void handleSaved(nextTest, nextMessage)}
         />
