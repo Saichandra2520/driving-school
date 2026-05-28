@@ -173,12 +173,29 @@ export function PaymentsPage(): JSX.Element {
 
   const handleSelectStudent = (student: StudentWithFee): void => {
     setSelectedStudent(student);
-    setAmount(student.balance > 0 ? String(student.balance) : '');
+    setAmount('');
     setLastReceiptNo('');
     setReceiptStudent(null);
     setIsReceiptDialogOpen(false);
     setMessage('');
     setErrorMessage('');
+  };
+
+  const handleAmountChange = (value: string): void => {
+    if (!selectedStudent) {
+      setAmount('');
+      return;
+    }
+
+    if (value === '') {
+      setAmount('');
+      return;
+    }
+
+    const parsedValue = Number(value);
+    if (!Number.isFinite(parsedValue)) return;
+
+    setAmount(String(Math.min(parsedValue, selectedStudent.balance)));
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
@@ -342,7 +359,16 @@ export function PaymentsPage(): JSX.Element {
                 <FilterBar className="md:grid-cols-2">
                   <div className="space-y-2">
                     <Label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground" htmlFor="payment-amount">Amount ({INDIAN_CURRENCY_SYMBOL}) *</Label>
-                    <Input className="h-11 text-base font-medium" id="payment-amount" type="number" min="1" value={amount} onChange={(event) => setAmount(event.target.value)} disabled={!selectedStudent || isSaving} />
+                    <Input
+                      className="h-11 text-base font-medium"
+                      id="payment-amount"
+                      type="number"
+                      min="1"
+                      max={selectedStudent?.balance}
+                      value={amount}
+                      onChange={(event) => handleAmountChange(event.target.value)}
+                      disabled={!selectedStudent || isSaving}
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground" htmlFor="payment-date">Payment Date *</Label>
