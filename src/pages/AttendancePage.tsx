@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { CheckCircle2, ChevronDown, ClipboardCheck, Clock3, GraduationCap, PlusCircle, RefreshCw, SearchCheck } from 'lucide-react';
+import { CheckCircle2, ChevronDown, ClipboardCheck, Clock3, GraduationCap, RefreshCw, SearchCheck } from 'lucide-react';
 import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { EmptyState } from '@/components/common/EmptyState';
 import { FilterBar } from '@/components/common/FilterBar';
@@ -15,7 +15,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
-import { AddExtensionModal } from '@/components/students/AddExtensionModal';
 import { TRAINING_COURSE_OPTIONS } from '@/constants/courses';
 import { useCachedSubscription } from '@/hooks/useCachedData';
 import { attendanceService } from '@/services/attendanceService';
@@ -57,8 +56,7 @@ const viewOptions: Array<{ value: AttendanceView; label: string }> = [
   { value: 'all', label: 'All' },
   { value: 'pending', label: 'Pending' },
   { value: 'marked', label: 'Marked' },
-  { value: 'completed', label: 'Completed' },
-  { value: 'extension_needed', label: 'Extension Needed' }
+  { value: 'completed', label: 'Completed' }
 ];
 
 export function AttendancePage(): JSX.Element {
@@ -76,7 +74,6 @@ export function AttendancePage(): JSX.Element {
   const [savingRows, setSavingRows] = useState<Record<string, boolean>>({});
   const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>({});
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({});
-  const [extensionTarget, setExtensionTarget] = useState<AttendanceRow | null>(null);
   const [pendingMark, setPendingMark] = useState<PendingMark>(null);
   const [isBulkSaving, setIsBulkSaving] = useState(false);
   const [isManualRefreshing, setIsManualRefreshing] = useState(false);
@@ -452,21 +449,6 @@ export function AttendancePage(): JSX.Element {
     }
   };
 
-  const handleExtensionSaved = async (nextMessage: string): Promise<void> => {
-    setExtensionTarget(null);
-    setMessage(nextMessage);
-    setErrorMessage('');
-    invalidatePageCache([
-      cacheTags.attendance,
-      cacheTags.dashboard,
-      cacheTags.students,
-      cacheTags.reports,
-      cacheTags.branch(effectiveBranchId ?? 'all'),
-      cacheTags.user(profile?.id)
-    ]);
-    await loadAttendance();
-  };
-
   const hasActiveFilters = courseType !== 'all' || Boolean(debouncedSearch.trim()) || view !== 'all';
   const duplicateCount = pendingMark?.type === 'single'
     ? 1
@@ -525,12 +507,11 @@ export function AttendancePage(): JSX.Element {
             </div>
           </FilterBar>
 
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <SummaryCard label="Total Visible" value={summary.total} icon={<ClipboardCheck className="h-4 w-4" aria-hidden="true" />} />
             <SummaryCard label="Pending" value={summary.pending} icon={<Clock3 className="h-4 w-4" aria-hidden="true" />} tone="warning" />
             <SummaryCard label="Marked" value={summary.marked} icon={<CheckCircle2 className="h-4 w-4" aria-hidden="true" />} tone="good" />
             <SummaryCard label="Completed" value={summary.completed} icon={<GraduationCap className="h-4 w-4" aria-hidden="true" />} tone="default" />
-            <SummaryCard label="Extension Needed" value={summary.extensionNeeded} icon={<PlusCircle className="h-4 w-4" aria-hidden="true" />} tone="danger" />
           </div>
 
           <div className="flex flex-wrap gap-2 rounded-lg border bg-surface p-2 shadow-sm">
@@ -655,7 +636,6 @@ export function AttendancePage(): JSX.Element {
                             onUpdateForm={updateForm}
                             onMarkPresent={() => void handleMarkPresent(row)}
                             onQuickMark={() => void handleMarkPresent(row)}
-                            onExtend={() => setExtensionTarget(row)}
                           />
                         </div>
                       );
@@ -667,22 +647,6 @@ export function AttendancePage(): JSX.Element {
           </Card>
         </>
       )}
-
-      <AddExtensionModal
-        open={extensionTarget !== null}
-        student={
-          extensionTarget
-            ? {
-                id: extensionTarget.studentId,
-                branchId: extensionTarget.branchId,
-                courseType: extensionTarget.courseType
-              }
-            : null
-        }
-        defaultCourseType={extensionTarget?.courseType}
-        onClose={() => setExtensionTarget(null)}
-        onSaved={(nextMessage) => void handleExtensionSaved(nextMessage)}
-      />
 
       <ConfirmDialog
         open={pendingMark !== null}
@@ -713,8 +677,7 @@ function AttendanceChecklistItem({
   onToggleSelected,
   onUpdateForm,
   onMarkPresent,
-  onQuickMark,
-  onExtend
+  onQuickMark
 }: {
   row: AttendanceRow;
   rowKeyValue: string;
@@ -730,7 +693,6 @@ function AttendanceChecklistItem({
   onUpdateForm: (rowKey: string, patch: Partial<RowFormState>) => void;
   onMarkPresent: () => void;
   onQuickMark: () => void;
-  onExtend: () => void;
 }): JSX.Element {
   const progressPercent = Math.min(100, Math.round((row.completedSessions / row.allowedSessions) * 100));
   const lastClass = row.lastClassType ? `${row.lastClassType}${row.lastSessionDate ? ` - ${formatDate(row.lastSessionDate)}` : ''}` : '-';
@@ -797,12 +759,7 @@ function AttendanceChecklistItem({
               <CheckCircle2 className="mr-2 h-4 w-4" aria-hidden="true" />
               {isSaving ? 'Saving...' : 'Quick Mark'}
             </Button>
-          ) : (
-            <Button type="button" size="sm" variant="outline" className="w-full sm:w-auto" onClick={onExtend}>
-              <PlusCircle className="mr-2 h-4 w-4" aria-hidden="true" />
-              Extend
-            </Button>
-          )}
+          ) : null}
         </div>
 
         <div className="flex items-center justify-end">
@@ -879,12 +836,6 @@ function AttendanceChecklistItem({
                 <CheckCircle2 className="mr-2 h-4 w-4" aria-hidden="true" />
                 {row.isCompleted ? 'Completed' : isSaving ? 'Saving...' : 'Mark Present'}
               </Button>
-              {row.isCompleted ? (
-                <Button type="button" className="h-10" variant="secondary" onClick={onExtend}>
-                  <PlusCircle className="mr-2 h-4 w-4" aria-hidden="true" />
-                  Add Extension
-                </Button>
-              ) : null}
             </div>
           </div>
         </div>
@@ -940,17 +891,15 @@ function getAttendanceSummary(rows: AttendanceRow[]): {
   pending: number;
   marked: number;
   completed: number;
-  extensionNeeded: number;
 } {
   return rows.reduce(
     (summary, row) => ({
       total: summary.total + 1,
       pending: summary.pending + (!row.isCompleted && !row.isMarkedOnSelectedDate ? 1 : 0),
       marked: summary.marked + (row.isMarkedOnSelectedDate ? 1 : 0),
-      completed: summary.completed + (row.isCompleted ? 1 : 0),
-      extensionNeeded: summary.extensionNeeded + (row.isCompleted ? 1 : 0)
+      completed: summary.completed + (row.isCompleted ? 1 : 0)
     }),
-    { total: 0, pending: 0, marked: 0, completed: 0, extensionNeeded: 0 }
+    { total: 0, pending: 0, marked: 0, completed: 0 }
   );
 }
 
@@ -958,7 +907,6 @@ function matchesAttendanceView(row: AttendanceRow, view: AttendanceView): boolea
   if (view === 'pending') return !row.isCompleted && !row.isMarkedOnSelectedDate;
   if (view === 'marked') return row.isMarkedOnSelectedDate;
   if (view === 'completed') return row.isCompleted;
-  if (view === 'extension_needed') return row.isCompleted;
   return true;
 }
 

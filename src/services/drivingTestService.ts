@@ -161,10 +161,20 @@ export const drivingTestService = {
     });
     firebaseUsageService.trackUsage('writes');
 
-    return {
+    const nextTest = {
       ...normalized,
       attempts
     };
+
+    if (hasPassed(nextTest) && student.status !== 'passed') {
+      await updateDoc(doc(db, collections.students, student.id), {
+        status: 'passed',
+        updatedAt: serverTimestamp()
+      });
+      firebaseUsageService.trackUsage('writes');
+    }
+
+    return nextTest;
   },
 
   async ensureDrivingTestDocsForStudent(student: Student): Promise<void> {

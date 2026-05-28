@@ -150,6 +150,10 @@ function buildAttendanceRows({
       const entitlement = calculateTrainingEntitlement(student, extensionsByStudent.get(student.id) ?? [], courseType);
       const courseStartDate = getCourseStartDate(student);
       const courseCompletionDate = calculateStudentExpiryDate(courseStartDate, entitlement.allowedDays);
+      if (filters.selectedDate && (filters.selectedDate < courseStartDate || filters.selectedDate > courseCompletionDate)) {
+        continue;
+      }
+
       const completedSessions = session ? completedCount(session) : 0;
       const nextSlot = session ? getNextEmptySlot(session.slots) : null;
       const lastSlot = session ? getLastCompletedSession(session.slots) : null;

@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BASE_TRAINING_SESSION_COUNT, COURSE_PARTS } from '@/constants/courses';
+import { BASE_TRAINING_SESSION_COUNT, COURSE_COMPLETION_DAYS, COURSE_PARTS } from '@/constants/courses';
 import { courseExtensionService } from '@/services/courseExtensionService';
 import { feeService } from '@/services/feeService';
 import { getInstallmentReceiptLabel, isPendingInstallment } from '@/services/pendingPaymentService';
@@ -64,9 +64,17 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
   const [extensionModalOpen, setExtensionModalOpen] = useState(false);
   const [certificateRows, setCertificateRows] = useState<CertificateRow[]>([]);
   const [baseCompletedCourses, setBaseCompletedCourses] = useState<Set<TrainingCourseType>>(new Set());
+  const [localStatus, setLocalStatus] = useState(student.status);
   const courseParts = COURSE_PARTS[student.courseType];
   const eligibleTestDate = student.llIssueDate ? addDays(student.llIssueDate, 30) : null;
-  const isBaseTrainingCompleted = (student.status === 'ongoing' || student.status === 'extended') && student.daysRemaining < 0;
+  const isPassed = localStatus === 'passed';
+  const isBaseTrainingCompleted = (localStatus === 'ongoing' || localStatus === 'extended') && student.daysRemaining < 0;
+  const courseStartDate = getCourseStartDate(student);
+  const allowedDays = entitlement?.allowedDays ?? student.baseDurationDays ?? COURSE_COMPLETION_DAYS;
+  const allowedCompletionDate = calculateStudentExpiryDate(courseStartDate, allowedDays);
+  const allowedDaysRemaining = Math.ceil(
+    (new Date(`${allowedCompletionDate}T00:00:00`).getTime() - new Date(new Date().setHours(0, 0, 0, 0)).getTime()) / (1000 * 60 * 60 * 24)
+  );
   const extensionCourseTypes = useMemo(() => {
     const completedCourseTypes = courseParts.filter((courseType) => baseCompletedCourses.has(courseType));
     const options: CourseType[] = [...completedCourseTypes];
@@ -75,10 +83,10 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
     }
     return options;
   }, [baseCompletedCourses, courseParts, student.courseType]);
-  const canAddExtension = baseCompletedCourses.size > 0;
+  const canAddExtension = !isPassed && baseCompletedCourses.size > 0;
   const tabs = certificateRows.length > 0
-    ? ['overview', 'fees', ...(canAddExtension ? ['extensions'] : []), 'attendance', 'certificate', 'driving-test', 'licence']
-    : ['overview', 'fees', ...(canAddExtension ? ['extensions'] : []), 'attendance', 'driving-test', 'licence'];
+    ? ['overview', 'fees', ...(canAddExtension ? ['extensions'] : []), ...(!isPassed ? ['attendance'] : []), 'certificate', 'driving-test', 'licence']
+    : ['overview', 'fees', ...(canAddExtension ? ['extensions'] : []), ...(!isPassed ? ['attendance'] : []), 'driving-test', 'licence'];
 
   const loadExtensions = async (): Promise<void> => {
     try {
@@ -153,6 +161,10 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
   }, [student.id]);
 
   useEffect(() => {
+    setLocalStatus(student.status);
+  }, [student.status]);
+
+  useEffect(() => {
     if (!tabs.includes(activeTab)) {
       setActiveTab('overview');
     }
@@ -223,7 +235,7 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
           </div>
           <div className="flex flex-wrap gap-2">
             <Badge variant="secondary">{formatCourseType(student.courseType)}</Badge>
-            <StatusBadge status={student.status} />
+            <StatusBadge status={localStatus} />
             <StatusBadge status={feeSummary.paymentStatus === 'Paid' ? 'paid' : feeSummary.paymentStatus === 'Partial' ? 'partial' : 'pending'} />
             {isBaseTrainingCompleted ? <StatusBadge status="thirty_days_completed" /> : null}
           </div>
@@ -251,9 +263,12 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
               <Info label="Enrollment Date" value={formatDate(student.enrollmentDate)} />
               <Info label="Course Start Date" value={formatDate(student.courseStartDate)} />
               <Info label="Base Completion Date" value={formatDate(student.expiryDate)} />
-              <Info label="Base Days Remaining" value={student.daysRemaining >= 0 ? String(student.daysRemaining) : 'Completed'} />
+              <Info label="Allowed Completion Date" value={formatDate(allowedCompletionDate)} />
+              <Info label="Allowed Days" value={String(allowedDays)} />
+              <Info label="Days Remaining" value={allowedDaysRemaining >= 0 ? String(allowedDaysRemaining) : 'Completed'} />
               <Info label="Allowed Sessions" value={String(entitlement?.allowedSessions ?? student.baseSessionCount ?? BASE_TRAINING_SESSION_COUNT)} />
               <Info label="Extra Sessions" value={String(entitlement?.extraSessions ?? 0)} />
+              <Info label="Extra Days" value={String(entitlement?.extraDays ?? 0)} />
             </Section>
             <Section title="Quick Summary">
               <Info label="Total Fee" value={formatCurrency(feeSummary.totalAmount)} />
@@ -320,6 +335,10 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
                 courseType={courseType}
                 llIssueDate={student.llIssueDate ?? null}
                 needsDrivingLicenceDetails={!student.drivingLicenceNo?.trim() || !student.dlIssueDate}
+                onStudentChanged={() => {
+                  setLocalStatus('passed');
+                  onStudentChanged?.();
+                }}
               />
             ))}
           </TabsContent>
@@ -366,24 +385,26 @@ export function StudentDetails({ student, allowFeeActions = true, onFeeChanged, 
           />
         </>
       ) : null}
-      <AddExtensionModal
-        open={extensionModalOpen}
-        student={student}
-        allowedCourseTypes={extensionCourseTypes}
-        onClose={() => setExtensionModalOpen(false)}
-        onSaved={(nextMessage) => {
-          setExtensionModalOpen(false);
-          setMessage(nextMessage);
-          setErrorMessage('');
-          void loadExtensions();
-          void loadCertificates();
-          void feeService.getFeeByStudentId(student.id).then((nextFee) => {
-            if (nextFee) setFee(nextFee);
-          });
-          onFeeChanged?.();
-          onStudentChanged?.();
-        }}
-      />
+      {!isPassed ? (
+        <AddExtensionModal
+          open={extensionModalOpen}
+          student={student}
+          allowedCourseTypes={extensionCourseTypes}
+          onClose={() => setExtensionModalOpen(false)}
+          onSaved={(nextMessage) => {
+            setExtensionModalOpen(false);
+            setMessage(nextMessage);
+            setErrorMessage('');
+            void loadExtensions();
+            void loadCertificates();
+            void feeService.getFeeByStudentId(student.id).then((nextFee) => {
+              if (nextFee) setFee(nextFee);
+            });
+            onFeeChanged?.();
+            onStudentChanged?.();
+          }}
+        />
+      ) : null}
     </div>
   );
 }

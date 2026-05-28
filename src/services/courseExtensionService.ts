@@ -121,6 +121,9 @@ export const courseExtensionService = {
     }
 
     const student = await assertCanManageStudent(payload.studentId);
+    if (student.status === 'passed' || student.drivingLicenceNo?.trim()) {
+      throw new Error('Course extension cannot be added for a passed student.');
+    }
 
     if (student.branchId !== payload.branchId) {
       throw new Error('Extension branch must match the student branch.');

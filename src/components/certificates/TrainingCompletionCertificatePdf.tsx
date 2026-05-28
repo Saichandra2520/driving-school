@@ -37,60 +37,67 @@ type TrainingCompletionCertificatePdfProps = {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 42,
-    fontSize: 11,
+    padding: 20,
+    fontSize: 9,
     color: '#111',
     fontFamily: 'Helvetica',
     flexDirection: 'column'
   },
   border: {
     border: '2 solid #111',
-    padding: 28,
+    padding: 15,
     flexGrow: 1
   },
   header: {
     textAlign: 'center',
     borderBottom: '1 solid #111',
-    paddingBottom: 18,
-    marginBottom: 24
+    paddingBottom: 8,
+    marginBottom: 10
   },
   schoolName: {
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: 700,
-    marginBottom: 6
+    marginBottom: 3
   },
   title: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: 700,
-    marginTop: 14,
+    marginTop: 6,
     textTransform: 'uppercase'
   },
   body: {
     textAlign: 'center',
-    lineHeight: 1.7,
-    marginBottom: 22
+    lineHeight: 1.25,
+    marginBottom: 8
   },
   studentName: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: 700,
-    marginVertical: 10
+    marginVertical: 4
   },
   details: {
-    marginTop: 8,
-    marginBottom: 16
+    marginBottom: 6
+  },
+  detailGrid: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 6
+  },
+  detailColumn: {
+    width: '48%'
   },
   sectionTitle: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 700,
-    marginTop: 8,
-    marginBottom: 8,
+    marginTop: 3,
+    marginBottom: 4,
     borderBottom: '1 solid #ccc',
-    paddingBottom: 4
+    paddingBottom: 3
   },
   row: {
     flexDirection: 'row',
     borderBottom: '1 solid #ddd',
-    paddingVertical: 7
+    paddingVertical: 3
   },
   label: {
     width: '38%',
@@ -103,25 +110,25 @@ const styles = StyleSheet.create({
   signatureRow: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 36
+    marginTop: 8
   },
   signature: {
     width: '42%',
     borderTop: '1 solid #111',
-    paddingTop: 7,
+    paddingTop: 5,
     textAlign: 'center'
   },
   footer: {
-    marginTop: 28,
-    paddingTop: 12,
+    marginTop: 8,
+    paddingTop: 5,
     borderTop: '1 solid #ccc',
     textAlign: 'center',
     color: '#444',
-    fontSize: 9
+    fontSize: 8
   },
   table: {
     border: '1 solid #999',
-    marginTop: 8
+    marginTop: 4
   },
   tableHeader: {
     flexDirection: 'row',
@@ -131,16 +138,16 @@ const styles = StyleSheet.create({
   tableRow: {
     flexDirection: 'row',
     borderBottom: '1 solid #e5e5e5',
-    minHeight: 20
+    minHeight: 15
   },
   tableCell: {
-    padding: 5,
-    fontSize: 8,
+    padding: 2,
+    fontSize: 7,
     borderRight: '1 solid #e5e5e5'
   },
   tableCellHeader: {
-    padding: 5,
-    fontSize: 8,
+    padding: 2,
+    fontSize: 7,
     fontWeight: 700,
     borderRight: '1 solid #ccc'
   },
@@ -212,47 +219,43 @@ export function TrainingCompletionCertificatePdf({ data }: TrainingCompletionCer
             </Text>
           </View>
 
-          <View style={styles.details}>
-            <Field label="Driving School Name" value={data.branchName} />
-            <Field label="Course" value={formatCourseType(data.courseType)} />
-            <Field label="Course Start Date" value={formatDate(data.courseStartDate)} />
-            <Field label="Course End Date" value={formatDate(data.courseEndDate)} />
-            <Field label="Training Completion Date" value={formatDate(data.completionDate)} />
-            <Field label="Completed Sessions" value={String(data.completedSessions)} />
-            <Field label="Phone" value={data.phone} />
-            <Field label="Learning Licence No" value={data.learningLicenceNo || '-'} />
-            <Field label="Generated Date" value={formatDate(data.generatedAt.slice(0, 10))} />
+          <View style={styles.detailGrid}>
+            <View style={styles.detailColumn}>
+              <Text style={styles.sectionTitle}>Student & Course Details</Text>
+              <View style={styles.details}>
+                <Field label="Driving School Name" value={data.branchName} />
+                <Field label="Course" value={formatCourseType(data.courseType)} />
+                <Field label="Course Start Date" value={formatDate(data.courseStartDate)} />
+                <Field label="Course End Date" value={formatDate(data.courseEndDate)} />
+                <Field label="Training Completion Date" value={formatDate(data.completionDate)} />
+                <Field label="Completed Sessions" value={String(data.completedSessions)} />
+                <Field label="Phone" value={data.phone} />
+                <Field label="Learning Licence No" value={data.learningLicenceNo || '-'} />
+                <Field label="Generated Date" value={formatDate(data.generatedAt.slice(0, 10))} />
+              </View>
+            </View>
+
+            <View style={styles.detailColumn}>
+              <Text style={styles.sectionTitle}>Payment Details</Text>
+              <View style={styles.details}>
+                <Field label="Total Fee" value={formatPdfInrCurrency(data.payment.totalAmount)} />
+                <Field label="Total Paid" value={formatPdfInrCurrency(data.payment.paidAmount)} />
+                <Field label="Balance" value={formatPdfInrCurrency(data.payment.balance)} />
+                <Field label="Payment Status" value={data.payment.status} />
+              </View>
+
+              <View style={styles.signatureRow}>
+                <Text style={styles.signature}>Authorised Signature</Text>
+              </View>
+            </View>
           </View>
 
-          <Text style={styles.sectionTitle}>Payment Details</Text>
-          <View style={styles.details}>
-            <Field label="Total Fee" value={formatPdfInrCurrency(data.payment.totalAmount)} />
-            <Field label="Total Paid" value={formatPdfInrCurrency(data.payment.paidAmount)} />
-            <Field label="Balance" value={formatPdfInrCurrency(data.payment.balance)} />
-            <Field label="Payment Status" value={data.payment.status} />
-          </View>
-
-          <View style={styles.signatureRow}>
-            <Text style={styles.signature}>Authorised Signature</Text>
-          </View>
+          <Text style={styles.sectionTitle}>Attendance Details</Text>
+          <AttendanceTable rows={data.attendance} />
 
           <View style={styles.footer}>
             <Text>This certificate is generated from recorded training attendance.</Text>
           </View>
-        </View>
-      </Page>
-
-      <Page size="A4" style={styles.page}>
-        <View style={styles.border}>
-          <View style={styles.header}>
-            <Text style={styles.schoolName}>{data.branchName}</Text>
-            <Text style={styles.title}>Attendance Details</Text>
-          </View>
-          <Field label="Student Name" value={data.studentName} />
-          <Field label="Course" value={formatCourseType(data.courseType)} />
-          <Field label="Course Start Date" value={formatDate(data.courseStartDate)} />
-          <Field label="Course End Date" value={formatDate(data.courseEndDate)} />
-          <AttendanceTable rows={data.attendance} />
         </View>
       </Page>
     </Document>

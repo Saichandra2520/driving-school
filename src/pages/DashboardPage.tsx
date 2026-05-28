@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  AlertTriangle,
   ArrowDownLeft,
   ArrowUpRight,
   Banknote,
@@ -25,12 +24,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useCachedSubscription } from '@/hooks/useCachedData';
 import { dashboardService, type DashboardData } from '@/services/dashboardService';
 import { studentService } from '@/services/studentService';
-import { useAlertStore } from '@/store/alertStore';
 import { useAppStore } from '@/store/app-store';
 import { useAuthStore } from '@/store/authStore';
 import { cacheTags, createPageCacheKey, invalidatePageCache } from '@/store/pageCacheStore';
 import type {
-  AlertFilters,
   DashboardFilters,
   ExpenseCategory,
   MonthlyTransaction,
@@ -79,8 +76,6 @@ const emptyDashboard: DashboardData = {
 export function DashboardPage(): JSX.Element {
   const profile = useAuthStore((state) => state.profile);
   const selectedBranchId = useAppStore((state) => state.branchId);
-  const alerts = useAlertStore((state) => state.alerts);
-  const fetchAlerts = useAlertStore((state) => state.fetchAlerts);
   const [selectedStudent, setSelectedStudent] = useState<StudentWithFee | null>(null);
   const [isManualRefreshing, setIsManualRefreshing] = useState(false);
   const [isStudentLoading, setIsStudentLoading] = useState(false);
@@ -96,15 +91,6 @@ export function DashboardPage(): JSX.Element {
     };
   }, [profile, selectedBranchId]);
 
-  const alertFilters = useMemo<AlertFilters | null>(() => {
-    if (!profile) return null;
-
-    return {
-      role: profile.role,
-      userBranchId: profile.branchId ?? undefined,
-      branchId: profile.role === 'owner' ? selectedBranchId ?? 'all' : profile.branchId ?? undefined
-    };
-  }, [profile, selectedBranchId]);
   const dashboardCacheKey = useMemo(
     () =>
       createPageCacheKey('dashboard', {
@@ -154,16 +140,13 @@ export function DashboardPage(): JSX.Element {
 
     try {
       setCachedDashboard(await dashboardService.getDashboardData(filters));
-      if (alertFilters) {
-        await fetchAlerts(alertFilters);
-      }
     } catch (error) {
       console.error('Failed to load dashboard:', error);
       setErrorMessage(getFriendlyErrorMessage(error, 'Unable to load dashboard. Please check your connection and try again.'));
     } finally {
       setIsManualRefreshing(false);
     }
-  }, [alertFilters, fetchAlerts, filters, setCachedDashboard]);
+  }, [filters, setCachedDashboard]);
 
   useEffect(() => {
     if (!dashboardError) return;
@@ -171,10 +154,6 @@ export function DashboardPage(): JSX.Element {
     console.error('Failed to load dashboard:', dashboardError);
     setErrorMessage(getFriendlyErrorMessage(dashboardError, 'Unable to load dashboard. Please check your connection and try again.'));
   }, [dashboardError]);
-
-  useEffect(() => {
-    if (alertFilters) void fetchAlerts(alertFilters);
-  }, [alertFilters, fetchAlerts]);
 
   const handleViewStudent = async (studentId: string): Promise<void> => {
     setIsStudentLoading(true);
@@ -215,7 +194,6 @@ export function DashboardPage(): JSX.Element {
       ? 'Showing: Selected Branch'
       : 'Showing: All Branches'
     : 'Showing: Assigned Branch';
-  const openAlertCount = alerts.length;
 
   return (
     <section className="space-y-5">
@@ -263,13 +241,13 @@ export function DashboardPage(): JSX.Element {
             <StatCard
               label="This Month Net"
               value={formatCurrency(summary.monthlyNetAmount)}
-              helper={`${formatCurrency(summary.monthlyExpenses)} expenses, ${openAlertCount} alerts`}
+              helper={`${formatCurrency(summary.monthlyExpenses)} expenses this month`}
               tone={summary.monthlyNetAmount >= 0 ? 'good' : 'danger'}
               icon={<TrendingUp className="h-4 w-4" aria-hidden="true" />}
             />
           </div>
 
-          <div className="grid gap-3 lg:grid-cols-3">
+          <div className="grid gap-3 lg:grid-cols-2">
             <DashboardMetric
               icon={<Banknote className="h-4 w-4" aria-hidden="true" />}
               label="Total Fee Collected"
@@ -284,16 +262,9 @@ export function DashboardPage(): JSX.Element {
               detail={`${formatCurrency(summary.todayExpenses)} today`}
               tone="danger"
             />
-            <DashboardMetric
-              icon={<AlertTriangle className="h-4 w-4" aria-hidden="true" />}
-              label="Open Alerts"
-              value={String(openAlertCount)}
-              detail="Active reminders and notices"
-              tone={openAlertCount > 0 ? 'warning' : 'good'}
-            />
           </div>
 
-          <div className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(420px,0.9fr)]">
+          <div className="space-y-5">
             <MonthlyTransactionsTable transactions={dashboard.monthlyTransactions} />
             <PendingFeeStudentsTable
               students={dashboard.pendingFees}
@@ -360,6 +331,8 @@ function DashboardMetric({
 }
 
 function MonthlyTransactionsTable({ transactions }: { transactions: MonthlyTransaction[] }): JSX.Element {
+  const columns = splitIntoColumns(transactions);
+
   return (
     <Card className="overflow-hidden">
       <CardHeader className="flex-row items-start justify-between gap-4 border-b bg-muted/20 p-4">
@@ -376,42 +349,36 @@ function MonthlyTransactionsTable({ transactions }: { transactions: MonthlyTrans
         {transactions.length === 0 ? (
           <EmptyState title="No transactions this month." description="Payments and expenses will appear here after they are recorded." />
         ) : (
-          <div className="overflow-x-auto rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Details</TableHead>
-                  <TableHead>Branch</TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {transactions.map((transaction) => (
-                  <TableRow key={`${transaction.type}-${transaction.id}`}>
-                    <TableCell className="whitespace-nowrap">{formatDate(transaction.date)}</TableCell>
-                    <TableCell>
-                      <Badge variant={transaction.type === 'payment' ? 'success' : 'danger'}>
-                        {transaction.type === 'payment' ? 'Payment' : 'Expense'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="space-y-1">
-                        <p className="font-medium">
+          <div className="grid gap-3 lg:grid-cols-2">
+            {columns.filter((column) => column.length > 0).map((column, columnIndex) => (
+              <div key={columnIndex} className="overflow-hidden rounded-md border">
+                {column.map((transaction) => (
+                  <div
+                    key={`${transaction.type}-${transaction.id}`}
+                    className="flex items-start justify-between gap-4 border-b p-3 last:border-b-0 hover:bg-blue-50/60"
+                  >
+                    <div className="min-w-0 space-y-2">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Badge variant={transaction.type === 'payment' ? 'success' : 'danger'}>
+                          {transaction.type === 'payment' ? 'Payment' : 'Expense'}
+                        </Badge>
+                        <span className="text-xs font-medium text-muted-foreground">{formatDate(transaction.date)}</span>
+                        <span className="text-xs text-muted-foreground">{transaction.branchName ?? '-'}</span>
+                      </div>
+                      <div className="min-w-0">
+                        <p className="truncate font-medium text-main-text">
                           {transaction.type === 'expense' ? formatExpenseCategory(transaction.title as ExpenseCategory) : transaction.title}
                         </p>
-                        {transaction.detail ? <p className="text-xs text-muted-foreground">{transaction.detail}</p> : null}
+                        {transaction.detail ? <p className="truncate text-xs text-muted-foreground">{transaction.detail}</p> : null}
                       </div>
-                    </TableCell>
-                    <TableCell className="whitespace-nowrap text-muted-foreground">{transaction.branchName ?? '-'}</TableCell>
-                    <TableCell className={transaction.type === 'payment' ? 'whitespace-nowrap text-right font-semibold text-success' : 'whitespace-nowrap text-right font-semibold text-danger'}>
+                    </div>
+                    <p className={transaction.type === 'payment' ? 'shrink-0 whitespace-nowrap font-semibold text-success' : 'shrink-0 whitespace-nowrap font-semibold text-danger'}>
                       {transaction.type === 'payment' ? '+' : '-'}{formatCurrency(transaction.amount)}
-                    </TableCell>
-                  </TableRow>
+                    </p>
+                  </div>
                 ))}
-              </TableBody>
-            </Table>
+              </div>
+            ))}
           </div>
         )}
       </CardContent>
@@ -492,4 +459,9 @@ function getGreeting(): string {
   if (hour < 12) return 'Good morning';
   if (hour < 17) return 'Good afternoon';
   return 'Good evening';
+}
+
+function splitIntoColumns<T>(items: T[]): [T[], T[]] {
+  const midpoint = Math.ceil(items.length / 2);
+  return [items.slice(0, midpoint), items.slice(midpoint)];
 }

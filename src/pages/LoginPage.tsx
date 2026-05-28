@@ -35,7 +35,7 @@ export function LoginPage(): JSX.Element {
 
       setUser(user, profile);
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : 'Unable to sign in.');
+      setErrorMessage(getLoginErrorMessage(error));
     } finally {
       setIsSubmitting(false);
     }
@@ -88,4 +88,36 @@ export function LoginPage(): JSX.Element {
       </Card>
     </main>
   );
+}
+
+function getLoginErrorMessage(error: unknown): string {
+  const code = getErrorCode(error);
+
+  switch (code) {
+    case 'auth/invalid-email':
+      return 'Enter a valid email address.';
+    case 'auth/user-not-found':
+      return 'No account was found for this email address.';
+    case 'auth/wrong-password':
+      return 'The password is incorrect. Please try again.';
+    case 'auth/invalid-credential':
+      return 'The email address or password is incorrect. Please check both and try again.';
+    case 'auth/too-many-requests':
+      return 'Too many failed login attempts. Please wait a few minutes and try again.';
+    case 'auth/network-request-failed':
+      return 'Unable to connect. Please check your internet connection and try again.';
+    default:
+      return error instanceof Error && error.message
+        ? error.message
+        : 'Unable to sign in. Please check your email and password.';
+  }
+}
+
+function getErrorCode(error: unknown): string {
+  if (typeof error === 'object' && error !== null && 'code' in error) {
+    const code = (error as { code?: unknown }).code;
+    return typeof code === 'string' ? code : '';
+  }
+
+  return '';
 }

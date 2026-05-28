@@ -22,6 +22,7 @@ type DrivingTestCardProps = {
   courseType: DrivingTestCourseType;
   llIssueDate?: string | null;
   needsDrivingLicenceDetails?: boolean;
+  onStudentChanged?: () => void;
 };
 
 const attemptLabels: Record<number, string> = {
@@ -61,7 +62,8 @@ export function DrivingTestCard({
   branchId,
   courseType,
   llIssueDate,
-  needsDrivingLicenceDetails = false
+  needsDrivingLicenceDetails = false,
+  onStudentChanged
 }: DrivingTestCardProps): JSX.Element {
   const [drivingTest, setDrivingTest] = useState<DrivingTest | null>(null);
   const [editAttempt, setEditAttempt] = useState<DrivingTestAttempt | null>(null);
@@ -120,6 +122,10 @@ export function DrivingTestCard({
     setEditAttempt(null);
     setMessage(nextMessage);
     setErrorMessage('');
+
+    if (drivingTestService.getDrivingTestStatus(nextTest) === 'passed') {
+      onStudentChanged?.();
+    }
 
     try {
       setPassSuggestion(await drivingTestService.checkAndSuggestStudentPassed(studentId));

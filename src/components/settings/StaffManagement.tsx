@@ -72,9 +72,14 @@ export function StaffManagement(): JSX.Element {
     setErrorMessage(getFriendlyErrorMessage(staffError, 'Could not load staff users.'));
   }, [staffError]);
 
-  const handleSaved = async (successMessage: string): Promise<void> => {
+  const handleSaved = async (successMessage: string, updatedStaff?: StaffAccount): Promise<void> => {
     setModalState(null);
     setMessage(successMessage);
+    if (updatedStaff) {
+      setStaffProfiles((current) =>
+        current.map((staff) => (staff.id === updatedStaff.id ? { ...staff, ...updatedStaff } : staff))
+      );
+    }
     invalidatePageCache([cacheTags.settings, cacheTags.staff, cacheTags.branches]);
     await loadData(true);
   };
@@ -185,7 +190,7 @@ export function StaffManagement(): JSX.Element {
                 staff={modalState.staff}
                 branches={branches}
                 onCancel={() => setModalState(null)}
-                onSaved={(successMessage) => void handleSaved(successMessage)}
+                onSaved={(successMessage, updatedStaff) => void handleSaved(successMessage, updatedStaff)}
               />
             </DialogContent>
           ) : null}
@@ -324,7 +329,7 @@ function EditStaffForm({
   staff: StaffAccount;
   branches: Branch[];
   onCancel: () => void;
-  onSaved: (message: string) => void;
+  onSaved: (message: string, staff: StaffAccount) => void;
 }): JSX.Element {
   const [fullName, setFullName] = useState(staff.fullName ?? '');
   const [phone, setPhone] = useState(staff.phone ?? '');
@@ -336,16 +341,29 @@ function EditStaffForm({
     event.preventDefault();
     setErrorMessage('');
 
-    if (!fullName.trim()) return setErrorMessage('Full name is required.');
-    if (!phone.trim()) return setErrorMessage('Mobile number is required.');
-    if (phone.replace(/\D/g, '').length < 10) return setErrorMessage('Mobile number must have at least 10 digits.');
+    const nextFullName = fullName.trim();
+    const nextPhone = phone.trim();
+
+    if (!nextFullName) return setErrorMessage('Full name is required.');
+    if (!nextPhone) return setErrorMessage('Mobile number is required.');
+    if (nextPhone.replace(/\D/g, '').length < 10) return setErrorMessage('Mobile number must have at least 10 digits.');
     if (!branchId) return setErrorMessage('Branch is required.');
 
     setIsSaving(true);
 
     try {
-      await staffAccountService.updateStaffProfile(staff.id, { fullName: fullName, phone: phone, branchId: branchId });
-      onSaved('Staff profile saved successfully.');
+      await staffAccountService.updateStaffProfile(staff.id, {
+        fullName: nextFullName,
+        phone: nextPhone,
+        branchId
+      });
+      onSaved('Staff profile saved successfully.', {
+        ...staff,
+        fullName: nextFullName,
+        phone: nextPhone,
+        branchId,
+        branch: branches.find((branch) => branch.id === branchId) ?? staff.branch ?? null
+      });
     } catch (error) {
       setErrorMessage(getFriendlyErrorMessage(error, 'Could not save staff profile.'));
     } finally {

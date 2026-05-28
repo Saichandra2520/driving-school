@@ -11,13 +11,14 @@ import {
 } from 'firebase/firestore';
 import { authService } from '@/services/authService';
 import { BASE_TRAINING_SESSION_COUNT, COURSE_PARTS } from '@/constants/courses';
-import { courseExtensionService } from '@/services/courseExtensionService';
+import { calculateTrainingEntitlement, courseExtensionService } from '@/services/courseExtensionService';
 import { db } from '@/services/firebase';
 import { firebaseUsageService } from '@/services/firebaseUsageService';
 import { collections, getCollection, getDocument } from '@/services/firestoreUtils';
 import { calculateStudentExpiryDate, getCourseStartDate } from '@/utils/dateUtils';
 import type {
   ClassTypes,
+  CourseExtension,
   CourseType,
   Student,
   TrainingCourseType,
@@ -91,6 +92,43 @@ function normalizeSession(id: string, data: Omit<TrainingSession, 'id'>, slotCou
   };
 }
 
+function completedCount(session: TrainingSession): number {
+  return session.slots.filter((slot) => slot.date && slot.classType.trim()).length;
+}
+
+async function updateStudentStatusWhenTrainingCompleted(student: Student, updatedSession: TrainingSession): Promise<void> {
+  if (student.status === 'completed' || student.status === 'passed') return;
+
+  const [sessionsSnapshot, extensions] = await Promise.all([
+    getDocs(query(collection(db, collections.sessions), where('studentId', '==', student.id))),
+    getCollection<CourseExtension>(collections.courseExtensions, [where('studentId', '==', student.id)])
+  ]);
+  firebaseUsageService.trackUsage('reads', Math.max(sessionsSnapshot.docs.length, 1));
+
+  const sessionsByCourse = new Map<TrainingCourseType, TrainingSession>();
+  sessionsSnapshot.docs.forEach((item) => {
+    const session = item.id === updatedSession.id
+      ? updatedSession
+      : normalizeSession(item.id, item.data() as Omit<TrainingSession, 'id'>);
+    sessionsByCourse.set(session.courseType, session);
+  });
+  sessionsByCourse.set(updatedSession.courseType, updatedSession);
+
+  const isTrainingCompleted = COURSE_PARTS[student.courseType].every((courseType) => {
+    const session = sessionsByCourse.get(courseType);
+    const entitlement = calculateTrainingEntitlement(student, extensions, courseType);
+    return Boolean(session && completedCount(session) >= entitlement.allowedSessions);
+  });
+
+  if (!isTrainingCompleted) return;
+
+  await updateDoc(doc(db, collections.students, student.id), {
+    status: 'completed',
+    completedAt: serverTimestamp()
+  });
+  firebaseUsageService.trackUsage('writes');
+}
+
 export function getNextEmptySlot(slots: SessionSlot[]): SessionSlot | null {
   return slots.find((slot) => !slot.date && !slot.classType.trim()) ?? null;
 }
@@ -125,6 +163,12 @@ async function assertCanAccessSession(session: TrainingSession): Promise<Student
   }
 
   return student;
+}
+
+function assertTrainingCanBeMarked(student: Student): void {
+  if (student.status === 'passed' || student.drivingLicenceNo?.trim()) {
+    throw new Error('Attendance cannot be marked for a passed student.');
+  }
 }
 
 async function assertSessionDateInTrainingPeriod(
@@ -219,6 +263,7 @@ export const sessionService = {
 
     const normalized = normalizeSession(session.id, session);
     const student = await assertCanAccessSession(normalized);
+    assertTrainingCanBeMarked(student);
     await assertSessionDateInTrainingPeriod(student, normalized, payload.date);
     const slots = normalized.slots.map((slot) =>
       slot.slotNo === slotNo
@@ -239,10 +284,13 @@ export const sessionService = {
     });
     firebaseUsageService.trackUsage('writes');
 
-    return {
+    const updatedSession = {
       ...normalized,
       slots
     };
+    await updateStudentStatusWhenTrainingCompleted(student, updatedSession);
+
+    return updatedSession;
   },
 
   async quickMarkNextSession(
@@ -256,9 +304,10 @@ export const sessionService = {
     if (!session) throw new Error('Unable to load training card.');
     const normalizedSession = normalizeSession(session.id, session);
     const student = await assertCanAccessSession(normalizedSession);
+    assertTrainingCanBeMarked(student);
     await assertSessionDateInTrainingPeriod(student, normalizedSession, payload.date);
 
-    return runTransaction(db, async (transaction) => {
+    const updatedSession = await runTransaction(db, async (transaction) => {
       const sessionRef = doc(db, collections.sessions, sessionId);
       const snapshot = await transaction.get(sessionRef);
       firebaseUsageService.trackUsage('reads');
@@ -292,6 +341,9 @@ export const sessionService = {
         slots
       };
     });
+    await updateStudentStatusWhenTrainingCompleted(student, updatedSession);
+
+    return updatedSession;
   },
 
   async quickMarkNextSessionFast(
@@ -306,9 +358,10 @@ export const sessionService = {
     if (!session) throw new Error('Unable to load training card.');
     const normalizedSession = normalizeSession(session.id, session, slotCount);
     const student = await assertCanAccessSession(normalizedSession);
+    assertTrainingCanBeMarked(student);
     await assertSessionDateInTrainingPeriod(student, normalizedSession, payload.date);
 
-    return runTransaction(db, async (transaction) => {
+    const updatedSession = await runTransaction(db, async (transaction) => {
       const sessionRef = doc(db, collections.sessions, sessionId);
       const snapshot = await transaction.get(sessionRef);
       firebaseUsageService.trackUsage('reads');
@@ -342,6 +395,9 @@ export const sessionService = {
         slots
       };
     });
+    await updateStudentStatusWhenTrainingCompleted(student, updatedSession);
+
+    return updatedSession;
   },
 
   async getClassTypes(branchId: string, courseType: TrainingCourseType): Promise<string[]> {

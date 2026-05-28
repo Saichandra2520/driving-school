@@ -17,6 +17,7 @@ import {
 } from 'firebase/firestore';
 import { authService } from '@/services/authService';
 import { BASE_TRAINING_SESSION_COUNT, COURSE_COMPLETION_DAYS, COURSE_PARTS } from '@/constants/courses';
+import { calculateTrainingEntitlement } from '@/services/courseExtensionService';
 import { db } from '@/services/firebase';
 import { firebaseUsageService } from '@/services/firebaseUsageService';
 import { pendingPaymentService } from '@/services/pendingPaymentService';
@@ -28,6 +29,7 @@ import { assertValidStudentInput } from '@/utils/studentValidation';
 import type {
   Branch,
   CourseType,
+  CourseExtension,
   CreateStudentPayload,
   DrivingTest,
   Fee,
@@ -35,6 +37,7 @@ import type {
   Student,
   StudentStatus,
   StudentWithFee,
+  TrainingCourseType,
   UpdateStudentPayload
 } from '@/types';
 
@@ -253,13 +256,19 @@ async function getStudentFees(studentIds: string[]): Promise<Map<string, Fee>> {
 
 async function attachFeeAndBranch(student: Student, branches: Branch[]): Promise<StudentWithFee> {
   const fee = await getStudentFee(student.id);
-  return attachFeeAndBranchWithFee(student, branches, fee);
+  const [sessions, extensions] = await Promise.all([
+    getCollection<Session>(collections.sessions, [where('studentId', '==', student.id)]),
+    getCollection<CourseExtension>(collections.courseExtensions, [where('studentId', '==', student.id)])
+  ]);
+  return attachFeeAndBranchWithFee(student, branches, fee, sessions, extensions);
 }
 
 async function attachFeeAndBranchWithFee(
   student: Student,
   branches: Branch[],
-  fee: Fee | null
+  fee: Fee | null,
+  sessions: Session[] = [],
+  extensions: CourseExtension[] = []
 ): Promise<StudentWithFee> {
   const mergedFee = pendingPaymentService.applyPendingPaymentsToFee(fee, student.id);
   const totalAmount = Number(mergedFee?.totalAmount ?? 0);
@@ -268,10 +277,19 @@ async function attachFeeAndBranchWithFee(
   const durationDays = COURSE_COMPLETION_DAYS;
   const courseStartDate = getCourseStartDate(student);
   const expiryDate = calculateStudentExpiryDate(courseStartDate, durationDays);
+  const status = deriveStatusWithTrainingProgress(student, sessions, extensions);
+
+  if (status === 'completed' && student.status !== 'completed') {
+    await updateDoc(doc(db, collections.students, student.id), {
+      status: 'completed',
+      completedAt: serverTimestamp()
+    });
+    firebaseUsageService.trackUsage('writes');
+  }
 
   return {
     ...student,
-    status: deriveStudentStatus(student),
+    status,
     durationDays,
     baseSessionCount: student.baseSessionCount ?? BASE_TRAINING_SESSION_COUNT,
     baseDurationDays: durationDays,
@@ -284,6 +302,34 @@ async function attachFeeAndBranchWithFee(
     daysRemaining: getDaysRemaining(expiryDate),
     fee: mergedFee
   };
+}
+
+function completedSessionCount(session: Session): number {
+  return session.slots.filter((slot) => slot.date && slot.classType.trim()).length;
+}
+
+function deriveStatusWithTrainingProgress(
+  student: Student,
+  sessions: Session[],
+  extensions: CourseExtension[]
+): StudentStatus {
+  const status = deriveStudentStatus(student);
+  if (status === 'passed' || status === 'completed') return status;
+  if (status !== 'ongoing' && status !== 'extended') return status;
+
+  const sessionsByCourse = new Map<TrainingCourseType, Session>();
+  sessions
+    .filter((session) => session.studentId === student.id)
+    .forEach((session) => sessionsByCourse.set(session.courseType, session));
+
+  const studentExtensions = extensions.filter((extension) => extension.studentId === student.id);
+  const isTrainingCompleted = COURSE_PARTS[student.courseType].every((courseType) => {
+    const session = sessionsByCourse.get(courseType);
+    const entitlement = calculateTrainingEntitlement(student, studentExtensions, courseType);
+    return Boolean(session && completedSessionCount(session) >= entitlement.allowedSessions);
+  });
+
+  return isTrainingCompleted ? 'completed' : status;
 }
 
 async function existingCourseDocs<T extends Session | DrivingTest>(
@@ -331,9 +377,19 @@ export const studentService = {
       const pageDocs = snapshot.docs.slice(0, pageSize);
       const hasNextPage = snapshot.docs.length > pageSize;
       const students = pageDocs.map((item) => ({ id: item.id, ...item.data() }) as Student);
-      const feesByStudent = await getStudentFees(students.map((student) => student.id));
+      const [feesByStudent, sessions, extensions] = await Promise.all([
+        getStudentFees(students.map((student) => student.id)),
+        getCollection<Session>(collections.sessions, effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : []),
+        getCollection<CourseExtension>(collections.courseExtensions, effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : [])
+      ]);
       const rows = await Promise.all(
-        students.map((student) => attachFeeAndBranchWithFee(student, branches, feesByStudent.get(student.id) ?? null))
+        students.map((student) => attachFeeAndBranchWithFee(
+          student,
+          branches,
+          feesByStudent.get(student.id) ?? null,
+          sessions.filter((session) => session.studentId === student.id),
+          extensions.filter((extension) => extension.studentId === student.id)
+        ))
       );
       const sortedRows = sortPageRows(rows, filters.sortField, filters.sortDirection);
       const startItem = rows.length === 0 ? 0 : (pageNumber - 1) * pageSize + 1;
@@ -381,9 +437,19 @@ export const studentService = {
       return true;
     });
     const students = visibleDocs.map((item) => ({ id: item.id, ...item.data() }) as Student);
-    const feesByStudent = await getStudentFees(students.map((student) => student.id));
+    const [feesByStudent, sessions, extensions] = await Promise.all([
+      getStudentFees(students.map((student) => student.id)),
+      getCollection<Session>(collections.sessions, effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : []),
+      getCollection<CourseExtension>(collections.courseExtensions, effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : [])
+    ]);
     const rows = await Promise.all(
-      students.map((student) => attachFeeAndBranchWithFee(student, branches, feesByStudent.get(student.id) ?? null))
+      students.map((student) => attachFeeAndBranchWithFee(
+        student,
+        branches,
+        feesByStudent.get(student.id) ?? null,
+        sessions.filter((session) => session.studentId === student.id),
+        extensions.filter((extension) => extension.studentId === student.id)
+      ))
     );
     const sortedRows = sortPageRows(rows, filters.sortField ?? 'createdAt', filters.sortDirection);
     const pagedRows = sortedRows.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
@@ -422,7 +488,18 @@ export const studentService = {
       ? courseFilteredStudents.filter((student) => studentMatchesSearch(student, search))
       : courseFilteredStudents;
 
-    const studentsWithFee = await Promise.all(students.map((student) => attachFeeAndBranch(student, branches)));
+    const [feesByStudent, sessions, extensions] = await Promise.all([
+      getStudentFees(students.map((student) => student.id)),
+      getCollection<Session>(collections.sessions, effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : []),
+      getCollection<CourseExtension>(collections.courseExtensions, effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : [])
+    ]);
+    const studentsWithFee = await Promise.all(students.map((student) => attachFeeAndBranchWithFee(
+      student,
+      branches,
+      feesByStudent.get(student.id) ?? null,
+      sessions.filter((session) => session.studentId === student.id),
+      extensions.filter((extension) => extension.studentId === student.id)
+    )));
 
     return filters.status && filters.status !== 'all'
       ? studentsWithFee.filter((student) => student.status === filters.status)
@@ -439,13 +516,17 @@ export const studentService = {
     let latestStudents: Student[] = [];
     let latestFees: Fee[] = [];
     let latestBranches: Branch[] = [];
+    let latestSessions: Session[] = [];
+    let latestExtensions: CourseExtension[] = [];
     let studentsLoaded = false;
     let feesLoaded = false;
     let branchesLoaded = false;
+    let sessionsLoaded = false;
+    let extensionsLoaded = false;
 
     const emit = async (): Promise<void> => {
       if (!isActive) return;
-      if (!studentsLoaded || !feesLoaded || !branchesLoaded) return;
+      if (!studentsLoaded || !feesLoaded || !branchesLoaded || !sessionsLoaded || !extensionsLoaded) return;
 
       const search = normalizeSearch(filters.search ?? '');
       const courseFilteredStudents = latestStudents.filter((student) => matchesCourseFilter(student, filters.courseType));
@@ -455,7 +536,13 @@ export const studentService = {
 
       const feesByStudent = new Map(latestFees.map((fee) => [fee.studentId, fee]));
       const rows = await Promise.all(
-        students.map((student) => attachFeeAndBranchWithFee(student, latestBranches, feesByStudent.get(student.id) ?? null))
+        students.map((student) => attachFeeAndBranchWithFee(
+          student,
+          latestBranches,
+          feesByStudent.get(student.id) ?? null,
+          latestSessions.filter((session) => session.studentId === student.id),
+          latestExtensions.filter((extension) => extension.studentId === student.id)
+        ))
       );
       const filtered = filters.status && filters.status !== 'all'
         ? rows.filter((student) => student.status === filters.status)
@@ -510,6 +597,28 @@ export const studentService = {
           },
           onError,
           'branches:all'
+        ),
+        subscribeCollection<Session>(
+          collections.sessions,
+          scopedByBranch,
+          ({ rows }) => {
+            sessionsLoaded = true;
+            latestSessions = rows;
+            void emit();
+          },
+          onError,
+          `sessions:students:${effectiveBranchId ?? 'all'}`
+        ),
+        subscribeCollection<CourseExtension>(
+          collections.courseExtensions,
+          scopedByBranch,
+          ({ rows }) => {
+            extensionsLoaded = true;
+            latestExtensions = rows;
+            void emit();
+          },
+          onError,
+          `extensions:students:${effectiveBranchId ?? 'all'}`
         )
       ];
 
