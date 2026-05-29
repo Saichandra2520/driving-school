@@ -1482,6 +1482,9 @@ video {
 .placeholder\:text-muted-foreground::placeholder {
   color: hsl(var(--muted-foreground));
 }
+.last\:border-b-0:last-child {
+  border-bottom-width: 0px;
+}
 .hover\:border-primary\/30:hover {
   border-color: hsl(var(--primary) / 0.3);
 }
@@ -1652,6 +1655,10 @@ video {
     grid-column: span 3 / span 3;
   }
 
+  .lg\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .lg\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -1688,10 +1695,6 @@ video {
 
   .xl\:grid-cols-\[1fr_170px\] {
     grid-template-columns: 1fr 170px;
-  }
-
-  .xl\:grid-cols-\[minmax\(0\2c 1\.45fr\)_minmax\(420px\2c 0\.9fr\)\] {
-    grid-template-columns: minmax(0,1.45fr) minmax(420px,0.9fr);
   }
 
   .xl\:grid-cols-\[minmax\(340px\2c 430px\)_1fr\] {

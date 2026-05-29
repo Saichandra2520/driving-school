@@ -78,18 +78,35 @@ async function getVisibleBranches(branchId: string | null): Promise<Branch[]> {
   return branch ? [branch] : [];
 }
 
+async function getVisibleFees(branchId: string | null, students: Student[]): Promise<Fee[]> {
+  if (!branchId) {
+    return getCollection<Fee>(collections.fees);
+  }
+
+  if (students.length === 0) return [];
+
+  const studentIds = students.map((student) => student.id);
+  const chunks = Array.from({ length: Math.ceil(studentIds.length / 30) }, (_, index) =>
+    studentIds.slice(index * 30, index * 30 + 30)
+  );
+
+  return (await Promise.all(
+    chunks.map((chunk) => getCollection<Fee>(collections.fees, [where('studentId', 'in', chunk)]))
+  )).flat();
+}
+
 async function getVisibleData(branchId: string | null): Promise<{
   branches: Branch[];
   students: StudentFeeRow[];
   fees: Fee[];
   expenses: Expense[];
 }> {
-  const [branches, studentsRaw, feesRaw, expenses] = await Promise.all([
+  const [branches, studentsRaw, expenses] = await Promise.all([
     getVisibleBranches(branchId),
     getCollection<Student>(collections.students, [...(branchId ? [where('branchId', '==', branchId)] : [])]),
-    getCollection<Fee>(collections.fees, [...(branchId ? [where('branchId', '==', branchId)] : [])]),
     getCollection<Expense>(collections.expenses, [...(branchId ? [where('branchId', '==', branchId)] : [])])
   ]);
+  const feesRaw = await getVisibleFees(branchId, studentsRaw);
   const branchNames = getBranchNameMap(branches);
   const feesByStudent = new Map(feesRaw.map((fee) => [fee.studentId, normalizeFee(fee)]));
   const students = studentsRaw.map((student) => ({
@@ -151,7 +168,10 @@ function buildVisibleData(
 } {
   const branches = branchId ? branchesRaw.filter((branch) => branch.id === branchId) : branchesRaw;
   const branchNames = getBranchNameMap(branches);
-  const fees = feesRaw.map(normalizeFee);
+  const visibleStudentIds = new Set(studentsRaw.map((student) => student.id));
+  const fees = feesRaw
+    .filter((fee) => !branchId || fee.branchId === branchId || visibleStudentIds.has(fee.studentId))
+    .map(normalizeFee);
   const feesByStudent = new Map(fees.map((fee) => [fee.studentId, fee]));
   const students = studentsRaw.map((student) => ({
     ...student,
@@ -201,6 +221,7 @@ function computeDashboardData(data: {
     ...fees.flatMap((fee) => {
       const student = studentsById.get(fee.studentId);
       if (!student) return [];
+      const paymentBranchId = fee.branchId || student.branchId;
 
       return fee.installments
         .filter((installment) => installment.date.startsWith(currentMonth))
@@ -209,8 +230,8 @@ function computeDashboardData(data: {
           type: 'payment' as const,
           title: student.fullName,
           detail: installment.receiptNo ? `Receipt ${installment.receiptNo}` : 'Fee payment',
-          branchId: fee.branchId,
-          branchName: branchNames.get(fee.branchId),
+          branchId: paymentBranchId,
+          branchName: branchNames.get(paymentBranchId),
           amount: Number(installment.amount ?? 0),
           date: installment.date
         }));
@@ -293,12 +314,13 @@ function computeDashboardData(data: {
       .flatMap((fee) => {
         const student = studentsById.get(fee.studentId);
         if (!student) return [];
+        const paymentBranchId = fee.branchId || student.branchId;
 
         return fee.installments.map((installment) => ({
           studentId: fee.studentId,
           studentName: student.fullName,
-          branchId: fee.branchId,
-          branchName: branchNames.get(fee.branchId),
+          branchId: paymentBranchId,
+          branchName: branchNames.get(paymentBranchId),
           receiptNo: installment.receiptNo,
           amount: Number(installment.amount ?? 0),
           date: installment.date,
@@ -380,18 +402,7 @@ export const dashboardService = {
 
       const branchScoped = branchId ? [where('branchId', '==', branchId)] : [];
       const scopeKey = `branch=${branchId ?? 'all'}`;
-      const unsubscribers = [
-        subscribeCollection<Branch>(
-          collections.branches,
-          [],
-          ({ rows }) => {
-            branchesLoaded = true;
-            latestBranches = rows;
-            emit(branchId);
-          },
-          onError,
-          'branches:all'
-        ),
+      const unsubscribers: Array<() => void> = [
         subscribeCollection<Student>(
           collections.students,
           branchScoped,
@@ -426,6 +437,30 @@ export const dashboardService = {
           `expenses:dashboard:${scopeKey}`
         )
       ];
+
+      if (branchId) {
+        void getDocument<Branch>(collections.branches, branchId)
+          .then((branch) => {
+            branchesLoaded = true;
+            latestBranches = branch ? [branch] : [];
+            emit(branchId);
+          })
+          .catch((error) => onError?.(error instanceof Error ? error : new Error('Could not load branch.')));
+      } else {
+        unsubscribers.push(
+          subscribeCollection<Branch>(
+            collections.branches,
+            [],
+            ({ rows }) => {
+              branchesLoaded = true;
+              latestBranches = rows;
+              emit(branchId);
+            },
+            onError,
+            'branches:all'
+          )
+        );
+      }
 
       cleanup = (): void => unsubscribers.forEach((unsubscribe) => unsubscribe());
     });

@@ -55,8 +55,7 @@ const today = getTodayDateInputValue();
 const viewOptions: Array<{ value: AttendanceView; label: string }> = [
   { value: 'all', label: 'All' },
   { value: 'pending', label: 'Pending' },
-  { value: 'marked', label: 'Marked' },
-  { value: 'completed', label: 'Completed' }
+  { value: 'marked', label: 'Marked' }
 ];
 
 export function AttendancePage(): JSX.Element {
@@ -635,7 +634,6 @@ export function AttendancePage(): JSX.Element {
                             onToggleSelected={() => toggleSelected(row)}
                             onUpdateForm={updateForm}
                             onMarkPresent={() => void handleMarkPresent(row)}
-                            onQuickMark={() => void handleMarkPresent(row)}
                           />
                         </div>
                       );
@@ -676,8 +674,7 @@ function AttendanceChecklistItem({
   onToggle,
   onToggleSelected,
   onUpdateForm,
-  onMarkPresent,
-  onQuickMark
+  onMarkPresent
 }: {
   row: AttendanceRow;
   rowKeyValue: string;
@@ -692,7 +689,6 @@ function AttendanceChecklistItem({
   onToggleSelected: () => void;
   onUpdateForm: (rowKey: string, patch: Partial<RowFormState>) => void;
   onMarkPresent: () => void;
-  onQuickMark: () => void;
 }): JSX.Element {
   const progressPercent = Math.min(100, Math.round((row.completedSessions / row.allowedSessions) * 100));
   const lastClass = row.lastClassType ? `${row.lastClassType}${row.lastSessionDate ? ` - ${formatDate(row.lastSessionDate)}` : ''}` : '-';
@@ -702,7 +698,7 @@ function AttendanceChecklistItem({
       <div
         role="button"
         tabIndex={0}
-        className="grid w-full gap-3 px-4 py-3 text-left transition-colors hover:bg-blue-50/50 lg:grid-cols-[36px_minmax(240px,1.4fr)_140px_150px_170px_190px_32px]"
+        className="grid w-full gap-3 px-4 py-3 text-left transition-colors hover:bg-blue-50/50 lg:grid-cols-[36px_minmax(240px,1.4fr)_140px_150px_170px_32px]"
         onClick={onToggle}
         onKeyDown={(event) => {
           if (event.key === 'Enter' || event.key === ' ') onToggle();
@@ -750,15 +746,6 @@ function AttendanceChecklistItem({
           <p className="mt-1 truncate font-medium text-main-text">{lastClass}</p>
           {row.selectedDateSessionCount > 0 ? (
             <p className="mt-1 truncate text-xs text-success">{row.selectedDateSessionCount} on selected date</p>
-          ) : null}
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2 lg:justify-end" onClick={(event) => event.stopPropagation()}>
-          {!row.isCompleted ? (
-            <Button type="button" size="sm" className="w-full sm:w-auto" onClick={onQuickMark} disabled={isSaving}>
-              <CheckCircle2 className="mr-2 h-4 w-4" aria-hidden="true" />
-              {isSaving ? 'Saving...' : 'Quick Mark'}
-            </Button>
           ) : null}
         </div>
 
@@ -906,7 +893,6 @@ function getAttendanceSummary(rows: AttendanceRow[]): {
 function matchesAttendanceView(row: AttendanceRow, view: AttendanceView): boolean {
   if (view === 'pending') return !row.isCompleted && !row.isMarkedOnSelectedDate;
   if (view === 'marked') return row.isMarkedOnSelectedDate;
-  if (view === 'completed') return row.isCompleted;
   return true;
 }
 

@@ -18,6 +18,7 @@ export function AccountPage(): JSX.Element {
   const setUser = useAuthStore((state) => state.setUser);
   const restoreSession = useAuthStore((state) => state.restoreSession);
   const canChangePassword = profile?.role === 'owner';
+  const canEditName = profile?.role === 'owner';
   const [isEditingName, setIsEditingName] = useState(false);
   const [fullName, setFullName] = useState(profile?.fullName ?? '');
   const [currentPassword, setCurrentPassword] = useState('');
@@ -134,7 +135,7 @@ export function AccountPage(): JSX.Element {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0">
           <CardTitle className="text-lg">My Profile</CardTitle>
-          {!isEditingName ? (
+          {canEditName && !isEditingName ? (
             <Button
               type="button"
               variant="outline"
@@ -152,7 +153,7 @@ export function AccountPage(): JSX.Element {
           ) : null}
         </CardHeader>
         <CardContent className="grid gap-4 sm:grid-cols-2">
-          {isEditingName ? (
+          {canEditName && isEditingName ? (
             <form className="space-y-3 sm:col-span-2" onSubmit={handleNameSubmit}>
               <div className="space-y-2">
                 <Label htmlFor="account-name">Name</Label>

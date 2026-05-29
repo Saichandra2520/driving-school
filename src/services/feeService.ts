@@ -93,7 +93,7 @@ export function recalculateFee(fee: Fee): Fee {
 async function saveInstallmentOnline(
   studentId: string,
   payload: AddInstallmentPayload,
-  options: { clientPaymentId?: string; createdAt?: string } = {}
+  options: { branchId?: string; clientPaymentId?: string; createdAt?: string } = {}
 ): Promise<Fee> {
   const feeId = await getFeeReferenceByStudentId(studentId);
 
@@ -125,8 +125,10 @@ async function saveInstallmentOnline(
     const nextInstallments = [...currentFee.installments, installment];
     const paidAmount = nextInstallments.reduce((total, item) => total + Number(item.amount), 0);
     const balance = Number(currentFee.totalAmount) - paidAmount;
+    const branchId = currentFee.branchId || options.branchId || '';
 
     transaction.update(doc(db, collections.fees, fee.id), {
+      branchId,
       installments: nextInstallments,
       paidAmount,
       balance
@@ -135,6 +137,7 @@ async function saveInstallmentOnline(
 
     return {
       ...currentFee,
+      branchId,
       installments: nextInstallments,
       paidAmount,
       balance
@@ -184,7 +187,7 @@ export const feeService = {
       }
     }
 
-    return saveInstallmentOnline(studentId, payload);
+    return saveInstallmentOnline(studentId, payload, { branchId: student.branchId });
   },
 
   async updateInstallment(
@@ -297,7 +300,7 @@ export const feeService = {
       pendingPaymentService.markSyncing(payment.id);
 
       try {
-        await assertCanManageStudent(payment.studentId);
+        const student = await assertCanManageStudent(payment.studentId);
         await saveInstallmentOnline(
           payment.studentId,
           {
@@ -306,6 +309,7 @@ export const feeService = {
             notes: payment.notes
           },
           {
+            branchId: student.branchId,
             clientPaymentId: payment.id,
             createdAt: payment.createdAt
           }

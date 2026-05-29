@@ -561,7 +561,7 @@ export const studentService = {
         orderBy('enrollmentDate', 'desc')
       ];
       const scopedByBranch = effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : [];
-      const unsubscribers = [
+      const unsubscribers: Array<() => void> = [
         pendingPaymentService.subscribe(() => {
           void emit();
         }),
@@ -587,17 +587,6 @@ export const studentService = {
           onError,
           `fees:${effectiveBranchId ?? 'all'}`
         ),
-        subscribeCollection<Branch>(
-          collections.branches,
-          [],
-          ({ rows }) => {
-            branchesLoaded = true;
-            latestBranches = effectiveBranchId ? rows.filter((branch) => branch.id === effectiveBranchId) : rows;
-            void emit();
-          },
-          onError,
-          'branches:all'
-        ),
         subscribeCollection<Session>(
           collections.sessions,
           scopedByBranch,
@@ -621,6 +610,30 @@ export const studentService = {
           `extensions:students:${effectiveBranchId ?? 'all'}`
         )
       ];
+
+      if (effectiveBranchId) {
+        void getDocument<Branch>(collections.branches, effectiveBranchId)
+          .then((branch) => {
+            branchesLoaded = true;
+            latestBranches = branch ? [branch] : [];
+            void emit();
+          })
+          .catch((error) => onError?.(error instanceof Error ? error : new Error('Could not load branch.')));
+      } else {
+        unsubscribers.push(
+          subscribeCollection<Branch>(
+            collections.branches,
+            [],
+            ({ rows }) => {
+              branchesLoaded = true;
+              latestBranches = rows;
+              void emit();
+            },
+            onError,
+            'branches:all'
+          )
+        );
+      }
 
       cleanup = (): void => unsubscribers.forEach((unsubscribe) => unsubscribe());
     });

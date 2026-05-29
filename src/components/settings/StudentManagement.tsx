@@ -78,7 +78,8 @@ export function StudentManagement(): JSX.Element | null {
     error: loadError,
     isLoading,
     isRefreshing,
-    refresh: refreshStudents
+    refresh: refreshStudents,
+    setCachedData: setCachedStudentsPage
   } = useCachedAsync<StudentsPageResult>({
     cacheKey: pageCacheKey,
     enabled: hasSearch,
@@ -129,10 +130,22 @@ export function StudentManagement(): JSX.Element | null {
 
     setMessage('');
     setErrorMessage('');
+    const deletedStudentId = deleteTarget.id;
 
     try {
-      await studentService.deleteStudent(deleteTarget.id);
+      await studentService.deleteStudent(deletedStudentId);
       setDeleteTarget(null);
+      if (studentsPage) {
+        const rows = studentsPage.rows.filter((student) => student.id !== deletedStudentId);
+        setCachedStudentsPage({
+          rows,
+          pageInfo: {
+            ...studentsPage.pageInfo,
+            endItem: rows.length === 0 ? 0 : Math.max(studentsPage.pageInfo.startItem, studentsPage.pageInfo.endItem - 1),
+            startItem: rows.length === 0 ? 0 : studentsPage.pageInfo.startItem
+          }
+        });
+      }
       setMessage('Student deleted successfully.');
       invalidateStudentRelatedCache();
       await refresh(true);

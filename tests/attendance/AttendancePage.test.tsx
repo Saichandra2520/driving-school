@@ -165,14 +165,17 @@ describe('AttendancePage', () => {
     expect(screen.getByText('Charu Mehta')).toBeInTheDocument();
     expect(screen.getByText('Deepak Singh')).toBeInTheDocument();
     expect(screen.getByText('Total Visible')).toBeInTheDocument();
-    expect(screen.getAllByText('Extension Needed').length).toBeGreaterThan(0);
+    expect(screen.queryByRole('button', { name: 'Completed' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Quick Mark/i })).not.toBeInTheDocument();
+    expect(screen.getAllByText('Completed').length).toBeGreaterThan(0);
   });
 
-  it('quick marks a pending row with default row values', async () => {
+  it('marks a pending row with default row values after expanding it', async () => {
     render(<AttendancePage />);
 
     await screen.findByText('Amit Kumar');
-    fireEvent.click(getButtonByText('Quick Mark', 0));
+    fireEvent.click(screen.getByText('Amit Kumar'));
+    fireEvent.click(getButtonByText('Mark Present'));
 
     await waitFor(() => {
       expect(attendanceService.markAttendance).toHaveBeenCalledWith(
@@ -192,7 +195,8 @@ describe('AttendancePage', () => {
     render(<AttendancePage />);
 
     await screen.findByText('Bhavna Shah');
-    fireEvent.click(getButtonByText('Quick Mark', 1));
+    fireEvent.click(screen.getByText('Bhavna Shah'));
+    fireEvent.click(getButtonByText('Mark Present'));
 
     expect(await screen.findByText('Duplicate Attendance Date')).toBeInTheDocument();
     expect(attendanceService.markAttendance).not.toHaveBeenCalled();
@@ -213,7 +217,8 @@ describe('AttendancePage', () => {
     render(<AttendancePage />);
 
     await screen.findByText('Bhavna Shah');
-    fireEvent.click(getButtonByText('Quick Mark', 1));
+    fireEvent.click(screen.getByText('Bhavna Shah'));
+    fireEvent.click(getButtonByText('Mark Present'));
     await screen.findByText('Duplicate Attendance Date');
 
     await user.click(screen.getByRole('button', { name: 'Cancel' }));
@@ -261,13 +266,14 @@ describe('AttendancePage', () => {
     expect(screen.getByText('Bulk Attendance (1)')).toBeInTheDocument();
   });
 
-  it('shows extension action and disables selection for completed rows', async () => {
+  it('disables selection and marking for completed rows', async () => {
     render(<AttendancePage />);
 
     await screen.findByText('Charu Mehta');
+    fireEvent.click(screen.getByText('Charu Mehta'));
 
     expect(screen.getByLabelText('Select Charu Mehta')).toBeDisabled();
-    expect(getButtonByText('Extend')).toBeInTheDocument();
+    expect(getButtonByText('Completed')).toBeDisabled();
   });
 
   it('shows a retry state when attendance rows fail to load', async () => {

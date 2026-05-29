@@ -125,4 +125,21 @@ describe('feeService', () => {
     expect(updatePayload.installments[0]).not.toHaveProperty('clientPaymentId');
     expect(hasUndefined(updatePayload)).toBe(false);
   });
+
+  it('repairs missing fee branchId from the student branch when adding an installment', async () => {
+    transactionGetMock.mockResolvedValue({
+      id: 'fee-1',
+      exists: () => true,
+      data: () => ({ ...feeDocumentData, branchId: '' })
+    });
+
+    await feeService.addInstallment('student-1', {
+      amount: 250,
+      date: '2026-05-23'
+    });
+
+    expect(transactionUpdateMock.mock.calls[0][1]).toEqual(expect.objectContaining({
+      branchId: 'branch-1'
+    }));
+  });
 });

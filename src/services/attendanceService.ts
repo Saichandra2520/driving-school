@@ -243,18 +243,7 @@ export const attendanceService = {
 
       const branchScoped = branchId ? [where('branchId', '==', branchId)] : [];
       const queryKey = `branch=${branchId ?? 'all'}`;
-      const unsubscribers = [
-        subscribeCollection<Branch>(
-          collections.branches,
-          [],
-          ({ rows }) => {
-            branchesLoaded = true;
-            latestBranches = branchId ? rows.filter((branch) => branch.id === branchId) : rows;
-            void emit();
-          },
-          onError,
-          'branches:all'
-        ),
+      const unsubscribers: Array<() => void> = [
         subscribeCollection<Student>(
           collections.students,
           branchScoped,
@@ -289,6 +278,30 @@ export const attendanceService = {
           `extensions:attendance:${branchId ?? 'all'}`
         )
       ];
+
+      if (branchId) {
+        void getDocument<Branch>(collections.branches, branchId)
+          .then((branch) => {
+            branchesLoaded = true;
+            latestBranches = branch ? [branch] : [];
+            void emit();
+          })
+          .catch((error) => onError?.(error instanceof Error ? error : new Error('Unable to load branch.')));
+      } else {
+        unsubscribers.push(
+          subscribeCollection<Branch>(
+            collections.branches,
+            [],
+            ({ rows }) => {
+              branchesLoaded = true;
+              latestBranches = rows;
+              void emit();
+            },
+            onError,
+            'branches:all'
+          )
+        );
+      }
 
       cleanup = (): void => unsubscribers.forEach((unsubscribe) => unsubscribe());
     });

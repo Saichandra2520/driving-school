@@ -25628,33 +25628,33 @@ const createLucideIcon = (iconName, iconNode) => {
   Component2.displayName = toPascalCase(iconName);
   return Component2;
 };
-const __iconNode$z = [
+const __iconNode$x = [
   ["path", { d: "M17 7 7 17", key: "15tmo1" }],
   ["path", { d: "M17 17H7V7", key: "1org7z" }]
 ];
-const ArrowDownLeft = createLucideIcon("arrow-down-left", __iconNode$z);
-const __iconNode$y = [
+const ArrowDownLeft = createLucideIcon("arrow-down-left", __iconNode$x);
+const __iconNode$w = [
   ["path", { d: "M12 5v14", key: "s699le" }],
   ["path", { d: "m19 12-7 7-7-7", key: "1idqje" }]
 ];
-const ArrowDown = createLucideIcon("arrow-down", __iconNode$y);
-const __iconNode$x = [
+const ArrowDown = createLucideIcon("arrow-down", __iconNode$w);
+const __iconNode$v = [
   ["path", { d: "M7 7h10v10", key: "1tivn9" }],
   ["path", { d: "M7 17 17 7", key: "1vkiza" }]
 ];
-const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$x);
-const __iconNode$w = [
+const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$v);
+const __iconNode$u = [
   ["path", { d: "m5 12 7-7 7 7", key: "hav0vg" }],
   ["path", { d: "M12 19V5", key: "x0mq9r" }]
 ];
-const ArrowUp = createLucideIcon("arrow-up", __iconNode$w);
-const __iconNode$v = [
+const ArrowUp = createLucideIcon("arrow-up", __iconNode$u);
+const __iconNode$t = [
   ["rect", { width: "20", height: "12", x: "2", y: "6", rx: "2", key: "9lu3g6" }],
   ["circle", { cx: "12", cy: "12", r: "2", key: "1c9p78" }],
   ["path", { d: "M6 12h.01M18 12h.01", key: "113zkx" }]
 ];
-const Banknote = createLucideIcon("banknote", __iconNode$v);
-const __iconNode$u = [
+const Banknote = createLucideIcon("banknote", __iconNode$t);
+const __iconNode$s = [
   ["path", { d: "M8 2v4", key: "1cmpym" }],
   ["path", { d: "M16 2v4", key: "4m81vk" }],
   ["rect", { width: "18", height: "18", x: "3", y: "4", rx: "2", key: "1hopcy" }],
@@ -25666,34 +25666,28 @@ const __iconNode$u = [
   ["path", { d: "M12 18h.01", key: "mhygvu" }],
   ["path", { d: "M16 18h.01", key: "kzsmim" }]
 ];
-const CalendarDays = createLucideIcon("calendar-days", __iconNode$u);
-const __iconNode$t = [
+const CalendarDays = createLucideIcon("calendar-days", __iconNode$s);
+const __iconNode$r = [
   ["path", { d: "M3 3v16a2 2 0 0 0 2 2h16", key: "c24i48" }],
   ["path", { d: "M18 17V9", key: "2bz60n" }],
   ["path", { d: "M13 17V5", key: "1frdt8" }],
   ["path", { d: "M8 17v-3", key: "17ska0" }]
 ];
-const ChartColumn = createLucideIcon("chart-column", __iconNode$t);
-const __iconNode$s = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-const ChevronDown = createLucideIcon("chevron-down", __iconNode$s);
-const __iconNode$r = [
+const ChartColumn = createLucideIcon("chart-column", __iconNode$r);
+const __iconNode$q = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$q);
+const __iconNode$p = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const CircleCheck = createLucideIcon("circle-check", __iconNode$r);
-const __iconNode$q = [
-  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["path", { d: "M8 12h8", key: "1wcyev" }],
-  ["path", { d: "M12 8v8", key: "napkw2" }]
-];
-const CirclePlus = createLucideIcon("circle-plus", __iconNode$q);
-const __iconNode$p = [
+const CircleCheck = createLucideIcon("circle-check", __iconNode$p);
+const __iconNode$o = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }],
   ["path", { d: "M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662", key: "154egf" }]
 ];
-const CircleUser = createLucideIcon("circle-user", __iconNode$p);
-const __iconNode$o = [
+const CircleUser = createLucideIcon("circle-user", __iconNode$o);
+const __iconNode$n = [
   ["rect", { width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1", key: "tgr4d6" }],
   [
     "path",
@@ -25704,34 +25698,34 @@ const __iconNode$o = [
   ],
   ["path", { d: "m9 14 2 2 4-4", key: "df797q" }]
 ];
-const ClipboardCheck = createLucideIcon("clipboard-check", __iconNode$o);
-const __iconNode$n = [
+const ClipboardCheck = createLucideIcon("clipboard-check", __iconNode$n);
+const __iconNode$m = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "M12 6v6h4", key: "135r8i" }]
 ];
-const Clock3 = createLucideIcon("clock-3", __iconNode$n);
-const __iconNode$m = [
+const Clock3 = createLucideIcon("clock-3", __iconNode$m);
+const __iconNode$l = [
   ["path", { d: "M10.94 5.274A7 7 0 0 1 15.71 10h1.79a4.5 4.5 0 0 1 4.222 6.057", key: "1uxyv8" }],
   ["path", { d: "M18.796 18.81A4.5 4.5 0 0 1 17.5 19H9A7 7 0 0 1 5.79 5.78", key: "99tcn7" }],
   ["path", { d: "m2 2 20 20", key: "1ooewy" }]
 ];
-const CloudOff = createLucideIcon("cloud-off", __iconNode$m);
-const __iconNode$l = [
+const CloudOff = createLucideIcon("cloud-off", __iconNode$l);
+const __iconNode$k = [
   ["path", { d: "M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z", key: "p7xjir" }]
 ];
-const Cloud = createLucideIcon("cloud", __iconNode$l);
-const __iconNode$k = [
+const Cloud = createLucideIcon("cloud", __iconNode$k);
+const __iconNode$j = [
   ["rect", { width: "20", height: "14", x: "2", y: "5", rx: "2", key: "ynyp8z" }],
   ["line", { x1: "2", x2: "22", y1: "10", y2: "10", key: "1b3vmo" }]
 ];
-const CreditCard = createLucideIcon("credit-card", __iconNode$k);
-const __iconNode$j = [
+const CreditCard = createLucideIcon("credit-card", __iconNode$j);
+const __iconNode$i = [
   ["path", { d: "M12 15V3", key: "m9g1x1" }],
   ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
   ["path", { d: "m7 10 5 5 5-5", key: "brsn70" }]
 ];
-const Download = createLucideIcon("download", __iconNode$j);
-const __iconNode$i = [
+const Download = createLucideIcon("download", __iconNode$i);
+const __iconNode$h = [
   [
     "path",
     {
@@ -25741,8 +25735,8 @@ const __iconNode$i = [
   ],
   ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
 ];
-const Eye = createLucideIcon("eye", __iconNode$i);
-const __iconNode$h = [
+const Eye = createLucideIcon("eye", __iconNode$h);
+const __iconNode$g = [
   [
     "path",
     {
@@ -25753,23 +25747,23 @@ const __iconNode$h = [
   ["path", { d: "M22 10v6", key: "1lu8f3" }],
   ["path", { d: "M6 12.5V16a6 3 0 0 0 12 0v-3.5", key: "1r8lef" }]
 ];
-const GraduationCap = createLucideIcon("graduation-cap", __iconNode$h);
-const __iconNode$g = [
+const GraduationCap = createLucideIcon("graduation-cap", __iconNode$g);
+const __iconNode$f = [
   ["rect", { width: "7", height: "9", x: "3", y: "3", rx: "1", key: "10lvy0" }],
   ["rect", { width: "7", height: "5", x: "14", y: "3", rx: "1", key: "16une8" }],
   ["rect", { width: "7", height: "9", x: "14", y: "12", rx: "1", key: "1hutg5" }],
   ["rect", { width: "7", height: "5", x: "3", y: "16", rx: "1", key: "ldoo1y" }]
 ];
-const LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode$g);
-const __iconNode$f = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
-const LoaderCircle = createLucideIcon("loader-circle", __iconNode$f);
-const __iconNode$e = [
+const LayoutDashboard = createLucideIcon("layout-dashboard", __iconNode$f);
+const __iconNode$e = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
+const LoaderCircle = createLucideIcon("loader-circle", __iconNode$e);
+const __iconNode$d = [
   ["path", { d: "m16 17 5-5-5-5", key: "1bji2h" }],
   ["path", { d: "M21 12H9", key: "dn1m92" }],
   ["path", { d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4", key: "1uf3rs" }]
 ];
-const LogOut = createLucideIcon("log-out", __iconNode$e);
-const __iconNode$d = [
+const LogOut = createLucideIcon("log-out", __iconNode$d);
+const __iconNode$c = [
   [
     "path",
     {
@@ -25779,13 +25773,13 @@ const __iconNode$d = [
   ],
   ["path", { d: "m15 5 4 4", key: "1mk7zo" }]
 ];
-const Pencil = createLucideIcon("pencil", __iconNode$d);
-const __iconNode$c = [
+const Pencil = createLucideIcon("pencil", __iconNode$c);
+const __iconNode$b = [
   ["path", { d: "M5 12h14", key: "1ays0h" }],
   ["path", { d: "M12 5v14", key: "s699le" }]
 ];
-const Plus = createLucideIcon("plus", __iconNode$c);
-const __iconNode$b = [
+const Plus = createLucideIcon("plus", __iconNode$b);
+const __iconNode$a = [
   ["path", { d: "M13 16H8", key: "wsln4y" }],
   ["path", { d: "M14 8H8", key: "1l3xfs" }],
   ["path", { d: "M16 12H8", key: "1fr5h0" }],
@@ -25797,15 +25791,15 @@ const __iconNode$b = [
     }
   ]
 ];
-const ReceiptText = createLucideIcon("receipt-text", __iconNode$b);
-const __iconNode$a = [
+const ReceiptText = createLucideIcon("receipt-text", __iconNode$a);
+const __iconNode$9 = [
   ["path", { d: "M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8", key: "v9h5vc" }],
   ["path", { d: "M21 3v5h-5", key: "1q7to0" }],
   ["path", { d: "M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16", key: "3uifl3" }],
   ["path", { d: "M8 16H3v5", key: "1cv678" }]
 ];
-const RefreshCw = createLucideIcon("refresh-cw", __iconNode$a);
-const __iconNode$9 = [
+const RefreshCw = createLucideIcon("refresh-cw", __iconNode$9);
+const __iconNode$8 = [
   [
     "path",
     {
@@ -25816,19 +25810,19 @@ const __iconNode$9 = [
   ["path", { d: "M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7", key: "1ydtos" }],
   ["path", { d: "M7 3v4a1 1 0 0 0 1 1h7", key: "t51u73" }]
 ];
-const Save = createLucideIcon("save", __iconNode$9);
-const __iconNode$8 = [
+const Save = createLucideIcon("save", __iconNode$8);
+const __iconNode$7 = [
   ["path", { d: "m8 11 2 2 4-4", key: "1sed1v" }],
   ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }],
   ["path", { d: "m21 21-4.3-4.3", key: "1qie3q" }]
 ];
-const SearchCheck = createLucideIcon("search-check", __iconNode$8);
-const __iconNode$7 = [
+const SearchCheck = createLucideIcon("search-check", __iconNode$7);
+const __iconNode$6 = [
   ["path", { d: "m21 21-4.34-4.34", key: "14j7rj" }],
   ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }]
 ];
-const Search = createLucideIcon("search", __iconNode$7);
-const __iconNode$6 = [
+const Search = createLucideIcon("search", __iconNode$6);
+const __iconNode$5 = [
   [
     "path",
     {
@@ -25838,24 +25832,12 @@ const __iconNode$6 = [
   ],
   ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
 ];
-const Settings = createLucideIcon("settings", __iconNode$6);
-const __iconNode$5 = [
+const Settings = createLucideIcon("settings", __iconNode$5);
+const __iconNode$4 = [
   ["path", { d: "M16 7h6v6", key: "box55l" }],
   ["path", { d: "m22 7-8.5 8.5-5-5L2 17", key: "1t1m79" }]
 ];
-const TrendingUp = createLucideIcon("trending-up", __iconNode$5);
-const __iconNode$4 = [
-  [
-    "path",
-    {
-      d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3",
-      key: "wmoenq"
-    }
-  ],
-  ["path", { d: "M12 9v4", key: "juzpu7" }],
-  ["path", { d: "M12 17h.01", key: "p32p05" }]
-];
-const TriangleAlert = createLucideIcon("triangle-alert", __iconNode$4);
+const TrendingUp = createLucideIcon("trending-up", __iconNode$4);
 const __iconNode$3 = [
   ["path", { d: "M18 21a8 8 0 0 0-16 0", key: "3ypg7q" }],
   ["circle", { cx: "10", cy: "8", r: "5", key: "o932ke" }],
@@ -44277,6 +44259,7 @@ function formatPhoneNumber(phone) {
 }
 function deriveStudentStatus(student) {
   if (student.drivingLicenceNo?.trim()) return "passed";
+  if (student.status === "passed") return "passed";
   if (student.status === "completed") return "completed";
   if (student.status === "extended") return "extended";
   const today2 = /* @__PURE__ */ new Date();
@@ -46305,271 +46288,6 @@ const Select$1 = reactExports.forwardRef(({ className, ...props }, ref) => /* @_
   }
 ));
 Select$1.displayName = "Select";
-const Textarea = reactExports.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-  "textarea",
-  {
-    ref,
-    className: cn(
-      "min-h-20 w-full rounded-md border border-input bg-surface px-3 py-2 text-sm shadow-sm focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50",
-      className
-    ),
-    ...props
-  }
-));
-Textarea.displayName = "Textarea";
-function appliesToCourse(extensionCourse, courseType) {
-  if (!courseType) return true;
-  return extensionCourse === "both" || extensionCourse === courseType;
-}
-function assertPositiveNumber(value2, label) {
-  if (!Number.isFinite(value2) || value2 < 0) {
-    throw new Error(`${label} cannot be negative.`);
-  }
-}
-function isPermissionError(error) {
-  return typeof error === "object" && error !== null && "code" in error && error.code === "permission-denied";
-}
-async function assertCanManageStudent(studentId) {
-  const [{ profile }, student] = await Promise.all([
-    authService.getCurrentUser(),
-    getDocument(collections.students, studentId)
-  ]);
-  if (!student) throw new Error("Student not found.");
-  if (profile?.role === "staff" && profile.branchId !== student.branchId) {
-    throw new Error("You do not have access to this student.");
-  }
-  return student;
-}
-async function getFeeByStudentId(studentId) {
-  const fees = await getCollection(collections.fees, [where("studentId", "==", studentId)]);
-  return fees[0] ?? null;
-}
-function calculateTrainingEntitlement(student, extensions = [], courseType) {
-  const baseSessions = Number(student.baseSessionCount ?? BASE_TRAINING_SESSION_COUNT);
-  const baseDays = COURSE_COMPLETION_DAYS;
-  const applicableExtensions = extensions.filter((extension) => appliesToCourse(extension.courseType, courseType));
-  const extraSessions = applicableExtensions.reduce((total, extension) => total + Number(extension.extraSessions ?? 0), 0);
-  const extraDays = applicableExtensions.reduce((total, extension) => total + Number(extension.extraDays ?? 0), 0);
-  const extensionAmount = applicableExtensions.reduce((total, extension) => total + Number(extension.amount ?? 0), 0);
-  return {
-    baseSessions,
-    baseDays,
-    extraSessions,
-    extraDays,
-    allowedSessions: baseSessions + extraSessions,
-    allowedDays: baseDays + extraDays,
-    extensionAmount
-  };
-}
-const courseExtensionService = {
-  async getExtensionsByStudent(studentId) {
-    const student = await assertCanManageStudent(studentId);
-    const extensions = await getCollection(collections.courseExtensions, [
-      where("branchId", "==", student.branchId)
-    ]);
-    return extensions.filter((extension) => extension.studentId === studentId).sort((a2, b2) => (b2.paymentDate || "").localeCompare(a2.paymentDate || ""));
-  },
-  async getEntitlementForStudent(student, courseType) {
-    try {
-      const extensions = await courseExtensionService.getExtensionsByStudent(student.id);
-      return calculateTrainingEntitlement(student, extensions, courseType);
-    } catch (error) {
-      if (isPermissionError(error)) {
-        console.warn("Course extensions could not be read. Falling back to base training entitlement.", error);
-        return calculateTrainingEntitlement(student, [], courseType);
-      }
-      throw error;
-    }
-  },
-  async getEntitlementByStudentId(studentId, courseType) {
-    const student = await assertCanManageStudent(studentId);
-    return courseExtensionService.getEntitlementForStudent(student, courseType);
-  },
-  async createExtension(payload) {
-    assertPositiveNumber(payload.extraSessions, "Extra sessions");
-    assertPositiveNumber(payload.extraDays, "Extra days");
-    assertPositiveNumber(payload.amount, "Amount");
-    if (!payload.paymentDate) throw new Error("Payment date is required.");
-    if (payload.extraSessions <= 0 && payload.extraDays <= 0) {
-      throw new Error("Add at least one extra session or extra day.");
-    }
-    const student = await assertCanManageStudent(payload.studentId);
-    if (student.branchId !== payload.branchId) {
-      throw new Error("Extension branch must match the student branch.");
-    }
-    const extensionRef = doc(collection(db, collections.courseExtensions));
-    const fee = payload.amount > 0 ? await getFeeByStudentId(payload.studentId) : null;
-    if (payload.amount > 0 && !fee) throw new Error("Unable to load fee details.");
-    await runTransaction(db, async (transaction) => {
-      let feeUpdate = null;
-      if (payload.amount > 0 && fee) {
-        const feeRef = doc(db, collections.fees, fee.id);
-        const feeSnapshot = await transaction.get(feeRef);
-        firebaseUsageService.trackUsage("reads");
-        if (!feeSnapshot.exists()) throw new Error("Unable to load fee details.");
-        const currentFee = recalculateFee$1({
-          id: feeSnapshot.id,
-          ...feeSnapshot.data()
-        });
-        const totalAmount = Number(currentFee.totalAmount) + payload.amount;
-        const paidAmount = Number(currentFee.paidAmount ?? 0);
-        feeUpdate = {
-          feeId: fee.id,
-          totalAmount,
-          paidAmount,
-          balance: Number(currentFee.balance ?? 0) + payload.amount
-        };
-      }
-      transaction.set(extensionRef, {
-        studentId: payload.studentId,
-        branchId: payload.branchId,
-        courseType: payload.courseType,
-        extraSessions: payload.extraSessions,
-        extraDays: payload.extraDays,
-        amount: payload.amount,
-        receiptNo: null,
-        paymentDate: payload.paymentDate,
-        notes: payload.notes?.trim() ?? "",
-        createdAt: serverTimestamp()
-      });
-      if (feeUpdate) {
-        transaction.update(doc(db, collections.fees, feeUpdate.feeId), {
-          totalAmount: feeUpdate.totalAmount,
-          paidAmount: feeUpdate.paidAmount,
-          balance: feeUpdate.balance
-        });
-      }
-      transaction.update(doc(db, collections.students, student.id), { status: "extended" });
-    });
-    firebaseUsageService.trackUsage("writes", 2);
-    if (payload.amount > 0) firebaseUsageService.trackUsage("writes");
-    const created = await getDocument(collections.courseExtensions, extensionRef.id);
-    if (!created) throw new Error("Extension was created but could not be loaded.");
-    return { extension: created, receiptNo: null };
-  }
-};
-function AddExtensionModal({
-  open,
-  student,
-  defaultCourseType,
-  allowedCourseTypes,
-  onClose,
-  onSaved
-}) {
-  const [courseType, setCourseType] = reactExports.useState(student?.courseType ?? "4W");
-  const [extraSessions, setExtraSessions] = reactExports.useState("1");
-  const [extraDays, setExtraDays] = reactExports.useState("0");
-  const [amount, setAmount] = reactExports.useState("");
-  const [paymentDate, setPaymentDate] = reactExports.useState((/* @__PURE__ */ new Date()).toISOString().slice(0, 10));
-  const [notes, setNotes] = reactExports.useState("");
-  const [errorMessage, setErrorMessage] = reactExports.useState("");
-  const [isSaving, setIsSaving] = reactExports.useState(false);
-  reactExports.useEffect(() => {
-    if (!open || !student) return;
-    const availableCourseTypes = allowedCourseTypes?.length ? allowedCourseTypes : [student.courseType];
-    const nextCourseType = defaultCourseType && availableCourseTypes.includes(defaultCourseType) ? defaultCourseType : availableCourseTypes[0] ?? student.courseType;
-    setCourseType(nextCourseType);
-    setExtraSessions("1");
-    setExtraDays("0");
-    setAmount("");
-    setPaymentDate((/* @__PURE__ */ new Date()).toISOString().slice(0, 10));
-    setNotes("");
-    setErrorMessage("");
-  }, [allowedCourseTypes, defaultCourseType, open, student]);
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setErrorMessage("");
-    const parsedSessions = Number(extraSessions);
-    const parsedDays = Number(extraDays);
-    const parsedAmount = Number(amount || 0);
-    if (!student) return;
-    if (allowedCourseTypes?.length && !allowedCourseTypes.includes(courseType)) {
-      setErrorMessage("Course extension is available only after completing the base sessions for that course.");
-      return;
-    }
-    if (!Number.isFinite(parsedSessions) || parsedSessions < 0) {
-      setErrorMessage("Extra sessions cannot be negative.");
-      return;
-    }
-    if (!Number.isFinite(parsedDays) || parsedDays < 0) {
-      setErrorMessage("Extra days cannot be negative.");
-      return;
-    }
-    if (parsedSessions <= 0 && parsedDays <= 0) {
-      setErrorMessage("Add at least one extra session or extra day.");
-      return;
-    }
-    if (!Number.isFinite(parsedAmount) || parsedAmount < 0) {
-      setErrorMessage("Amount cannot be negative.");
-      return;
-    }
-    if (!paymentDate) {
-      setErrorMessage("Payment date is required.");
-      return;
-    }
-    setIsSaving(true);
-    try {
-      await courseExtensionService.createExtension({
-        studentId: student.id,
-        branchId: student.branchId,
-        courseType,
-        extraSessions: parsedSessions,
-        extraDays: parsedDays,
-        amount: parsedAmount,
-        paymentDate,
-        notes
-      });
-      onSaved("Course extension added successfully.");
-    } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Unable to add course extension.");
-    } finally {
-      setIsSaving(false);
-    }
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(Dialog, { open, onOpenChange: (nextOpen) => !nextOpen && onClose(), children: open ? /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogContent, { onClose, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogHeader, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(DialogTitle, { children: "Add Course Extension" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(DialogDescription, { children: "Record extra sessions, extra days, and any extra fee when the student needs more training time." })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "space-y-4", onSubmit: handleSubmit, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-4 sm:grid-cols-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-course", children: "Course" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Select$1, { id: "extension-course", value: courseType, onChange: (event) => setCourseType(event.target.value), children: STUDENT_COURSE_OPTIONS.filter((option) => !allowedCourseTypes?.length || allowedCourseTypes.includes(option.value)).map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: option.value, children: option.label }, option.value)) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-payment-date", children: "Payment Date" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-payment-date", type: "date", value: paymentDate, onChange: (event) => setPaymentDate(event.target.value) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-sessions", children: "Extra Sessions" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-sessions", type: "number", min: "0", value: extraSessions, onChange: (event) => setExtraSessions(event.target.value) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-days", children: "Extra Days" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-days", type: "number", min: "0", value: extraDays, onChange: (event) => setExtraDays(event.target.value) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2 sm:col-span-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(Label, { htmlFor: "extension-amount", children: [
-            "Extra Fee (",
-            INDIAN_CURRENCY_SYMBOL,
-            ")"
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-amount", type: "number", min: "0", value: amount, onChange: (event) => setAmount(event.target.value) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2 sm:col-span-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-notes", children: "Notes" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Textarea, { id: "extension-notes", value: notes, onChange: (event) => setNotes(event.target.value) })
-        ] })
-      ] }),
-      errorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: errorMessage }) : null,
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-end gap-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", variant: "outline", onClick: onClose, children: "Cancel" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "submit", disabled: isSaving || !student, children: isSaving ? "Saving..." : "Add Extension" })
-      ] })
-    ] })
-  ] }) : null });
-}
 function useCachedAsync({
   cacheKey,
   enabled = true,
@@ -46763,6 +46481,140 @@ function getInitialState(cacheKey, enabled) {
 function toError(error) {
   return error instanceof Error ? error : new Error("Something went wrong. Please try again.");
 }
+function appliesToCourse(extensionCourse, courseType) {
+  if (!courseType) return true;
+  return extensionCourse === "both" || extensionCourse === courseType;
+}
+function assertPositiveNumber(value2, label) {
+  if (!Number.isFinite(value2) || value2 < 0) {
+    throw new Error(`${label} cannot be negative.`);
+  }
+}
+function isPermissionError(error) {
+  return typeof error === "object" && error !== null && "code" in error && error.code === "permission-denied";
+}
+async function assertCanManageStudent(studentId) {
+  const [{ profile }, student] = await Promise.all([
+    authService.getCurrentUser(),
+    getDocument(collections.students, studentId)
+  ]);
+  if (!student) throw new Error("Student not found.");
+  if (profile?.role === "staff" && profile.branchId !== student.branchId) {
+    throw new Error("You do not have access to this student.");
+  }
+  return student;
+}
+async function getFeeByStudentId(studentId) {
+  const fees = await getCollection(collections.fees, [where("studentId", "==", studentId)]);
+  return fees[0] ?? null;
+}
+function calculateTrainingEntitlement(student, extensions = [], courseType) {
+  const baseSessions = Number(student.baseSessionCount ?? BASE_TRAINING_SESSION_COUNT);
+  const baseDays = COURSE_COMPLETION_DAYS;
+  const applicableExtensions = extensions.filter((extension) => appliesToCourse(extension.courseType, courseType));
+  const extraSessions = applicableExtensions.reduce((total, extension) => total + Number(extension.extraSessions ?? 0), 0);
+  const extraDays = applicableExtensions.reduce((total, extension) => total + Number(extension.extraDays ?? 0), 0);
+  const extensionAmount = applicableExtensions.reduce((total, extension) => total + Number(extension.amount ?? 0), 0);
+  return {
+    baseSessions,
+    baseDays,
+    extraSessions,
+    extraDays,
+    allowedSessions: baseSessions + extraSessions,
+    allowedDays: baseDays + extraDays,
+    extensionAmount
+  };
+}
+const courseExtensionService = {
+  async getExtensionsByStudent(studentId) {
+    const student = await assertCanManageStudent(studentId);
+    const extensions = await getCollection(collections.courseExtensions, [
+      where("branchId", "==", student.branchId)
+    ]);
+    return extensions.filter((extension) => extension.studentId === studentId).sort((a2, b2) => (b2.paymentDate || "").localeCompare(a2.paymentDate || ""));
+  },
+  async getEntitlementForStudent(student, courseType) {
+    try {
+      const extensions = await courseExtensionService.getExtensionsByStudent(student.id);
+      return calculateTrainingEntitlement(student, extensions, courseType);
+    } catch (error) {
+      if (isPermissionError(error)) {
+        console.warn("Course extensions could not be read. Falling back to base training entitlement.", error);
+        return calculateTrainingEntitlement(student, [], courseType);
+      }
+      throw error;
+    }
+  },
+  async getEntitlementByStudentId(studentId, courseType) {
+    const student = await assertCanManageStudent(studentId);
+    return courseExtensionService.getEntitlementForStudent(student, courseType);
+  },
+  async createExtension(payload) {
+    assertPositiveNumber(payload.extraSessions, "Extra sessions");
+    assertPositiveNumber(payload.extraDays, "Extra days");
+    assertPositiveNumber(payload.amount, "Amount");
+    if (!payload.paymentDate) throw new Error("Payment date is required.");
+    if (payload.extraSessions <= 0 && payload.extraDays <= 0) {
+      throw new Error("Add at least one extra session or extra day.");
+    }
+    const student = await assertCanManageStudent(payload.studentId);
+    if (student.status === "passed" || student.drivingLicenceNo?.trim()) {
+      throw new Error("Course extension cannot be added for a passed student.");
+    }
+    if (student.branchId !== payload.branchId) {
+      throw new Error("Extension branch must match the student branch.");
+    }
+    const extensionRef = doc(collection(db, collections.courseExtensions));
+    const fee = payload.amount > 0 ? await getFeeByStudentId(payload.studentId) : null;
+    if (payload.amount > 0 && !fee) throw new Error("Unable to load fee details.");
+    await runTransaction(db, async (transaction) => {
+      let feeUpdate = null;
+      if (payload.amount > 0 && fee) {
+        const feeRef = doc(db, collections.fees, fee.id);
+        const feeSnapshot = await transaction.get(feeRef);
+        firebaseUsageService.trackUsage("reads");
+        if (!feeSnapshot.exists()) throw new Error("Unable to load fee details.");
+        const currentFee = recalculateFee$1({
+          id: feeSnapshot.id,
+          ...feeSnapshot.data()
+        });
+        const totalAmount = Number(currentFee.totalAmount) + payload.amount;
+        const paidAmount = Number(currentFee.paidAmount ?? 0);
+        feeUpdate = {
+          feeId: fee.id,
+          totalAmount,
+          paidAmount,
+          balance: Number(currentFee.balance ?? 0) + payload.amount
+        };
+      }
+      transaction.set(extensionRef, {
+        studentId: payload.studentId,
+        branchId: payload.branchId,
+        courseType: payload.courseType,
+        extraSessions: payload.extraSessions,
+        extraDays: payload.extraDays,
+        amount: payload.amount,
+        receiptNo: null,
+        paymentDate: payload.paymentDate,
+        notes: payload.notes?.trim() ?? "",
+        createdAt: serverTimestamp()
+      });
+      if (feeUpdate) {
+        transaction.update(doc(db, collections.fees, feeUpdate.feeId), {
+          totalAmount: feeUpdate.totalAmount,
+          paidAmount: feeUpdate.paidAmount,
+          balance: feeUpdate.balance
+        });
+      }
+      transaction.update(doc(db, collections.students, student.id), { status: "extended" });
+    });
+    firebaseUsageService.trackUsage("writes", 2);
+    if (payload.amount > 0) firebaseUsageService.trackUsage("writes");
+    const created = await getDocument(collections.courseExtensions, extensionRef.id);
+    if (!created) throw new Error("Extension was created but could not be loaded.");
+    return { extension: created, receiptNo: null };
+  }
+};
 const fallbackClassTypes = {
   "2W": ["Handle Balance", "Running", "Marching / Stopping", "Circle Practice", "ABC + Indicator", "Test Practice"],
   "4W": [
@@ -46823,6 +46675,34 @@ function normalizeSession(id, data2, slotCount = BASE_TRAINING_SESSION_COUNT) {
     updatedAt: data2.updatedAt
   };
 }
+function completedCount$1(session) {
+  return session.slots.filter((slot) => slot.date && slot.classType.trim()).length;
+}
+async function updateStudentStatusWhenTrainingCompleted(student, updatedSession) {
+  if (student.status === "completed" || student.status === "passed") return;
+  const [sessionsSnapshot, extensions] = await Promise.all([
+    getDocs(query(collection(db, collections.sessions), where("studentId", "==", student.id))),
+    getCollection(collections.courseExtensions, [where("studentId", "==", student.id)])
+  ]);
+  firebaseUsageService.trackUsage("reads", Math.max(sessionsSnapshot.docs.length, 1));
+  const sessionsByCourse = /* @__PURE__ */ new Map();
+  sessionsSnapshot.docs.forEach((item) => {
+    const session = item.id === updatedSession.id ? updatedSession : normalizeSession(item.id, item.data());
+    sessionsByCourse.set(session.courseType, session);
+  });
+  sessionsByCourse.set(updatedSession.courseType, updatedSession);
+  const isTrainingCompleted = COURSE_PARTS[student.courseType].every((courseType) => {
+    const session = sessionsByCourse.get(courseType);
+    const entitlement = calculateTrainingEntitlement(student, extensions, courseType);
+    return Boolean(session && completedCount$1(session) >= entitlement.allowedSessions);
+  });
+  if (!isTrainingCompleted) return;
+  await updateDoc(doc(db, collections.students, student.id), {
+    status: "completed",
+    completedAt: serverTimestamp()
+  });
+  firebaseUsageService.trackUsage("writes");
+}
 function getNextEmptySlot(slots) {
   return slots.find((slot) => !slot.date && !slot.classType.trim()) ?? null;
 }
@@ -46850,6 +46730,11 @@ async function assertCanAccessSession(session) {
     throw new Error("You do not have access to this branch.");
   }
   return student;
+}
+function assertTrainingCanBeMarked(student) {
+  if (student.status === "passed" || student.drivingLicenceNo?.trim()) {
+    throw new Error("Attendance cannot be marked for a passed student.");
+  }
 }
 async function assertSessionDateInTrainingPeriod(student, session, date) {
   const courseStartDate = getCourseStartDate(student);
@@ -46912,6 +46797,7 @@ const sessionService = {
     if (!session) throw new Error("Unable to load training card.");
     const normalized = normalizeSession(session.id, session);
     const student = await assertCanAccessSession(normalized);
+    assertTrainingCanBeMarked(student);
     await assertSessionDateInTrainingPeriod(student, normalized, payload.date);
     const slots = normalized.slots.map(
       (slot) => slot.slotNo === slotNo ? {
@@ -46928,10 +46814,12 @@ const sessionService = {
       updatedAt: serverTimestamp()
     });
     firebaseUsageService.trackUsage("writes");
-    return {
+    const updatedSession = {
       ...normalized,
       slots
     };
+    await updateStudentStatusWhenTrainingCompleted(student, updatedSession);
+    return updatedSession;
   },
   async quickMarkNextSession(sessionId, payload) {
     if (!payload.date) throw new Error("Date is required.");
@@ -46940,8 +46828,9 @@ const sessionService = {
     if (!session) throw new Error("Unable to load training card.");
     const normalizedSession = normalizeSession(session.id, session);
     const student = await assertCanAccessSession(normalizedSession);
+    assertTrainingCanBeMarked(student);
     await assertSessionDateInTrainingPeriod(student, normalizedSession, payload.date);
-    return runTransaction(db, async (transaction) => {
+    const updatedSession = await runTransaction(db, async (transaction) => {
       const sessionRef = doc(db, collections.sessions, sessionId);
       const snapshot = await transaction.get(sessionRef);
       firebaseUsageService.trackUsage("reads");
@@ -46969,6 +46858,8 @@ const sessionService = {
         slots
       };
     });
+    await updateStudentStatusWhenTrainingCompleted(student, updatedSession);
+    return updatedSession;
   },
   async quickMarkNextSessionFast(sessionId, payload, slotCount = BASE_TRAINING_SESSION_COUNT) {
     if (!payload.date) throw new Error("Date is required.");
@@ -46977,8 +46868,9 @@ const sessionService = {
     if (!session) throw new Error("Unable to load training card.");
     const normalizedSession = normalizeSession(session.id, session, slotCount);
     const student = await assertCanAccessSession(normalizedSession);
+    assertTrainingCanBeMarked(student);
     await assertSessionDateInTrainingPeriod(student, normalizedSession, payload.date);
-    return runTransaction(db, async (transaction) => {
+    const updatedSession = await runTransaction(db, async (transaction) => {
       const sessionRef = doc(db, collections.sessions, sessionId);
       const snapshot = await transaction.get(sessionRef);
       firebaseUsageService.trackUsage("reads");
@@ -47006,6 +46898,8 @@ const sessionService = {
         slots
       };
     });
+    await updateStudentStatusWhenTrainingCompleted(student, updatedSession);
+    return updatedSession;
   },
   async getClassTypes(branchId, courseType) {
     const classTypes = await getCollection(collections.classTypes, [
@@ -47125,6 +47019,9 @@ function buildAttendanceRows({
       const entitlement = calculateTrainingEntitlement(student, extensionsByStudent.get(student.id) ?? [], courseType);
       const courseStartDate = getCourseStartDate(student);
       const courseCompletionDate = calculateStudentExpiryDate(courseStartDate, entitlement.allowedDays);
+      if (filters.selectedDate && (filters.selectedDate < courseStartDate || filters.selectedDate > courseCompletionDate)) {
+        continue;
+      }
       const completedSessions = session ? completedCount(session) : 0;
       const nextSlot = session ? getNextEmptySlot(session.slots) : null;
       const lastSlot = session ? getLastCompletedSession(session.slots) : null;
@@ -47287,8 +47184,7 @@ const viewOptions = [
   { value: "all", label: "All" },
   { value: "pending", label: "Pending" },
   { value: "marked", label: "Marked" },
-  { value: "completed", label: "Completed" },
-  { value: "extension_needed", label: "Extension Needed" }
+  { value: "completed", label: "Completed" }
 ];
 function AttendancePage() {
   const profile = useAuthStore((state2) => state2.profile);
@@ -47305,7 +47201,6 @@ function AttendancePage() {
   const [savingRows, setSavingRows] = reactExports.useState({});
   const [selectedRows, setSelectedRows] = reactExports.useState({});
   const [expandedRows, setExpandedRows] = reactExports.useState({});
-  const [extensionTarget, setExtensionTarget] = reactExports.useState(null);
   const [pendingMark, setPendingMark] = reactExports.useState(null);
   const [isBulkSaving, setIsBulkSaving] = reactExports.useState(false);
   const [isManualRefreshing, setIsManualRefreshing] = reactExports.useState(false);
@@ -47623,20 +47518,6 @@ function AttendancePage() {
       await markRows(target.rows, target.payload);
     }
   };
-  const handleExtensionSaved = async (nextMessage) => {
-    setExtensionTarget(null);
-    setMessage(nextMessage);
-    setErrorMessage("");
-    invalidatePageCache([
-      cacheTags.attendance,
-      cacheTags.dashboard,
-      cacheTags.students,
-      cacheTags.reports,
-      cacheTags.branch(effectiveBranchId2 ?? "all"),
-      cacheTags.user(profile?.id)
-    ]);
-    await loadAttendance();
-  };
   const hasActiveFilters = courseType !== "all" || Boolean(debouncedSearch.trim()) || view !== "all";
   const duplicateCount = pendingMark?.type === "single" ? 1 : pendingMark?.rows.filter((row) => row.isMarkedOnSelectedDate).length ?? 0;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "space-y-5", children: [
@@ -47690,12 +47571,11 @@ function AttendancePage() {
           )
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-3 sm:grid-cols-2 xl:grid-cols-5", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-3 sm:grid-cols-2 xl:grid-cols-4", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Total Visible", value: summary.total, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(ClipboardCheck, { className: "h-4 w-4", "aria-hidden": "true" }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Pending", value: summary.pending, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Clock3, { className: "h-4 w-4", "aria-hidden": "true" }), tone: "warning" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Marked", value: summary.marked, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "h-4 w-4", "aria-hidden": "true" }), tone: "good" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Completed", value: summary.completed, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(GraduationCap, { className: "h-4 w-4", "aria-hidden": "true" }), tone: "default" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Extension Needed", value: summary.extensionNeeded, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(CirclePlus, { className: "h-4 w-4", "aria-hidden": "true" }), tone: "danger" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Completed", value: summary.completed, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(GraduationCap, { className: "h-4 w-4", "aria-hidden": "true" }), tone: "default" })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2 rounded-lg border bg-surface p-2 shadow-sm", children: viewOptions.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx(
         Button,
@@ -47784,8 +47664,7 @@ function AttendancePage() {
                       onToggleSelected: () => toggleSelected(row),
                       onUpdateForm: updateForm,
                       onMarkPresent: () => void handleMarkPresent(row),
-                      onQuickMark: () => void handleMarkPresent(row),
-                      onExtend: () => setExtensionTarget(row)
+                      onQuickMark: () => void handleMarkPresent(row)
                     }
                   )
                 },
@@ -47796,20 +47675,6 @@ function AttendancePage() {
         ) })
       ] })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      AddExtensionModal,
-      {
-        open: extensionTarget !== null,
-        student: extensionTarget ? {
-          id: extensionTarget.studentId,
-          branchId: extensionTarget.branchId,
-          courseType: extensionTarget.courseType
-        } : null,
-        defaultCourseType: extensionTarget?.courseType,
-        onClose: () => setExtensionTarget(null),
-        onSaved: (nextMessage) => void handleExtensionSaved(nextMessage)
-      }
-    ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       ConfirmDialog,
       {
@@ -47840,8 +47705,7 @@ function AttendanceChecklistItem({
   onToggleSelected,
   onUpdateForm,
   onMarkPresent,
-  onQuickMark,
-  onExtend
+  onQuickMark
 }) {
   const progressPercent = Math.min(100, Math.round(row.completedSessions / row.allowedSessions * 100));
   const lastClass = row.lastClassType ? `${row.lastClassType}${row.lastSessionDate ? ` - ${formatDate(row.lastSessionDate)}` : ""}` : "-";
@@ -47911,10 +47775,7 @@ function AttendanceChecklistItem({
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap items-center gap-2 lg:justify-end", onClick: (event) => event.stopPropagation(), children: !row.isCompleted ? /* @__PURE__ */ jsxRuntimeExports.jsxs(Button, { type: "button", size: "sm", className: "w-full sm:w-auto", onClick: onQuickMark, disabled: isSaving, children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
             isSaving ? "Saving..." : "Quick Mark"
-          ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(Button, { type: "button", size: "sm", variant: "outline", className: "w-full sm:w-auto", onClick: onExtend, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(CirclePlus, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
-            "Extend"
-          ] }) }),
+          ] }) : null }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center justify-end", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { className: `h-5 w-5 text-muted-foreground transition-transform ${isExpanded ? "rotate-180" : ""}`, "aria-hidden": "true" }) })
         ]
       }
@@ -47982,16 +47843,10 @@ function AttendanceChecklistItem({
           }
         ) })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col justify-end gap-2 xl:items-stretch", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(Button, { type: "button", className: "h-10", onClick: onMarkPresent, disabled: row.isCompleted || isSaving, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
-          row.isCompleted ? "Completed" : isSaving ? "Saving..." : "Mark Present"
-        ] }),
-        row.isCompleted ? /* @__PURE__ */ jsxRuntimeExports.jsxs(Button, { type: "button", className: "h-10", variant: "secondary", onClick: onExtend, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(CirclePlus, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
-          "Add Extension"
-        ] }) : null
-      ] })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-col justify-end gap-2 xl:items-stretch", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Button, { type: "button", className: "h-10", onClick: onMarkPresent, disabled: row.isCompleted || isSaving, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
+        row.isCompleted ? "Completed" : isSaving ? "Saving..." : "Mark Present"
+      ] }) })
     ] }) }) : null
   ] });
 }
@@ -48027,17 +47882,15 @@ function getAttendanceSummary(rows) {
       total: summary.total + 1,
       pending: summary.pending + (!row.isCompleted && !row.isMarkedOnSelectedDate ? 1 : 0),
       marked: summary.marked + (row.isMarkedOnSelectedDate ? 1 : 0),
-      completed: summary.completed + (row.isCompleted ? 1 : 0),
-      extensionNeeded: summary.extensionNeeded + (row.isCompleted ? 1 : 0)
+      completed: summary.completed + (row.isCompleted ? 1 : 0)
     }),
-    { total: 0, pending: 0, marked: 0, completed: 0, extensionNeeded: 0 }
+    { total: 0, pending: 0, marked: 0, completed: 0 }
   );
 }
 function matchesAttendanceView(row, view) {
   if (view === "pending") return !row.isCompleted && !row.isMarkedOnSelectedDate;
   if (view === "marked") return row.isMarkedOnSelectedDate;
   if (view === "completed") return row.isCompleted;
-  if (view === "extension_needed") return row.isCompleted;
   return true;
 }
 function getRowKey(row) {
@@ -148625,60 +148478,67 @@ function formatPdfInrCurrency(amount) {
 }
 const styles$1 = StyleSheet.create({
   page: {
-    padding: 42,
-    fontSize: 11,
+    padding: 20,
+    fontSize: 9,
     color: "#111",
     fontFamily: "Helvetica",
     flexDirection: "column"
   },
   border: {
     border: "2 solid #111",
-    padding: 28,
+    padding: 15,
     flexGrow: 1
   },
   header: {
     textAlign: "center",
     borderBottom: "1 solid #111",
-    paddingBottom: 18,
-    marginBottom: 24
+    paddingBottom: 8,
+    marginBottom: 10
   },
   schoolName: {
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: 700,
-    marginBottom: 6
+    marginBottom: 3
   },
   title: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: 700,
-    marginTop: 14,
+    marginTop: 6,
     textTransform: "uppercase"
   },
   body: {
     textAlign: "center",
-    lineHeight: 1.7,
-    marginBottom: 22
+    lineHeight: 1.25,
+    marginBottom: 8
   },
   studentName: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: 700,
-    marginVertical: 10
+    marginVertical: 4
   },
   details: {
-    marginTop: 8,
-    marginBottom: 16
+    marginBottom: 6
+  },
+  detailGrid: {
+    flexDirection: "row",
+    gap: 12,
+    marginBottom: 6
+  },
+  detailColumn: {
+    width: "48%"
   },
   sectionTitle: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 700,
-    marginTop: 8,
-    marginBottom: 8,
+    marginTop: 3,
+    marginBottom: 4,
     borderBottom: "1 solid #ccc",
-    paddingBottom: 4
+    paddingBottom: 3
   },
   row: {
     flexDirection: "row",
     borderBottom: "1 solid #ddd",
-    paddingVertical: 7
+    paddingVertical: 3
   },
   label: {
     width: "38%",
@@ -148691,25 +148551,25 @@ const styles$1 = StyleSheet.create({
   signatureRow: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    marginTop: 36
+    marginTop: 8
   },
   signature: {
     width: "42%",
     borderTop: "1 solid #111",
-    paddingTop: 7,
+    paddingTop: 5,
     textAlign: "center"
   },
   footer: {
-    marginTop: 28,
-    paddingTop: 12,
+    marginTop: 8,
+    paddingTop: 5,
     borderTop: "1 solid #ccc",
     textAlign: "center",
     color: "#444",
-    fontSize: 9
+    fontSize: 8
   },
   table: {
     border: "1 solid #999",
-    marginTop: 8
+    marginTop: 4
   },
   tableHeader: {
     flexDirection: "row",
@@ -148719,16 +148579,16 @@ const styles$1 = StyleSheet.create({
   tableRow: {
     flexDirection: "row",
     borderBottom: "1 solid #e5e5e5",
-    minHeight: 20
+    minHeight: 15
   },
   tableCell: {
-    padding: 5,
-    fontSize: 8,
+    padding: 2,
+    fontSize: 7,
     borderRight: "1 solid #e5e5e5"
   },
   tableCellHeader: {
-    padding: 5,
-    fontSize: 8,
+    padding: 2,
+    fontSize: 7,
     fontWeight: 700,
     borderRight: "1 solid #ccc"
   },
@@ -148773,57 +148633,53 @@ function AttendanceTable({ rows }) {
   ] });
 }
 function TrainingCompletionCertificatePdf({ data: data2 }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Document, { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Page, { size: "A4", style: styles$1.page, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles$1.border, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles$1.header, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles$1.schoolName, children: data2.branchName }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles$1.title, children: "Training Completion Certificate" })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles$1.body, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { children: "This is to certify that" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles$1.studentName, children: data2.studentName }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(Text, { children: [
-          "has successfully completed ",
-          data2.completedSessions,
-          " driving training sessions for the",
-          " ",
-          formatCourseType(data2.courseType),
-          " course."
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Document, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Page, { size: "A4", style: styles$1.page, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles$1.border, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles$1.header, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles$1.schoolName, children: data2.branchName }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles$1.title, children: "Training Completion Certificate" })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles$1.body, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { children: "This is to certify that" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles$1.studentName, children: data2.studentName }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(Text, { children: [
+        "has successfully completed ",
+        data2.completedSessions,
+        " driving training sessions for the",
+        " ",
+        formatCourseType(data2.courseType),
+        " course."
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles$1.detailGrid, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles$1.detailColumn, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles$1.sectionTitle, children: "Student & Course Details" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles$1.details, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Driving School Name", value: data2.branchName }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Course", value: formatCourseType(data2.courseType) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Course Start Date", value: formatDate(data2.courseStartDate) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Course End Date", value: formatDate(data2.courseEndDate) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Training Completion Date", value: formatDate(data2.completionDate) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Completed Sessions", value: String(data2.completedSessions) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Phone", value: data2.phone }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Learning Licence No", value: data2.learningLicenceNo || "-" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Generated Date", value: formatDate(data2.generatedAt.slice(0, 10)) })
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles$1.details, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Driving School Name", value: data2.branchName }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Course", value: formatCourseType(data2.courseType) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Course Start Date", value: formatDate(data2.courseStartDate) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Course End Date", value: formatDate(data2.courseEndDate) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Training Completion Date", value: formatDate(data2.completionDate) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Completed Sessions", value: String(data2.completedSessions) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Phone", value: data2.phone }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Learning Licence No", value: data2.learningLicenceNo || "-" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Generated Date", value: formatDate(data2.generatedAt.slice(0, 10)) })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles$1.sectionTitle, children: "Payment Details" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles$1.details, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Total Fee", value: formatPdfInrCurrency(data2.payment.totalAmount) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Total Paid", value: formatPdfInrCurrency(data2.payment.paidAmount) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Balance", value: formatPdfInrCurrency(data2.payment.balance) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Payment Status", value: data2.payment.status })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(View, { style: styles$1.signatureRow, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles$1.signature, children: "Authorised Signature" }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(View, { style: styles$1.footer, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { children: "This certificate is generated from recorded training attendance." }) })
-    ] }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Page, { size: "A4", style: styles$1.page, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles$1.border, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles$1.header, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles$1.schoolName, children: data2.branchName }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles$1.title, children: "Attendance Details" })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Student Name", value: data2.studentName }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Course", value: formatCourseType(data2.courseType) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Course Start Date", value: formatDate(data2.courseStartDate) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Course End Date", value: formatDate(data2.courseEndDate) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(AttendanceTable, { rows: data2.attendance })
-    ] }) })
-  ] });
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles$1.detailColumn, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles$1.sectionTitle, children: "Payment Details" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(View, { style: styles$1.details, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Total Fee", value: formatPdfInrCurrency(data2.payment.totalAmount) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Total Paid", value: formatPdfInrCurrency(data2.payment.paidAmount) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Balance", value: formatPdfInrCurrency(data2.payment.balance) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Field$2, { label: "Payment Status", value: data2.payment.status })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(View, { style: styles$1.signatureRow, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles$1.signature, children: "Authorised Signature" }) })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { style: styles$1.sectionTitle, children: "Attendance Details" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(AttendanceTable, { rows: data2.attendance }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(View, { style: styles$1.footer, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { children: "This certificate is generated from recorded training attendance." }) })
+  ] }) }) });
 }
 function safeFilePart$1(value2) {
   return value2.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -148863,6 +148719,18 @@ function DownloadTrainingCertificateButton({
     label
   ] }) });
 }
+const Textarea = reactExports.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+  "textarea",
+  {
+    ref,
+    className: cn(
+      "min-h-20 w-full rounded-md border border-input bg-surface px-3 py-2 text-sm shadow-sm focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50",
+      className
+    ),
+    ...props
+  }
+));
+Textarea.displayName = "Textarea";
 function emptyAttempts() {
   return Array.from({ length: 3 }, (_, index2) => ({
     attemptNo: index2 + 1,
@@ -148968,10 +148836,18 @@ const drivingTestService = {
       updatedAt: serverTimestamp()
     });
     firebaseUsageService.trackUsage("writes");
-    return {
+    const nextTest = {
       ...normalized,
       attempts
     };
+    if (hasPassed(nextTest) && student.status !== "passed") {
+      await updateDoc(doc(db, collections.students, student.id), {
+        status: "passed",
+        updatedAt: serverTimestamp()
+      });
+      firebaseUsageService.trackUsage("writes");
+    }
+    return nextTest;
   },
   async ensureDrivingTestDocsForStudent(student) {
     await assertCanAccessStudent$1(student.id);
@@ -149181,7 +149057,8 @@ function DrivingTestCard({
   branchId,
   courseType,
   llIssueDate,
-  needsDrivingLicenceDetails = false
+  needsDrivingLicenceDetails = false,
+  onStudentChanged
 }) {
   const [drivingTest, setDrivingTest] = reactExports.useState(null);
   const [editAttempt, setEditAttempt] = reactExports.useState(null);
@@ -149229,6 +149106,9 @@ function DrivingTestCard({
     setEditAttempt(null);
     setMessage(nextMessage);
     setErrorMessage("");
+    if (drivingTestService.getDrivingTestStatus(nextTest) === "passed") {
+      onStudentChanged?.();
+    }
     try {
       setPassSuggestion(await drivingTestService.checkAndSuggestStudentPassed(studentId));
     } catch {
@@ -150113,6 +149993,128 @@ function TrainingCard({
     ) : null
   ] });
 }
+function AddExtensionModal({
+  open,
+  student,
+  defaultCourseType,
+  allowedCourseTypes,
+  onClose,
+  onSaved
+}) {
+  const [courseType, setCourseType] = reactExports.useState(student?.courseType ?? "4W");
+  const [extraSessions, setExtraSessions] = reactExports.useState("1");
+  const [extraDays, setExtraDays] = reactExports.useState("0");
+  const [amount, setAmount] = reactExports.useState("");
+  const [paymentDate, setPaymentDate] = reactExports.useState((/* @__PURE__ */ new Date()).toISOString().slice(0, 10));
+  const [notes, setNotes] = reactExports.useState("");
+  const [errorMessage, setErrorMessage] = reactExports.useState("");
+  const [isSaving, setIsSaving] = reactExports.useState(false);
+  reactExports.useEffect(() => {
+    if (!open || !student) return;
+    const availableCourseTypes = allowedCourseTypes?.length ? allowedCourseTypes : [student.courseType];
+    const nextCourseType = defaultCourseType && availableCourseTypes.includes(defaultCourseType) ? defaultCourseType : availableCourseTypes[0] ?? student.courseType;
+    setCourseType(nextCourseType);
+    setExtraSessions("1");
+    setExtraDays("0");
+    setAmount("");
+    setPaymentDate((/* @__PURE__ */ new Date()).toISOString().slice(0, 10));
+    setNotes("");
+    setErrorMessage("");
+  }, [allowedCourseTypes, defaultCourseType, open, student]);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setErrorMessage("");
+    const parsedSessions = Number(extraSessions);
+    const parsedDays = Number(extraDays);
+    const parsedAmount = Number(amount || 0);
+    if (!student) return;
+    if (allowedCourseTypes?.length && !allowedCourseTypes.includes(courseType)) {
+      setErrorMessage("Course extension is available only after completing the base sessions for that course.");
+      return;
+    }
+    if (!Number.isFinite(parsedSessions) || parsedSessions < 0) {
+      setErrorMessage("Extra sessions cannot be negative.");
+      return;
+    }
+    if (!Number.isFinite(parsedDays) || parsedDays < 0) {
+      setErrorMessage("Extra days cannot be negative.");
+      return;
+    }
+    if (parsedSessions <= 0 && parsedDays <= 0) {
+      setErrorMessage("Add at least one extra session or extra day.");
+      return;
+    }
+    if (!Number.isFinite(parsedAmount) || parsedAmount < 0) {
+      setErrorMessage("Amount cannot be negative.");
+      return;
+    }
+    if (!paymentDate) {
+      setErrorMessage("Payment date is required.");
+      return;
+    }
+    setIsSaving(true);
+    try {
+      await courseExtensionService.createExtension({
+        studentId: student.id,
+        branchId: student.branchId,
+        courseType,
+        extraSessions: parsedSessions,
+        extraDays: parsedDays,
+        amount: parsedAmount,
+        paymentDate,
+        notes
+      });
+      onSaved("Course extension added successfully.");
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Unable to add course extension.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Dialog, { open, onOpenChange: (nextOpen) => !nextOpen && onClose(), children: open ? /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogContent, { onClose, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(DialogHeader, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(DialogTitle, { children: "Add Course Extension" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(DialogDescription, { children: "Record extra sessions, extra days, and any extra fee when the student needs more training time." })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "space-y-4", onSubmit: handleSubmit, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-4 sm:grid-cols-2", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-course", children: "Course" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Select$1, { id: "extension-course", value: courseType, onChange: (event) => setCourseType(event.target.value), children: STUDENT_COURSE_OPTIONS.filter((option) => !allowedCourseTypes?.length || allowedCourseTypes.includes(option.value)).map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: option.value, children: option.label }, option.value)) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-payment-date", children: "Payment Date" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-payment-date", type: "date", value: paymentDate, onChange: (event) => setPaymentDate(event.target.value) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-sessions", children: "Extra Sessions" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-sessions", type: "number", min: "0", value: extraSessions, onChange: (event) => setExtraSessions(event.target.value) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-days", children: "Extra Days" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-days", type: "number", min: "0", value: extraDays, onChange: (event) => setExtraDays(event.target.value) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2 sm:col-span-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(Label, { htmlFor: "extension-amount", children: [
+            "Extra Fee (",
+            INDIAN_CURRENCY_SYMBOL,
+            ")"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { id: "extension-amount", type: "number", min: "0", value: amount, onChange: (event) => setAmount(event.target.value) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2 sm:col-span-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "extension-notes", children: "Notes" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Textarea, { id: "extension-notes", value: notes, onChange: (event) => setNotes(event.target.value) })
+        ] })
+      ] }),
+      errorMessage ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", children: errorMessage }) : null,
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-end gap-2", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", variant: "outline", onClick: onClose, children: "Cancel" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "submit", disabled: isSaving || !student, children: isSaving ? "Saving..." : "Add Extension" })
+      ] })
+    ] })
+  ] }) : null });
+}
 function Tabs({ children }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children });
 }
@@ -150182,9 +150184,17 @@ function StudentDetails({ student, allowFeeActions = true, onFeeChanged, onStude
   const [extensionModalOpen, setExtensionModalOpen] = reactExports.useState(false);
   const [certificateRows, setCertificateRows] = reactExports.useState([]);
   const [baseCompletedCourses, setBaseCompletedCourses] = reactExports.useState(/* @__PURE__ */ new Set());
+  const [localStatus, setLocalStatus] = reactExports.useState(student.status);
   const courseParts = COURSE_PARTS[student.courseType];
   const eligibleTestDate = student.llIssueDate ? addDays(student.llIssueDate, 30) : null;
-  const isBaseTrainingCompleted = (student.status === "ongoing" || student.status === "extended") && student.daysRemaining < 0;
+  const isPassed = localStatus === "passed";
+  const isBaseTrainingCompleted = (localStatus === "ongoing" || localStatus === "extended") && student.daysRemaining < 0;
+  const courseStartDate = getCourseStartDate(student);
+  const allowedDays = entitlement?.allowedDays ?? student.baseDurationDays ?? COURSE_COMPLETION_DAYS;
+  const allowedCompletionDate = calculateStudentExpiryDate(courseStartDate, allowedDays);
+  const allowedDaysRemaining = Math.ceil(
+    ((/* @__PURE__ */ new Date(`${allowedCompletionDate}T00:00:00`)).getTime() - new Date((/* @__PURE__ */ new Date()).setHours(0, 0, 0, 0)).getTime()) / (1e3 * 60 * 60 * 24)
+  );
   const extensionCourseTypes = reactExports.useMemo(() => {
     const completedCourseTypes = courseParts.filter((courseType) => baseCompletedCourses.has(courseType));
     const options = [...completedCourseTypes];
@@ -150193,8 +150203,8 @@ function StudentDetails({ student, allowFeeActions = true, onFeeChanged, onStude
     }
     return options;
   }, [baseCompletedCourses, courseParts, student.courseType]);
-  const canAddExtension = baseCompletedCourses.size > 0;
-  const tabs = certificateRows.length > 0 ? ["overview", "fees", ...canAddExtension ? ["extensions"] : [], "attendance", "certificate", "driving-test", "licence"] : ["overview", "fees", ...canAddExtension ? ["extensions"] : [], "attendance", "driving-test", "licence"];
+  const canAddExtension = !isPassed && baseCompletedCourses.size > 0;
+  const tabs = certificateRows.length > 0 ? ["overview", "fees", ...canAddExtension ? ["extensions"] : [], ...!isPassed ? ["attendance"] : [], "certificate", "driving-test", "licence"] : ["overview", "fees", ...canAddExtension ? ["extensions"] : [], ...!isPassed ? ["attendance"] : [], "driving-test", "licence"];
   const loadExtensions = async () => {
     try {
       const rows = await courseExtensionService.getExtensionsByStudent(student.id);
@@ -150206,7 +150216,7 @@ function StudentDetails({ student, allowFeeActions = true, onFeeChanged, onStude
   };
   const loadCertificates = async () => {
     try {
-      const courseStartDate = getCourseStartDate(student);
+      const courseStartDate2 = getCourseStartDate(student);
       const rows = await Promise.all(
         courseParts.map(async (courseType) => {
           const courseEntitlement = await courseExtensionService.getEntitlementByStudentId(student.id, courseType);
@@ -150216,8 +150226,8 @@ function StudentDetails({ student, allowFeeActions = true, onFeeChanged, onStude
           if (!completionDate) return null;
           return {
             courseType,
-            courseStartDate,
-            courseEndDate: calculateStudentExpiryDate(courseStartDate, courseEntitlement.allowedDays),
+            courseStartDate: courseStartDate2,
+            courseEndDate: calculateStudentExpiryDate(courseStartDate2, courseEntitlement.allowedDays),
             completionDate,
             attendance: getTrainingCertificateAttendanceSlots(session.slots).map((slot) => ({
               sessionNo: slot.slotNo,
@@ -150259,6 +150269,9 @@ function StudentDetails({ student, allowFeeActions = true, onFeeChanged, onStude
     void loadCertificates();
     void loadBaseCompletion();
   }, [student.id]);
+  reactExports.useEffect(() => {
+    setLocalStatus(student.status);
+  }, [student.status]);
   reactExports.useEffect(() => {
     if (!tabs.includes(activeTab)) {
       setActiveTab("overview");
@@ -150324,7 +150337,7 @@ function StudentDetails({ student, allowFeeActions = true, onFeeChanged, onStude
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap gap-2", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(Badge, { variant: "secondary", children: formatCourseType(student.courseType) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(StatusBadge, { status: student.status }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(StatusBadge, { status: localStatus }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(StatusBadge, { status: feeSummary.paymentStatus === "Paid" ? "paid" : feeSummary.paymentStatus === "Partial" ? "partial" : "pending" }),
         isBaseTrainingCompleted ? /* @__PURE__ */ jsxRuntimeExports.jsx(StatusBadge, { status: "thirty_days_completed" }) : null
       ] })
@@ -150342,9 +150355,12 @@ function StudentDetails({ student, allowFeeActions = true, onFeeChanged, onStude
           /* @__PURE__ */ jsxRuntimeExports.jsx(Info, { label: "Enrollment Date", value: formatDate(student.enrollmentDate) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(Info, { label: "Course Start Date", value: formatDate(student.courseStartDate) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(Info, { label: "Base Completion Date", value: formatDate(student.expiryDate) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Info, { label: "Base Days Remaining", value: student.daysRemaining >= 0 ? String(student.daysRemaining) : "Completed" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Info, { label: "Allowed Completion Date", value: formatDate(allowedCompletionDate) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Info, { label: "Allowed Days", value: String(allowedDays) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Info, { label: "Days Remaining", value: allowedDaysRemaining >= 0 ? String(allowedDaysRemaining) : "Completed" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(Info, { label: "Allowed Sessions", value: String(entitlement?.allowedSessions ?? student.baseSessionCount ?? BASE_TRAINING_SESSION_COUNT) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Info, { label: "Extra Sessions", value: String(entitlement?.extraSessions ?? 0) })
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Info, { label: "Extra Sessions", value: String(entitlement?.extraSessions ?? 0) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Info, { label: "Extra Days", value: String(entitlement?.extraDays ?? 0) })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs(Section, { title: "Quick Summary", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(Info, { label: "Total Fee", value: formatCurrency(feeSummary.totalAmount) }),
@@ -150393,7 +150409,11 @@ function StudentDetails({ student, allowFeeActions = true, onFeeChanged, onStude
           branchId: student.branchId,
           courseType,
           llIssueDate: student.llIssueDate ?? null,
-          needsDrivingLicenceDetails: !student.drivingLicenceNo?.trim() || !student.dlIssueDate
+          needsDrivingLicenceDetails: !student.drivingLicenceNo?.trim() || !student.dlIssueDate,
+          onStudentChanged: () => {
+            setLocalStatus("passed");
+            onStudentChanged?.();
+          }
         },
         courseType
       )) }) : null,
@@ -150440,7 +150460,7 @@ function StudentDetails({ student, allowFeeActions = true, onFeeChanged, onStude
         }
       )
     ] }) : null,
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
+    !isPassed ? /* @__PURE__ */ jsxRuntimeExports.jsx(
       AddExtensionModal,
       {
         open: extensionModalOpen,
@@ -150460,7 +150480,7 @@ function StudentDetails({ student, allowFeeActions = true, onFeeChanged, onStude
           onStudentChanged?.();
         }
       }
-    )
+    ) : null
   ] });
 }
 function ExtensionsTab({
@@ -151134,9 +151154,13 @@ async function getStudentFees(studentIds) {
 }
 async function attachFeeAndBranch(student, branches) {
   const fee = await getStudentFee(student.id);
-  return attachFeeAndBranchWithFee(student, branches, fee);
+  const [sessions, extensions] = await Promise.all([
+    getCollection(collections.sessions, [where("studentId", "==", student.id)]),
+    getCollection(collections.courseExtensions, [where("studentId", "==", student.id)])
+  ]);
+  return attachFeeAndBranchWithFee(student, branches, fee, sessions, extensions);
 }
-async function attachFeeAndBranchWithFee(student, branches, fee) {
+async function attachFeeAndBranchWithFee(student, branches, fee, sessions = [], extensions = []) {
   const mergedFee = pendingPaymentService.applyPendingPaymentsToFee(fee, student.id);
   const totalAmount = Number(mergedFee?.totalAmount ?? 0);
   const paidAmount = Number(mergedFee?.paidAmount ?? 0);
@@ -151144,9 +151168,17 @@ async function attachFeeAndBranchWithFee(student, branches, fee) {
   const durationDays = COURSE_COMPLETION_DAYS;
   const courseStartDate = getCourseStartDate(student);
   const expiryDate = calculateStudentExpiryDate(courseStartDate, durationDays);
+  const status = deriveStatusWithTrainingProgress(student, sessions, extensions);
+  if (status === "completed" && student.status !== "completed") {
+    await updateDoc(doc(db, collections.students, student.id), {
+      status: "completed",
+      completedAt: serverTimestamp()
+    });
+    firebaseUsageService.trackUsage("writes");
+  }
   return {
     ...student,
-    status: deriveStudentStatus(student),
+    status,
     durationDays,
     baseSessionCount: student.baseSessionCount ?? BASE_TRAINING_SESSION_COUNT,
     baseDurationDays: durationDays,
@@ -151159,6 +151191,23 @@ async function attachFeeAndBranchWithFee(student, branches, fee) {
     daysRemaining: getDaysRemaining(expiryDate),
     fee: mergedFee
   };
+}
+function completedSessionCount(session) {
+  return session.slots.filter((slot) => slot.date && slot.classType.trim()).length;
+}
+function deriveStatusWithTrainingProgress(student, sessions, extensions) {
+  const status = deriveStudentStatus(student);
+  if (status === "passed" || status === "completed") return status;
+  if (status !== "ongoing" && status !== "extended") return status;
+  const sessionsByCourse = /* @__PURE__ */ new Map();
+  sessions.filter((session) => session.studentId === student.id).forEach((session) => sessionsByCourse.set(session.courseType, session));
+  const studentExtensions = extensions.filter((extension) => extension.studentId === student.id);
+  const isTrainingCompleted = COURSE_PARTS[student.courseType].every((courseType) => {
+    const session = sessionsByCourse.get(courseType);
+    const entitlement = calculateTrainingEntitlement(student, studentExtensions, courseType);
+    return Boolean(session && completedSessionCount(session) >= entitlement.allowedSessions);
+  });
+  return isTrainingCompleted ? "completed" : status;
 }
 async function existingCourseDocs(collectionName, studentId) {
   return getCollection(collectionName, [where("studentId", "==", studentId)]);
@@ -151191,9 +151240,19 @@ const studentService = {
       const pageDocs = snapshot.docs.slice(0, pageSize2);
       const hasNextPage = snapshot.docs.length > pageSize2;
       const students = pageDocs.map((item) => ({ id: item.id, ...item.data() }));
-      const feesByStudent = await getStudentFees(students.map((student) => student.id));
+      const [feesByStudent, sessions, extensions] = await Promise.all([
+        getStudentFees(students.map((student) => student.id)),
+        getCollection(collections.sessions, effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : []),
+        getCollection(collections.courseExtensions, effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : [])
+      ]);
       const rows = await Promise.all(
-        students.map((student) => attachFeeAndBranchWithFee(student, branches, feesByStudent.get(student.id) ?? null))
+        students.map((student) => attachFeeAndBranchWithFee(
+          student,
+          branches,
+          feesByStudent.get(student.id) ?? null,
+          sessions.filter((session) => session.studentId === student.id),
+          extensions.filter((extension) => extension.studentId === student.id)
+        ))
       );
       const sortedRows = sortPageRows(rows, filters.sortField, filters.sortDirection);
       const startItem = rows.length === 0 ? 0 : (pageNumber - 1) * pageSize2 + 1;
@@ -151235,9 +151294,19 @@ const studentService = {
       return true;
     });
     const students = visibleDocs.map((item) => ({ id: item.id, ...item.data() }));
-    const feesByStudent = await getStudentFees(students.map((student) => student.id));
+    const [feesByStudent, sessions, extensions] = await Promise.all([
+      getStudentFees(students.map((student) => student.id)),
+      getCollection(collections.sessions, effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : []),
+      getCollection(collections.courseExtensions, effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : [])
+    ]);
     const rows = await Promise.all(
-      students.map((student) => attachFeeAndBranchWithFee(student, branches, feesByStudent.get(student.id) ?? null))
+      students.map((student) => attachFeeAndBranchWithFee(
+        student,
+        branches,
+        feesByStudent.get(student.id) ?? null,
+        sessions.filter((session) => session.studentId === student.id),
+        extensions.filter((extension) => extension.studentId === student.id)
+      ))
     );
     const sortedRows = sortPageRows(rows, filters.sortField ?? "createdAt", filters.sortDirection);
     const pagedRows = sortedRows.slice((pageNumber - 1) * pageSize2, pageNumber * pageSize2);
@@ -151267,7 +151336,18 @@ const studentService = {
     const search = normalizeSearch(filters.search ?? "");
     const courseFilteredStudents = studentsRaw.filter((student) => matchesCourseFilter(student, filters.courseType));
     const students = search ? courseFilteredStudents.filter((student) => studentMatchesSearch(student, search)) : courseFilteredStudents;
-    const studentsWithFee = await Promise.all(students.map((student) => attachFeeAndBranch(student, branches)));
+    const [feesByStudent, sessions, extensions] = await Promise.all([
+      getStudentFees(students.map((student) => student.id)),
+      getCollection(collections.sessions, effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : []),
+      getCollection(collections.courseExtensions, effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : [])
+    ]);
+    const studentsWithFee = await Promise.all(students.map((student) => attachFeeAndBranchWithFee(
+      student,
+      branches,
+      feesByStudent.get(student.id) ?? null,
+      sessions.filter((session) => session.studentId === student.id),
+      extensions.filter((extension) => extension.studentId === student.id)
+    )));
     return filters.status && filters.status !== "all" ? studentsWithFee.filter((student) => student.status === filters.status) : studentsWithFee;
   },
   subscribeStudents(filters = {}, onNext, onError) {
@@ -151276,18 +151356,28 @@ const studentService = {
     let latestStudents = [];
     let latestFees = [];
     let latestBranches = [];
+    let latestSessions = [];
+    let latestExtensions = [];
     let studentsLoaded = false;
     let feesLoaded = false;
     let branchesLoaded = false;
+    let sessionsLoaded = false;
+    let extensionsLoaded = false;
     const emit3 = async () => {
       if (!isActive) return;
-      if (!studentsLoaded || !feesLoaded || !branchesLoaded) return;
+      if (!studentsLoaded || !feesLoaded || !branchesLoaded || !sessionsLoaded || !extensionsLoaded) return;
       const search = normalizeSearch(filters.search ?? "");
       const courseFilteredStudents = latestStudents.filter((student) => matchesCourseFilter(student, filters.courseType));
       const students = search ? courseFilteredStudents.filter((student) => studentMatchesSearch(student, search)) : courseFilteredStudents;
       const feesByStudent = new Map(latestFees.map((fee) => [fee.studentId, fee]));
       const rows = await Promise.all(
-        students.map((student) => attachFeeAndBranchWithFee(student, latestBranches, feesByStudent.get(student.id) ?? null))
+        students.map((student) => attachFeeAndBranchWithFee(
+          student,
+          latestBranches,
+          feesByStudent.get(student.id) ?? null,
+          latestSessions.filter((session) => session.studentId === student.id),
+          latestExtensions.filter((extension) => extension.studentId === student.id)
+        ))
       );
       const filtered = filters.status && filters.status !== "all" ? rows.filter((student) => student.status === filters.status) : rows;
       if (isActive) onNext(filtered);
@@ -151337,6 +151427,28 @@ const studentService = {
           },
           onError,
           "branches:all"
+        ),
+        subscribeCollection(
+          collections.sessions,
+          scopedByBranch,
+          ({ rows }) => {
+            sessionsLoaded = true;
+            latestSessions = rows;
+            void emit3();
+          },
+          onError,
+          `sessions:students:${effectiveBranchId2 ?? "all"}`
+        ),
+        subscribeCollection(
+          collections.courseExtensions,
+          scopedByBranch,
+          ({ rows }) => {
+            extensionsLoaded = true;
+            latestExtensions = rows;
+            void emit3();
+          },
+          onError,
+          `extensions:students:${effectiveBranchId2 ?? "all"}`
         )
       ];
       cleanup = () => unsubscribers.forEach((unsubscribe) => unsubscribe());
@@ -151673,8 +151785,6 @@ const emptyDashboard = {
 function DashboardPage() {
   const profile = useAuthStore((state2) => state2.profile);
   const selectedBranchId = useAppStore((state2) => state2.branchId);
-  const alerts = useAlertStore((state2) => state2.alerts);
-  const fetchAlerts = useAlertStore((state2) => state2.fetchAlerts);
   const [selectedStudent, setSelectedStudent] = reactExports.useState(null);
   const [isManualRefreshing, setIsManualRefreshing] = reactExports.useState(false);
   const [isStudentLoading, setIsStudentLoading] = reactExports.useState(false);
@@ -151685,14 +151795,6 @@ function DashboardPage() {
       role: profile.role,
       userBranchId: profile.branchId,
       branchId: profile.role === "owner" ? selectedBranchId : profile.branchId
-    };
-  }, [profile, selectedBranchId]);
-  const alertFilters = reactExports.useMemo(() => {
-    if (!profile) return null;
-    return {
-      role: profile.role,
-      userBranchId: profile.branchId ?? void 0,
-      branchId: profile.role === "owner" ? selectedBranchId ?? "all" : profile.branchId ?? void 0
     };
   }, [profile, selectedBranchId]);
   const dashboardCacheKey = reactExports.useMemo(
@@ -151740,24 +151842,18 @@ function DashboardPage() {
     setErrorMessage("");
     try {
       setCachedDashboard(await dashboardService.getDashboardData(filters));
-      if (alertFilters) {
-        await fetchAlerts(alertFilters);
-      }
     } catch (error) {
       console.error("Failed to load dashboard:", error);
       setErrorMessage(getFriendlyErrorMessage(error, "Unable to load dashboard. Please check your connection and try again."));
     } finally {
       setIsManualRefreshing(false);
     }
-  }, [alertFilters, fetchAlerts, filters, setCachedDashboard]);
+  }, [filters, setCachedDashboard]);
   reactExports.useEffect(() => {
     if (!dashboardError) return;
     console.error("Failed to load dashboard:", dashboardError);
     setErrorMessage(getFriendlyErrorMessage(dashboardError, "Unable to load dashboard. Please check your connection and try again."));
   }, [dashboardError]);
-  reactExports.useEffect(() => {
-    if (alertFilters) void fetchAlerts(alertFilters);
-  }, [alertFilters, fetchAlerts]);
   const handleViewStudent = async (studentId) => {
     setIsStudentLoading(true);
     setErrorMessage("");
@@ -151790,7 +151886,6 @@ function DashboardPage() {
   const summary = dashboard.summary;
   const greeting = getGreeting();
   const branchContext = profile?.role === "owner" ? selectedBranchId ? "Showing: Selected Branch" : "Showing: All Branches" : "Showing: Assigned Branch";
-  const openAlertCount = alerts.length;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "space-y-5", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "rounded-lg border border-blue-100 bg-white p-5 shadow-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
       PageHeader,
@@ -151841,13 +151936,13 @@ function DashboardPage() {
           {
             label: "This Month Net",
             value: formatCurrency(summary.monthlyNetAmount),
-            helper: `${formatCurrency(summary.monthlyExpenses)} expenses, ${openAlertCount} alerts`,
+            helper: `${formatCurrency(summary.monthlyExpenses)} expenses this month`,
             tone: summary.monthlyNetAmount >= 0 ? "good" : "danger",
             icon: /* @__PURE__ */ jsxRuntimeExports.jsx(TrendingUp, { className: "h-4 w-4", "aria-hidden": "true" })
           }
         )
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-3 lg:grid-cols-3", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-3 lg:grid-cols-2", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           DashboardMetric,
           {
@@ -151867,19 +151962,9 @@ function DashboardPage() {
             detail: `${formatCurrency(summary.todayExpenses)} today`,
             tone: "danger"
           }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          DashboardMetric,
-          {
-            icon: /* @__PURE__ */ jsxRuntimeExports.jsx(TriangleAlert, { className: "h-4 w-4", "aria-hidden": "true" }),
-            label: "Open Alerts",
-            value: String(openAlertCount),
-            detail: "Active reminders and notices",
-            tone: openAlertCount > 0 ? "warning" : "good"
-          }
         )
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(420px,0.9fr)]", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-5", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(MonthlyTransactionsTable, { transactions: dashboard.monthlyTransactions }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           PendingFeeStudentsTable,
@@ -151935,6 +152020,7 @@ function DashboardMetric({
   ] }) });
 }
 function MonthlyTransactionsTable({ transactions }) {
+  const columns = splitIntoColumns(transactions);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(Card, { className: "overflow-hidden", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(CardHeader, { className: "flex-row items-start justify-between gap-4 border-b bg-muted/20 p-4", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
@@ -151947,28 +152033,30 @@ function MonthlyTransactionsTable({ transactions }) {
         " entries"
       ] })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(CardContent, { className: "p-4", children: transactions.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmptyState, { title: "No transactions this month.", description: "Payments and expenses will appear here after they are recorded." }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-x-auto rounded-md border", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Table, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(TableHeader, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(TableRow, { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Date" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Type" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Details" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { children: "Branch" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(TableHead, { className: "text-right", children: "Amount" })
-      ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(TableBody, { children: transactions.map((transaction) => /* @__PURE__ */ jsxRuntimeExports.jsxs(TableRow, { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { className: "whitespace-nowrap", children: formatDate(transaction.date) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Badge, { variant: transaction.type === "payment" ? "success" : "danger", children: transaction.type === "payment" ? "Payment" : "Expense" }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-1", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-medium", children: transaction.type === "expense" ? formatExpenseCategory(transaction.title) : transaction.title }),
-          transaction.detail ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-muted-foreground", children: transaction.detail }) : null
-        ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(TableCell, { className: "whitespace-nowrap text-muted-foreground", children: transaction.branchName ?? "-" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(TableCell, { className: transaction.type === "payment" ? "whitespace-nowrap text-right font-semibold text-success" : "whitespace-nowrap text-right font-semibold text-danger", children: [
-          transaction.type === "payment" ? "+" : "-",
-          formatCurrency(transaction.amount)
-        ] })
-      ] }, `${transaction.type}-${transaction.id}`)) })
-    ] }) }) })
+    /* @__PURE__ */ jsxRuntimeExports.jsx(CardContent, { className: "p-4", children: transactions.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmptyState, { title: "No transactions this month.", description: "Payments and expenses will appear here after they are recorded." }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid gap-3 lg:grid-cols-2", children: columns.filter((column) => column.length > 0).map((column, columnIndex) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-hidden rounded-md border", children: column.map((transaction) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "div",
+      {
+        className: "flex items-start justify-between gap-4 border-b p-3 last:border-b-0 hover:bg-blue-50/60",
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "min-w-0 space-y-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap items-center gap-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Badge, { variant: transaction.type === "payment" ? "success" : "danger", children: transaction.type === "payment" ? "Payment" : "Expense" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-medium text-muted-foreground", children: formatDate(transaction.date) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs text-muted-foreground", children: transaction.branchName ?? "-" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "min-w-0", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "truncate font-medium text-main-text", children: transaction.type === "expense" ? formatExpenseCategory(transaction.title) : transaction.title }),
+              transaction.detail ? /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "truncate text-xs text-muted-foreground", children: transaction.detail }) : null
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: transaction.type === "payment" ? "shrink-0 whitespace-nowrap font-semibold text-success" : "shrink-0 whitespace-nowrap font-semibold text-danger", children: [
+            transaction.type === "payment" ? "+" : "-",
+            formatCurrency(transaction.amount)
+          ] })
+        ]
+      },
+      `${transaction.type}-${transaction.id}`
+    )) }, columnIndex)) }) })
   ] });
 }
 function PendingFeeStudentsTable({
@@ -152027,6 +152115,10 @@ function getGreeting() {
   if (hour < 17) return "Good afternoon";
   return "Good evening";
 }
+function splitIntoColumns(items) {
+  const midpoint = Math.ceil(items.length / 2);
+  return [items.slice(0, midpoint), items.slice(midpoint)];
+}
 function LoginPage() {
   const setUser = useAuthStore((state2) => state2.setUser);
   const [email, setEmail] = reactExports.useState("");
@@ -152045,7 +152137,7 @@ function LoginPage() {
       }
       setUser(user, profile);
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : "Unable to sign in.");
+      setErrorMessage(getLoginErrorMessage(error));
     } finally {
       setIsSubmitting(false);
     }
@@ -152091,6 +152183,32 @@ function LoginPage() {
       /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { className: "w-full", type: "submit", disabled: isSubmitting, children: isSubmitting ? "Signing in..." : "Login" })
     ] }) })
   ] }) });
+}
+function getLoginErrorMessage(error) {
+  const code = getErrorCode(error);
+  switch (code) {
+    case "auth/invalid-email":
+      return "Enter a valid email address.";
+    case "auth/user-not-found":
+      return "No account was found for this email address.";
+    case "auth/wrong-password":
+      return "The password is incorrect. Please try again.";
+    case "auth/invalid-credential":
+      return "The email address or password is incorrect. Please check both and try again.";
+    case "auth/too-many-requests":
+      return "Too many failed login attempts. Please wait a few minutes and try again.";
+    case "auth/network-request-failed":
+      return "Unable to connect. Please check your internet connection and try again.";
+    default:
+      return error instanceof Error && error.message ? error.message : "Unable to sign in. Please check your email and password.";
+  }
+}
+function getErrorCode(error) {
+  if (typeof error === "object" && error !== null && "code" in error) {
+    const code = error.code;
+    return typeof code === "string" ? code : "";
+  }
+  return "";
 }
 const emptySummary$1 = {
   totalExpenses: 0,
@@ -153056,12 +153174,25 @@ function PaymentsPage() {
   }, []);
   const handleSelectStudent = (student) => {
     setSelectedStudent(student);
-    setAmount(student.balance > 0 ? String(student.balance) : "");
+    setAmount("");
     setLastReceiptNo("");
     setReceiptStudent(null);
     setIsReceiptDialogOpen(false);
     setMessage("");
     setErrorMessage("");
+  };
+  const handleAmountChange = (value2) => {
+    if (!selectedStudent) {
+      setAmount("");
+      return;
+    }
+    if (value2 === "") {
+      setAmount("");
+      return;
+    }
+    const parsedValue = Number(value2);
+    if (!Number.isFinite(parsedValue)) return;
+    setAmount(String(Math.min(parsedValue, selectedStudent.balance)));
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -153199,7 +153330,19 @@ function PaymentsPage() {
                   INDIAN_CURRENCY_SYMBOL,
                   ") *"
                 ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Input, { className: "h-11 text-base font-medium", id: "payment-amount", type: "number", min: "1", value: amount, onChange: (event) => setAmount(event.target.value), disabled: !selectedStudent || isSaving })
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  Input,
+                  {
+                    className: "h-11 text-base font-medium",
+                    id: "payment-amount",
+                    type: "number",
+                    min: "1",
+                    max: selectedStudent?.balance,
+                    value: amount,
+                    onChange: (event) => handleAmountChange(event.target.value),
+                    disabled: !selectedStudent || isSaving
+                  }
+                )
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { className: "text-xs font-semibold uppercase tracking-wide text-muted-foreground", htmlFor: "payment-date", children: "Payment Date *" }),
@@ -154187,9 +154330,14 @@ function StaffManagement() {
     if (!staffError) return;
     setErrorMessage(getFriendlyErrorMessage(staffError, "Could not load staff users."));
   }, [staffError]);
-  const handleSaved = async (successMessage) => {
+  const handleSaved = async (successMessage, updatedStaff) => {
     setModalState(null);
     setMessage(successMessage);
+    if (updatedStaff) {
+      setStaffProfiles(
+        (current) => current.map((staff) => staff.id === updatedStaff.id ? { ...staff, ...updatedStaff } : staff)
+      );
+    }
     invalidatePageCache([cacheTags.settings, cacheTags.staff, cacheTags.branches]);
     await loadData(true);
   };
@@ -154268,7 +154416,7 @@ function StaffManagement() {
               staff: modalState.staff,
               branches,
               onCancel: () => setModalState(null),
-              onSaved: (successMessage) => void handleSaved(successMessage)
+              onSaved: (successMessage, updatedStaff) => void handleSaved(successMessage, updatedStaff)
             }
           )
         ] }) : null,
@@ -154401,14 +154549,26 @@ function EditStaffForm({
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorMessage("");
-    if (!fullName.trim()) return setErrorMessage("Full name is required.");
-    if (!phone.trim()) return setErrorMessage("Mobile number is required.");
-    if (phone.replace(/\D/g, "").length < 10) return setErrorMessage("Mobile number must have at least 10 digits.");
+    const nextFullName = fullName.trim();
+    const nextPhone = phone.trim();
+    if (!nextFullName) return setErrorMessage("Full name is required.");
+    if (!nextPhone) return setErrorMessage("Mobile number is required.");
+    if (nextPhone.replace(/\D/g, "").length < 10) return setErrorMessage("Mobile number must have at least 10 digits.");
     if (!branchId) return setErrorMessage("Branch is required.");
     setIsSaving(true);
     try {
-      await staffAccountService.updateStaffProfile(staff.id, { fullName, phone, branchId });
-      onSaved("Staff profile saved successfully.");
+      await staffAccountService.updateStaffProfile(staff.id, {
+        fullName: nextFullName,
+        phone: nextPhone,
+        branchId
+      });
+      onSaved("Staff profile saved successfully.", {
+        ...staff,
+        fullName: nextFullName,
+        phone: nextPhone,
+        branchId,
+        branch: branches.find((branch) => branch.id === branchId) ?? staff.branch ?? null
+      });
     } catch (error) {
       setErrorMessage(getFriendlyErrorMessage(error, "Could not save staff profile."));
     } finally {
