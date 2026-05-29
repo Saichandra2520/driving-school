@@ -6,6 +6,7 @@ import { PageHeader } from '@/components/common/PageHeader';
 import { PageLoader } from '@/components/common/PageLoader';
 import { SearchInput } from '@/components/common/SearchInput';
 import { StatCard } from '@/components/common/StatCard';
+import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { DownloadReceiptButton } from '@/components/receipts/DownloadReceiptButton';
 import { ShareReceiptPdfButton } from '@/components/receipts/ShareReceiptPdfButton';
 import { WhatsAppReceiptButton } from '@/components/receipts/WhatsAppReceiptButton';
@@ -54,6 +55,7 @@ export function PaymentsPage(): JSX.Element {
   const [lastReceiptNo, setLastReceiptNo] = useState('');
   const [receiptStudent, setReceiptStudent] = useState<StudentWithFee | null>(null);
   const [isReceiptDialogOpen, setIsReceiptDialogOpen] = useState(false);
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -177,6 +179,7 @@ export function PaymentsPage(): JSX.Element {
     setLastReceiptNo('');
     setReceiptStudent(null);
     setIsReceiptDialogOpen(false);
+    setIsConfirmDialogOpen(false);
     setMessage('');
     setErrorMessage('');
   };
@@ -192,10 +195,12 @@ export function PaymentsPage(): JSX.Element {
       return;
     }
 
-    const parsedValue = Number(value);
-    if (!Number.isFinite(parsedValue)) return;
+    if (!/^\d+(\.\d{0,2})?$/.test(value)) return;
 
-    setAmount(String(Math.min(parsedValue, selectedStudent.balance)));
+    const parsedValue = Number(value);
+    if (!Number.isFinite(parsedValue) || parsedValue > selectedStudent.balance) return;
+
+    setAmount(value);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
@@ -212,6 +217,38 @@ export function PaymentsPage(): JSX.Element {
     if (parsedAmount > selectedStudent.balance) return setErrorMessage('Amount cannot exceed balance.');
     if (!paymentDate) return setErrorMessage('Payment date is required.');
     if (paymentDate > getTodayDateInputValue()) return setErrorMessage('Payment date cannot be in the future.');
+
+    setIsConfirmDialogOpen(true);
+  };
+
+  const handleConfirmPayment = async (): Promise<void> => {
+    setMessage('');
+    setErrorMessage('');
+    setLastReceiptNo('');
+    setReceiptStudent(null);
+    setIsReceiptDialogOpen(false);
+
+    const parsedAmount = Number(amount);
+    if (!selectedStudent) {
+      setIsConfirmDialogOpen(false);
+      return setErrorMessage('Select a student first.');
+    }
+    if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
+      setIsConfirmDialogOpen(false);
+      return setErrorMessage('Amount must be greater than 0.');
+    }
+    if (parsedAmount > selectedStudent.balance) {
+      setIsConfirmDialogOpen(false);
+      return setErrorMessage('Amount cannot exceed balance.');
+    }
+    if (!paymentDate) {
+      setIsConfirmDialogOpen(false);
+      return setErrorMessage('Payment date is required.');
+    }
+    if (paymentDate > getTodayDateInputValue()) {
+      setIsConfirmDialogOpen(false);
+      return setErrorMessage('Payment date cannot be in the future.');
+    }
 
     setIsSaving(true);
     try {
@@ -240,16 +277,19 @@ export function PaymentsPage(): JSX.Element {
       setAmount('');
       setNotes('');
       if (savedInstallment && isPendingInstallment(savedInstallment)) {
+        setIsConfirmDialogOpen(false);
         setLastReceiptNo('');
         setReceiptStudent(null);
         setMessage('Payment saved offline. Receipt will be generated after sync.');
       } else {
         setLastReceiptNo(receiptNo);
         setReceiptStudent(refreshedStudent ?? selectedStudent);
+        setIsConfirmDialogOpen(false);
         setIsReceiptDialogOpen(Boolean(receiptNo));
         setMessage('Payment saved successfully.');
       }
     } catch (error) {
+      setIsConfirmDialogOpen(false);
       setErrorMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
     } finally {
       setIsSaving(false);
@@ -270,6 +310,22 @@ export function PaymentsPage(): JSX.Element {
         receiptNo={lastReceiptNo}
         onOpenChange={setIsReceiptDialogOpen}
         onError={setErrorMessage}
+      />
+      <ConfirmDialog
+        open={isConfirmDialogOpen}
+        title="Confirm Payment"
+        description={
+          selectedStudent
+            ? `Save payment of ${formatCurrency(Number(amount))} for ${selectedStudent.fullName} on ${formatDate(paymentDate)}?`
+            : 'Save this payment?'
+        }
+        confirmLabel={isSaving ? 'Saving...' : 'Confirm'}
+        confirmDisabled={isSaving}
+        cancelDisabled={isSaving}
+        onCancel={() => {
+          if (!isSaving) setIsConfirmDialogOpen(false);
+        }}
+        onConfirm={handleConfirmPayment}
       />
 
       <div className={hasPaymentWorkspace ? 'grid gap-5 xl:grid-cols-[minmax(340px,430px)_1fr]' : 'grid gap-5'}>
@@ -362,9 +418,8 @@ export function PaymentsPage(): JSX.Element {
                     <Input
                       className="h-11 text-base font-medium"
                       id="payment-amount"
-                      type="number"
-                      min="1"
-                      max={selectedStudent?.balance}
+                      type="text"
+                      inputMode="decimal"
                       value={amount}
                       onChange={(event) => handleAmountChange(event.target.value)}
                       disabled={!selectedStudent || isSaving}

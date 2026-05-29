@@ -25628,33 +25628,33 @@ const createLucideIcon = (iconName, iconNode) => {
   Component2.displayName = toPascalCase(iconName);
   return Component2;
 };
-const __iconNode$x = [
+const __iconNode$w = [
   ["path", { d: "M17 7 7 17", key: "15tmo1" }],
   ["path", { d: "M17 17H7V7", key: "1org7z" }]
 ];
-const ArrowDownLeft = createLucideIcon("arrow-down-left", __iconNode$x);
-const __iconNode$w = [
+const ArrowDownLeft = createLucideIcon("arrow-down-left", __iconNode$w);
+const __iconNode$v = [
   ["path", { d: "M12 5v14", key: "s699le" }],
   ["path", { d: "m19 12-7 7-7-7", key: "1idqje" }]
 ];
-const ArrowDown = createLucideIcon("arrow-down", __iconNode$w);
-const __iconNode$v = [
+const ArrowDown = createLucideIcon("arrow-down", __iconNode$v);
+const __iconNode$u = [
   ["path", { d: "M7 7h10v10", key: "1tivn9" }],
   ["path", { d: "M7 17 17 7", key: "1vkiza" }]
 ];
-const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$v);
-const __iconNode$u = [
+const ArrowUpRight = createLucideIcon("arrow-up-right", __iconNode$u);
+const __iconNode$t = [
   ["path", { d: "m5 12 7-7 7 7", key: "hav0vg" }],
   ["path", { d: "M12 19V5", key: "x0mq9r" }]
 ];
-const ArrowUp = createLucideIcon("arrow-up", __iconNode$u);
-const __iconNode$t = [
+const ArrowUp = createLucideIcon("arrow-up", __iconNode$t);
+const __iconNode$s = [
   ["rect", { width: "20", height: "12", x: "2", y: "6", rx: "2", key: "9lu3g6" }],
   ["circle", { cx: "12", cy: "12", r: "2", key: "1c9p78" }],
   ["path", { d: "M6 12h.01M18 12h.01", key: "113zkx" }]
 ];
-const Banknote = createLucideIcon("banknote", __iconNode$t);
-const __iconNode$s = [
+const Banknote = createLucideIcon("banknote", __iconNode$s);
+const __iconNode$r = [
   ["path", { d: "M8 2v4", key: "1cmpym" }],
   ["path", { d: "M16 2v4", key: "4m81vk" }],
   ["rect", { width: "18", height: "18", x: "3", y: "4", rx: "2", key: "1hopcy" }],
@@ -25666,28 +25666,28 @@ const __iconNode$s = [
   ["path", { d: "M12 18h.01", key: "mhygvu" }],
   ["path", { d: "M16 18h.01", key: "kzsmim" }]
 ];
-const CalendarDays = createLucideIcon("calendar-days", __iconNode$s);
-const __iconNode$r = [
+const CalendarDays = createLucideIcon("calendar-days", __iconNode$r);
+const __iconNode$q = [
   ["path", { d: "M3 3v16a2 2 0 0 0 2 2h16", key: "c24i48" }],
   ["path", { d: "M18 17V9", key: "2bz60n" }],
   ["path", { d: "M13 17V5", key: "1frdt8" }],
   ["path", { d: "M8 17v-3", key: "17ska0" }]
 ];
-const ChartColumn = createLucideIcon("chart-column", __iconNode$r);
-const __iconNode$q = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-const ChevronDown = createLucideIcon("chevron-down", __iconNode$q);
-const __iconNode$p = [
+const ChartColumn = createLucideIcon("chart-column", __iconNode$q);
+const __iconNode$p = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$p);
+const __iconNode$o = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const CircleCheck = createLucideIcon("circle-check", __iconNode$p);
-const __iconNode$o = [
+const CircleCheck = createLucideIcon("circle-check", __iconNode$o);
+const __iconNode$n = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }],
   ["path", { d: "M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662", key: "154egf" }]
 ];
-const CircleUser = createLucideIcon("circle-user", __iconNode$o);
-const __iconNode$n = [
+const CircleUser = createLucideIcon("circle-user", __iconNode$n);
+const __iconNode$m = [
   ["rect", { width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1", key: "tgr4d6" }],
   [
     "path",
@@ -25698,34 +25698,34 @@ const __iconNode$n = [
   ],
   ["path", { d: "m9 14 2 2 4-4", key: "df797q" }]
 ];
-const ClipboardCheck = createLucideIcon("clipboard-check", __iconNode$n);
-const __iconNode$m = [
+const ClipboardCheck = createLucideIcon("clipboard-check", __iconNode$m);
+const __iconNode$l = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "M12 6v6h4", key: "135r8i" }]
 ];
-const Clock3 = createLucideIcon("clock-3", __iconNode$m);
-const __iconNode$l = [
+const Clock3 = createLucideIcon("clock-3", __iconNode$l);
+const __iconNode$k = [
   ["path", { d: "M10.94 5.274A7 7 0 0 1 15.71 10h1.79a4.5 4.5 0 0 1 4.222 6.057", key: "1uxyv8" }],
   ["path", { d: "M18.796 18.81A4.5 4.5 0 0 1 17.5 19H9A7 7 0 0 1 5.79 5.78", key: "99tcn7" }],
   ["path", { d: "m2 2 20 20", key: "1ooewy" }]
 ];
-const CloudOff = createLucideIcon("cloud-off", __iconNode$l);
-const __iconNode$k = [
+const CloudOff = createLucideIcon("cloud-off", __iconNode$k);
+const __iconNode$j = [
   ["path", { d: "M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z", key: "p7xjir" }]
 ];
-const Cloud = createLucideIcon("cloud", __iconNode$k);
-const __iconNode$j = [
+const Cloud = createLucideIcon("cloud", __iconNode$j);
+const __iconNode$i = [
   ["rect", { width: "20", height: "14", x: "2", y: "5", rx: "2", key: "ynyp8z" }],
   ["line", { x1: "2", x2: "22", y1: "10", y2: "10", key: "1b3vmo" }]
 ];
-const CreditCard = createLucideIcon("credit-card", __iconNode$j);
-const __iconNode$i = [
+const CreditCard = createLucideIcon("credit-card", __iconNode$i);
+const __iconNode$h = [
   ["path", { d: "M12 15V3", key: "m9g1x1" }],
   ["path", { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4", key: "ih7n3h" }],
   ["path", { d: "m7 10 5 5 5-5", key: "brsn70" }]
 ];
-const Download = createLucideIcon("download", __iconNode$i);
-const __iconNode$h = [
+const Download = createLucideIcon("download", __iconNode$h);
+const __iconNode$g = [
   [
     "path",
     {
@@ -25735,19 +25735,7 @@ const __iconNode$h = [
   ],
   ["circle", { cx: "12", cy: "12", r: "3", key: "1v7zrd" }]
 ];
-const Eye = createLucideIcon("eye", __iconNode$h);
-const __iconNode$g = [
-  [
-    "path",
-    {
-      d: "M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z",
-      key: "j76jl0"
-    }
-  ],
-  ["path", { d: "M22 10v6", key: "1lu8f3" }],
-  ["path", { d: "M6 12.5V16a6 3 0 0 0 12 0v-3.5", key: "1r8lef" }]
-];
-const GraduationCap = createLucideIcon("graduation-cap", __iconNode$g);
+const Eye = createLucideIcon("eye", __iconNode$g);
 const __iconNode$f = [
   ["rect", { width: "7", height: "9", x: "3", y: "3", rx: "1", key: "10lvy0" }],
   ["rect", { width: "7", height: "5", x: "14", y: "3", rx: "1", key: "16une8" }],
@@ -43787,11 +43775,14 @@ async function assertCanManageStudent$1(studentId) {
   }
   return student;
 }
-async function getFeeReferenceByStudentId(studentId) {
-  return getFeeByStudentIdRaw(studentId).then((fee) => fee.id);
+async function getFeeReferenceByStudentId(studentId, branchId) {
+  return getFeeByStudentIdRaw(studentId, branchId).then((fee) => fee.id);
 }
-async function getFeeByStudentIdRaw(studentId) {
-  const fees = await getCollection(collections.fees, [where("studentId", "==", studentId)]);
+async function getFeeByStudentIdRaw(studentId, branchId) {
+  const fees = await getCollection(collections.fees, [
+    where("studentId", "==", studentId),
+    ...branchId ? [where("branchId", "==", branchId)] : []
+  ]);
   const fee = fees[0];
   if (!fee) throw new Error("Unable to load fee details.");
   return recalculateFee$1({ ...fee, branchId: fee.branchId ?? "" });
@@ -43822,7 +43813,7 @@ function recalculateFee$1(fee) {
   };
 }
 async function saveInstallmentOnline(studentId, payload, options = {}) {
-  const feeId = await getFeeReferenceByStudentId(studentId);
+  const feeId = await getFeeReferenceByStudentId(studentId, options.branchId);
   return runTransaction(db, async (transaction) => {
     const fee = await getFeeInTransaction(transaction, feeId);
     const currentFee = recalculateFee$1(fee);
@@ -43845,7 +43836,9 @@ async function saveInstallmentOnline(studentId, payload, options = {}) {
     const nextInstallments = [...currentFee.installments, installment];
     const paidAmount = nextInstallments.reduce((total, item) => total + Number(item.amount), 0);
     const balance = Number(currentFee.totalAmount) - paidAmount;
+    const branchId = currentFee.branchId || options.branchId || "";
     transaction.update(doc(db, collections.fees, fee.id), {
+      branchId,
       installments: nextInstallments,
       paidAmount,
       balance
@@ -43853,6 +43846,7 @@ async function saveInstallmentOnline(studentId, payload, options = {}) {
     firebaseUsageService.trackUsage("writes");
     return {
       ...currentFee,
+      branchId,
       installments: nextInstallments,
       paidAmount,
       balance
@@ -43864,8 +43858,11 @@ async function saveInstallmentOnline(studentId, payload, options = {}) {
 }
 const feeService = {
   async getFeeByStudentId(studentId) {
-    await assertCanManageStudent$1(studentId);
-    const fees = await getCollection(collections.fees, [where("studentId", "==", studentId)]);
+    const student = await assertCanManageStudent$1(studentId);
+    const fees = await getCollection(collections.fees, [
+      where("studentId", "==", studentId),
+      where("branchId", "==", student.branchId)
+    ]);
     return fees[0] ? pendingPaymentService.applyPendingPaymentsToFee(recalculateFee$1(fees[0]), studentId) : null;
   },
   async addInstallment(studentId, payload) {
@@ -43873,7 +43870,7 @@ const feeService = {
     if (!payload.date) throw new Error("Payment date is required.");
     const student = await assertCanManageStudent$1(studentId);
     if (!useSyncStore.getState().isOnline) {
-      const baseFee = await getFeeByStudentIdRaw(studentId);
+      const baseFee = await getFeeByStudentIdRaw(studentId, student.branchId);
       const currentFee = pendingPaymentService.applyPendingPaymentsToFee(baseFee, studentId) ?? baseFee;
       if (payload.amount > currentFee.balance) {
         throw new Error("Amount cannot exceed balance.");
@@ -43894,14 +43891,14 @@ const feeService = {
         throw new Error("Pending offline payments must sync before recording another payment for this student.");
       }
     }
-    return saveInstallmentOnline(studentId, payload);
+    return saveInstallmentOnline(studentId, payload, { branchId: student.branchId });
   },
   async updateInstallment(studentId, receiptNo, payload) {
     assertOnlineForReceipt();
     assertValidAmount(payload.amount);
     if (!payload.date) throw new Error("Payment date is required.");
-    await assertCanManageStudent$1(studentId);
-    const feeId = await getFeeReferenceByStudentId(studentId);
+    const student = await assertCanManageStudent$1(studentId);
+    const feeId = await getFeeReferenceByStudentId(studentId, student.branchId);
     return runTransaction(db, async (transaction) => {
       const fee = await getFeeInTransaction(transaction, feeId);
       const currentFee = recalculateFee$1(fee);
@@ -43943,8 +43940,8 @@ const feeService = {
   },
   async deleteInstallment(studentId, receiptNo) {
     assertOnlineForReceipt();
-    await assertCanManageStudent$1(studentId);
-    const feeId = await getFeeReferenceByStudentId(studentId);
+    const student = await assertCanManageStudent$1(studentId);
+    const feeId = await getFeeReferenceByStudentId(studentId, student.branchId);
     return runTransaction(db, async (transaction) => {
       const fee = await getFeeInTransaction(transaction, feeId);
       const currentFee = recalculateFee$1(fee);
@@ -43985,7 +43982,7 @@ const feeService = {
     for (const payment of payments) {
       pendingPaymentService.markSyncing(payment.id);
       try {
-        await assertCanManageStudent$1(payment.studentId);
+        const student = await assertCanManageStudent$1(payment.studentId);
         await saveInstallmentOnline(
           payment.studentId,
           {
@@ -43994,6 +43991,7 @@ const feeService = {
             notes: payment.notes
           },
           {
+            branchId: student.branchId,
             clientPaymentId: payment.id,
             createdAt: payment.createdAt
           }
@@ -44549,6 +44547,13 @@ const useAuthStore = create((set5) => ({
     set5({ user: null, profile: null, authError: null, isLoading: false });
   }
 }));
+function getFriendlyErrorMessage(error, fallback = "Something went wrong") {
+  const message = error instanceof Error ? error.message : "";
+  if (message.toLowerCase().includes("failed to fetch") || message.toLowerCase().includes("network") || message.toLowerCase().includes("fetch")) {
+    return "Unable to connect. Please check your internet connection.";
+  }
+  return message || fallback;
+}
 const ownerNavItems = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
   { to: "/students", label: "Students", icon: Users },
@@ -44571,6 +44576,7 @@ function MainLayout() {
   const isOnline = useSyncStore((state2) => state2.isOnline);
   const setOnlineStatus = useSyncStore((state2) => state2.setOnlineStatus);
   const [branches, setBranches] = reactExports.useState([]);
+  const [branchLoadError, setBranchLoadError] = reactExports.useState("");
   const isOwner = profile?.role === "owner";
   const navItems = isOwner ? ownerNavItems : staffNavItems;
   reactExports.useEffect(() => {
@@ -44603,14 +44609,41 @@ function MainLayout() {
     }
   }, [profile, setBranchId]);
   reactExports.useEffect(() => {
+    if (!profile) {
+      setBranches([]);
+      setBranchLoadError("");
+      return;
+    }
+    if (profile.role === "staff") {
+      if (!profile.branchId) {
+        setBranches([]);
+        setBranchLoadError("");
+        return;
+      }
+      let isActive = true;
+      void settingsService.getBranchById(profile.branchId).then((branch) => {
+        if (!isActive) return;
+        setBranches(branch ? [branch] : []);
+        setBranchLoadError(branch ? "" : `Assigned branch was not found in Firebase for ID: ${profile.branchId}`);
+      }).catch((error) => {
+        console.error(`Failed to load branch ${profile.branchId}:`, error);
+        if (!isActive) return;
+        setBranches([]);
+        setBranchLoadError(getFriendlyErrorMessage(error, "Could not load your assigned branch from Firebase."));
+      });
+      return () => {
+        isActive = false;
+      };
+    }
     const unsubscribe = settingsService.subscribeBranches(
       (data2) => {
-        const scopedBranches = profile?.role === "staff" && profile.branchId ? data2.filter((branch) => branch.id === profile.branchId) : data2;
-        setBranches([...scopedBranches].sort((a2, b2) => a2.name.localeCompare(b2.name)));
+        setBranches([...data2].sort((a2, b2) => a2.name.localeCompare(b2.name)));
+        setBranchLoadError("");
       },
       (error) => {
         console.error("Failed to load branches:", error);
         setBranches([]);
+        setBranchLoadError(getFriendlyErrorMessage(error, "Could not load branches from Firebase."));
       }
     );
     return unsubscribe;
@@ -44622,8 +44655,8 @@ function MainLayout() {
     if (!branchId) {
       return "Branch not assigned";
     }
-    return branches.find((branch) => branch.id === branchId)?.name ?? branchId;
-  }, [branchId, branches, isOwner]);
+    return branches.find((branch) => branch.id === branchId)?.name ?? (profile?.role === "staff" ? "Assigned Branch" : "Selected Branch");
+  }, [branchId, branches, isOwner, profile?.role]);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex min-h-screen bg-background text-foreground", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("aside", { className: "fixed inset-y-0 left-0 z-30 flex w-72 shrink-0 flex-col border-r border-[#1E293B] bg-[#0F172A]", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border-b border-[#1E293B] px-5 py-5", children: [
@@ -44710,6 +44743,7 @@ function MainLayout() {
         ] })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "flex-1 p-6", children: [
+        branchLoadError ? /* @__PURE__ */ jsxRuntimeExports.jsx(Alert, { variant: "destructive", className: "mb-4", children: branchLoadError }) : null,
         /* @__PURE__ */ jsxRuntimeExports.jsx(CachedDataNotice, {}),
         /* @__PURE__ */ jsxRuntimeExports.jsx(Outlet, {})
       ] })
@@ -44782,19 +44816,13 @@ const Label = reactExports.forwardRef(
   )
 );
 Label.displayName = "Label";
-function getFriendlyErrorMessage(error, fallback = "Something went wrong") {
-  const message = error instanceof Error ? error.message : "";
-  if (message.toLowerCase().includes("failed to fetch") || message.toLowerCase().includes("network") || message.toLowerCase().includes("fetch")) {
-    return "Unable to connect. Please check your internet connection.";
-  }
-  return message || fallback;
-}
 function AccountPage() {
   const user = useAuthStore((state2) => state2.user);
   const profile = useAuthStore((state2) => state2.profile);
   const setUser = useAuthStore((state2) => state2.setUser);
   const restoreSession = useAuthStore((state2) => state2.restoreSession);
   const canChangePassword = profile?.role === "owner";
+  const canEditName = profile?.role === "owner";
   const [isEditingName, setIsEditingName] = reactExports.useState(false);
   const [fullName, setFullName] = reactExports.useState(profile?.fullName ?? "");
   const [currentPassword, setCurrentPassword] = reactExports.useState("");
@@ -44890,7 +44918,7 @@ function AccountPage() {
     /* @__PURE__ */ jsxRuntimeExports.jsxs(Card, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs(CardHeader, { className: "flex flex-row items-center justify-between space-y-0", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(CardTitle, { className: "text-lg", children: "My Profile" }),
-        !isEditingName ? /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        canEditName && !isEditingName ? /* @__PURE__ */ jsxRuntimeExports.jsxs(
           Button,
           {
             type: "button",
@@ -44910,7 +44938,7 @@ function AccountPage() {
         ) : null
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs(CardContent, { className: "grid gap-4 sm:grid-cols-2", children: [
-        isEditingName ? /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "space-y-3 sm:col-span-2", onSubmit: handleNameSubmit, children: [
+        canEditName && isEditingName ? /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "space-y-3 sm:col-span-2", onSubmit: handleNameSubmit, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "account-name", children: "Name" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -46219,17 +46247,22 @@ function ConfirmDialog({
   title: title2,
   description,
   confirmLabel = "Delete",
+  confirmDisabled = false,
+  cancelDisabled = false,
   onCancel,
   onConfirm
 }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(AlertDialog, { open, onOpenChange: (nextOpen) => !nextOpen && onCancel(), children: open ? /* @__PURE__ */ jsxRuntimeExports.jsxs(AlertDialogContent, { onClose: onCancel, className: "max-w-md", children: [
+  const handleCancel = () => {
+    if (!cancelDisabled) onCancel();
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(AlertDialog, { open, onOpenChange: (nextOpen) => !nextOpen && handleCancel(), children: open ? /* @__PURE__ */ jsxRuntimeExports.jsxs(AlertDialogContent, { onClose: handleCancel, className: "max-w-md", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(AlertDialogHeader, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(AlertDialogTitle, { children: title2 }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(AlertDialogDescription, { children: description })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-end gap-2", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", variant: "outline", onClick: onCancel, children: "Cancel" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", variant: "destructive", onClick: onConfirm, children: confirmLabel })
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", variant: "outline", onClick: handleCancel, disabled: cancelDisabled, children: "Cancel" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { type: "button", variant: "destructive", onClick: onConfirm, disabled: confirmDisabled, children: confirmLabel })
     ] })
   ] }) : null });
 }
@@ -46681,8 +46714,15 @@ function completedCount$1(session) {
 async function updateStudentStatusWhenTrainingCompleted(student, updatedSession) {
   if (student.status === "completed" || student.status === "passed") return;
   const [sessionsSnapshot, extensions] = await Promise.all([
-    getDocs(query(collection(db, collections.sessions), where("studentId", "==", student.id))),
-    getCollection(collections.courseExtensions, [where("studentId", "==", student.id)])
+    getDocs(query(
+      collection(db, collections.sessions),
+      where("studentId", "==", student.id),
+      where("branchId", "==", student.branchId)
+    )),
+    getCollection(collections.courseExtensions, [
+      where("studentId", "==", student.id),
+      where("branchId", "==", student.branchId)
+    ])
   ]);
   firebaseUsageService.trackUsage("reads", Math.max(sessionsSnapshot.docs.length, 1));
   const sessionsByCourse = /* @__PURE__ */ new Map();
@@ -46749,9 +46789,10 @@ async function assertSessionDateInTrainingPeriod(student, session, date) {
 }
 const sessionService = {
   async getSessionByStudentAndCourse(studentId, courseType, slotCount = BASE_TRAINING_SESSION_COUNT) {
-    await assertCanAccessStudent$2(studentId);
+    const student = await assertCanAccessStudent$2(studentId);
     const sessions = await getCollection(collections.sessions, [
       where("studentId", "==", studentId),
+      where("branchId", "==", student.branchId),
       where("courseType", "==", courseType)
     ]);
     const session = sessions[0];
@@ -46910,7 +46951,11 @@ const sessionService = {
   },
   async ensureSessionCardsForStudent(student) {
     await assertCanAccessStudent$2(student.id);
-    const snapshot = await getDocs(query(collection(db, collections.sessions), where("studentId", "==", student.id)));
+    const snapshot = await getDocs(query(
+      collection(db, collections.sessions),
+      where("studentId", "==", student.id),
+      where("branchId", "==", student.branchId)
+    ));
     firebaseUsageService.trackUsage("reads", Math.max(snapshot.docs.length, 1));
     const existingCourses = new Set(
       snapshot.docs.map((item) => item.data().courseType)
@@ -47098,17 +47143,6 @@ const attendanceService = {
       const queryKey = `branch=${branchId ?? "all"}`;
       const unsubscribers = [
         subscribeCollection(
-          collections.branches,
-          [],
-          ({ rows }) => {
-            branchesLoaded = true;
-            latestBranches = branchId ? rows.filter((branch) => branch.id === branchId) : rows;
-            void emit3();
-          },
-          onError,
-          "branches:all"
-        ),
-        subscribeCollection(
           collections.students,
           branchScoped,
           ({ rows }) => {
@@ -47142,6 +47176,27 @@ const attendanceService = {
           `extensions:attendance:${branchId ?? "all"}`
         )
       ];
+      if (branchId) {
+        void getDocument(collections.branches, branchId).then((branch) => {
+          branchesLoaded = true;
+          latestBranches = branch ? [branch] : [];
+          void emit3();
+        }).catch((error) => onError?.(error instanceof Error ? error : new Error("Unable to load branch.")));
+      } else {
+        unsubscribers.push(
+          subscribeCollection(
+            collections.branches,
+            [],
+            ({ rows }) => {
+              branchesLoaded = true;
+              latestBranches = rows;
+              void emit3();
+            },
+            onError,
+            "branches:all"
+          )
+        );
+      }
       cleanup = () => unsubscribers.forEach((unsubscribe) => unsubscribe());
     });
     return () => {
@@ -47183,8 +47238,7 @@ const today$6 = getTodayDateInputValue$1();
 const viewOptions = [
   { value: "all", label: "All" },
   { value: "pending", label: "Pending" },
-  { value: "marked", label: "Marked" },
-  { value: "completed", label: "Completed" }
+  { value: "marked", label: "Marked" }
 ];
 function AttendancePage() {
   const profile = useAuthStore((state2) => state2.profile);
@@ -47571,11 +47625,10 @@ function AttendancePage() {
           )
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-3 sm:grid-cols-2 xl:grid-cols-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-3 sm:grid-cols-2 xl:grid-cols-3", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Total Visible", value: summary.total, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(ClipboardCheck, { className: "h-4 w-4", "aria-hidden": "true" }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Pending", value: summary.pending, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(Clock3, { className: "h-4 w-4", "aria-hidden": "true" }), tone: "warning" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Marked", value: summary.marked, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "h-4 w-4", "aria-hidden": "true" }), tone: "good" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Completed", value: summary.completed, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(GraduationCap, { className: "h-4 w-4", "aria-hidden": "true" }), tone: "default" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx(SummaryCard, { label: "Marked", value: summary.marked, icon: /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "h-4 w-4", "aria-hidden": "true" }), tone: "good" })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2 rounded-lg border bg-surface p-2 shadow-sm", children: viewOptions.map((option) => /* @__PURE__ */ jsxRuntimeExports.jsx(
         Button,
@@ -47663,8 +47716,7 @@ function AttendancePage() {
                       onToggle: () => toggleRow(rowKey),
                       onToggleSelected: () => toggleSelected(row),
                       onUpdateForm: updateForm,
-                      onMarkPresent: () => void handleMarkPresent(row),
-                      onQuickMark: () => void handleMarkPresent(row)
+                      onMarkPresent: () => void handleMarkPresent(row)
                     }
                   )
                 },
@@ -47704,8 +47756,7 @@ function AttendanceChecklistItem({
   onToggle,
   onToggleSelected,
   onUpdateForm,
-  onMarkPresent,
-  onQuickMark
+  onMarkPresent
 }) {
   const progressPercent = Math.min(100, Math.round(row.completedSessions / row.allowedSessions * 100));
   const lastClass = row.lastClassType ? `${row.lastClassType}${row.lastSessionDate ? ` - ${formatDate(row.lastSessionDate)}` : ""}` : "-";
@@ -47715,7 +47766,7 @@ function AttendanceChecklistItem({
       {
         role: "button",
         tabIndex: 0,
-        className: "grid w-full gap-3 px-4 py-3 text-left transition-colors hover:bg-blue-50/50 lg:grid-cols-[36px_minmax(240px,1.4fr)_140px_150px_170px_190px_32px]",
+        className: "grid w-full gap-3 px-4 py-3 text-left transition-colors hover:bg-blue-50/50 lg:grid-cols-[36px_minmax(240px,1.4fr)_140px_150px_170px_32px]",
         onClick: onToggle,
         onKeyDown: (event) => {
           if (event.key === "Enter" || event.key === " ") onToggle();
@@ -47772,10 +47823,6 @@ function AttendanceChecklistItem({
               " on selected date"
             ] }) : null
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap items-center gap-2 lg:justify-end", onClick: (event) => event.stopPropagation(), children: !row.isCompleted ? /* @__PURE__ */ jsxRuntimeExports.jsxs(Button, { type: "button", size: "sm", className: "w-full sm:w-auto", onClick: onQuickMark, disabled: isSaving, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(CircleCheck, { className: "mr-2 h-4 w-4", "aria-hidden": "true" }),
-            isSaving ? "Saving..." : "Quick Mark"
-          ] }) : null }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center justify-end", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { className: `h-5 w-5 text-muted-foreground transition-transform ${isExpanded ? "rotate-180" : ""}`, "aria-hidden": "true" }) })
         ]
       }
@@ -47890,7 +47937,6 @@ function getAttendanceSummary(rows) {
 function matchesAttendanceView(row, view) {
   if (view === "pending") return !row.isCompleted && !row.isMarkedOnSelectedDate;
   if (view === "marked") return row.isMarkedOnSelectedDate;
-  if (view === "completed") return row.isCompleted;
   return true;
 }
 function getRowKey(row) {
@@ -149561,12 +149607,13 @@ const receiptService = {
     return fee.installments.find((installment) => installment.receiptNo === receiptNo) ?? null;
   },
   async getReceiptData(studentId, receiptNo) {
-    const [student, fees] = await Promise.all([
-      getDocument(collections.students, studentId),
-      getCollection(collections.fees, [where("studentId", "==", studentId)])
-    ]);
+    const student = await getDocument(collections.students, studentId);
     if (!student) throw new Error("Receipt data not found.");
     await assertCanAccessStudent(student);
+    const fees = await getCollection(collections.fees, [
+      where("studentId", "==", studentId),
+      where("branchId", "==", student.branchId)
+    ]);
     const fee = fees[0] ? recalculateFee(fees[0]) : null;
     if (!fee) throw new Error("Receipt data not found.");
     const installment = receiptService.getInstallmentByReceiptNo(fee, receiptNo);
@@ -150673,13 +150720,19 @@ async function getVisibleBranches(branchId) {
   const branch = await getDocument(collections.branches, branchId);
   return branch ? [branch] : [];
 }
+async function getVisibleFees(branchId) {
+  if (!branchId) {
+    return getCollection(collections.fees);
+  }
+  return getCollection(collections.fees, [where("branchId", "==", branchId)]);
+}
 async function getVisibleData(branchId) {
-  const [branches, studentsRaw, feesRaw, expenses] = await Promise.all([
+  const [branches, studentsRaw, expenses] = await Promise.all([
     getVisibleBranches(branchId),
     getCollection(collections.students, [...branchId ? [where("branchId", "==", branchId)] : []]),
-    getCollection(collections.fees, [...branchId ? [where("branchId", "==", branchId)] : []]),
     getCollection(collections.expenses, [...branchId ? [where("branchId", "==", branchId)] : []])
   ]);
+  const feesRaw = await getVisibleFees(branchId);
   const branchNames = getBranchNameMap(branches);
   const feesByStudent = new Map(feesRaw.map((fee) => [fee.studentId, normalizeFee$2(fee)]));
   const students = studentsRaw.map((student) => ({
@@ -150722,7 +150775,8 @@ function expenseTotal(expenses, categories) {
 function buildVisibleData(branchId, branchesRaw, studentsRaw, feesRaw, expensesRaw) {
   const branches = branchId ? branchesRaw.filter((branch) => branch.id === branchId) : branchesRaw;
   const branchNames = getBranchNameMap(branches);
-  const fees = feesRaw.map(normalizeFee$2);
+  const visibleStudentIds = new Set(studentsRaw.map((student) => student.id));
+  const fees = feesRaw.filter((fee) => !branchId || fee.branchId === branchId || visibleStudentIds.has(fee.studentId)).map(normalizeFee$2);
   const feesByStudent = new Map(fees.map((fee) => [fee.studentId, fee]));
   const students = studentsRaw.map((student) => ({
     ...student,
@@ -150763,13 +150817,14 @@ function computeDashboardData(data2) {
     ...fees.flatMap((fee) => {
       const student = studentsById.get(fee.studentId);
       if (!student) return [];
+      const paymentBranchId = fee.branchId || student.branchId;
       return fee.installments.filter((installment) => installment.date.startsWith(currentMonth)).map((installment) => ({
         id: `${fee.id}-${installment.receiptNo || installment.clientPaymentId || installment.date}`,
         type: "payment",
         title: student.fullName,
         detail: installment.receiptNo ? `Receipt ${installment.receiptNo}` : "Fee payment",
-        branchId: fee.branchId,
-        branchName: branchNames.get(fee.branchId),
+        branchId: paymentBranchId,
+        branchName: branchNames.get(paymentBranchId),
         amount: Number(installment.amount ?? 0),
         date: installment.date
       }));
@@ -150840,11 +150895,12 @@ function computeDashboardData(data2) {
     recentPayments: fees.flatMap((fee) => {
       const student = studentsById.get(fee.studentId);
       if (!student) return [];
+      const paymentBranchId = fee.branchId || student.branchId;
       return fee.installments.map((installment) => ({
         studentId: fee.studentId,
         studentName: student.fullName,
-        branchId: fee.branchId,
-        branchName: branchNames.get(fee.branchId),
+        branchId: paymentBranchId,
+        branchName: branchNames.get(paymentBranchId),
         receiptNo: installment.receiptNo,
         amount: Number(installment.amount ?? 0),
         date: installment.date,
@@ -150909,17 +150965,6 @@ const dashboardService = {
       const scopeKey = `branch=${branchId ?? "all"}`;
       const unsubscribers = [
         subscribeCollection(
-          collections.branches,
-          [],
-          ({ rows }) => {
-            branchesLoaded = true;
-            latestBranches = rows;
-            emit3(branchId);
-          },
-          onError,
-          "branches:all"
-        ),
-        subscribeCollection(
           collections.students,
           branchScoped,
           ({ rows }) => {
@@ -150953,6 +150998,27 @@ const dashboardService = {
           `expenses:dashboard:${scopeKey}`
         )
       ];
+      if (branchId) {
+        void getDocument(collections.branches, branchId).then((branch) => {
+          branchesLoaded = true;
+          latestBranches = branch ? [branch] : [];
+          emit3(branchId);
+        }).catch((error) => onError?.(error instanceof Error ? error : new Error("Could not load branch.")));
+      } else {
+        unsubscribers.push(
+          subscribeCollection(
+            collections.branches,
+            [],
+            ({ rows }) => {
+              branchesLoaded = true;
+              latestBranches = rows;
+              emit3(branchId);
+            },
+            onError,
+            "branches:all"
+          )
+        );
+      }
       cleanup = () => unsubscribers.forEach((unsubscribe) => unsubscribe());
     });
     return () => {
@@ -151125,22 +151191,24 @@ function normalizeFeeRow(fee) {
     balance: Number(fee.totalAmount) - paidAmount
   };
 }
-async function getStudentFeeRaw(studentId) {
-  const fees = await getCollection(collections.fees, [where("studentId", "==", studentId)]);
+async function getStudentFeeRaw(studentId, branchId) {
+  const fees = await getCollection(collections.fees, [
+    where("studentId", "==", studentId),
+    ...branchId ? [where("branchId", "==", branchId)] : []
+  ]);
   return fees[0] ? normalizeFeeRow(fees[0]) : null;
 }
-async function getStudentFee(studentId) {
-  const fee = await getStudentFeeRaw(studentId);
+async function getStudentFee(studentId, branchId) {
+  const fee = await getStudentFeeRaw(studentId, branchId);
   return fee ? pendingPaymentService.applyPendingPaymentsToFee(fee, studentId) : null;
 }
-async function getStudentFees(studentIds) {
+async function getStudentFees(studentIds, branchId) {
   if (studentIds.length === 0) return /* @__PURE__ */ new Map();
-  const chunks = Array.from(
-    { length: Math.ceil(studentIds.length / 30) },
-    (_, index2) => studentIds.slice(index2 * 30, index2 * 30 + 30)
-  );
-  const rows = (await Promise.all(
-    chunks.map((chunk) => getCollection(collections.fees, [where("studentId", "in", chunk)]))
+  const rows = branchId ? (await getCollection(collections.fees, [where("branchId", "==", branchId)])).filter((fee) => studentIds.includes(fee.studentId)) : (await Promise.all(
+    Array.from(
+      { length: Math.ceil(studentIds.length / 30) },
+      (_, index2) => studentIds.slice(index2 * 30, index2 * 30 + 30)
+    ).map((chunk) => getCollection(collections.fees, [where("studentId", "in", chunk)]))
   )).flat();
   return new Map(
     rows.map((fee) => {
@@ -151153,10 +151221,16 @@ async function getStudentFees(studentIds) {
   );
 }
 async function attachFeeAndBranch(student, branches) {
-  const fee = await getStudentFee(student.id);
+  const fee = await getStudentFee(student.id, student.branchId);
   const [sessions, extensions] = await Promise.all([
-    getCollection(collections.sessions, [where("studentId", "==", student.id)]),
-    getCollection(collections.courseExtensions, [where("studentId", "==", student.id)])
+    getCollection(collections.sessions, [
+      where("studentId", "==", student.id),
+      where("branchId", "==", student.branchId)
+    ]),
+    getCollection(collections.courseExtensions, [
+      where("studentId", "==", student.id),
+      where("branchId", "==", student.branchId)
+    ])
   ]);
   return attachFeeAndBranchWithFee(student, branches, fee, sessions, extensions);
 }
@@ -151241,7 +151315,7 @@ const studentService = {
       const hasNextPage = snapshot.docs.length > pageSize2;
       const students = pageDocs.map((item) => ({ id: item.id, ...item.data() }));
       const [feesByStudent, sessions, extensions] = await Promise.all([
-        getStudentFees(students.map((student) => student.id)),
+        getStudentFees(students.map((student) => student.id), effectiveBranchId2 ?? void 0),
         getCollection(collections.sessions, effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : []),
         getCollection(collections.courseExtensions, effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : [])
       ]);
@@ -151295,7 +151369,7 @@ const studentService = {
     });
     const students = visibleDocs.map((item) => ({ id: item.id, ...item.data() }));
     const [feesByStudent, sessions, extensions] = await Promise.all([
-      getStudentFees(students.map((student) => student.id)),
+      getStudentFees(students.map((student) => student.id), effectiveBranchId2 ?? void 0),
       getCollection(collections.sessions, effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : []),
       getCollection(collections.courseExtensions, effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : [])
     ]);
@@ -151337,7 +151411,7 @@ const studentService = {
     const courseFilteredStudents = studentsRaw.filter((student) => matchesCourseFilter(student, filters.courseType));
     const students = search ? courseFilteredStudents.filter((student) => studentMatchesSearch(student, search)) : courseFilteredStudents;
     const [feesByStudent, sessions, extensions] = await Promise.all([
-      getStudentFees(students.map((student) => student.id)),
+      getStudentFees(students.map((student) => student.id), effectiveBranchId2 ?? void 0),
       getCollection(collections.sessions, effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : []),
       getCollection(collections.courseExtensions, effectiveBranchId2 ? [where("branchId", "==", effectiveBranchId2)] : [])
     ]);
@@ -151418,17 +151492,6 @@ const studentService = {
           `fees:${effectiveBranchId2 ?? "all"}`
         ),
         subscribeCollection(
-          collections.branches,
-          [],
-          ({ rows }) => {
-            branchesLoaded = true;
-            latestBranches = effectiveBranchId2 ? rows.filter((branch) => branch.id === effectiveBranchId2) : rows;
-            void emit3();
-          },
-          onError,
-          "branches:all"
-        ),
-        subscribeCollection(
           collections.sessions,
           scopedByBranch,
           ({ rows }) => {
@@ -151451,6 +151514,27 @@ const studentService = {
           `extensions:students:${effectiveBranchId2 ?? "all"}`
         )
       ];
+      if (effectiveBranchId2) {
+        void getDocument(collections.branches, effectiveBranchId2).then((branch) => {
+          branchesLoaded = true;
+          latestBranches = branch ? [branch] : [];
+          void emit3();
+        }).catch((error) => onError?.(error instanceof Error ? error : new Error("Could not load branch.")));
+      } else {
+        unsubscribers.push(
+          subscribeCollection(
+            collections.branches,
+            [],
+            ({ rows }) => {
+              branchesLoaded = true;
+              latestBranches = rows;
+              void emit3();
+            },
+            onError,
+            "branches:all"
+          )
+        );
+      }
       cleanup = () => unsubscribers.forEach((unsubscribe) => unsubscribe());
     });
     return () => {
@@ -151789,6 +151873,7 @@ function DashboardPage() {
   const [isManualRefreshing, setIsManualRefreshing] = reactExports.useState(false);
   const [isStudentLoading, setIsStudentLoading] = reactExports.useState(false);
   const [errorMessage, setErrorMessage] = reactExports.useState("");
+  const [activeBranch, setActiveBranch] = reactExports.useState(null);
   const filters = reactExports.useMemo(() => {
     if (!profile) return null;
     return {
@@ -151854,6 +151939,23 @@ function DashboardPage() {
     console.error("Failed to load dashboard:", dashboardError);
     setErrorMessage(getFriendlyErrorMessage(dashboardError, "Unable to load dashboard. Please check your connection and try again."));
   }, [dashboardError]);
+  reactExports.useEffect(() => {
+    const activeBranchId = filters?.branchId;
+    if (!activeBranchId) {
+      setActiveBranch(null);
+      return;
+    }
+    let isActive = true;
+    void settingsService.getBranchById(activeBranchId).then((branch) => {
+      if (isActive) setActiveBranch(branch);
+    }).catch((error) => {
+      console.error(`Failed to load dashboard branch ${activeBranchId}:`, error);
+      if (isActive) setActiveBranch(null);
+    });
+    return () => {
+      isActive = false;
+    };
+  }, [filters?.branchId]);
   const handleViewStudent = async (studentId) => {
     setIsStudentLoading(true);
     setErrorMessage("");
@@ -151885,7 +151987,7 @@ function DashboardPage() {
   };
   const summary = dashboard.summary;
   const greeting = getGreeting();
-  const branchContext = profile?.role === "owner" ? selectedBranchId ? "Showing: Selected Branch" : "Showing: All Branches" : "Showing: Assigned Branch";
+  const branchContext = profile?.role === "owner" ? selectedBranchId ? `Showing: ${activeBranch?.name ?? "Selected Branch"}` : "Showing: All Branches" : `Showing: ${activeBranch?.name ?? "Assigned Branch"}`;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { className: "space-y-5", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "rounded-lg border border-blue-100 bg-white p-5 shadow-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
       PageHeader,
@@ -153066,6 +153168,7 @@ function PaymentsPage() {
   const [lastReceiptNo, setLastReceiptNo] = reactExports.useState("");
   const [receiptStudent, setReceiptStudent] = reactExports.useState(null);
   const [isReceiptDialogOpen, setIsReceiptDialogOpen] = reactExports.useState(false);
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = reactExports.useState(false);
   const [isSaving, setIsSaving] = reactExports.useState(false);
   const [message, setMessage] = reactExports.useState("");
   const [errorMessage, setErrorMessage] = reactExports.useState("");
@@ -153178,6 +153281,7 @@ function PaymentsPage() {
     setLastReceiptNo("");
     setReceiptStudent(null);
     setIsReceiptDialogOpen(false);
+    setIsConfirmDialogOpen(false);
     setMessage("");
     setErrorMessage("");
   };
@@ -153190,9 +153294,10 @@ function PaymentsPage() {
       setAmount("");
       return;
     }
+    if (!/^\d+(\.\d{0,2})?$/.test(value2)) return;
     const parsedValue = Number(value2);
-    if (!Number.isFinite(parsedValue)) return;
-    setAmount(String(Math.min(parsedValue, selectedStudent.balance)));
+    if (!Number.isFinite(parsedValue) || parsedValue > selectedStudent.balance) return;
+    setAmount(value2);
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -153207,6 +153312,35 @@ function PaymentsPage() {
     if (parsedAmount > selectedStudent.balance) return setErrorMessage("Amount cannot exceed balance.");
     if (!paymentDate) return setErrorMessage("Payment date is required.");
     if (paymentDate > getTodayDateInputValue()) return setErrorMessage("Payment date cannot be in the future.");
+    setIsConfirmDialogOpen(true);
+  };
+  const handleConfirmPayment = async () => {
+    setMessage("");
+    setErrorMessage("");
+    setLastReceiptNo("");
+    setReceiptStudent(null);
+    setIsReceiptDialogOpen(false);
+    const parsedAmount = Number(amount);
+    if (!selectedStudent) {
+      setIsConfirmDialogOpen(false);
+      return setErrorMessage("Select a student first.");
+    }
+    if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
+      setIsConfirmDialogOpen(false);
+      return setErrorMessage("Amount must be greater than 0.");
+    }
+    if (parsedAmount > selectedStudent.balance) {
+      setIsConfirmDialogOpen(false);
+      return setErrorMessage("Amount cannot exceed balance.");
+    }
+    if (!paymentDate) {
+      setIsConfirmDialogOpen(false);
+      return setErrorMessage("Payment date is required.");
+    }
+    if (paymentDate > getTodayDateInputValue()) {
+      setIsConfirmDialogOpen(false);
+      return setErrorMessage("Payment date cannot be in the future.");
+    }
     setIsSaving(true);
     try {
       const fee = await feeService.addInstallment(selectedStudent.id, {
@@ -153234,16 +153368,19 @@ function PaymentsPage() {
       setAmount("");
       setNotes("");
       if (savedInstallment && isPendingInstallment(savedInstallment)) {
+        setIsConfirmDialogOpen(false);
         setLastReceiptNo("");
         setReceiptStudent(null);
         setMessage("Payment saved offline. Receipt will be generated after sync.");
       } else {
         setLastReceiptNo(receiptNo);
         setReceiptStudent(refreshedStudent ?? selectedStudent);
+        setIsConfirmDialogOpen(false);
         setIsReceiptDialogOpen(Boolean(receiptNo));
         setMessage("Payment saved successfully.");
       }
     } catch (error) {
+      setIsConfirmDialogOpen(false);
       setErrorMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
     } finally {
       setIsSaving(false);
@@ -153262,6 +153399,21 @@ function PaymentsPage() {
         receiptNo: lastReceiptNo,
         onOpenChange: setIsReceiptDialogOpen,
         onError: setErrorMessage
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ConfirmDialog,
+      {
+        open: isConfirmDialogOpen,
+        title: "Confirm Payment",
+        description: selectedStudent ? `Save payment of ${formatCurrency(Number(amount))} for ${selectedStudent.fullName} on ${formatDate(paymentDate)}?` : "Save this payment?",
+        confirmLabel: isSaving ? "Saving..." : "Confirm",
+        confirmDisabled: isSaving,
+        cancelDisabled: isSaving,
+        onCancel: () => {
+          if (!isSaving) setIsConfirmDialogOpen(false);
+        },
+        onConfirm: handleConfirmPayment
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: hasPaymentWorkspace ? "grid gap-5 xl:grid-cols-[minmax(340px,430px)_1fr]" : "grid gap-5", children: [
@@ -153335,9 +153487,8 @@ function PaymentsPage() {
                   {
                     className: "h-11 text-base font-medium",
                     id: "payment-amount",
-                    type: "number",
-                    min: "1",
-                    max: selectedStudent?.balance,
+                    type: "text",
+                    inputMode: "decimal",
                     value: amount,
                     onChange: (event) => handleAmountChange(event.target.value),
                     disabled: !selectedStudent || isSaving
@@ -154716,7 +154867,8 @@ function StudentManagement() {
     error: loadError,
     isLoading,
     isRefreshing,
-    refresh: refreshStudents
+    refresh: refreshStudents,
+    setCachedData: setCachedStudentsPage
   } = useCachedAsync({
     cacheKey: pageCacheKey,
     enabled: hasSearch,
@@ -154759,9 +154911,21 @@ function StudentManagement() {
     if (!deleteTarget) return;
     setMessage("");
     setErrorMessage("");
+    const deletedStudentId = deleteTarget.id;
     try {
-      await studentService.deleteStudent(deleteTarget.id);
+      await studentService.deleteStudent(deletedStudentId);
       setDeleteTarget(null);
+      if (studentsPage) {
+        const rows = studentsPage.rows.filter((student) => student.id !== deletedStudentId);
+        setCachedStudentsPage({
+          rows,
+          pageInfo: {
+            ...studentsPage.pageInfo,
+            endItem: rows.length === 0 ? 0 : Math.max(studentsPage.pageInfo.startItem, studentsPage.pageInfo.endItem - 1),
+            startItem: rows.length === 0 ? 0 : studentsPage.pageInfo.startItem
+          }
+        });
+      }
       setMessage("Student deleted successfully.");
       invalidateStudentRelatedCache();
       await refresh(true);

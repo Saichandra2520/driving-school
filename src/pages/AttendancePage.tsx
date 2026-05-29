@@ -506,11 +506,11 @@ export function AttendancePage(): JSX.Element {
             </div>
           </FilterBar>
 
-          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             <SummaryCard label="Total Visible" value={summary.total} icon={<ClipboardCheck className="h-4 w-4" aria-hidden="true" />} />
             <SummaryCard label="Pending" value={summary.pending} icon={<Clock3 className="h-4 w-4" aria-hidden="true" />} tone="warning" />
             <SummaryCard label="Marked" value={summary.marked} icon={<CheckCircle2 className="h-4 w-4" aria-hidden="true" />} tone="good" />
-            <SummaryCard label="Completed" value={summary.completed} icon={<GraduationCap className="h-4 w-4" aria-hidden="true" />} tone="default" />
+            {/* <SummaryCard label="Completed" value={summary.completed} icon={<GraduationCap className="h-4 w-4" aria-hidden="true" />} tone="default" /> */}
           </div>
 
           <div className="flex flex-wrap gap-2 rounded-lg border bg-surface p-2 shadow-sm">

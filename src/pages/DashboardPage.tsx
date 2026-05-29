@@ -23,6 +23,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useCachedSubscription } from '@/hooks/useCachedData';
 import { dashboardService, type DashboardData } from '@/services/dashboardService';
+import { settingsService } from '@/services/settingsService';
 import { studentService } from '@/services/studentService';
 import { useAppStore } from '@/store/app-store';
 import { useAuthStore } from '@/store/authStore';
@@ -32,6 +33,7 @@ import type {
   ExpenseCategory,
   MonthlyTransaction,
   PendingFeeStudent,
+  Branch,
   StudentWithFee
 } from '@/types';
 import {
@@ -80,6 +82,7 @@ export function DashboardPage(): JSX.Element {
   const [isManualRefreshing, setIsManualRefreshing] = useState(false);
   const [isStudentLoading, setIsStudentLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [activeBranch, setActiveBranch] = useState<Branch | null>(null);
 
   const filters = useMemo<DashboardFilters | null>(() => {
     if (!profile) return null;
@@ -155,6 +158,29 @@ export function DashboardPage(): JSX.Element {
     setErrorMessage(getFriendlyErrorMessage(dashboardError, 'Unable to load dashboard. Please check your connection and try again.'));
   }, [dashboardError]);
 
+  useEffect(() => {
+    const activeBranchId = filters?.branchId;
+
+    if (!activeBranchId) {
+      setActiveBranch(null);
+      return;
+    }
+
+    let isActive = true;
+    void settingsService.getBranchById(activeBranchId)
+      .then((branch) => {
+        if (isActive) setActiveBranch(branch);
+      })
+      .catch((error) => {
+        console.error(`Failed to load dashboard branch ${activeBranchId}:`, error);
+        if (isActive) setActiveBranch(null);
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, [filters?.branchId]);
+
   const handleViewStudent = async (studentId: string): Promise<void> => {
     setIsStudentLoading(true);
     setErrorMessage('');
@@ -191,9 +217,9 @@ export function DashboardPage(): JSX.Element {
   const greeting = getGreeting();
   const branchContext = profile?.role === 'owner'
     ? selectedBranchId
-      ? 'Showing: Selected Branch'
+      ? `Showing: ${activeBranch?.name ?? 'Selected Branch'}`
       : 'Showing: All Branches'
-    : 'Showing: Assigned Branch';
+    : `Showing: ${activeBranch?.name ?? 'Assigned Branch'}`;
 
   return (
     <section className="space-y-5">

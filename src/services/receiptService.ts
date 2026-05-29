@@ -39,14 +39,14 @@ export const receiptService = {
   },
 
   async getReceiptData(studentId: string, receiptNo: string): Promise<ReceiptData> {
-    const [student, fees] = await Promise.all([
-      getDocument<Student>(collections.students, studentId),
-      getCollection<Fee>(collections.fees, [where('studentId', '==', studentId)])
-    ]);
-
+    const student = await getDocument<Student>(collections.students, studentId);
     if (!student) throw new Error('Receipt data not found.');
     await assertCanAccessStudent(student);
 
+    const fees = await getCollection<Fee>(collections.fees, [
+      where('studentId', '==', studentId),
+      where('branchId', '==', student.branchId)
+    ]);
     const fee = fees[0] ? recalculateFee(fees[0]) : null;
     if (!fee) throw new Error('Receipt data not found.');
 

@@ -100,8 +100,15 @@ async function updateStudentStatusWhenTrainingCompleted(student: Student, update
   if (student.status === 'completed' || student.status === 'passed') return;
 
   const [sessionsSnapshot, extensions] = await Promise.all([
-    getDocs(query(collection(db, collections.sessions), where('studentId', '==', student.id))),
-    getCollection<CourseExtension>(collections.courseExtensions, [where('studentId', '==', student.id)])
+    getDocs(query(
+      collection(db, collections.sessions),
+      where('studentId', '==', student.id),
+      where('branchId', '==', student.branchId)
+    )),
+    getCollection<CourseExtension>(collections.courseExtensions, [
+      where('studentId', '==', student.id),
+      where('branchId', '==', student.branchId)
+    ])
   ]);
   firebaseUsageService.trackUsage('reads', Math.max(sessionsSnapshot.docs.length, 1));
 
@@ -195,9 +202,10 @@ export const sessionService = {
     courseType: TrainingCourseType,
     slotCount = BASE_TRAINING_SESSION_COUNT
   ): Promise<TrainingSession | null> {
-    await assertCanAccessStudent(studentId);
+    const student = await assertCanAccessStudent(studentId);
     const sessions = await getCollection<TrainingSession>(collections.sessions, [
       where('studentId', '==', studentId),
+      where('branchId', '==', student.branchId),
       where('courseType', '==', courseType)
     ]);
 
@@ -411,7 +419,11 @@ export const sessionService = {
 
   async ensureSessionCardsForStudent(student: Student): Promise<void> {
     await assertCanAccessStudent(student.id);
-    const snapshot = await getDocs(query(collection(db, collections.sessions), where('studentId', '==', student.id)));
+    const snapshot = await getDocs(query(
+      collection(db, collections.sessions),
+      where('studentId', '==', student.id),
+      where('branchId', '==', student.branchId)
+    ));
     firebaseUsageService.trackUsage('reads', Math.max(snapshot.docs.length, 1));
     const existingCourses = new Set(
       snapshot.docs.map((item) => (item.data() as TrainingSession).courseType)

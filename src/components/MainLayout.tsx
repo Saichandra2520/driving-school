@@ -4,6 +4,7 @@ import { BarChart3, ClipboardCheck, CreditCard, LayoutDashboard, LogOut, Receipt
 import { CachedDataNotice } from '@/components/common/CachedDataNotice';
 import { MaryLogo } from '@/components/common/MaryLogo';
 import { SyncStatusBadge } from '@/components/common/SyncStatusBadge';
+import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { feeService } from '@/services/feeService';
 import { settingsService } from '@/services/settingsService';
@@ -13,6 +14,7 @@ import { useAuthStore } from '@/store/authStore';
 import { useSyncStore } from '@/store/syncStore';
 import type { Branch } from '@/types';
 import { cn } from '@/utils/cn';
+import { getFriendlyErrorMessage } from '@/utils/errors';
 
 const ownerNavItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -38,6 +40,7 @@ export function MainLayout(): JSX.Element {
   const isOnline = useSyncStore((state) => state.isOnline);
   const setOnlineStatus = useSyncStore((state) => state.setOnlineStatus);
   const [branches, setBranches] = useState<Branch[]>([]);
+  const [branchLoadError, setBranchLoadError] = useState('');
 
   const isOwner = profile?.role === 'owner';
   const navItems = isOwner ? ownerNavItems : staffNavItems;
@@ -80,17 +83,47 @@ export function MainLayout(): JSX.Element {
   }, [profile, setBranchId]);
 
   useEffect(() => {
+    if (!profile) {
+      setBranches([]);
+      setBranchLoadError('');
+      return;
+    }
+
+    if (profile.role === 'staff') {
+      if (!profile.branchId) {
+        setBranches([]);
+        setBranchLoadError('');
+        return;
+      }
+
+      let isActive = true;
+      void settingsService.getBranchById(profile.branchId)
+        .then((branch) => {
+          if (!isActive) return;
+          setBranches(branch ? [branch] : []);
+          setBranchLoadError(branch ? '' : `Assigned branch was not found in Firebase for ID: ${profile.branchId}`);
+        })
+        .catch((error) => {
+          console.error(`Failed to load branch ${profile.branchId}:`, error);
+          if (!isActive) return;
+          setBranches([]);
+          setBranchLoadError(getFriendlyErrorMessage(error, 'Could not load your assigned branch from Firebase.'));
+        });
+
+      return () => {
+        isActive = false;
+      };
+    }
+
     const unsubscribe = settingsService.subscribeBranches(
       (data) => {
-        const scopedBranches =
-          profile?.role === 'staff' && profile.branchId
-            ? data.filter((branch) => branch.id === profile.branchId)
-            : data;
-        setBranches([...scopedBranches].sort((a, b) => a.name.localeCompare(b.name)));
+        setBranches([...data].sort((a, b) => a.name.localeCompare(b.name)));
+        setBranchLoadError('');
       },
       (error) => {
         console.error('Failed to load branches:', error);
         setBranches([]);
+        setBranchLoadError(getFriendlyErrorMessage(error, 'Could not load branches from Firebase.'));
       }
     );
 
@@ -106,8 +139,8 @@ export function MainLayout(): JSX.Element {
       return 'Branch not assigned';
     }
 
-    return branches.find((branch) => branch.id === branchId)?.name ?? branchId;
-  }, [branchId, branches, isOwner]);
+    return branches.find((branch) => branch.id === branchId)?.name ?? (profile?.role === 'staff' ? 'Assigned Branch' : 'Selected Branch');
+  }, [branchId, branches, isOwner, profile?.role]);
 
   return (
     <div className="flex min-h-screen bg-background text-foreground">
@@ -207,6 +240,7 @@ export function MainLayout(): JSX.Element {
         </header>
 
         <main className="flex-1 p-6">
+          {branchLoadError ? <Alert variant="destructive" className="mb-4">{branchLoadError}</Alert> : null}
           <CachedDataNotice />
           <Outlet />
         </main>

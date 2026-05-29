@@ -1667,15 +1667,15 @@ video {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .lg\:grid-cols-\[36px_minmax\(240px\2c 1\.4fr\)_140px_150px_170px_190px_32px\] {
-    grid-template-columns: 36px minmax(240px,1.4fr) 140px 150px 170px 190px 32px;
-  }
-
-  .lg\:justify-end {
-    justify-content: flex-end;
+  .lg\:grid-cols-\[36px_minmax\(240px\2c 1\.4fr\)_140px_150px_170px_32px\] {
+    grid-template-columns: 36px minmax(240px,1.4fr) 140px 150px 170px 32px;
   }
 }
 @media (min-width: 1280px) {
+
+  .xl\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 
   .xl\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));

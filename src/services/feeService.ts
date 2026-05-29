@@ -52,12 +52,15 @@ async function assertCanManageStudent(studentId: string): Promise<Student> {
   return student;
 }
 
-async function getFeeReferenceByStudentId(studentId: string): Promise<string> {
-  return getFeeByStudentIdRaw(studentId).then((fee) => fee.id);
+async function getFeeReferenceByStudentId(studentId: string, branchId?: string): Promise<string> {
+  return getFeeByStudentIdRaw(studentId, branchId).then((fee) => fee.id);
 }
 
-async function getFeeByStudentIdRaw(studentId: string): Promise<Fee> {
-  const fees = await getCollection<Fee>(collections.fees, [where('studentId', '==', studentId)]);
+async function getFeeByStudentIdRaw(studentId: string, branchId?: string): Promise<Fee> {
+  const fees = await getCollection<Fee>(collections.fees, [
+    where('studentId', '==', studentId),
+    ...(branchId ? [where('branchId', '==', branchId)] : [])
+  ]);
   const fee = fees[0];
   if (!fee) throw new Error('Unable to load fee details.');
   return recalculateFee({ ...fee, branchId: fee.branchId ?? '' });
@@ -95,7 +98,7 @@ async function saveInstallmentOnline(
   payload: AddInstallmentPayload,
   options: { branchId?: string; clientPaymentId?: string; createdAt?: string } = {}
 ): Promise<Fee> {
-  const feeId = await getFeeReferenceByStudentId(studentId);
+  const feeId = await getFeeReferenceByStudentId(studentId, options.branchId);
 
   return runTransaction(db, async (transaction) => {
     const fee = await getFeeInTransaction(transaction, feeId);
@@ -150,8 +153,11 @@ async function saveInstallmentOnline(
 
 export const feeService = {
   async getFeeByStudentId(studentId: string): Promise<Fee | null> {
-    await assertCanManageStudent(studentId);
-    const fees = await getCollection<Fee>(collections.fees, [where('studentId', '==', studentId)]);
+    const student = await assertCanManageStudent(studentId);
+    const fees = await getCollection<Fee>(collections.fees, [
+      where('studentId', '==', studentId),
+      where('branchId', '==', student.branchId)
+    ]);
     return fees[0] ? pendingPaymentService.applyPendingPaymentsToFee(recalculateFee(fees[0]), studentId) : null;
   },
 
@@ -162,7 +168,7 @@ export const feeService = {
     const student = await assertCanManageStudent(studentId);
 
     if (!useSyncStore.getState().isOnline) {
-      const baseFee = await getFeeByStudentIdRaw(studentId);
+      const baseFee = await getFeeByStudentIdRaw(studentId, student.branchId);
       const currentFee = pendingPaymentService.applyPendingPaymentsToFee(baseFee, studentId) ?? baseFee;
       if (payload.amount > currentFee.balance) {
         throw new Error('Amount cannot exceed balance.');
@@ -199,8 +205,8 @@ export const feeService = {
     assertValidAmount(payload.amount);
     if (!payload.date) throw new Error('Payment date is required.');
 
-    await assertCanManageStudent(studentId);
-    const feeId = await getFeeReferenceByStudentId(studentId);
+    const student = await assertCanManageStudent(studentId);
+    const feeId = await getFeeReferenceByStudentId(studentId, student.branchId);
 
     return runTransaction(db, async (transaction) => {
       const fee = await getFeeInTransaction(transaction, feeId);
@@ -250,8 +256,8 @@ export const feeService = {
 
   async deleteInstallment(studentId: string, receiptNo: string): Promise<Fee> {
     assertOnlineForReceipt();
-    await assertCanManageStudent(studentId);
-    const feeId = await getFeeReferenceByStudentId(studentId);
+    const student = await assertCanManageStudent(studentId);
+    const feeId = await getFeeReferenceByStudentId(studentId, student.branchId);
 
     return runTransaction(db, async (transaction) => {
       const fee = await getFeeInTransaction(transaction, feeId);

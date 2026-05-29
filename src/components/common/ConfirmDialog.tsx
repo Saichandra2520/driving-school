@@ -12,6 +12,8 @@ type ConfirmDialogProps = {
   title: string;
   description: string;
   confirmLabel?: string;
+  confirmDisabled?: boolean;
+  cancelDisabled?: boolean;
   onCancel: () => void;
   onConfirm: () => void;
 };
@@ -21,22 +23,28 @@ export function ConfirmDialog({
   title,
   description,
   confirmLabel = 'Delete',
+  confirmDisabled = false,
+  cancelDisabled = false,
   onCancel,
   onConfirm
 }: ConfirmDialogProps): JSX.Element {
+  const handleCancel = (): void => {
+    if (!cancelDisabled) onCancel();
+  };
+
   return (
-    <AlertDialog open={open} onOpenChange={(nextOpen) => !nextOpen && onCancel()}>
+    <AlertDialog open={open} onOpenChange={(nextOpen) => !nextOpen && handleCancel()}>
       {open ? (
-        <AlertDialogContent onClose={onCancel} className="max-w-md">
+        <AlertDialogContent onClose={handleCancel} className="max-w-md">
           <AlertDialogHeader>
             <AlertDialogTitle>{title}</AlertDialogTitle>
             <AlertDialogDescription>{description}</AlertDialogDescription>
           </AlertDialogHeader>
           <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={onCancel}>
+            <Button type="button" variant="outline" onClick={handleCancel} disabled={cancelDisabled}>
               Cancel
             </Button>
-            <Button type="button" variant="destructive" onClick={onConfirm}>
+            <Button type="button" variant="destructive" onClick={onConfirm} disabled={confirmDisabled}>
               {confirmLabel}
             </Button>
           </div>

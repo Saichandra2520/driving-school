@@ -78,21 +78,12 @@ async function getVisibleBranches(branchId: string | null): Promise<Branch[]> {
   return branch ? [branch] : [];
 }
 
-async function getVisibleFees(branchId: string | null, students: Student[]): Promise<Fee[]> {
+async function getVisibleFees(branchId: string | null): Promise<Fee[]> {
   if (!branchId) {
     return getCollection<Fee>(collections.fees);
   }
 
-  if (students.length === 0) return [];
-
-  const studentIds = students.map((student) => student.id);
-  const chunks = Array.from({ length: Math.ceil(studentIds.length / 30) }, (_, index) =>
-    studentIds.slice(index * 30, index * 30 + 30)
-  );
-
-  return (await Promise.all(
-    chunks.map((chunk) => getCollection<Fee>(collections.fees, [where('studentId', 'in', chunk)]))
-  )).flat();
+  return getCollection<Fee>(collections.fees, [where('branchId', '==', branchId)]);
 }
 
 async function getVisibleData(branchId: string | null): Promise<{
@@ -106,7 +97,7 @@ async function getVisibleData(branchId: string | null): Promise<{
     getCollection<Student>(collections.students, [...(branchId ? [where('branchId', '==', branchId)] : [])]),
     getCollection<Expense>(collections.expenses, [...(branchId ? [where('branchId', '==', branchId)] : [])])
   ]);
-  const feesRaw = await getVisibleFees(branchId, studentsRaw);
+  const feesRaw = await getVisibleFees(branchId);
   const branchNames = getBranchNameMap(branches);
   const feesByStudent = new Map(feesRaw.map((fee) => [fee.studentId, normalizeFee(fee)]));
   const students = studentsRaw.map((student) => ({

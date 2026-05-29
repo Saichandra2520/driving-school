@@ -222,25 +222,30 @@ function normalizeFeeRow(fee: Fee): Fee {
   };
 }
 
-async function getStudentFeeRaw(studentId: string): Promise<Fee | null> {
-  const fees = await getCollection<Fee>(collections.fees, [where('studentId', '==', studentId)]);
+async function getStudentFeeRaw(studentId: string, branchId?: string): Promise<Fee | null> {
+  const fees = await getCollection<Fee>(collections.fees, [
+    where('studentId', '==', studentId),
+    ...(branchId ? [where('branchId', '==', branchId)] : [])
+  ]);
   return fees[0] ? normalizeFeeRow(fees[0]) : null;
 }
 
-async function getStudentFee(studentId: string): Promise<Fee | null> {
-  const fee = await getStudentFeeRaw(studentId);
+async function getStudentFee(studentId: string, branchId?: string): Promise<Fee | null> {
+  const fee = await getStudentFeeRaw(studentId, branchId);
   return fee ? pendingPaymentService.applyPendingPaymentsToFee(fee, studentId) : null;
 }
 
-async function getStudentFees(studentIds: string[]): Promise<Map<string, Fee>> {
+async function getStudentFees(studentIds: string[], branchId?: string): Promise<Map<string, Fee>> {
   if (studentIds.length === 0) return new Map();
 
-  const chunks = Array.from({ length: Math.ceil(studentIds.length / 30) }, (_, index) =>
-    studentIds.slice(index * 30, index * 30 + 30)
-  );
-  const rows = (await Promise.all(
-    chunks.map((chunk) => getCollection<Fee>(collections.fees, [where('studentId', 'in', chunk)]))
-  )).flat();
+  const rows = branchId
+    ? (await getCollection<Fee>(collections.fees, [where('branchId', '==', branchId)]))
+        .filter((fee) => studentIds.includes(fee.studentId))
+    : (await Promise.all(
+        Array.from({ length: Math.ceil(studentIds.length / 30) }, (_, index) =>
+          studentIds.slice(index * 30, index * 30 + 30)
+        ).map((chunk) => getCollection<Fee>(collections.fees, [where('studentId', 'in', chunk)]))
+      )).flat();
 
   return new Map(
     rows.map((fee) => {
@@ -255,10 +260,16 @@ async function getStudentFees(studentIds: string[]): Promise<Map<string, Fee>> {
 }
 
 async function attachFeeAndBranch(student: Student, branches: Branch[]): Promise<StudentWithFee> {
-  const fee = await getStudentFee(student.id);
+  const fee = await getStudentFee(student.id, student.branchId);
   const [sessions, extensions] = await Promise.all([
-    getCollection<Session>(collections.sessions, [where('studentId', '==', student.id)]),
-    getCollection<CourseExtension>(collections.courseExtensions, [where('studentId', '==', student.id)])
+    getCollection<Session>(collections.sessions, [
+      where('studentId', '==', student.id),
+      where('branchId', '==', student.branchId)
+    ]),
+    getCollection<CourseExtension>(collections.courseExtensions, [
+      where('studentId', '==', student.id),
+      where('branchId', '==', student.branchId)
+    ])
   ]);
   return attachFeeAndBranchWithFee(student, branches, fee, sessions, extensions);
 }
@@ -378,7 +389,7 @@ export const studentService = {
       const hasNextPage = snapshot.docs.length > pageSize;
       const students = pageDocs.map((item) => ({ id: item.id, ...item.data() }) as Student);
       const [feesByStudent, sessions, extensions] = await Promise.all([
-        getStudentFees(students.map((student) => student.id)),
+        getStudentFees(students.map((student) => student.id), effectiveBranchId ?? undefined),
         getCollection<Session>(collections.sessions, effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : []),
         getCollection<CourseExtension>(collections.courseExtensions, effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : [])
       ]);
@@ -438,7 +449,7 @@ export const studentService = {
     });
     const students = visibleDocs.map((item) => ({ id: item.id, ...item.data() }) as Student);
     const [feesByStudent, sessions, extensions] = await Promise.all([
-      getStudentFees(students.map((student) => student.id)),
+      getStudentFees(students.map((student) => student.id), effectiveBranchId ?? undefined),
       getCollection<Session>(collections.sessions, effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : []),
       getCollection<CourseExtension>(collections.courseExtensions, effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : [])
     ]);
@@ -489,7 +500,7 @@ export const studentService = {
       : courseFilteredStudents;
 
     const [feesByStudent, sessions, extensions] = await Promise.all([
-      getStudentFees(students.map((student) => student.id)),
+      getStudentFees(students.map((student) => student.id), effectiveBranchId ?? undefined),
       getCollection<Session>(collections.sessions, effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : []),
       getCollection<CourseExtension>(collections.courseExtensions, effectiveBranchId ? [where('branchId', '==', effectiveBranchId)] : [])
     ]);
